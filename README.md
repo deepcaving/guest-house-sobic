@@ -7,10 +7,38 @@ Fly fishing, home cooking, wood-fire dining hall, private terrace over the bank.
 
 | Path | What it is |
 |---|---|
-| `index.html` | **The live site.** Full version - references `img/` and plays the video. |
-| `img/` | All photos + `property-tour.mp4` (the 53-second walkthrough) |
-| `PlivaRiverLodge-standalone.html` | Single-file build, images embedded as base64. **For Carrd.** |
+| `index.html` | **The live site.** Full version - references `img/`, plays the video, has the language switcher. |
+| `i18n-data.js` | Translation dictionary (EN / DE / BS) - 155 keys. Generated file. |
+| `i18n.js` | The language switcher. Reads `data-i18n-key` attributes, persists the choice in `localStorage`. |
+| `img/` | All photos + `property-tour.mp4` (the 53-second walkthrough) + `angler-pliva.jpg` |
+| `PlivaRiverLodge-standalone.html` | Single-file build, images embedded as base64, **English only**. **For Carrd.** |
 | `PlivaRiverLodge-index.html` | Copy of `index.html` for convenience |
+
+## Languages
+
+Three languages ship with the site: **English (default), Deutsch, Bosanski.**
+
+- The header has a globe dropdown: EN / DE / BS.
+- The choice is stored in `localStorage` (`prl_lang`) and survives a reload.
+- On a first visit the browser language decides: German browsers get German,
+  Bosnian/Croatian/Serbian get Bosnian, everyone else gets English.
+- **How it works:** the English text stays in the markup, so the page reads
+  correctly even if the JavaScript fails to load. Every translatable element
+  carries `data-i18n-key="<key>"`; `i18n.js` looks the key up in `window.I18N`
+  and writes the translation in.
+- **The Carrd build is English only** - the free tier strips `<script>`, so a
+  dropdown would be a dead button. The DE/BS copy lives in `i18n-data.js` and
+  is ready to use the moment the site is hosted somewhere that allows JS
+  (Netlify, GitHub Pages, Cloudflare Pages).
+
+To change a translation, edit `i18n-data.js` - the keys map to the
+`data-i18n-key` attributes in `index.html`.
+
+## Regenerating the Carrd build
+
+From the source folder, run `python3 build_standalone.py`. It base64-embeds
+every image, swaps the video for its poster, removes the language switcher and
+all `<script>` tags, then writes `PlivaRiverLodge-standalone.html`.
 
 ## Deploying to Netlify
 
@@ -63,8 +91,8 @@ it because there is no hidden fee.
 
 Search `index.html` and `PlivaRiverLodge-standalone.html` for:
 
-- `+387 [her number]` -> her real WhatsApp number, international format
 - `bookings@plivariverlodge.com` -> a real inbox you control
+- The phone number is already set to **+387 65 622 760** (Milka Smjestaj Sobic)
 - The enquiry form is a **visual placeholder** - it does not send. Replace it with a
   WhatsApp button (best converting), Formspree, or Netlify Forms.
 
