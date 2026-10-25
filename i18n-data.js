@@ -61,9 +61,9 @@ window.I18N = {
     "bs": "Ništa između vas i vode."
   },
   "hero_lede": {
-    "en": "A small riverside lodge three kilometres below the famous Pliva spring, in the heart of Europe's most underrated dry-fly water. Wood-fire kitchen, private terrace over the bank, and a host who cooks what the river gives.",
-    "de": "Ein kleines Gasthaus direkt am Fluss, drei Kilometer unterhalb der berühmten Pliva-Quelle, im Herzen von Europas am meisten unterschätztem Trockenfischwasser. Küche am Holzfeuer, private Terrasse über dem Ufer und eine Gastgeberin, die kocht, was der Fluss hergibt.",
-    "bs": "Mali riverside pansion tri kilometra nizvodnije od poznatog izvora Plive, u srcu najmanje cijenjenih voda za suhi mušičarski ribolov u Europi. Kuhinja na drva, privatna terasa iznad obale i domaćica koja kuha ono što rijeka da."
+    "en": "A small riverside lodge two kilometres below the famous Pliva spring, in the heart of Europe's most underrated dry-fly water. Wood-fire kitchen, private terrace over the bank, and a host who cooks what the river gives.",
+    "de": "Ein kleines Gasthaus direkt am Fluss, zwei Kilometer unterhalb der berühmten Pliva-Quelle, im Herzen von Europas am meisten unterschätztem Trockenfischwasser. Küche am Holzfeuer, private Terrasse über dem Ufer und eine Gastgeberin, die kocht, was der Fluss hergibt.",
+    "bs": "Mali riverside pansion dva kilometra nizvodnije od poznatog izvora Plive, u srcu najmanje cijenjenih voda za suhi mušičarski ribolov u Europi. Kuhinja na drva, privatna terasa iznad obale i domaćica koja kuha ono što rijeka da."
   },
   "hero_cta1": {
     "en": "See the packages",
@@ -106,9 +106,9 @@ window.I18N = {
     "bs": "Pliva je izvorski potok i takva ostaje"
   },
   "fish_p": {
-    "en": "Three springs emerge at Pljeva and merge into the Pliva. It runs 33 km through the Šipovo valley and joins the Janj, then the Vrbas at Jajce. Because the water comes out of the ground at a constant 8–10 °C, the river never floods, never goes turbid, and never stops feeding.",
-    "de": "Bei Pljeva entspringen drei Quellen und vereinigen sich zur Pliva. Sie durchfließt 33 km das Tal von Šipovo, mündet in den Janj und dann bei Jajce in die Vrbas. Weil das Wasser mit konstanten 8–10 °C aus dem Boden kommt, tritt der Fluss nie über, trübt nie auf und versiegt nie.",
-    "bs": "Na Pljevi izv tri izvora i stapaju se u Plivu. Teče 33 km kroz dolinu Šipova i ulazi u Janj, a zatim u Vrbas kod Jajca. Budući da voda izvira iz zemlje sa stalnih 8–10 °C, rijeka nikada ne poplavi, nikada ne postane mutna i nikada ne prestaje da hrani ribe."
+    "en": "Three springs emerge at Pljeva and merge into the Pliva. It runs 33 km through the Šipovo valley and joins the Janj, then the Vrbas at Jajce. Because the water comes out of the ground at a constant 8 °C, the river never floods, never goes turbid, and never stops feeding.",
+    "de": "Bei Pljeva entspringen drei Quellen und vereinigen sich zur Pliva. Sie durchfließt 33 km das Tal von Šipovo, mündet in den Janj und dann bei Jajce in die Vrbas. Weil das Wasser mit konstanten 8 °C aus dem Boden kommt, tritt der Fluss nie über, trübt nie auf und versiegt nie.",
+    "bs": "Na Pljevi izv tri izvora i stapaju se u Plivu. Teče 33 km kroz dolinu Šipova i ulazi u Janj, a zatim u Vrbas kod Jajca. Budući da voda izvira iz zemlje sa stalnih 8 °C, rijeka nikada ne poplavi, nikada ne postane mutna i nikada ne prestaje da hrani ribe."
   },
   "fish_l2": {
     "en": "Gin-clear water — you sight fish, then you cast at what you saw",
@@ -656,14 +656,14 @@ window.I18N = {
     "bs": "Sva prava pridržana."
   },
   "hero_f1": {
-    "en": "<b>3 km</b> from the Pliva spring",
-    "de": "<b>3 km</b> von der Pliva-Quelle",
-    "bs": "<b>3 km</b> od izvora Plive"
+    "en": "<b>2 km</b> from the Pliva spring",
+    "de": "<b>2 km</b> von der Pliva-Quelle",
+    "bs": "<b>2 km</b> od izvora Plive"
   },
   "hero_f2": {
-    "en": "<b>9 °C</b> all year, crystal-clear",
-    "de": "<b>9 °C</b> ganzjährig, kristallklar",
-    "bs": "<b>9 °C</b> cijele godine, kristalno bistra"
+    "en": "<b>8 °C</b> all year, crystal-clear",
+    "de": "<b>8 °C</b> ganzjährig, kristallklar",
+    "bs": "<b>8 °C</b> cijele godine, kristalno bistra"
   },
   "hero_f3": {
     "en": "<b>8 km</b> of wild trout &amp; grayling",
@@ -726,9 +726,9 @@ window.I18N = {
     "bs": "Nov–dec: <b>1.190 €</b> po osobi"
   },
   "con_addr_v": {
-    "en": "Šipovo, Republika Srpska, Bosnia &amp; Herzegovina<br>3 km downstream of the Pliva springs",
-    "de": "Šipovo, Republika Srpska, Bosnien &amp; Herzegowina<br>3 km unterhalb der Pliva-Quellen",
-    "bs": "Šipovo, Republika Srpska, Bosna i Hercegovina<br>3 km nizvodnije od izvora Plive"
+    "en": "Šipovo, Republika Srpska, Bosnia &amp; Herzegovina<br>2 km downstream of the Pliva springs",
+    "de": "Šipovo, Republika Srpska, Bosnien &amp; Herzegowina<br>2 km unterhalb der Pliva-Quellen",
+    "bs": "Šipovo, Republika Srpska, Bosna i Hercegovina<br>2 km nizvodnije od izvora Plive"
   },
   "con_co_v": {
     "en": "From 11:00 · until 10:00",
@@ -771,8 +771,8 @@ window.I18N = {
     "bs": "<b>Vodeni dani</b> – lokalni vodič, čizme i štapovi uključeni"
   },
   "angl_safe": {
-    "en": "The water is 8–10 °C all year. A wetsuit and a buoyancy aid are essential, and we provide both. Life vests are worn at all times on the guided days.",
-    "de": "Das Wasser ist ganzjährig 8–10 °C kalt. Ein Neoprenanzug und eine Schwimmweste sind Pflicht, beides stellen wir. Auf den geführten Tagen wird die Schwimmweste ständig getragen.",
-    "bs": "Voda je cijele godine 8–10 °C. Mokri odjev i sigurnosni prsluk su obavezni, a mi ih osiguravamo. Na vodenim danima se sigurnosni prslak nosi stalno."
+    "en": "The water is 8 °C all year. A wetsuit and a buoyancy aid are essential, and we provide both. Life vests are worn at all times on the guided days.",
+    "de": "Das Wasser ist ganzjährig 8 °C kalt. Ein Neoprenanzug und eine Schwimmweste sind Pflicht, beides stellen wir. Auf den geführten Tagen wird die Schwimmweste ständig getragen.",
+    "bs": "Voda je cijele godine 8 °C. Mokri odjev i sigurnosni prsluk su obavezni, a mi ih osiguravamo. Na vodenim danima se sigurnosni prslak nosi stalno."
   }
 };
