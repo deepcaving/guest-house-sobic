@@ -774,5 +774,55 @@ window.I18N = {
     "en": "The water is 8 °C all year. A wetsuit and a buoyancy aid are essential, and we provide both. Life vests are worn at all times on the guided days.",
     "de": "Das Wasser ist ganzjährig 8 °C kalt. Ein Neoprenanzug und eine Schwimmweste sind Pflicht, beides stellen wir. Auf den geführten Tagen wird die Schwimmweste ständig getragen.",
     "bs": "Voda je cijele godine 8 °C. Mokri odjev i sigurnosni prsluk su obavezni, a mi ih osiguravamo. Na vodenim danima se sigurnosni prslak nosi stalno."
+  },
+  "rib_eyebrow": {
+    "en": "A second river, an hour away",
+    "de": "Ein zweiter Fluss, eine Stunde entfernt",
+    "bs": "Drugi rijeka, sat udaljena"
+  },
+  "rib_h2": {
+    "en": "The Ribnik: bigger grayling, an hour from the door",
+    "de": "Die Ribnik: größere Äschen, eine Stunde von der Haustür",
+    "bs": "Ribnik: veći lipljen, sat od vrata"
+  },
+  "rib_p": {
+    "en": "Fifty kilometres north-west of the lodge the Ribnik runs for five and a half kilometres before it meets the Sana. It is short, shallow and absurdly clear — a true chalk stream, barely 20 metres wide, knee-deep at most, with the stony bottom visible in every cast. Where the Pliva gives you big grayling that scrutinise every fly, the Ribnik gives you more of them: roughly eighty percent of the fish here are grayling, and they run to 50 cm and beyond. Brown trout live in the same water and reach double figures.",
+    "de": "Fünfzig Kilometer nordwestlich des Hauses fließt die Ribnik fünf einhalb Kilometer, bis sie in die Sana mündet. Kurz, flach und von absurder Klarheit – ein echter Chalk Stream, kaum 20 Meter breit, höchstens knietief, mit sichtbarem Steingrund bei jedem Wurf. Wo die Pliva große Äschen liefert, die jeden Köder genau prüfen, gibt die Ribnik mehr davon: rund achtzig Prozent der Fische sind Äschen, und sie werden 50 cm und größer. Bachforellen leben im selben Wasser und erreichen zweistellige Kilo.",
+    "bs": "pedeset kilometara sjeverozapadno od pansiona Ribnik teče pet i pol kilometara prije nego se ulije u Sanu. Kratka, plitka i nevjerovatno bistra – pravi kredni potok, jedva 20 metara široka, najviše do koljena, s vidljivim kamenim dnom pri svakom bacanju. Dok Pliva daje velike lipljene koji pažljivo ispituju svaku mušicu, Ribnik ih daje više: oko osamdeset posto riba su lipljeni, i dostižu 50 cm i više. Pastrmaci žive u istoj vodi i teže dvocifrene kilograme."
+  },
+  "rib_l1": {
+    "en": "<b>50 km, about an hour</b> from the lodge by car",
+    "de": "<b>50 km, rund eine Stunde</b> vom Haus mit dem Auto",
+    "bs": "<b>50 km, oko sat vremena</b> od pansiona automobilom"
+  },
+  "rib_l2": {
+    "en": "<b>80% grayling</b>, many over 50 cm — the highest ratio anywhere in the region",
+    "de": "<b>80 % Äschen</b>, viele über 50 cm – der höchste Anteil in der ganzen Region",
+    "bs": "<b>80% lipljena</b>, mnogo preko 50 cm – najveći udio u cijelom regionu"
+  },
+  "rib_l3": {
+    "en": "<b>Shallow and easy</b> — 20 m wide, knee-deep, crossable on foot almost anywhere",
+    "de": "<b>Flach und einfach</b> – 20 m breit, knietief, fast überall zu durchqueren",
+    "bs": "<b>Plitko i lako</b> – 20 m široka, do koljena, skoro svuda se može preći"
+  },
+  "rib_l4": {
+    "en": "<b>Same licence</b> — your Pliva permit covers the Ribnik and the Sana as well",
+    "de": "<b>Gleiche Lizenz</b> – Ihre Pliva-Erlaubnis gilt auch für Ribnik und Sana",
+    "bs": "<b>Ista dozvola</b> – vaša dozvola za Plivu vrijedi i za Ribnik i Sanu"
+  },
+  "rib_cta": {
+    "en": "Ask about a Ribnik day",
+    "de": "Fragen Sie nach einem Ribnik-Tag",
+    "bs": "Pitajte za dan na Ribniku"
+  },
+  "rib_price": {
+    "en": "Daily car transport to the Ribnik · arrange at reception",
+    "de": "Täglicher Autotransport zur Ribnik · an der Rezeption arrangieren",
+    "bs": "Svakodnevni prevoz autom na Ribnik · organizuje se na recepciji"
+  },
+  "nav_ribnik": {
+    "en": "The Ribnik",
+    "de": "Die Ribnik",
+    "bs": "Ribnik"
   }
 };

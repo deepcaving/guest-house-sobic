@@ -154,6 +154,14 @@ section{padding:72px 0}
   content:"";position:absolute;left:0;top:.52em;width:14px;height:2px;background:var(--river);
 }
 
+/* ---------- ribnik feature ---------- */
+.ribnik{padding:72px 0;background:#fff}
+.ribnik .split{align-items:stretch}
+.ribnik .split-media{display:flex}
+.ribnik .split-media img{width:100%;height:100%;min-height:340px;object-fit:cover}
+.ribnik .split-body{display:flex;flex-direction:column;justify-content:center;padding-left:0}
+.ribnik-cta{margin-top:22px}
+
 /* ---------- angler feature ---------- */
 .angler{padding:72px 0;background:#f2efe8}
 .angler .split{align-items:stretch}
@@ -379,6 +387,7 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
       <a href="#packages" data-i18n="nav_pkg" data-i18n-de="de" data-i18n-bs="bs" data-i18n-inline="1" data-i18n-key="nav_pkg">Packages</a>
       <a href="#stay" data-i18n="nav_rates" data-i18n-de="de" data-i18n-bs="bs" data-i18n-inline="1" data-i18n-key="nav_rates">Rates</a>
       <a href="#travel" data-i18n="nav_here" data-i18n-de="de" data-i18n-bs="bs" data-i18n-inline="1" data-i18n-key="nav_here">Getting here</a>
+      <a href="#ribnik" data-i18n="nav_ribnik" data-i18n-de="de" data-i18n-bs="bs" data-i18n-inline="1" data-i18n-key="nav_ribnik">The Ribnik</a>
       <div class="lang" id="langSwitch">
         <button class="lang-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Language / Sprache / Jezik">
           <svg viewbox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3c2.5 3 2.5 15 0 18"></path><path d="M12 3c-2.5 3-2.5 15 0 18"></path></svg>
@@ -503,6 +512,7 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
       <a href="img/autumn-river.jpg"><img src="img/autumn-river.jpg" alt="The Pliva in autumn colours"></a>
       <a href="img/meadow-pavilion.jpg"><img src="img/meadow-pavilion.jpg" alt="Meadow and pavilion on the river flat"></a>
       <a href="img/angler-pliva.jpg"><img src="img/angler-pliva.jpg" alt="A fly fisherman wading in the Pliva casting to a rising trout"></a>
+      <a href="img/ribnik-river.jpg"><img src="img/ribnik-river.jpg" alt="The Ribnik river - a shallow clear spring creek over white gravel with grayling holding in the current"></a>
     </div>
     <p class="center small muted space-top" data-i18n="gal_p" data-i18n-de="de" data-i18n-bs="bs" data-i18n-key="gal_p">The large grass field beside the lodge is where anglers rig their gear, and where light boats can be assembled for the calm upper reaches.</p>
   </div>
@@ -525,6 +535,29 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
           <li data-i18n-key="angl_l3" data-i18n="angl_l3"><b>Guided days</b> — a local guide, waders and rods included</li>
         </ul>
         <p class="small muted" data-i18n="angl_safe" data-i18n-de="de" data-i18n-bs="bs" data-i18n-key="angl_safe">The water is 8 °C all year. A wetsuit and a buoyancy aid are essential, and we provide both. Life vests are worn at all times on the guided days.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== RIBNIK ==================== -->
+<section class="ribnik" id="ribnik">
+  <div class="wrap">
+    <div class="split rev">
+      <div class="split-media">
+        <img src="img/ribnik-river.jpg" alt="The Ribnik river: a shallow gin-clear spring creek over white gravel, with a shoal of grayling holding in the current and a wild brown trout below the surface" width="2000" height="1010">
+      </div>
+      <div class="split-body">
+        <div class="eyebrow" data-i18n-key="rib_eyebrow" data-i18n="rib_eyebrow">A second river, an hour away</div>
+        <h2 data-i18n-key="rib_h2" data-i18n="rib_h2">The Ribnik: bigger grayling, an hour from the door</h2>
+        <p data-i18n-key="rib_p" data-i18n="rib_p">Fifty kilometres north-west of the lodge the Ribnik runs for five and a half kilometres before it meets the Sana. It is short, shallow and absurdly clear — a true chalk stream, barely 20 metres wide, knee-deep at most, with the stony bottom visible in every cast. Where the Pliva gives you big grayling that scrutinise every fly, the Ribnik gives you more of them: roughly eighty percent of the fish here are grayling, and they run to 50 cm and beyond. Brown trout live in the same water and reach double figures.</p>
+        <ul>
+          <li data-i18n-key="rib_l1" data-i18n="rib_l1"><b>50 km, about an hour</b> from the lodge by car</li>
+          <li data-i18n-key="rib_l2" data-i18n="rib_l2"><b>80% grayling</b>, many over 50 cm — the highest ratio anywhere in the region</li>
+          <li data-i18n-key="rib_l3" data-i18n="rib_l3"><b>Shallow and easy</b> — 20 m wide, knee-deep, crossable on foot almost anywhere</li>
+          <li data-i18n-key="rib_l4" data-i18n="rib_l4"><b>Same licence</b> — your Pliva permit covers the Ribnik and the Sana as well</li>
+        </ul>
+        <p class="ribnik-cta"><a href="#contact" class="btn btn-solid" data-i18n-key="rib_cta" data-i18n="rib_cta" data-i18n-inline="1">Ask about a Ribnik day</a></p>
       </div>
     </div>
   </div>
@@ -709,6 +742,10 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
         <svg viewbox="0 0 24 24"><path d="M4 19h16"></path><path d="M7 16V8"></path><path d="M12 16V5"></path><path d="M17 16v-6"></path></svg>
         <div><b>Equipment rental</b><span>Rod, reel, line and waders · €22 per day</span></div>
       </div>
+      <div class="inc">
+        <svg viewbox="0 0 24 24"><path d="M5 17h14"></path><path d="M6 17v-4l2-5h8l2 5v4"></path><path d="M6 13h12"></path><circle cx="8" cy="17" r="2"></circle><circle cx="16" cy="17" r="2"></circle></svg>
+        <div><b data-i18n-key="rib_price" data-i18n="rib_price" data-i18n-inline="1">Daily car transport to the Ribnik · arrange at reception</b><span>≈ 50 km · about an hour each way</span></div>
+      </div>
     </div>
 
     <div class="center space-top">
@@ -872,6 +909,7 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
         <a href="#packages" data-i18n-key="nav_pkg" data-i18n="nav_pkg">Packages</a>
         <a href="#stay" data-i18n-key="nav_rates" data-i18n="nav_rates">Rates</a>
         <a href="#travel" data-i18n-key="nav_here" data-i18n="nav_here">Getting here</a>
+        <a href="#ribnik" data-i18n-key="nav_ribnik" data-i18n="nav_ribnik">The Ribnik</a>
         <a href="#contact" data-i18n="foot_contact" data-i18n-de="de" data-i18n-bs="bs" data-i18n-inline="1" data-i18n-key="foot_contact">Contact</a>
       </nav>
     </div>
