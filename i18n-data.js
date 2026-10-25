@@ -824,5 +824,105 @@ window.I18N = {
     "en": "The Ribnik",
     "de": "Die Ribnik",
     "bs": "Ribnik"
+  },
+  "r1_b": {
+    "en": "Double or twin room, river view",
+    "de": "Doppel- oder Zweibettzimmer mit Flussblick",
+    "bs": "Dvokrevetna ili twin soba s pogledom na rijeku"
+  },
+  "r1_s": {
+    "en": "€85 per night · breakfast included",
+    "de": "€85 pro Nacht · Frühstück inklusive",
+    "bs": "85 € po noći · doručak uključen"
+  },
+  "r2_b": {
+    "en": "Single room for the solo angler",
+    "de": "Einzelzimmer für den Einzelangler",
+    "bs": "Jednokrevetna soba za samca"
+  },
+  "r2_s": {
+    "en": "€70 per night · breakfast included",
+    "de": "€70 pro Nacht · Frühstück inklusive",
+    "bs": "70 € po noći · doručak uključen"
+  },
+  "r3_b": {
+    "en": "Triple room",
+    "de": "Dreibettzimmer",
+    "bs": "Trokrevetna soba"
+  },
+  "r3_s": {
+    "en": "€110 per night · river view",
+    "de": "€110 pro Nacht · Flussblick",
+    "bs": "110 € po noći · pogled na rijeku"
+  },
+  "r4_b": {
+    "en": "Whole-house takeover",
+    "de": "Ganzes Haus zur Exklusivnutzung",
+    "bs": "Cijela kuća za iznajmljivanje"
+  },
+  "r4_s": {
+    "en": "€900 per night · up to 16 guests",
+    "de": "€900 pro Nacht · bis zu 16 Gäste",
+    "bs": "900 € po noći · do 16 gostiju"
+  },
+  "r5_b": {
+    "en": "Half board",
+    "de": "Halbpension",
+    "bs": "Polupansion"
+  },
+  "r5_s": {
+    "en": "€32 per person per day · breakfast and dinner",
+    "de": "€32 pro Person und Tag · Frühstück und Abendessen",
+    "bs": "32 € po osobi dnevno · doručak i večera"
+  },
+  "r6_b": {
+    "en": "Full board",
+    "de": "Vollpension",
+    "bs": "Puni pansion"
+  },
+  "r6_s": {
+    "en": "€52 per person per day · all meals",
+    "de": "€52 pro Person und Tag · alle Mahlzeiten",
+    "bs": "52 € po osobi dnevno · svi obroci"
+  },
+  "r7_b": {
+    "en": "Airport transfer",
+    "de": "Flughafentransfer",
+    "bs": "Transfer sa aerodroma"
+  },
+  "r7_s": {
+    "en": "Sarajevo included · Banja Luka and Split on request",
+    "de": "Sarajevo inklusive · Banja Luka und Split auf Wunsch",
+    "bs": "Sarajevo uključeno · Banja Luka i Split na zahtjev"
+  },
+  "r8_b": {
+    "en": "Equipment rental",
+    "de": "Ausrüstungsverleih",
+    "bs": "Iznajmljivanje opreme"
+  },
+  "r8_s": {
+    "en": "Rod, reel, line and waders · €22 per day",
+    "de": "Rute, Rolle, Schnur und Watlings · €22 pro Tag",
+    "bs": "Štap, kalem, struna i čizme · 22 € dnevno"
+  },
+  "rib_price_sub": {
+    "en": "≈ 50 km · about an hour each way",
+    "de": "≈ 50 km · rund eine Stunde pro Strecke",
+    "bs": "≈ 50 km · oko sat vremena u jednom smjeru"
+  },
+  "quote_text": {
+    "en": "\"There are plenty of fish, and they are by no means as wary of the bait as in rivers like the Test or Itchen — but they are incredibly picky. If you've ever thought about fishing somewhere new, this is the trip that changes the way you fish.\"",
+    "de": "\"Die Fische gibt es reichlich, und sie sind keineswegs so misstrauisch gegenüber dem Köder wie in Flüssen wie der Test oder die Itchen – aber sie sind unglaublich wählerisch. Wenn Sie je überlegt haben, an einem neuen Ort zu fischen, ist dies die Reise, die Ihre Art zu fischen verändert.\"",
+    "bs": "\"Riba ima mnogo, i nisu nimalo plašljivi prema mamcu kao u rijekama poput Testa ili Itchena – ali izuzetno su izbirljivi. Ako ste ikad razmišljali o ribolovu na novom mjestu, ovo je putovanje koje mijenja način na koji ribarite.\""
+  },
+  "pkg2_winter": {
+    "en": "Nov–Dec: <b>€950</b> per person",
+    "de": "Nov–Dez: <b>€950</b> pro Person",
+    "bs": "Nov–dec: <b>950 €</b> po osobi"
+  },
+  "pkg3_winter": {
+    "en": "Nov–Dec: <b>€730</b> per person",
+    "de": "Nov–Dez: <b>€730</b> pro Person",
+    "bs": "Nov–dec: <b>730 €</b> po osobi"
   }
 };
