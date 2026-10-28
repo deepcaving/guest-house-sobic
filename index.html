@@ -5,11 +5,69 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pliva River Lodge — Fly Fishing on the Pliva, Bosnia &amp; Herzegovina</title>
 <meta name="description" content="Boutique 7-room riverside lodge on the Pliva River, 2 km below the famous Pliva spring, Sipovo, Bosnia &amp; Herzegovina. Fly fishing, home cooking, fireplace. Open year-round.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+<!-- Social sharing. og:url / og:image / the JSON-LD url all point at the
+     production domain. If you publish on a different host, change them here
+     and in site-config.json (the build script checks the two stay in sync). -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pliva River Lodge">
+<meta property="og:title" content="Pliva River Lodge — Fly Fishing on the Pliva">
+<meta property="og:description" content="Seven rooms on the Pliva, 2 km below the spring. Fly fishing, wood-fire cooking and a private terrace over the bank. Open year-round.">
+<meta property="og:url" content="https://plivariverlodge.com/">
+<meta property="og:image" content="https://plivariverlodge.com/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Sofa seating on the private terrace above the Pliva River">
+<meta property="og:locale" content="en_GB">
+<meta property="og:locale:alternate" content="de_DE">
+<meta property="og:locale:alternate" content="bs_BA">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pliva River Lodge — Fly Fishing on the Pliva">
+<meta name="twitter:description" content="Seven rooms on the Pliva, 2 km below the spring. Fly fishing, wood-fire cooking and a private terrace over the bank.">
+<meta name="twitter:image" content="https://plivariverlodge.com/img/og-image.jpg">
+<meta name="theme-color" content="#122f45">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LodgingBusiness",
+  "name": "Pliva River Lodge",
+  "description": "Boutique 7-room riverside lodge on the Pliva River, 2 km below the famous Pliva spring, Sipovo, Bosnia and Herzegovina. Fly fishing, home cooking, wood-fire dining hall, open year-round.",
+  "url": "https://plivariverlodge.com/",
+  "image": "https://plivariverlodge.com/img/og-image.jpg",
+  "telephone": "+38765622760",
+  "email": "bookings@plivariverlodge.com",
+  "priceRange": "EUR 70 - EUR 1790 per person",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Šipovo",
+    "addressRegion": "Republika Srpska",
+    "addressCountry": "BA"
+  },
+  "numberOfRooms": 7,
+  "petsAllowed": false,
+  "amenityFeature": [
+    { "@type": "LocationFeatureSpecification", "name": "Fly fishing", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Fishing licence arranged", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Airport transfer", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Free parking", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Full board", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Restaurant", "value": true }
+  ],
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ],
+    "opens": "00:00",
+    "closes": "23:59"
+  }
+}
+</script>
 <style>
 /* ============================================================
    PLIVA RIVER LODGE — single-file landing page
-   No JavaScript. No external fonts. No CDNs.
-   Works in Carrd "Code" embed (Pro) and standalone.
+   No external fonts. No CDNs. The only JavaScript is the
+   language switcher (i18n.js) and the enquiry form (form.js).
    ============================================================ */
 
 :root{
@@ -268,6 +326,9 @@ section{padding:72px 0}
 .contact-list svg{width:19px;height:19px;flex-shrink:0;margin-top:3px;stroke:var(--river);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .contact-list b{display:block;color:var(--navy);font-size:.9rem}
 .contact-list span{font-size:.86rem;color:var(--muted)}
+.contact-links a{color:var(--river);text-decoration:none;border-bottom:1px solid transparent}
+.contact-links a:hover{color:var(--navy);border-bottom-color:var(--river)}
+.contact-links a+a{margin-left:10px}
 .form{background:var(--stone);padding:30px;border-radius:3px}
 .form label{display:block;font-size:.78rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--navy);margin-bottom:6px}
 .form .field{margin-bottom:15px}
@@ -278,6 +339,9 @@ section{padding:72px 0}
 .form input:focus,.form select:focus,.form textarea:focus{outline:2px solid var(--river);outline-offset:1px;border-color:var(--river)}
 .form textarea{min-height:88px;resize:vertical}
 .form .note{font-size:.75rem;color:var(--muted);margin-top:12px;line-height:1.5}
+.form .note .wa-link{color:var(--river);font-weight:700;text-decoration:none;border-bottom:1px solid var(--river)}
+.form .note .wa-link:hover{color:var(--navy);border-bottom-color:var(--navy)}
+.form .form-status{color:var(--river);font-weight:700}
 .form .btn{width:100%;margin-top:6px;border:none;cursor:pointer;font-family:var(--sans)}
 
 /* ---------- footer ---------- */
@@ -366,6 +430,7 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
 </style>
 <script src="i18n-data.js" defer></script>
 <script src="i18n.js" defer></script>
+<script src="form.js" defer></script>
 </head>
 <body class="no-js">
 
@@ -407,7 +472,7 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
 <!-- ==================== HERO ==================== -->
 <section class="hero" id="top">
   <div class="hero-media">
-    <img src="img/terrace-golden.jpg" alt="Outdoor sofas and a table on the private terrace above the Pliva River at golden hour">
+    <img src="img/terrace-golden.jpg" width="1500" height="2000" fetchpriority="high" decoding="async" alt="Outdoor sofas and a table on the private terrace above the Pliva River at golden hour">
   </div>
   <div class="hero-scrim"></div>
   <div class="hero-inner">
@@ -451,7 +516,7 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
   <div class="wrap">
     <div class="split">
       <div class="split-media">
-        <img src="img/terrace-lounge.jpg" alt="Grey outdoor sofas and a table on the terrace directly above the Pliva riverbank">
+        <img src="img/terrace-lounge.jpg" width="1500" height="2000" loading="lazy" decoding="async" alt="Grey outdoor sofas and a table on the terrace directly above the Pliva riverbank">
       </div>
       <div class="split-body">
         <div class="eyebrow" data-i18n="fish_eyebrow" data-i18n-de="de" data-i18n-bs="bs" data-i18n-key="fish_eyebrow">The fishing</div>
@@ -474,7 +539,7 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
   <div class="wrap">
     <div class="split rev">
       <div class="split-media">
-        <img src="img/dining-hall.jpg" alt="The riverside dining hall with its long oak table, wood-beamed ceiling and brick fireplace">
+        <img src="img/dining-hall.jpg" width="1200" height="1600" loading="lazy" decoding="async" alt="The riverside dining hall with its long oak table, wood-beamed ceiling and brick fireplace">
       </div>
       <div class="split-body">
         <div class="eyebrow" data-i18n="tbl_eyebrow" data-i18n-de="de" data-i18n-bs="bs" data-i18n-key="tbl_eyebrow">The table</div>
@@ -500,19 +565,19 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
       <h2 data-i18n="gal_h2" data-i18n-de="de" data-i18n-bs="bs" data-i18n-key="gal_h2">Rooms, water, and the space in between</h2>
     </div>
     <div class="gallery space-top">
-      <a href="img/exterior.jpg"><img src="img/exterior.jpg" alt="Guest House Sobic exterior with the new roof and riverside garden"></a>
-      <a href="img/room-twin.jpg"><img src="img/room-twin.jpg" alt="Double room in white furniture with a view of the river"></a>
-      <a href="img/dining-hall.jpg"><img src="img/dining-hall.jpg" alt="The riverside dining hall with fireplace and oak table"></a>
-      <a href="img/bathroom.jpg"><img src="img/bathroom.jpg" alt="Modern bathroom with walk-in shower"></a>
-      <a href="img/lounge-river.jpg"><img src="img/lounge-river.jpg" alt="Lounge with designer chairs and a river view"></a>
-      <a href="img/kitchen.jpg"><img src="img/kitchen.jpg" alt="Shared kitchenette"></a>
-      <a href="img/riverbank-flowers.jpg"><img src="img/riverbank-flowers.jpg" alt="Terrace and seating above the river"></a>
-      <a href="img/house-by-river.jpg"><img src="img/house-by-river.jpg" alt="The lodge below the mountain, on the river"></a>
-      <a href="img/dining-table-set.jpg" class="g-tall"><img src="img/dining-table-set.jpg" alt="Dining table set with candles and roses for a formal dinner"></a>
-      <a href="img/autumn-river.jpg"><img src="img/autumn-river.jpg" alt="The Pliva in autumn colours"></a>
-      <a href="img/meadow-pavilion.jpg"><img src="img/meadow-pavilion.jpg" alt="Meadow and pavilion on the river flat"></a>
-      <a href="img/angler-pliva.jpg"><img src="img/angler-pliva.jpg" alt="A fly fisherman wading in the Pliva casting to a rising trout"></a>
-      <a href="img/ribnik-river.jpg"><img src="img/ribnik-river.jpg" alt="The Ribnik river - a shallow clear spring creek over white gravel with grayling holding in the current"></a>
+      <a href="img/exterior.jpg"><img src="img/exterior.jpg" width="1080" height="727" loading="lazy" decoding="async" alt="Guest House Sobic exterior with the new roof and riverside garden"></a>
+      <a href="img/room-twin.jpg"><img src="img/room-twin.jpg" width="1080" height="1438" loading="lazy" decoding="async" alt="Double room in white furniture with a view of the river"></a>
+      <a href="img/dining-hall.jpg"><img src="img/dining-hall.jpg" width="1200" height="1600" loading="lazy" decoding="async" alt="The riverside dining hall with fireplace and oak table"></a>
+      <a href="img/bathroom.jpg"><img src="img/bathroom.jpg" width="1080" height="1644" loading="lazy" decoding="async" alt="Modern bathroom with walk-in shower"></a>
+      <a href="img/lounge-river.jpg"><img src="img/lounge-river.jpg" width="1080" height="817" loading="lazy" decoding="async" alt="Lounge with designer chairs and a river view"></a>
+      <a href="img/kitchen.jpg"><img src="img/kitchen.jpg" width="912" height="1238" loading="lazy" decoding="async" alt="Shared kitchenette"></a>
+      <a href="img/riverbank-flowers.jpg"><img src="img/riverbank-flowers.jpg" width="1500" height="2000" loading="lazy" decoding="async" alt="Terrace and seating above the river"></a>
+      <a href="img/house-by-river.jpg"><img src="img/house-by-river.jpg" width="1080" height="1612" loading="lazy" decoding="async" alt="The lodge below the mountain, on the river"></a>
+      <a href="img/dining-table-set.jpg" class="g-tall"><img src="img/dining-table-set.jpg" width="1080" height="1465" loading="lazy" decoding="async" alt="Dining table set with candles and roses for a formal dinner"></a>
+      <a href="img/autumn-river.jpg"><img src="img/autumn-river.jpg" width="1075" height="686" loading="lazy" decoding="async" alt="The Pliva in autumn colours"></a>
+      <a href="img/meadow-pavilion.jpg"><img src="img/meadow-pavilion.jpg" width="1080" height="652" loading="lazy" decoding="async" alt="Meadow and pavilion on the river flat"></a>
+      <a href="img/angler-pliva.jpg"><img src="img/angler-pliva.jpg" width="2000" height="1004" loading="lazy" decoding="async" alt="A fly fisherman wading in the Pliva casting to a rising trout"></a>
+      <a href="img/ribnik-river.jpg"><img src="img/ribnik-river.jpg" width="2000" height="1010" loading="lazy" decoding="async" alt="The Ribnik river - a shallow clear spring creek over white gravel with grayling holding in the current"></a>
     </div>
     <p class="center small muted space-top" data-i18n="gal_p" data-i18n-de="de" data-i18n-bs="bs" data-i18n-key="gal_p">The large grass field beside the lodge is where anglers rig their gear, and where light boats can be assembled for the calm upper reaches.</p>
   </div>
@@ -523,7 +588,7 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
   <div class="wrap">
     <div class="split">
       <div class="split-media">
-        <img src="img/angler-pliva.jpg" alt="A fly fisherman wading waist-deep in the clear Pliva, casting a long leader toward a rising trout" width="2000" height="1004">
+        <img src="img/angler-pliva.jpg" loading="lazy" decoding="async" alt="A fly fisherman wading waist-deep in the clear Pliva, casting a long leader toward a rising trout" width="2000" height="1004">
       </div>
       <div class="split-body">
         <div class="eyebrow" data-i18n="angl_eyebrow" data-i18n-de="de" data-i18n-bs="bs" data-i18n-key="angl_eyebrow">On the water</div>
@@ -545,7 +610,7 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
   <div class="wrap">
     <div class="split rev">
       <div class="split-media">
-        <img src="img/ribnik-river.jpg" alt="The Ribnik river: a shallow gin-clear spring creek over white gravel, with a shoal of grayling holding in the current and a wild brown trout below the surface" width="2000" height="1010">
+        <img src="img/ribnik-river.jpg" loading="lazy" decoding="async" alt="The Ribnik river: a shallow gin-clear spring creek over white gravel, with a shoal of grayling holding in the current and a wild brown trout below the surface" width="2000" height="1010">
       </div>
       <div class="split-body">
         <div class="eyebrow" data-i18n-key="rib_eyebrow" data-i18n="rib_eyebrow">A second river, an hour away</div>
@@ -566,7 +631,7 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
 <!-- ==================== STATS BAND ==================== -->
 <section class="band">
   <div class="band-media">
-    <img src="img/terrace-evening.jpg" alt="Evening light on the terrace above the Pliva">
+    <img src="img/terrace-lounge.jpg" width="1500" height="2000" loading="lazy" decoding="async" alt="Evening light on the terrace above the Pliva, with the sofas and the river beyond">
   </div>
   <div class="wrap band-inner">
     <div class="eyebrow" style="color:#9fd0d8" data-i18n="stat_eyebrow" data-i18n-de="de" data-i18n-bs="bs" data-i18n-key="stat_eyebrow">The river in numbers</div>
@@ -757,8 +822,9 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
 <!-- ==================== QUOTE ==================== -->
 <section class="alt">
   <div class="wrap">
-    <div class="quote" data-i18n-key="quote_text" data-i18n="quote_text">"There are plenty of fish, and they are by no means as wary of the bait as in rivers like the Test or Itchen — but they are incredibly picky. If you've ever thought about fishing somewhere new, this is the trip that changes the way you fish."
-      <div class="quote-src" data-i18n="quote_src" data-i18n-de="de" data-i18n-bs="bs" data-i18n-key="quote_src">Angling writer, on the Pliva and Ribnik</div>
+    <div class="quote">
+      <div data-i18n="quote_text" data-i18n-de="de" data-i18n-bs="bs" data-i18n-key="quote_text">"There are plenty of fish, and they are by no means as wary of the bait as in rivers like the Test or Itchen — but they are incredibly picky. If you've ever thought about fishing somewhere new, this is the trip that changes the way you fish."</div>
+      <div class="quote-src" data-i18n="quote_src" data-i18n-de="de" data-i18n-bs="bs" data-i18n-inline="1" data-i18n-key="quote_src">Angling writer, on the Pliva and Ribnik</div>
     </div>
   </div>
 </section>
@@ -825,11 +891,11 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
         <ul class="contact-list">
           <li>
             <svg viewbox="0 0 24 24"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .4 1.9.7 2.8a2 2 0 01-.5 2.1L8.1 9.9a16 16 0 006 6l1.3-1.2a2 2 0 012.1-.5c.9.3 1.8.6 2.8.7a2 2 0 011.7 2z"></path></svg>
-            <div><b data-i18n="con_wa" data-i18n-de="de" data-i18n-bs="bs" data-i18n-key="con_wa">WhatsApp &amp; phone</b><span>+387 65 622 760</span></div>
+            <div><b data-i18n="con_wa" data-i18n-de="de" data-i18n-bs="bs" data-i18n-key="con_wa">WhatsApp &amp; phone</b><span class="contact-links"><a href="https://wa.me/38765622760" target="_blank" rel="noopener">WhatsApp</a><a href="tel:+38765622760">+387 65 622 760</a></span></div>
           </li>
           <li>
             <svg viewbox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M22 6l-10 7L2 6"></path></svg>
-            <div><b data-i18n="con_email" data-i18n-de="de" data-i18n-bs="bs" data-i18n-inline="1" data-i18n-key="con_email">Email</b><span>bookings@plivariverlodge.com</span></div>
+            <div><b data-i18n="con_email" data-i18n-de="de" data-i18n-bs="bs" data-i18n-inline="1" data-i18n-key="con_email">Email</b><span class="contact-links"><a href="mailto:bookings@plivariverlodge.com">bookings@plivariverlodge.com</a></span></div>
           </li>
           <li>
             <svg viewbox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1116 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
@@ -847,7 +913,9 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
       </div>
 
       <div class="form">
-        <form action="#" method="post" onsubmit="return false;">
+        <form name="enquiry" id="enquiry-form" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" data-wa="https://wa.me/38765622760">
+          <input type="hidden" name="form-name" value="enquiry">
+          <p style="display:none"><label>Leave this field empty: <input name="bot-field"></label></p>
           <div class="field">
             <label for="f-name" data-i18n="form_name" data-i18n-de="de" data-i18n-bs="bs" data-i18n-inline="1" data-i18n-key="form_name">Your name</label>
             <input id="f-name" name="name" type="text" data-ph="ph_name" placeholder="Full name" required>
@@ -886,7 +954,11 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
             <textarea id="f-msg" name="message" data-ph="ph_msg" placeholder="Fishing experience, dietary requirements, room preferences…"></textarea>
           </div>
           <button type="submit" class="btn btn-primary" data-i18n="form_btn" data-i18n-de="de" data-i18n-bs="bs" data-i18n-inline="1" data-i18n-key="form_btn">Send enquiry</button>
-          <p class="note" data-i18n="form_note" data-i18n-de="de" data-i18n-bs="bs" data-i18n-key="form_note">This form is a visual placeholder. In the live site it should point at Formspree, Netlify Forms or a Google Form — or simply be replaced with a direct WhatsApp button, which converts better for this kind of guest.</p>
+          <p class="note">
+            <span data-i18n="form_note" data-i18n-de="de" data-i18n-bs="bs" data-i18n-key="form_note">We answer every enquiry within 24 hours, usually the same day.</span>
+            <a class="wa-link" href="https://wa.me/38765622760" target="_blank" rel="noopener">WhatsApp</a>
+          </p>
+          <p class="note form-status" id="enquiry-status" hidden data-i18n="form_sent" data-i18n-de="de" data-i18n-bs="bs" data-i18n-key="form_sent">Thank you — WhatsApp has opened with your details ready to send. Hit send there and we will reply within 24 hours.</p>
         </form>
       </div>
     </div>

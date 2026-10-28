@@ -1,18 +1,24 @@
 # Pliva River Lodge - Sipovo, Bosnia & Herzegovina
 
-Boutique 7-room riverside lodge on the Pliva River, 3 km below the famous Pliva spring.
+Boutique 7-room riverside lodge on the Pliva River, 2 km below the famous Pliva spring.
 Fly fishing, home cooking, wood-fire dining hall, private terrace over the bank.
 
 ## Structure
 
 | Path | What it is |
 |---|---|
-| `index.html` | **The live site.** Full version - references `img/`, plays the video, has the language switcher. |
-| `i18n-data.js` | Translation dictionary (EN / DE / BS) - 155 keys. Generated file. |
+| `index.html` | **The live site.** Full version - references `img/`, plays the video, has the language switcher and the enquiry form. |
+| `i18n-data.js` | Translation dictionary (EN / DE / BS) - 186 keys. |
 | `i18n.js` | The language switcher. Reads `data-i18n-key` attributes, persists the choice in `localStorage`. |
-| `img/` | All photos + `property-tour.mp4` (the 53-second walkthrough) + `angler-pliva.jpg` |
+| `form.js` | The enquiry form. Posts to Netlify Forms and opens WhatsApp with the details filled in. |
+| `site-config.json` | Phone, email, WhatsApp link and site URL in one place. `build_standalone.py --check` verifies the site still agrees with it. |
+| `img/` | All photos + `property-tour.mp4` (the 53-second walkthrough) + `og-image.jpg` (social share card). |
+| `favicon.svg` | The wave mark from the header. |
+| `build_standalone.py` | Builds the single-file Carrd version. |
 | `PlivaRiverLodge-standalone.html` | Single-file build, images embedded as base64, **English only**. **For Carrd.** |
-| `PlivaRiverLodge-index.html` | Copy of `index.html` for convenience |
+
+`PlivaRiverLodge-index.html` used to be a byte-identical copy of `index.html`. It was removed -
+two copies of the same page is a trap. If you need one, `cp index.html PlivaRiverLodge-index.html`.
 
 ## Languages
 
@@ -34,11 +40,50 @@ Three languages ship with the site: **English (default), Deutsch, Bosanski.**
 To change a translation, edit `i18n-data.js` - the keys map to the
 `data-i18n-key` attributes in `index.html`.
 
+> When you edit a translation, keep the markup inside the value in step with
+> the markup in `index.html`. `i18n.js` writes the dictionary value over the
+> element, so a `<b>` that is in the HTML but missing from the dictionary
+> disappears the moment the page loads.
+
+## The enquiry form
+
+The form in `index.html` is a **Netlify Form** (`data-netlify="true"`, a honeypot
+field, and a hidden `form-name` input). With JavaScript off the browser posts it
+normally and Netlify stores it. With JavaScript on, `form.js` does two things
+at once:
+
+1. POSTs the enquiry to Netlify in the background, so it also lands in the
+   Netlify dashboard.
+2. Opens WhatsApp with the enquiry already written out.
+
+WhatsApp leads because that is the channel that actually gets answered. The
+WhatsApp number, the phone number and the email address all live in
+`site-config.json`; `data-wa` on the `<form>` carries the WhatsApp link.
+
+If you move the site off Netlify, the form still works - WhatsApp is the
+fallback and the POST just fails quietly in the background.
+
 ## Regenerating the Carrd build
 
-From the source folder, run `python3 build_standalone.py`. It base64-embeds
-every image, swaps the video for its poster, removes the language switcher and
-all `<script>` tags, then writes `PlivaRiverLodge-standalone.html`.
+From the source folder, run:
+
+```
+python3 build_standalone.py
+```
+
+Needs Pillow (`pip install Pillow`).
+
+It base64-embeds every image - downscaling and re-compressing each one to the
+size it is actually displayed at, so the single file stays around 4 MB instead
+of the ~8 MB the raw assets would produce. It swaps the video for its poster,
+drops the gallery lightbox links (each photo is embedded once, not twice),
+removes the language switcher and every `data-i18n-*` attribute, removes the
+executable `<script>` tags (the JSON-LD block is kept - it is inert and still
+useful to search engines), inlines the favicon, and replaces the enquiry form
+with a static WhatsApp / email / phone call to action.
+
+Options: `--max-width`, `--quality`, and `--check` (verify `index.html`
+against `site-config.json` without building).
 
 ## Deploying to Netlify
 
@@ -50,7 +95,8 @@ GitHub is already connected. Build settings:
 - **Publish directory: `.`**
 - Functions directory: *leave empty*
 
-Netlify serves `index.html` from the repo root automatically.
+Netlify serves `index.html` from the repo root automatically. Submissions to
+the enquiry form show up under **Forms** in the Netlify dashboard.
 
 ## Deploying to Carrd (free)
 
@@ -61,7 +107,22 @@ Netlify serves `index.html` from the repo root automatically.
 5. Publish
 
 Note: the Carrd version shows a poster image instead of the video (base64-encoding a 5 MB
-video is impractical). Use the Netlify/GitHub version for the working video.
+video is impractical), and the enquiry form is replaced by WhatsApp / email / phone
+buttons. Use the Netlify/GitHub version for the working video and the real form.
+
+## Before publishing - fix these
+
+- [ ] **Register `plivariverlodge.com` or change the address everywhere.**
+      The domain does not currently resolve (NXDOMAIN), so
+      `bookings@plivariverlodge.com` is undeliverable and the `og:url` and
+      the JSON-LD `url` point at a host that does not exist. The phone number
+      (+387 65 622 760, Milka Smjestaj Sobic) works, so at least one channel
+      is live - but the email is not.
+- [ ] If you publish somewhere other than `plivariverlodge.com`, update
+      `og:url`, `og:image`, the JSON-LD `url`/`image`, and `site-config.json`.
+- [ ] There is **no `canonical` link** on purpose. Add one only once the
+      production domain is live and stable - pointing it at a domain that
+      does not exist yet would de-index the real site.
 
 ## 2026 pricing
 
@@ -87,25 +148,6 @@ LTG holds the fishing rights on the Pliva. Non-resident guests pay **EUR 50/day*
 (LTG's own guests pay EUR 20). Every package price above already absorbs it - we show
 it because there is no hidden fee.
 
-## Before publishing - fill these in
-
-Search `index.html` and `PlivaRiverLodge-standalone.html` for:
-
-- `bookings@plivariverlodge.com` -> a real inbox you control
-- The phone number is already set to **+387 65 622 760** (Milka Smjestaj Sobic)
-- The enquiry form is a **visual placeholder** - it does not send. Replace it with a
-  WhatsApp button (best converting), Formspree, or Netlify Forms.
-
-### Enabling Netlify Forms
-In `index.html` change the form tag to:
-```html
-<form name="enquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-```
-add `<input type="hidden" name="form-name" value="enquiry">`, add a honeypot field
-`<p style="display:none"><label>Leave blank: <input name="bot-field"></label></p>`,
-and remove the placeholder note. Then redeploy - Netlify detects the form on the
-next build and submissions appear in the dashboard.
-
 ## Market reference (verified 25 Oct 2026)
 
 | Operator | Price pp | Notes |
@@ -118,7 +160,7 @@ next build and submissions appear in the dashboard.
 
 ## Safety note
 
-The Pliva is a spring creek at **8-10 C all year**. No swimming outside the property.
+The Pliva is a spring creek at **8 °C all year**. No swimming outside the property.
 Life vests mandatory for everyone on the water. Wetsuits for any immersion. Rafting is
 summer only, age 10+, with adult supervision.
 

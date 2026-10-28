@@ -63,6 +63,10 @@
       // never replace the content of a container that holds interactive or
       // structural children (buttons, links, icons) - that would destroy them
       if (el.querySelector('button, a, svg, input, select, textarea, video, img')) continue;
+      // never replace a container that holds a translated child either: the
+      // child is translated on its own pass, and clobbering the parent would
+      // drop the child (this is what used to delete the quote attribution)
+      if (el.querySelector('[data-i18n-key]')) continue;
       var txt = tr(key, lang);
       if (txt === null) continue;
       if (el.getAttribute('data-i18n-inline') === '1') {

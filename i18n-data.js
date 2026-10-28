@@ -141,7 +141,7 @@ window.I18N = {
     "bs": "Kuhinja na drva i trpezarija uz vodu"
   },
   "tbl_p": {
-    "en": "The dining hall is the heart of the lodge: a long oak table for fourteen, a brick fireplace with a grill, a full kitchen behind it, and floor-to-ceiling windows along the river. Your host cooks from what the valley produces – and what the river gives that morning.",
+    "en": "The dining hall is the heart of the lodge: a long oak table for fourteen, a brick fireplace with a grill, a full kitchen behind it, and floor-to-ceiling windows along the river. Your host cooks from what the valley produces — and what the river gives that morning.",
     "de": "Die Halle ist das Herz des Hauses: ein langer Eichen Tisch für vierzehn, ein gemauerter Kamin mit Grill, dahinter eine vollständige Küche und bodentiefe Fenster entlang des Flusses. Ihre Gastgeberin kocht aus dem, was das Tal hergibt – und aus dem, was der Fluss an jenem Morgen liefert.",
     "bs": "Trpezarija je srce pansiona: dugi hrastov sto za četrnaest osoba, cigle sa roštiljem, kuhinja iza njega i prozori od poda do stropa uz rijeku. Domaćica kuha od onoga što dolazi iz doline – i od onoga što je rijeka dala tog jutra."
   },
@@ -201,7 +201,7 @@ window.I18N = {
     "bs": "Novembar i decembar na Plivi"
   },
   "seas_p": {
-    "en": "This is the shoulder season – the hosted weeks have finished, the autumn hatches are still running, and the river is yours. Fewer anglers on the water, lower rates, and a wood fire in the dining hall every evening.",
+    "en": "This is the shoulder season — the hosted weeks have finished, the autumn hatches are still running, and the river is yours. Fewer anglers on the water, lower rates, and a wood fire in the dining hall every evening.",
     "de": "Das ist die Übergangszeit – die begleiteten Wochen sind vorbei, die Herbstschlüpfe laufen noch, und der Fluss gehört Ihnen. Weniger Angler auf dem Wasser, niedrigere Preise und jeden Abend ein Feuer in der Halle.",
     "bs": "Ovo je prijelazno razdoblje – hostovane sedmice su završile, jesenji rojevi još traju, a rijeka je vaša. Manje ribara na vodi, niže cijene i vatara u trpezariji svaku večer."
   },
@@ -231,7 +231,7 @@ window.I18N = {
     "bs": "Kratki boravak — 730 €"
   },
   "seas_pb": {
-    "en": "Four nights, three fishing days, half board, licence and transfer. The easy way to try the river – and the easiest to fill in the gaps between trips.",
+    "en": "Four nights, three fishing days, half board, licence and transfer. The easy way to try the river — and the easiest to fill in the gaps between trips.",
     "de": "Vier Nächte, drei Fischeitage, Halbpension, Lizenz und Transfer. Der einfache Weg, den Fluss zu testen – und am leichtesten zwischen zwei Reisen zu füllen.",
     "bs": "Četiri noći, tri ribolovna dana, polupansion, dozvola i transfer. Najlakši način da isprobate rijeku – i najlakše popuniti praznine između putovanja."
   },
@@ -256,7 +256,7 @@ window.I18N = {
     "bs": "Tri načina da dođete"
   },
   "pkg_p": {
-    "en": "All packages include the lodge, the table, the guide and the fishing licence. Tourist tax is €2 per person per night, paid on arrival. November and December rates are lower – see each card.",
+    "en": "All packages include the lodge, the table, the guide and the fishing licence. Tourist tax is €2 per person per night, paid on arrival. November and December rates are lower — see each card.",
     "de": "Alle Pakete enthalten das Haus, den Tisch, den Guide und die Angel-Lizenz. Die Kurtaxe beträgt €2 pro Person und Nacht, wird bei Ankunft bezahlt. Im November und Dezember sind die Preise niedriger – siehe jede Karte.",
     "bs": "Svi paketi uključuju pansion, sto, vodiča i dozvolu za ribolov. Boravišna taksa je 2 € po osobi po noći, plaća se pri dolasku. Cijene u novembru i decembru su niže – vidite svaku karticu."
   },
@@ -406,9 +406,9 @@ window.I18N = {
     "bs": "Samo smještaj"
   },
   "rates_note": {
-    "en": "Room-only rates are per night, breakfast included. The Pliva fishing licence is €50 per day for non-resident guests and is not included in room-only rates; we arrange it for you on arrival. Children under 6 stay free and pay no licence. Children 6–12 pay half rate and no licence. Tourist tax is €2 per person per night, charged on arrival and shown separately on your invoice.",
-    "de": "Die Übernachtungspreise gelten pro Nacht inklusive Frühstück. Die Angel-Lizenz für die Pliva beträgt €50 pro Tag für Nicht-Einwohner und ist in den Übernachtungspreisen nicht enthalten; wir besorgen sie Ihnen bei Ankunft. Kinder unter 6 Jahren sind kostenlos und zahlen keine Lizenz. Kinder von 6 bis 12 Jahren zahlen den halben Preis und keine Lizenz. Die Kurtaxe beträgt €2 pro Person und Nacht, wird bei Ankunft berechnet und separat auf Ihrer Rechnung ausgewiesen.",
-    "bs": "Cijene smještaja su po noći i uključuju doručak. Dozvola za ribolov na Plivi iznosi 50 € po danu za stanare i nije uključena u cijene smještaja; mi je pribavljamo za vas pri dolasku. Djeca mlađa od 6 godina besplatno su i ne plaćaju dozvolu. Djeca od 6 do 12 godina plaćaju pola cijene i ne plaćaju dozvolu. Boravišna taksa je 2 € po osobi po noći, naplaćuje se pri dolasku i iskazuje zasebno na računu."
+    "en": "Room-only rates are per night, breakfast included. The Pliva fishing licence is <b>€50 per day</b> for non-resident guests and is not included in room-only rates; we arrange it for you on arrival. Children under 6 stay free and pay no licence. Children 6–12 pay half rate and no licence. Tourist tax is €2 per person per night, charged on arrival and shown separately on your invoice.",
+    "de": "Die Übernachtungspreise gelten pro Nacht inklusive Frühstück. Die Angel-Lizenz für die Pliva beträgt <b>€50 pro Tag</b> für Nicht-Einwohner und ist in den Übernachtungspreisen nicht enthalten; wir besorgen sie Ihnen bei Ankunft. Kinder unter 6 Jahren sind kostenlos und zahlen keine Lizenz. Kinder von 6 bis 12 Jahren zahlen den halben Preis und keine Lizenz. Die Kurtaxe beträgt €2 pro Person und Nacht, wird bei Ankunft berechnet und separat auf Ihrer Rechnung ausgewiesen.",
+    "bs": "Cijene smještaja su po noći i uključuju doručak. Dozvola za ribolov na Plivi iznosi <b>50 € po danu</b> za stanare i nije uključena u cijene smještaja; mi je pribavljamo za vas pri dolasku. Djeca mlađa od 6 godina besplatno su i ne plaćaju dozvolu. Djeca od 6 do 12 godina plaćaju pola cijene i ne plaćaju dozvolu. Boravišna taksa je 2 € po osobi po noći, naplaćuje se pri dolasku i iskazuje zasebno na računu."
   },
   "quote_src": {
     "en": "Angling writer, on the Pliva and Ribnik",
@@ -456,7 +456,7 @@ window.I18N = {
     "bs": "≈ 2 sata · 105 km"
   },
   "air_bnx_p": {
-    "en": "The closest airport, with the shortest drive. Fewer direct flights, so check the schedule for your dates – it works best as an option when you are already in the region.",
+    "en": "The closest airport, with the shortest drive. Fewer direct flights, so check the schedule for your dates — it works best as an option when you are already in the region.",
     "de": "Der nächstgelegene Flughafen mit der kürzesten Fahrt. Weniger Direktflüge, daher den Fahrplan für Ihre Termine prüfen – am besten als Option, wenn Sie ohnehin in der Region sind.",
     "bs": "Najbliži aerodrom, sa najkraćom vožnjom. Manje direktnih letova, pa provjerite raspored za svoje datume – najbolje opcija ako ste već u regiji."
   },
@@ -576,9 +576,14 @@ window.I18N = {
     "bs": "Pošaljite upit"
   },
   "form_note": {
-    "en": "This form is a visual placeholder. In the live site it should point at Formspree, Netlify Forms or a Google Form – or simply be replaced with a direct WhatsApp button, which converts better for this kind of guest.",
-    "de": "Dieses Formular ist ein Platzhalter. In der Live-Version sollte es auf Formspree, Netlify Forms oder ein Google-Formular verweisen – oder durch einen direkten WhatsApp-Button ersetzt werden, der bei dieser Art von Gästen besser funktioniert.",
-    "bs": "Ovaj obrazac je vizuelni placeholder. Na živoj stranici treba pokazivati na Formspree, Netlify Forms ili Google obrazac – ili ga zamijeniti direktnim WhatsApp gumbom, koji kod ovakvih gostiju bolje pretvara."
+    "en": "We answer every enquiry within 24 hours, usually the same day.",
+    "de": "Wir beantworten jede Anfrage innerhalb von 24 Stunden, meistens noch am selben Tag.",
+    "bs": "Svaki upit odgovaramo unutar 24 sata, obično istog dana."
+  },
+  "form_sent": {
+    "en": "Thank you — WhatsApp has opened with your details ready to send. Hit send there and we will reply within 24 hours.",
+    "de": "Danke — WhatsApp hat sich mit Ihren Angaben geöffnet. Senden Sie die Nachricht dort ab, wir antworten innerhalb von 24 Stunden.",
+    "bs": "Hvala — WhatsApp se otvorio s vašim podacima. Pošaljite poruku tamo i odgovorit ćemo vam unutar 24 sata."
   },
   "opt_1": {
     "en": "1 angler",
@@ -686,7 +691,7 @@ window.I18N = {
     "bs": "<b>Roštilj na drva i ognjište</b> u samom sredini prostorije"
   },
   "tbl_b2": {
-    "en": "<b>Pliva trout</b> when the day&rsquo;s catch warrants it",
+    "en": "<b>Pliva trout</b> when the day’s catch warrants it",
     "de": "<b>Pliva-Forelle</b>, wenn der Tagesfang es hergibt",
     "bs": "<b>Pastrmak iz Plive</b> kada ulov dana to dopušta"
   },
@@ -701,7 +706,7 @@ window.I18N = {
     "bs": "<b>Doručak na terasi</b>, ako vrijeme dozvoli"
   },
   "tbl_b5": {
-    "en": "<b>Dinner for non-residents</b> by arrangement, 24 hours&rsquo; notice",
+    "en": "<b>Dinner for non-residents</b> by arrangement, 24 hours’ notice",
     "de": "<b>Abendessen für Nicht-Einwohner</b> nach Vereinbarung, 24 Stunden Vorlauf",
     "bs": "<b>Večera za goste iz inostranstva</b> uz najavu dan ranije, 24 sata"
   },
