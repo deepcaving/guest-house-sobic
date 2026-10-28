@@ -25,7 +25,22 @@
     try { localStorage.setItem(KEY, v); } catch (e) { /* private mode */ }
   }
 
+  /* The language is part of the address: ?lang=de opens the German page.
+     That way a link sent to a German angler shows the German page even if
+     their browser is set to something else - which is the whole point when
+     the link is being shared in a Facebook group or a DM. */
+  function fromUrl() {
+    try {
+      var q = new URLSearchParams(window.location.search).get('lang');
+      if (!q) return null;
+      q = q.toLowerCase();
+      return LANGS.indexOf(q) !== -1 ? q : null;
+    } catch (e) { return null; }
+  }
+
   function detect() {
+    var u = fromUrl();
+    if (u) return u;
     var v = readStored();
     if (v && LANGS.indexOf(v) !== -1) return v;
     var nav = (navigator.language || 'en').toLowerCase();
@@ -33,6 +48,19 @@
     if (nav.indexOf('bs') === 0 || nav.indexOf('hr') === 0 ||
         nav.indexOf('sr') === 0 || nav.indexOf('ba') === 0) return 'bs';
     return 'en';
+  }
+
+  /* Keep the address bar in step with the language on screen, so that
+     copying the URL always copies the version the visitor is reading. */
+  function syncUrl(lang) {
+    if (!window.history || !window.history.replaceState) return;
+    try {
+      var url = new URL(window.location.href);
+      if (lang === 'en') url.searchParams.delete('lang');
+      else url.searchParams.set('lang', lang);
+      window.history.replaceState({}, '',
+        url.pathname + url.search + url.hash);
+    } catch (e) { /* leave the URL alone */ }
   }
 
   function tr(key, lang) {
@@ -55,6 +83,7 @@
     body.setAttribute('data-lang', lang);
     root.setAttribute('lang', lang);
     root.classList.remove('no-js');
+    syncUrl(lang);
 
     var nodes = document.querySelectorAll('[data-i18n-key]');
     for (var i = 0; i < nodes.length; i++) {

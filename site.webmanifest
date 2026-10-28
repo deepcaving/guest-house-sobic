@@ -1,0 +1,25 @@
+{
+  "name": "Pliva River Lodge",
+  "short_name": "Pliva Lodge",
+  "description": "Boutique 7-room riverside lodge on the Pliva River, 2 km below the famous Pliva spring, Sipovo, Bosnia & Herzegovina. Fly fishing, home cooking, wood-fire dining hall. Open year-round.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#122f45",
+  "theme_color": "#122f45",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

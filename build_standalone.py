@@ -192,6 +192,29 @@ def inline_favicon(html):
     return html
 
 
+def inline_app_icon(html):
+    """Inline the apple-touch-icon and drop the manifest.
+
+    Both point at local files that do not exist on Carrd. The manifest is of no
+    use on a page that is not installable, so it goes; the icon is worth
+    keeping for iOS, so it becomes a data URI like the favicon.
+    """
+    html = re.sub(r'\s*<link rel="manifest"[^>]*>', "", html)
+
+    icon = ROOT / "apple-touch-icon.png"
+    if icon.exists():
+        data = base64.b64encode(icon.read_bytes()).decode("ascii")
+        uri = f"data:image/png;base64,{data}"
+        html = re.sub(
+            r'<link rel="apple-touch-icon"[^>]*>',
+            f'<link rel="apple-touch-icon" href="{uri}">',
+            html,
+        )
+    else:
+        html = re.sub(r'\s*<link rel="apple-touch-icon"[^>]*>', "", html)
+    return html
+
+
 def check(html, cfg):
     """Report anything in index.html that has drifted from site-config.json."""
     problems = []
@@ -263,6 +286,9 @@ def build(args, cfg):
 
     print("Inlining the favicon...")
     out = inline_favicon(out)
+
+    print("Inlining the apple-touch-icon and dropping the manifest...")
+    out = inline_app_icon(out)
 
     # Nothing should point at a local file any more.
     leftover = re.findall(r'(?:src|href)="(?!https?:|data:|#|mailto:|tel:)([^"]+)"', out)
