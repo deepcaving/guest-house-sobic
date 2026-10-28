@@ -1,17 +1,20 @@
 /* Pliva River Lodge - language switcher.
-   EN (default) / DE / BS. Choice is remembered in localStorage.
+   EN (default) / DE / BS / IT. Choice is remembered in localStorage.
 
    How it works: every translatable element carries data-i18n-key="<key>".
    The translations live in i18n-data.js as window.I18N[key][lang].
    The English text stays in the markup, so the page reads correctly
    even if the script fails to load.
 
+   The language is also part of the address: ?lang=it opens the Italian
+   page, and the address bar follows whatever language is on screen.
+
    Elements with data-i18n-inline="1" get textContent (keeps <b> from
    breaking the line); everything else gets innerHTML (allows <br>). */
 (function () {
   'use strict';
 
-  var LANGS = ['en', 'de', 'bs'];
+  var LANGS = ['en', 'de', 'bs', 'it'];
   var KEY = 'prl_lang';
   var root = document.documentElement;
   var body = null;
@@ -45,6 +48,7 @@
     if (v && LANGS.indexOf(v) !== -1) return v;
     var nav = (navigator.language || 'en').toLowerCase();
     if (nav.indexOf('de') === 0) return 'de';
+    if (nav.indexOf('it') === 0) return 'it';
     if (nav.indexOf('bs') === 0 || nav.indexOf('hr') === 0 ||
         nav.indexOf('sr') === 0 || nav.indexOf('ba') === 0) return 'bs';
     return 'en';
