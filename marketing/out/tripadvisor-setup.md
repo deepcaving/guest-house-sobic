@@ -87,7 +87,7 @@ terrace as the cover. TripAdvisor rewards galleries of 25+ with a visible
 TripAdvisor lets the owner ask and answer. Five answers, ready to paste:
 
 **"Do you speak English?"**
-> The host speaks Serbian and Bosnian. We handle English, German and Italian
+> The host speaks Serbian and Bosnian. We handle English, German and Bosnian
 > by WhatsApp before you arrive, and the booking process, confirmation and
 > orientation material are all in your language.
 

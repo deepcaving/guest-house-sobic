@@ -99,6 +99,28 @@ the same name.
 | [`30-day-calendar.md`](30-day-calendar.md) | Week-by-week launch calendar, week 1 to week 30. |
 | [`tripadvisor-setup.md`](tripadvisor-setup.md) | Claiming and rebuilding the TripAdvisor listing. |
 
+## The Italian market
+
+Italy is the third-largest fly-fishing market in the plan's group list, and
+**Pesca a Mosca Italia** (20,000+ members) is one of the biggest single
+Facebook groups on the list. Italian anglers are also already active in the
+Balkans — `forlifly.it` has covered the Pliva.
+
+The site now speaks Italian, so this market is not just a DM list any more:
+
+- `https://guesthousesobic.netlify.app/?lang=it` is a shareable Italian URL.
+  Put that link — not the base URL — in any Italian post, DM or group comment.
+- The Italian DM templates are in
+  [`cold-dm-templates.md`](cold-dm-templates.md) (templates 10, 11 and 12).
+- The hosted-weeks line on the site now says Italian-speaking guides are
+  available, so the Italian version can be pointed at.
+- The airport section already sells Sarajevo as the best hub for Italian
+  guests, with direct low-cost flights from Milan and Rome.
+
+The Italian angle is worth more than a language switch. A guest who arrives
+having read the site in Italian, in a DM written in Italian, from a group
+where people speak Italian — that is a guest who books.
+
 ## The order to do it in
 
 1. **Set the real email** (above). Everything else is blocked on this.
