@@ -84,22 +84,27 @@ def main():
     token_re = re.compile(r"\{\{([A-Z_]+)\}\}")
 
     if args.check:
-        bad = False
+        unknown_found = False
         total = 0
         for p in masters():
             found = sorted(set(token_re.findall(p.read_text(encoding="utf-8"))))
-            if found:
-                bad = True
-                total += 1
-                unknown = [t for t in found if t not in vals]
-                print(f"  {p.relative_to(REPO)}: {', '.join(found)}"
-                      + (f"   <- UNKNOWN: {', '.join(unknown)}" if unknown else ""))
-        if bad:
-            print(f"\n{total} file(s) still carry placeholders - that is expected in the")
-            print("master copy. They are filled in at render time. Any token marked")
-            print("UNKNOWN is a typo and will not be replaced.")
+            if not found:
+                continue
+            total += 1
+            unknown = [t for t in found if t not in vals]
+            if unknown:
+                unknown_found = True
+            print(f"  {p.relative_to(REPO)}: {', '.join(found)}"
+                  + (f"   <- UNKNOWN: {', '.join(unknown)}" if unknown else ""))
+        if unknown_found:
+            print("\nSome tokens are not in site-config.json and will NOT be replaced.")
+            print("Fix the typos, or add the token to the values in render.py.")
             return 1
-        print("No leftover placeholders in the master copy.")
+        if total:
+            print(f"\n{total} file(s) carry placeholders - that is expected in the")
+            print("master copy. They are filled in at render time.")
+        else:
+            print("No placeholders in the master copy.")
         return 0
 
     OUT.mkdir(exist_ok=True)
