@@ -89,10 +89,10 @@ that decides whether someone presses "Save".
 ## 6. Q&A — pre-seed these (you can ask and answer as the owner)
 
 **Q: Do you speak English?**
-> The host speaks Serbian and Bosnian. We handle English, German and Bosnian
-> by WhatsApp before you arrive — the booking process, your confirmation and
-> the orientation material are all in your language. The site is available in
-> English, Deutsch and Bosanski.
+> The host speaks Serbian and Bosnian. We handle English, German, Bosnian and
+> Italian by WhatsApp before you arrive — the booking process, your
+> confirmation and the orientation material are all in your language. The site
+> is available in English, Deutsch, Bosanski and Italiano.
 
 **Q: Can you arrange airport transfers?**
 > Yes — door to door in a private car or minivan. From Sarajevo (about 4

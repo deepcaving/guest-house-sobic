@@ -10,7 +10,7 @@ Fly fishing, home cooking, wood-fire dining hall, private terrace over the bank.
 | Path | What it is |
 |---|---|
 | `index.html` | **The live site.** Full version - references `img/`, plays the video, has the language switcher and the enquiry form. |
-| `i18n-data.js` | Translation dictionary (EN / DE / BS) - 186 keys. |
+| `i18n-data.js` | Translation dictionary (EN / DE / BS / IT) - 186 keys. |
 | `i18n.js` | The language switcher. Reads `data-i18n-key` attributes, persists the choice in `localStorage`. |
 | `form.js` | The enquiry form. Posts to Netlify Forms and opens WhatsApp with the details filled in. |
 | `site-config.json` | Phone, email, WhatsApp link and site URL in one place. `build_standalone.py --check` verifies the site still agrees with it. |
@@ -45,14 +45,16 @@ banners disappear from the generated files.
 
 ## Languages
 
-Three languages ship with the site: **English (default), Deutsch, Bosanski.**
+Four languages ship with the site: **English (default), Deutsch, Bosanski, Italiano.**
 
-- The header has a globe dropdown: EN / DE / BS.
+- The header has a globe dropdown: EN / DE / BS / IT.
 - The choice is stored in `localStorage` (`prl_lang`) and survives a reload.
 - On a first visit the browser language decides: German browsers get German,
-  Bosnian/Croatian/Serbian get Bosnian, everyone else gets English.
-- **The language is also part of the URL.** `?lang=de` opens the German page
-  and `?lang=bs` the Bosnian one, whatever the visitor's browser is set to.
+  Bosnian/Croatian/Serbian get Bosnian, Italian browsers get Italian,
+  everyone else gets English.
+- **The language is also part of the URL.** `?lang=de` opens the German page,
+  `?lang=bs` the Bosnian one and `?lang=it` the Italian one, whatever the
+  visitor's browser is set to.
   That is what lets you send a German angler a link that actually shows the
   German page. The address bar updates when the language changes, so copying
   the URL always copies the version on screen.
