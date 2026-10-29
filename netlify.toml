@@ -1,0 +1,25 @@
+# Pliva River Lodge - Netlify build configuration.
+#
+# The site is plain static files: index.html at the repository root, images
+# in img/, no build step and no dependencies. Netlify serves the root as-is.
+
+[build]
+  # No build command - there is nothing to compile.
+  publish = "."
+
+# Branch deploys give every non-production branch its own live URL, which
+# updates automatically on every push:
+#   https://<branch>--guesthousesobic.netlify.app
+# They are switched on in the Netlify UI, under
+#   Project configuration > Developer settings > Continuous deployment >
+#   Branches and deploy contexts
+# and they build on the next commit pushed to the branch - Netlify does not
+# go back and build branches that already existed when the setting was saved.
+#
+# These two context blocks exist so a branch can be built differently from
+# production later, without touching the production build.
+[context.branch-deploy]
+  publish = "."
+
+[context.deploy-preview]
+  publish = "."
