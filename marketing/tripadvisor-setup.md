@@ -34,7 +34,7 @@ than no listing, because it is the one a careful guest will open.
 | Field | Value |
 |---|---|
 | Name | Guest House Šobić — Pliva River Lodge |
-| Address | Šipovo, Republika Srpska, Bosnia & Herzegovina |
+| Address | Pljeva, Šipovo, Bosnia & Herzegovina |
 | Phone | {{PHONE}} |
 | Email | {{EMAIL}} |
 | Website | {{SITE_URL}} |
@@ -46,7 +46,7 @@ than no listing, because it is the one a careful guest will open.
 
 > Guest House Šobić (Pliva River Lodge) is a family-run guesthouse on the
 > banks of the Pliva River, two kilometres below the famous Pliva spring, in
-> the town of Šipovo, Republika Srpska, Bosnia & Herzegovina. Seven rooms with
+> the village of Pljeva near Šipovo, Bosnia & Herzegovina. Seven rooms with
 > river views and en-suite bathrooms, a wood-beamed dining hall with a brick
 > fireplace and a long oak table, floor-to-ceiling windows onto the water, a
 > private terrace and lawn over the bank, and a full kitchen serving

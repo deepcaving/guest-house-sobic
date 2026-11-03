@@ -1,14 +1,5 @@
 # Email templates
 
-> **⚠️ BEFORE YOU USE THIS FILE**
-> The booking email in it is **not live yet** — `bookings@plivariverlodge.com` sits on a domain that
-> does not resolve, so anything sent there is lost.
->
-> Set the real inbox in `site-config.json`, set `"email_live": true`, then run
-> `python3 marketing/render.py` to regenerate this file. Until then, send
-> everything through WhatsApp: **+387 65 622 760**.
-
-
 Four emails. Send them from a personal address she actually reads — a Gmail
 is better than a business address nobody opens. When the real inbox is set,
 put it in `site-config.json` and re-run `./render.sh` so every template picks
@@ -63,8 +54,9 @@ Send the moment the deposit clears, not when the guest asks.
 > • [n] guests, [room type]
 > • Full board: breakfast, packed lunch on the water, dinner
 > • Guided fishing with [guide name], English-speaking
-> • The Pliva fishing licence (€50/day non-resident rate) — arranged by us
+> • The fishing licence (€40–70 per day, depending on the river) — arranged by us
 > • Round-trip airport transfer from [airport]
+> • The tourist tax — included in your package
 > • €[total] in total, €[deposit] paid, balance of €[balance] on arrival
 >
 > **Getting here**
@@ -73,7 +65,7 @@ Send the moment the deposit clears, not when the guest asks.
 > yourself, there is free secure parking on site.
 >
 > **On arrival**
-> Check-in from 14:00. Dinner is at 19:00, and if you have a preference for
+> Check-in from 11:00, check-out until 10:00. Dinner is at 19:00, and if you have a preference for
 > fish or meat, tell us a day ahead and the cook will plan around it.
 >
 > **Please read — the river**
@@ -85,8 +77,10 @@ Send the moment the deposit clears, not when the guest asks.
 > supervision.
 >
 > **The licence**
-> The fishing licence is €50 per day for non-resident guests and is already
-> included in your package. There is nothing extra to pay for it.
+> The fishing licence is €40–70 per day, depending on which river you fish,
+> and is already included in your package. There is nothing extra to pay for
+> it. The tourist tax is included too — so the price you agreed is the price
+> you pay.
 >
 > If anything changes, just reply to this email or message us on WhatsApp
 > +387 65 622 760 — we answer every message within 24 hours.
@@ -94,7 +88,7 @@ Send the moment the deposit clears, not when the guest asks.
 > We look forward to having you on the water.
 >
 > Milka Smjestaj Šobić
-> Pliva River Lodge, Šipovo, Republika Srpska, Bosnia & Herzegovina
+> Pliva River Lodge, Pljeva, Šipovo, Bosnia & Herzegovina
 > +387 65 622 760 · https://guesthousesobic.netlify.app
 
 ---
@@ -115,9 +109,10 @@ almost nothing and it is the email people remember.
 > with a name board. Your driver's number is [name, number].
 >
 > **What to bring**
-> • Waders and a wetsuit if you have them — we can lend rods, reels and
->   waders at €22/day, and we advise telling us your sizes a few days ahead
->   so we can have them ready
+> • Your own waders and a wetsuit if you have them. We do not hire out
+>   tackle, so please bring your own rods, reels and waders — or hire them in
+>   Šipovo before you travel. Tell us your sizes a few days ahead and we will
+>   point you at the shop in town
 > • Wellingtons or boots you don't mind wetting
 > • A warm mid-layer for the morning sessions and a rain shell
 > • Flies if you have favourites; the local flies are free
@@ -127,7 +122,7 @@ almost nothing and it is the email people remember.
 > drinks. Prices are in EUR.
 >
 > **The fishing**
-> The licence is €50/day for non-resident guests and is already in your
+> The licence is €40–70 per day depending on the river and is already in your
 > package. Catch and release only. The upper Pliva is open year-round; the
 > Jajce beat runs March to September. Expect the Pliva to be knee- to
 > thigh-deep over gravel, with a steady current — long leaders, small flies,
@@ -166,15 +161,17 @@ almost nothing and it is the email people remember.
 > While you think about it, here is the short version:
 >
 > • **The Pliva Week** — 7 nights, 6 days guided fishing, full board, the
->   licence, and the airport transfer from Sarajevo. €1,390 per person for a
->   group of four, €1,590 for two, €2,090 for one. In November and December
->   it is €1,190 per person.
+>   licence, the tourist tax, and the airport transfer from Sarajevo. €1,390
+>   per person for a group of four, €1,590 for two, €2,090 for one. In
+>   November and December it is €1,190 per person.
 > • **The Companion Week** — the same seven nights for whoever is not fishing.
 >   €1,090 per person, €950 in November and December.
 > • **Short Break** — 4 nights, 3 fishing days, half board. €830 per person.
-> • **Hosted weeks** with a named guide, from €1,790 per person.
+> • **A guided day** — €150–200 for the group, depending on how many of you
+>   there are. Our guides speak English.
 >
-> Room-only is €85 a night for a double with breakfast.
+> Room-only is €85 a night for a double with breakfast. We do not hire out
+> fishing tackle — bring your own, or hire it in Šipovo.
 >
 > The full details are here: https://guesthousesobic.netlify.app
 >

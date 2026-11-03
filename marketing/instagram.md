@@ -19,7 +19,7 @@ terrace, the fire, the water, the food.
 Pliva River Lodge 🏞️
 Boutique fly-fishing base on the Pliva, Bosnia
 2 km from the spring · 7 rooms · Fireplace · Home cooking
-Šipovo, Republika Srpska 📍
+Pljeva, Šipovo 📍
 WhatsApp → {{PHONE}}
 {{SITE_URL}}
 ```
@@ -72,7 +72,7 @@ comments.
 
 **2 — exterior**
 > White walls, new roof, and a mountain behind the field. Šipovo,
-> Republika Srpska.
+> Bosnia & Herzegovina.
 >
 > Open year-round. {{SITE_URL}}
 

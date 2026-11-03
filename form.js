@@ -3,13 +3,18 @@
  * The form is a Netlify Form (data-netlify="true"), so with JavaScript off
  * the browser posts it the normal way and Netlify stores the enquiry.
  *
- * With JavaScript on we do two things at once:
+ * With JavaScript on we do three things at once:
  *   1. POST the enquiry to Netlify in the background, so it also lands in the
  *      Netlify dashboard.
  *   2. Open WhatsApp with the enquiry already written out, so a guest who
  *      finds the site on a host without a form backend still reaches us.
+ *   3. Open the guest's mail client with the enquiry ready to send, so the
+ *      enquiry also reaches the host by email.
  *
- * WhatsApp is the channel that actually gets answered, so it leads.
+ * WhatsApp is the channel that actually gets answered, so it leads. The email
+ * path is the one the host asked for, so it is opened too - the guest just
+ * has to press send in their own mail app, which keeps the message in their
+ * hands and out of a third party's server.
  */
 (function () {
   'use strict';
@@ -18,6 +23,7 @@
   if (!form) return;
 
   var waBase = form.getAttribute('data-wa');
+  var emailTo = form.getAttribute('data-email');
   var status = document.getElementById('enquiry-status');
   var bot = form.querySelector('[name="bot-field"]');
 
@@ -61,6 +67,24 @@
       var url = waBase + '?text=' + encodeURIComponent(composeMessage());
       var w = window.open(url, '_blank');
       if (w) w.opener = null;
+    }
+
+    // 3. Email - the host asked for enquiries to reach her by email.
+    // A mailto: is used rather than posting from the browser, so the guest
+    // stays in control of what they send and no third-party script handles
+    // their details. The subject carries the dates so it is readable in the
+    // inbox list.
+    if (emailTo) {
+      var subject = 'Website enquiry';
+      var dateField = form.querySelector('[name="dates"]');
+      if (dateField && dateField.value.trim()) {
+        subject += ' - ' + dateField.value.trim();
+      }
+      var mailto = 'mailto:' + emailTo +
+        '?subject=' + encodeURIComponent(subject) +
+        '&body=' + encodeURIComponent(composeMessage());
+      var m = window.open(mailto, '_blank');
+      if (m) m.opener = null;
     }
 
     if (status) {

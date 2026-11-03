@@ -14,7 +14,7 @@ The number one free channel. It is what puts you in Google Maps for
 | Field | Value |
 |---|---|
 | Business name | **Pliva River Lodge** |
-| Address | Šipovo 70270, Republika Srpska, Bosnia & Herzegovina |
+| Address | Pljeva, 70270 Šipovo, Bosnia & Herzegovina |
 | GPS pin | approx. 44.286° N, 17.097° E — **confirm the real pin before publishing**, a wrong pin costs you the Maps placement |
 | Phone | {{PHONE}} (must be able to take calls — Google sometimes calls to verify) |
 | Website | {{SITE_URL}} |
@@ -119,10 +119,17 @@ that decides whether someone presses "Save".
 > no refund inside 30 days. We strongly recommend travel insurance.
 
 **Q: Is the fishing licence included in the price?**
-> Yes, in the fishing packages — the Pliva permit is €50 per day for
-> non-resident guests and we buy it for you, so there is nothing extra to pay
-> on arrival. If you stay on a room-only basis we arrange the licence for you
-> at the same rate. Catch and release is mandatory on the Pliva.
+> Yes, in the fishing packages — the licence is €40–70 per day depending on
+> which river you fish, and we buy it for you, so there is nothing extra to
+> pay on arrival. The tourist tax is included in the package too. If you stay
+> on a room-only basis we arrange the licence for you at the same rate and
+> the tourist tax is charged on arrival. Catch and release is mandatory on
+> the Pliva.
+
+**Q: Do you hire out fishing equipment?**
+> No — we do not hire out rods, reels or waders. Please bring your own, or
+> hire them in Šipovo before you travel. We do provide wetsuits and buoyancy
+> aids for wading, which is safety kit rather than tackle.
 
 ## 7. The first 5 posts (one per day, week 1)
 
@@ -131,7 +138,7 @@ that decides whether someone presses "Save".
 > to look up, and the riverside terrace is open for breakfast. Three rooms left
 > for the last week of October.
 >
-> 2 km from the Pliva spring, Šipovo, Republika Srpska.
+> 2 km from the Pliva spring, Pljeva, Šipovo.
 >
 > 📍 Riverside terrace with outdoor sofas
 

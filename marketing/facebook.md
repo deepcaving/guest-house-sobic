@@ -21,7 +21,7 @@ Create it at facebook.com/pages/create.
 | Email | {{EMAIL}} |
 | Price range | €€ |
 | Hours | Open year-round; reception arranged per booking |
-| Location | Šipovo, Republika Srpska, Bosnia & Herzegovina |
+| Location | Pljeva, Šipovo, Bosnia & Herzegovina |
 
 ## About (paste verbatim)
 

@@ -1,14 +1,5 @@
 # TripAdvisor — claim and rebuild the listing
 
-> **⚠️ BEFORE YOU USE THIS FILE**
-> The booking email in it is **not live yet** — `bookings@plivariverlodge.com` sits on a domain that
-> does not resolve, so anything sent there is lost.
->
-> Set the real inbox in `site-config.json`, set `"email_live": true`, then run
-> `python3 marketing/render.py` to regenerate this file. Until then, send
-> everything through WhatsApp: **+387 65 622 760**.
-
-
 TripAdvisor is the slowest channel and the one that pays longest. It is where
 a guest checks whether the property is real before they message, and where
 the reviews live for years. Treat it as a three-month project, not a
@@ -43,9 +34,9 @@ than no listing, because it is the one a careful guest will open.
 | Field | Value |
 |---|---|
 | Name | Guest House Šobić — Pliva River Lodge |
-| Address | Šipovo, Republika Srpska, Bosnia & Herzegovina |
+| Address | Pljeva, Šipovo, Bosnia & Herzegovina |
 | Phone | +387 65 622 760 |
-| Email | bookings@plivariverlodge.com |
+| Email | domacinstvosobic@gmail.com |
 | Website | https://guesthousesobic.netlify.app |
 | Star rating | keep the official class if one is assigned |
 | Price per night | €70 – €110 |
@@ -55,7 +46,7 @@ than no listing, because it is the one a careful guest will open.
 
 > Guest House Šobić (Pliva River Lodge) is a family-run guesthouse on the
 > banks of the Pliva River, two kilometres below the famous Pliva spring, in
-> the town of Šipovo, Republika Srpska, Bosnia & Herzegovina. Seven rooms with
+> the village of Pljeva near Šipovo, Bosnia & Herzegovina. Seven rooms with
 > river views and en-suite bathrooms, a wood-beamed dining hall with a brick
 > fireplace and a long oak table, floor-to-ceiling windows onto the water, a
 > private terrace and lawn over the bank, and a full kitchen serving
