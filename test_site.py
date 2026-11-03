@@ -245,12 +245,23 @@ def test_milka_facts(r):
     # totals onto rates_total_sep / rates_total_inc.
     for lang in LANGS:
         text = plain(html_text("rates_note"))
-        for needle in ("52", "32"):
+        for needle in ("50", "32"):
             r.check(
                 needle in text,
                 f"Q10b rates_note ({lang}) quotes {needle}",
                 f"rates_note[{lang}] = {text!r}",
             )
+        r.check(
+            "52" not in text,
+            f"Q10b rates_note ({lang}) drops the old €52 meal price",
+            f"rates_note[{lang}] = {text!r}",
+        )
+        # Full board = breakfast + ONE other meal (Milka, 3 Nov 2026)
+        r.check(
+            "one other meal" in text.lower(),
+            f"Q10b rates_note ({lang}) says full board is breakfast + one meal",
+            f"rates_note[{lang}] = {text!r}",
+        )
 
         licence = plain(html_text("rates_licence_line"))
         for needle in ("40", "50"):
@@ -260,22 +271,34 @@ def test_milka_facts(r):
                 f"rates_licence_line[{lang}] = {licence!r}",
             )
 
+        # Milka confirmed 3 Nov 2026: full board is EUR 50 per person per day
+        # = breakfast + ONE other meal. The worked totals follow from that.
         sep = plain(html_text("rates_total_sep"))
         r.check(
-            "162" in sep,
-            f"Q10b rates_total_sep ({lang}) gives the €162 solo worked total",
+            "160" in sep,
+            f"Q10b rates_total_sep ({lang}) gives the €160 solo worked total",
             f"rates_total_sep[{lang}] = {sep!r}",
         )
         r.check(
-            "134" in sep,
-            f"Q10b rates_total_sep ({lang}) gives the €134 shared-room total",
+            "113" in sep,
+            f"Q10b rates_total_sep ({lang}) gives the €113 shared-room total",
+            f"rates_total_sep[{lang}] = {sep!r}",
+        )
+        r.check(
+            "52" not in sep,
+            f"Q10b rates_total_sep ({lang}) drops the old €52 meal price",
             f"rates_total_sep[{lang}] = {sep!r}",
         )
 
         inc = plain(html_text("rates_total_inc"))
         r.check(
-            "162" in inc,
-            f"Q10b rates_total_inc ({lang}) gives the €162 solo worked total",
+            "160" in inc,
+            f"Q10b rates_total_inc ({lang}) gives the €160 solo worked total",
+            f"rates_total_inc[{lang}] = {inc!r}",
+        )
+        r.check(
+            "113" in inc,
+            f"Q10b rates_total_inc ({lang}) gives the €113 shared-room total",
             f"rates_total_inc[{lang}] = {inc!r}",
         )
 
@@ -693,8 +716,8 @@ def test_rates_toggle(r):
 
     # Both totals exist in every language, with the right figures.
     for key, figures in {
-        "rates_total_sep": ("€122", "€162", "€94", "€134"),
-        "rates_total_inc": ("€162", "€134"),
+        "rates_total_sep": ("€160", "€113"),
+        "rates_total_inc": ("€160", "€113"),
     }.items():
         for lang in LANGS:
             text = plain(html_text(key))
@@ -769,6 +792,66 @@ def test_rates_toggle(r):
         "STANDALONE still states the licence price",
     )
 
+def test_milka_meal_pricing(r):
+    """Milka's confirmed meal rule (3 Nov 2026).
+
+    Full board is EUR 50 per person per day and means breakfast PLUS ONE
+    other meal that day - lunch or dinner, not both. The room rate already
+    includes breakfast, and the room price is for the ROOM (single 70, double
+    85, triple 110, whole house 900), not per person. Meals are charged per
+    person on top of the room.
+    """
+    html = (ROOT / "index.html").read_text(encoding="utf-8")
+
+    # The price is EUR 50, and the old EUR 52 is gone from the whole site.
+    r.check("€52" not in html, "SITE has no EUR 52 meal price left")
+    for key in ("r6_s", "rates_note"):
+        for lang in LANGS:
+            text = plain(DICT.get(key, {}).get(lang, ""))
+            r.check(
+                "52" not in text,
+                f"MEAL {key} ({lang}) does not quote the old 52",
+                f"{key}[{lang}] = {text!r}",
+            )
+
+    # EUR 50 per person per day, in every language.
+    for lang in LANGS:
+        text = plain(DICT.get("r6_s", {}).get(lang, ""))
+        r.check("50" in text, f"MEAL r6_s ({lang}) quotes EUR 50", f"r6_s[{lang}] = {text!r}")
+
+    # Full board = breakfast + ONE other meal. Never "all meals", never a
+    # promise of both lunch and dinner.
+    forbidden = ["all meals", "tutti i pasti", "alle Mahlzeiten", "svi obroci"]
+    for lang in LANGS:
+        text = plain(DICT.get("r6_s", {}).get(lang, "")).lower()
+        for phrase in forbidden:
+            r.check(
+                phrase.lower() not in text,
+                f"MEAL r6_s ({lang}) does not claim {phrase!r}",
+                f"r6_s[{lang}] = {text!r}",
+            )
+
+    # The package bullet must not promise breakfast + lunch + dinner either.
+    for lang in LANGS:
+        text = plain(DICT.get("pkg1_l2", {}).get(lang, "")).lower()
+        r.check(
+            "dinner" not in text and "abendessen" not in text
+            and "večera" not in text and "cena" not in text,
+            f"MEAL pkg1_l2 ({lang}) does not promise dinner on top",
+            f"pkg1_l2[{lang}] = {text!r}",
+        )
+
+    # The room price is for the ROOM. The worked totals must be the ones that
+    # follow from that: 70 + 50 + 40 = 160 solo; (85 + 2x50 + 40) / 2 = 112.50.
+    r.check(
+        "€85 for the room split two ways" in html or "split two ways" in html,
+        "MEAL the shared-room total explains that the room price is per room",
+    )
+    r.check(
+        "112.50" in (ROOT / "marketing" / "site-facts.md").read_text(encoding="utf-8"),
+        "MEAL site-facts carries the €112.50 shared-room worked total",
+    )
+
 
 def test_package_prices_unchanged(r):
     """Milka's package prices must not drift. Pinned from the screenshot.
@@ -837,6 +920,7 @@ def main():
     test_enquiry_function(r)
     test_form_wiring(r)
     test_rates_toggle(r)
+    test_milka_meal_pricing(r)
     test_package_prices_unchanged(r)
 
     print(f"\n{r.passes} passed, {len(r.failures)} failed")

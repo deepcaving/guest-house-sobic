@@ -134,8 +134,8 @@ licence** · **the tourist tax** · round-trip airport transfer from Sarajevo.
 
 | | |
 |---|---|
-| Half board (breakfast + dinner) | €32 per person per day |
-| Full board (all meals) | €52 per person per day |
+| Half board | €32 per person per day — one meal |
+| Full board | €50 per person per day — breakfast + one other meal |
 | Fishing guide (English-speaking) | €150–200 per day for the group |
 | Fishing licence | **€40 per day on the Pliva, €50 per day on the Ribnik (€35 in November and December)** — **included in the fishing packages**, arranged by us; for room-only bookings we buy it for you on arrival |
 | Tourist tax | €2 per person per night — **included in the packages** (Milka covers it); on room-only stays it is charged on arrival and shown separately on your invoice |
@@ -146,20 +146,28 @@ licence** · **the tourist tax** · round-trip airport transfer from Sarajevo.
 Children under 6 stay free and pay no licence. Children 6–12 pay half rate
 and no licence.
 
-**Meals are added on top of the room rate.** €32 (half board) and €52 (full
-board) are per-person supplements, not a daily total. Worked examples per
-fishing day, with the Pliva licence:
+**Meals are added on top of the room rate.** €32 (half board) and €50 (full
+board) are per-person supplements, not a daily total. **Full board = breakfast
+plus ONE other meal that day — lunch or dinner, not both** (Milka, 3 Nov 2026).
+The room rate already includes breakfast.
+
+**The room price is for the ROOM, not per person** — single €70, double €85,
+triple €110, whole house €900. Meals are charged per person on top. That is why
+a solo angler pays more per night than someone sharing: the single room is
+€85→€70 for one person, while two people split one €85 double room.
+
+Worked examples per fishing day, with the Pliva licence:
 
 | | Room | Meals | Licence | Total per fishing day |
 |---|---|---|---|---|
-| Single room, solo angler, full board | €70 | €52 | €40 | **€162** |
-| Double room, two anglers sharing, full board | €85 | €52 | €40 | **€134.50 each** |
+| Single room, solo angler, full board | €70 | €50 | €40 | **€160** |
+| Double room, two anglers sharing, full board | €85 | €50 each | €40 | **€112.50 each** |
 
 Breakfast-only (no meal supplement) is €110 for the solo angler in the single
 room, with the licence.
 
-Without the licence the same day is **€122** for the solo angler and **€94 each**
-for two sharing a double room.
+Without the licence the same day is **€120** for the solo angler and **€67.50
+each** for two sharing a double room.
 
 ### The licence — the thing every guest asks about
 
@@ -176,8 +184,8 @@ licence* — and the licence price is stated on its own line either way. The
 default is off: a licence-inclusive total would mislead a guest who is still
 deciding whether to fish at all.
 
-When writing copy that quotes a total, say which version it is. "€162 a fishing
-day" means with the Pliva licence; "€122 a day" means room and meals only.
+When writing copy that quotes a total, say which version it is. "€160 a fishing
+day" means with the Pliva licence; "€120 a day" means room and meals only.
 
 Frame it as a value, not a cost — it funds river conservation, it is the same
 rate every operator in the market pays, and catch-and-release is mandatory.
