@@ -83,20 +83,39 @@ matches the HTML. Those are the four ways this file has broken before.
 ## The enquiry form
 
 The form in `index.html` is a **Netlify Form** (`data-netlify="true"`, a honeypot
-field, and a hidden `form-name` input). With JavaScript off the browser posts it
-normally and Netlify stores it. With JavaScript on, `form.js` does two things
-at once:
+field, and a hidden `form-name` input) **and** it posts to a Netlify Function.
 
-1. POSTs the enquiry to Netlify in the background, so it also lands in the
+With JavaScript on, `form.js` does this in order:
+
+1. POSTs the enquiry to the Netlify Function `/.netlify/functions/enquiry`,
+   which sends it **by email from the server** — to Milka, with the
+   collaborator copied, and `Reply-To` set to the guest. The guest only presses
+   "Send enquiry"; no mail app, no WhatsApp, no second "send" click.
+2. Also POSTs to Netlify Forms in the background, so a copy always lands in the
    Netlify dashboard.
-2. Opens WhatsApp with the enquiry already written out.
+3. If the function is not configured or the email provider is down, falls back
+   to opening WhatsApp and the guest's own mail app with the enquiry ready.
 
-WhatsApp leads because that is the channel that actually gets answered. The
-WhatsApp number, the phone number and the email address all live in
-`site-config.json`; `data-wa` on the `<form>` carries the WhatsApp link.
+With JavaScript off, the browser posts to Netlify Forms as a normal Netlify
+Form, so the enquiry is still captured.
 
-If you move the site off Netlify, the form still works - WhatsApp is the
-fallback and the POST just fails quietly in the background.
+Every WhatsApp link on the page pre-fills the enquiry text with what the guest
+has already typed, and updates live as they type.
+
+### Switching the email on
+
+The function needs environment variables in Netlify — the API key never goes in
+the repository:
+
+| Variable | Value |
+|---|---|
+| `RESEND_API_KEY` | your email provider's API key |
+| `MAIL_TO` | `domacinstvosobic@gmail.com` (the default) |
+| `MAIL_CC` | your own address, to receive a copy |
+| `MAIL_FROM` | `Pliva River Lodge <bookings@yourdomain>` |
+
+Full setup, testing and provider-swapping instructions are in
+[`docs/enquiry-email.md`](docs/enquiry-email.md).
 
 
 ## Regenerating the Carrd build
@@ -214,18 +233,34 @@ The Companion Week EUR 1,230 / EUR 1,630 · Short Break EUR 930 / EUR 1,230.
 
 **Room-only rates** (per night, breakfast included):
 double/twin EUR 85 / single EUR 70 / triple EUR 110 / whole house EUR 900 (16 guests)
-Half board EUR 32 pp/day / full board EUR 52 pp/day / equipment rental EUR 22/day
+Half board EUR 32 pp/day / full board EUR 52 pp/day — both are **added to the room
+rate**, not a replacement daily total.
 
 **Charged separately:**
-- Pliva fishing licence EUR 50/day (non-resident rate) - **included in the fishing packages**,
-  arranged by us; for room-only bookings we buy it for you on arrival
+- Fishing licence **EUR 40/day on the Pliva, EUR 50/day on the Ribnik** —
+  **included in the fishing packages**, arranged by us; for room-only bookings we
+  buy it for you on arrival
 - Tourist tax EUR 2 per person per night (children under 12 free)
 - Flights, alcoholic drinks, insurance, tips
 
+### The arithmetic, worked out
+
+A solo angler in the single room, full board, with the Pliva licence:
+
+    EUR 70 room + EUR 52 meals + EUR 40 licence = about EUR 162 per fishing day
+
+Two people sharing a double room, full board, with the licence:
+
+    EUR 85 room + EUR 52 meals + EUR 40 licence = about EUR 177 for the room,
+    which is about EUR 134 each per fishing day
+
+Breakfast-only in the single room, with the licence, is EUR 110 per fishing day.
+
 ### Why the licence is shown separately
-LTG holds the fishing rights on the Pliva. Non-resident guests pay **EUR 50/day**
-(LTG's own guests pay EUR 20). Every package price above already absorbs it - we show
-it because there is no hidden fee.
+The licence is a real, per-fishing-day cost and it differs by river, so it is
+priced concretely rather than hidden in a package: **EUR 40/day on the Pliva**
+and **EUR 50/day on the Ribnik**. Every package price above already absorbs it —
+we show it because there is no hidden fee.
 
 ## Market reference (verified 25 Oct 2026)
 
