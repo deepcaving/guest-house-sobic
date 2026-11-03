@@ -112,7 +112,7 @@ the repository:
 | `RESEND_API_KEY` | your email provider's API key |
 | `MAIL_TO` | `milkasobic25@gmail.com` (the default) |
 | `MAIL_BCC` | `francesco.capuzzo@zoho.com` — you are blind-copied by default |
-| `MAIL_FROM` | `Pliva River Lodge <bookings@guesthousesobic.netlify.app>` (the default) |
+| `MAIL_FROM` | `Pliva River Lodge <bookings@plivariverlodge.com>` (the default) |
 
 Full setup, testing and provider-swapping instructions are in
 [`docs/enquiry-email.md`](docs/enquiry-email.md).

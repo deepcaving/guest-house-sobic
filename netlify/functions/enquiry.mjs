@@ -40,10 +40,11 @@ function readConfig() {
     from:
       process.env.MAIL_FROM ||
       process.env.MAIL_FROM_FALLBACK ||
-      // The Netlify domain, so the guest sees the lodge and not a sandbox.
-      // The email provider still has to verify this domain before it will
-      // accept mail from it.
-      "Pliva River Lodge <bookings@guesthousesobic.netlify.app>",
+      // A domain the lodge owns. A *.netlify.app address cannot be used as
+      // the sender: Netlify controls that DNS zone, so the provider can
+      // never verify it. This address only works once the domain is
+      // registered and verified with the email provider.
+      "Pliva River Lodge <bookings@plivariverlodge.com>",
   };
 }
 
@@ -160,6 +161,24 @@ export default async (request, context) => {
 
     if (!response.ok) {
       console.error("[enquiry] provider error:", response.status, result);
+
+      // The common case: the sending domain has not been verified at the
+      // provider. Say so precisely, because "rejected the enquiry" hides the
+      // fact that nothing is wrong with the enquiry itself.
+      const message = String(result.message || "");
+      if (/not verified|is not verified|domain.*verif/i.test(message)) {
+        return json(502, {
+          ok: false,
+          error: "The sending domain is not verified yet",
+          detail: result,
+          hint:
+            "Verify the sending domain with the email provider, then add the " +
+            "DNS records it gives you. A *.netlify.app address cannot be " +
+            "verified - Netlify controls that DNS zone - so use a domain you " +
+            "own, then set MAIL_FROM to an address on it.",
+        });
+      }
+
       return json(502, {
         ok: false,
         error: "The email service rejected the enquiry",

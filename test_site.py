@@ -508,12 +508,24 @@ def test_enquiry_function(r):
     # address - "onboarding@resend.dev" reads as a test account and costs
     # trust before a word is said.
     r.check(
-        "Pliva River Lodge <bookings@guesthousesobic.netlify.app>" in s,
-        "the function sends from the lodge's own address by default",
+        "Pliva River Lodge <bookings@plivariverlodge.com>" in s,
+        "the function sends from the lodge's own domain by default",
     )
     r.check(
         "onboarding@resend.dev" not in s,
         "the function no longer falls back to the shared sandbox sender",
+    )
+    # A *.netlify.app sender can never be verified - Netlify owns that DNS
+    # zone - so it must not come back as the default.
+    r.check(
+        "bookings@guesthousesobic.netlify.app" not in s,
+        "the function does not use an unverifiable netlify.app sender",
+    )
+    # An unverified-domain rejection must be reported precisely, not as a
+    # generic failure, or it is impossible to diagnose.
+    r.check(
+        "not verified" in s,
+        "the function detects an unverified sending domain",
     )
     # When the key is missing the function must say WHY, because the usual
     # cause is a Netlify scope or deploy-context setting, not a missing key.

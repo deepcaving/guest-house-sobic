@@ -30,25 +30,38 @@ Mailgun or another provider, only the request body in the function changes.
 
 ## Setting it up
 
-### 1. Verify the sending address
+### 1. The sending address - use a domain you own
 
-The default sender is **`Pliva River Lodge <bookings@guesthousesobic.netlify.app>`** —
-the Netlify domain, so the guest sees the lodge and not a shared sandbox
-address. It needs no DNS setup, because the domain already exists.
+**A `*.netlify.app` address cannot be used as the sender.** Netlify controls the
+DNS for the whole `netlify.app` zone, so the TXT, MX and CNAME records that
+email providers require cannot be added for a Netlify subdomain. Resend will
+reject the send with *"the domain is not verified"*, and no amount of
+configuration will change that.
 
-You still have to **verify it with the email provider** before the provider
-will send mail from it. In Resend, that is: **Domains → Add Domain →**
-`guesthousesobic.netlify.app`, then add the DNS records it gives you. Netlify
-owns the DNS for that subdomain, so the records go in Netlify's
-**Domain settings → DNS → Add a record**.
+So the sender has to be a domain you own. The best candidate is already in
+this project: **`plivariverlodge.com`**, which currently does not resolve at
+all - nobody owns it, so it is free to register.
 
-If you would rather send from your own domain, set `MAIL_FROM` to it instead
-and verify that one — deliverability is usually better on a domain with
-proper SPF and DKIM set up, which you get once the provider has added them.
+Once you own it:
 
-**If the sender is not verified, the provider rejects the message** and the
-form falls back to WhatsApp and the guest's mail app. Nothing is lost, but
-the guest does not get the confirmation email.
+1. **Register the domain** (any registrar - Namecheap, Cloudflare, Porkbun;
+   roughly EUR 10-15 a year for a `.com`).
+2. **Point it at Netlify**: add `plivariverlodge.com` to the site under
+   **Domain management → Add custom domain**. Netlify gives you the nameservers
+   or the records to set at the registrar, and issues the SSL certificate.
+3. **Verify the domain at Resend**: **Domains → Add Domain →**
+   `plivariverlodge.com`, pick the region closest to your guests (Europe),
+   and add the DNS records Resend gives you.
+4. **Set the sender** to match: `MAIL_FROM = Pliva River Lodge <bookings@plivariverlodge.com>`.
+
+The sender should be a subdomain of the domain you own - Resend recommends it
+for deliverability, and it keeps a future marketing mailer separate. So
+`bookings@plivariverlodge.com` is the right shape, and the DNS records then go
+on `plivariverlodge.com` itself, which you control.
+
+**Until this is done the form still works.** It falls back to WhatsApp and the
+guest's own mail app, and the guest is never left without a way to reach the
+lodge. Only the confirmation email by email is unavailable.
 
 ### 2. Create an account with the email provider
 
@@ -68,7 +81,7 @@ Go to **Site configuration → Environment variables** in the Netlify UI (or
 | `RESEND_API_KEY` | Your API key | **yes** |
 | `MAIL_TO` | `milkasobic25@gmail.com` | no — this is the default |
 | `MAIL_BCC` | `francesco.capuzzo@zoho.com` | no — this is the default |
-| `MAIL_FROM` | `Pliva River Lodge <bookings@guesthousesobic.netlify.app>` | no — this is the default |
+| `MAIL_FROM` | `Pliva River Lodge <bookings@plivariverlodge.com>` | no — this is the default |
 
 Example:
 
@@ -76,7 +89,7 @@ Example:
 netlify env:set RESEND_API_KEY "re_xxxxxxxxxxxxxxxx"
 netlify env:set MAIL_TO "milkasobic25@gmail.com"
 netlify env:set MAIL_BCC "francesco.capuzzo@zoho.com"
-netlify env:set MAIL_FROM "Pliva River Lodge <bookings@guesthousesobic.netlify.app>"
+netlify env:set MAIL_FROM "Pliva River Lodge <bookings@plivariverlodge.com>"
 ```
 
 **The API key never goes into the repository.** It lives only in Netlify's
@@ -111,7 +124,7 @@ to WhatsApp and the guest's mail app, and says so.
 | `RESEND_API_KEY` | Auth token for the email API | none — the function returns `503` and the form falls back |
 | `MAIL_TO` | Who receives the enquiry | `milkasobic25@gmail.com` |
 | `MAIL_BCC` | Who is blind-copied on the enquiry | `francesco.capuzzo@zoho.com` |
-| `MAIL_FROM` | The verified sender shown to Milka | `Pliva River Lodge <bookings@guesthousesobic.netlify.app>` |
+| `MAIL_FROM` | The verified sender shown to Milka | `Pliva River Lodge <bookings@plivariverlodge.com>` |
 | `MAIL_FROM_FALLBACK` | Plain sender address, used if `MAIL_FROM` is unset | none |
 
 ## What the function rejects
