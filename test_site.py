@@ -202,6 +202,9 @@ def test_milka_facts(r):
     # Q10 - the licence states the concrete per-river prices.
     # Milka confirmed the range is real, but €40 (Pliva) / €50 (Ribnik) are the
     # actual market figures; the old €70 ceiling was headroom, not a price.
+    # LTG's published Ribnik rates are €50 in season (1 Apr - 15 Nov) and €35
+    # from 16 Nov to 31 Mar, so the winter rate must be shown: that is the
+    # season this lodge sells hardest.
     for key in ("pkg1_l4", "pkg3_l4"):
         for lang in LANGS:
             text = plain(html_text(key))
@@ -215,6 +218,26 @@ def test_milka_facts(r):
                 f"Q10 {key} ({lang}) no longer quotes the €70 ceiling",
                 f"{key}[{lang}] = {text!r}",
             )
+            r.check(
+                "35" in text,
+                f"Q10 {key} ({lang}) states the €35 November-December Ribnik rate",
+                f"{key}[{lang}] = {text!r}",
+            )
+
+    # Q10a - the Ribnik day-trip transport: €80 per group, up to 7 people.
+    for lang in LANGS:
+        text = plain(html_text("rib_price"))
+        r.check(
+            "80" in text,
+            f"Q10a rib_price ({lang}) quotes €80 per group",
+            f"rib_price[{lang}] = {text!r}",
+        )
+        sub = plain(html_text("rib_price_sub"))
+        r.check(
+            "7" in sub,
+            f"Q10a rib_price_sub ({lang}) states the group size",
+            f"rib_price_sub[{lang}] = {sub!r}",
+        )
 
     # Q10b - the rates note explains the arithmetic: room + meals + licence.
     for lang in LANGS:
@@ -491,6 +514,16 @@ def test_enquiry_function(r):
     r.check(
         "onboarding@resend.dev" not in s,
         "the function no longer falls back to the shared sandbox sender",
+    )
+    # When the key is missing the function must say WHY, because the usual
+    # cause is a Netlify scope or deploy-context setting, not a missing key.
+    r.check(
+        "CONTEXT" in s and "hint" in s,
+        "the function reports the deploy context and a hint when unconfigured",
+    )
+    r.check(
+        "Functions scope" in s or "Functions" in s,
+        "the function mentions the Functions scope in its diagnostic",
     )
     # Spam handling.
     r.check(

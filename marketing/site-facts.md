@@ -57,8 +57,8 @@ re-run `./render.sh`.
 
 ### The Ribnik (the second river)
 
-- 50 km north-west, **about an hour** by car. Daily transport can be arranged
-  at reception.
+- 50 km north-west, **about an hour** by car. Daily transport is arranged at
+  reception for **€80 per group** (up to 7 people, one car).
 - Runs 5.5 km before meeting the Sana. ~20 m wide, knee-deep, stony bottom.
 - **~80% grayling**, many over 50 cm — the highest ratio in the region. Brown
   trout in the same water, to double figures.
@@ -137,11 +137,11 @@ licence** · **the tourist tax** · round-trip airport transfer from Sarajevo.
 | Half board (breakfast + dinner) | €32 per person per day |
 | Full board (all meals) | €52 per person per day |
 | Fishing guide (English-speaking) | €150–200 per day for the group |
-| Fishing licence | **€40 per day on the Pliva, €50 per day on the Ribnik** — **included in the fishing packages**, arranged by us; for room-only bookings we buy it for you on arrival |
+| Fishing licence | **€40 per day on the Pliva, €50 per day on the Ribnik (€35 in November and December)** — **included in the fishing packages**, arranged by us; for room-only bookings we buy it for you on arrival |
 | Tourist tax | €2 per person per night — **included in the packages** (Milka covers it); on room-only stays it is charged on arrival and shown separately on your invoice |
 | Airport transfer — Sarajevo | **included** in the packages |
 | Airport transfer — Banja Luka / Split | **arranged with the lodge** (we have a van) |
-| Daily car transport to the Ribnik | arrange at reception, ≈50 km, about an hour each way |
+| Daily car transport to the Ribnik | **€80 per group** (up to 7 people, one car) — arrange at reception; ≈50 km, about an hour each way |
 
 Children under 6 stay free and pay no licence. Children 6–12 pay half rate
 and no licence.
@@ -160,7 +160,7 @@ room, with the licence.
 
 ### The licence — the thing every guest asks about
 
-The fishing licence is **€40 per day on the Pliva and €50 per day on the Ribnik**
+The fishing licence is **€40 per day on the Pliva and €50 per day on the Ribnik — €35 a day on the Ribnik in November and December**
 (Milka, 3 Nov 2026). Pliva sits at the lower end; the Ribnik days cost more.
 It is shown separately because there is no hidden fee: the package price
 already absorbs it, and room-only guests are told what it costs and that we
@@ -210,7 +210,9 @@ Milka raised is that some drivers do not hold a valid visa for Europe, so the
 transport must always be arranged **through us** rather than by the guest
 booking their own driver from Split.
 
-The Ribnik day uses the same van. The car stays with the group for the whole
+The Ribnik day uses the same van. Daily transport to the Ribnik is **€80 per
+group**, for up to 7 people in one car, arranged at reception. The car stays
+with the group for the whole
 day, so it is theirs to use — lunch stops, a second water, a walk. Budget the
 day as a car-and-driver day, not a shuttle.
 

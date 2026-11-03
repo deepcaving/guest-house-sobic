@@ -237,9 +237,11 @@ Half board EUR 32 pp/day / full board EUR 52 pp/day — both are **added to the 
 rate**, not a replacement daily total.
 
 **Charged separately:**
-- Fishing licence **EUR 40/day on the Pliva, EUR 50/day on the Ribnik** —
-  **included in the fishing packages**, arranged by us; for room-only bookings we
-  buy it for you on arrival
+- Fishing licence **EUR 40/day on the Pliva, EUR 50/day on the Ribnik (EUR 35 in
+  November and December)** — **included in the fishing packages**, arranged by us;
+  for room-only bookings we buy it for you on arrival
+- Daily car transport to the Ribnik — **EUR 80 per group** (up to 7 people, one
+  car), arranged at reception
 - Tourist tax EUR 2 per person per night (children under 12 free)
 - Flights, alcoholic drinks, insurance, tips
 

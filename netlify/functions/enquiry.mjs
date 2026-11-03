@@ -121,13 +121,28 @@ export default async (request, context) => {
 
   if (!config.apiKey) {
     // Not configured. Do not fail the form - the browser has fallbacks.
+    //
+    // This is almost always one of two Netlify settings problems:
+    //   - the variable's scope does not include "Functions" (it was set for
+    //     "Builds" only, so the function never sees it), or
+    //   - it was given a value only for the "Production" deploy context,
+    //     while this branch is running under the "Branch deploys" context.
+    // The deploy context is reported so the cause is obvious in the logs.
+    const context = process.env.CONTEXT || process.env.DEPLOY_CONTEXT || "unknown";
     console.error(
-      "[enquiry] RESEND_API_KEY is not set. Enquiry was:\n" + message
+      `[enquiry] RESEND_API_KEY is not set (deploy context: ${context}). ` +
+        "Check that the variable's scope includes Functions and that it has a " +
+        "value for this deploy context.\nEnquiry was:\n" +
+        message
     );
     return json(503, {
       ok: false,
       configured: false,
       error: "Email service is not configured",
+      context,
+      hint:
+        "RESEND_API_KEY must have the Functions scope and a value for this " +
+        "deploy context (Production, and Branch deploys for branch previews).",
     });
   }
 

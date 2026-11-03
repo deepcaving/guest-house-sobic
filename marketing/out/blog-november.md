@@ -108,10 +108,10 @@ different month or a different river:
 
 1. **"Why the Pliva in November is the best-kept secret in European fly fishing"** ← this one
 2. **"The Ribnik: an hour from the Pliva, and it's a different river entirely"** — 80% grayling, 20 m wide, knee-deep
-3. **"What a fishing licence actually costs on the Pliva, and why we don't hide it"** — the €40/day on the Pliva and €50/day on the Ribnik question, answered honestly
+3. **"What a fishing licence actually costs on the Pliva, and why we don't hide it"** — the €40/day on the Pliva and €50/day on the Ribnik (€35 in Nov–Dec) question, answered honestly
 4. **"Seven rivers, one week: can you actually fish all of them?"**
 5. **"The BWO hatch, explained: what to bring and when to be on the water"**
 
 Number 3 is worth writing carefully. Every guest asks what the licence really
 costs, and the operators who answer that question well are the ones people
-remember. The honest answer is €40 a day on the Pliva and €50 a day on the Ribnik.
+remember. The honest answer is €40 a day on the Pliva and €50 a day on the Ribnik — €35 a day on the Ribnik in November and December.

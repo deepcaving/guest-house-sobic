@@ -119,7 +119,7 @@ that decides whether someone presses "Save".
 > no refund inside 30 days. We strongly recommend travel insurance.
 
 **Q: Is the fishing licence included in the price?**
-> Yes, in the fishing packages — the licence is €40/day on the Pliva and €50/day on the Ribnik depending on
+> Yes, in the fishing packages — the licence is €40/day on the Pliva and €50/day on the Ribnik (€35 in Nov–Dec) depending on
 > which river you fish, and we buy it for you, so there is nothing extra to
 > pay on arrival. The tourist tax is included in the package too. If you stay
 > on a room-only basis we arrange the licence for you at the same rate and
