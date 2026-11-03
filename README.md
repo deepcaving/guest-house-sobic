@@ -110,8 +110,8 @@ the repository:
 | Variable | Value |
 |---|---|
 | `RESEND_API_KEY` | your email provider's API key |
-| `MAIL_TO` | `domacinstvosobic@gmail.com` (the default) |
-| `MAIL_CC` | your own address, to receive a copy |
+| `MAIL_TO` | `milkasobic25@gmail.com` (the default) |
+| `MAIL_CC` | `francesco.capuzzo@zoho.com` — you are copied by default |
 | `MAIL_FROM` | `Pliva River Lodge <bookings@yourdomain>` |
 
 Full setup, testing and provider-swapping instructions are in

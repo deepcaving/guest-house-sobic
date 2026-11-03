@@ -131,7 +131,7 @@ everyone at once.
 >   Sarajevo, Banja Luka and Split
 > • Open year-round
 > • Pliva River Lodge, Pljeva, Šipovo
-> • +387 65 622 760 · domacinstvosobic@gmail.com · https://guesthousesobic.netlify.app
+> • +387 65 622 760 · milkasobic25@gmail.com · https://guesthousesobic.netlify.app
 >
 > I can send photos and any documents you need.
 >

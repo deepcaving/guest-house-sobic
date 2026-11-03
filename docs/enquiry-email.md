@@ -6,7 +6,7 @@ The guest fills in the enquiry form and presses **Send enquiry**. The form
 does three things, in this order:
 
 1. **Sends the enquiry by email, from the server.** It lands in Milka's inbox
-   (`domacinstvosobic@gmail.com`) with you copied on it. The guest does
+   (`milkasobic25@gmail.com`) with you copied on it. The guest does
    nothing beyond pressing the button — no mail app, no WhatsApp, no
    "press send" step.
 2. **Keeps a copy in Netlify Forms**, so the enquiry also shows up in the
@@ -57,16 +57,16 @@ Go to **Site configuration → Environment variables** in the Netlify UI (or
 | Variable | Value | Required |
 |---|---|---|
 | `RESEND_API_KEY` | Your API key | **yes** |
-| `MAIL_TO` | `domacinstvosobic@gmail.com` | no — this is the default |
-| `MAIL_CC` | Your own email address | no — set this to receive a copy |
+| `MAIL_TO` | `milkasobic25@gmail.com` | no — this is the default |
+| `MAIL_CC` | `francesco.capuzzo@zoho.com` | no — this is the default |
 | `MAIL_FROM` | `Pliva River Lodge <bookings@yourdomain>` | recommended |
 
 Example:
 
 ```bash
 netlify env:set RESEND_API_KEY "re_xxxxxxxxxxxxxxxx"
-netlify env:set MAIL_TO "domacinstvosobic@gmail.com"
-netlify env:set MAIL_CC "your.address@example.com"
+netlify env:set MAIL_TO "milkasobic25@gmail.com"
+netlify env:set MAIL_CC "francesco.capuzzo@zoho.com"
 netlify env:set MAIL_FROM "Pliva River Lodge <bookings@guesthousesobic.netlify.app>"
 ```
 
@@ -99,8 +99,8 @@ to WhatsApp and the guest's mail app, and says so.
 | Variable | Purpose | Default when unset |
 |---|---|---|
 | `RESEND_API_KEY` | Auth token for the email API | none — the function returns `503` and the form falls back |
-| `MAIL_TO` | Who receives the enquiry | `domacinstvosobic@gmail.com` |
-| `MAIL_CC` | Who is copied on the enquiry | none |
+| `MAIL_TO` | Who receives the enquiry | `milkasobic25@gmail.com` |
+| `MAIL_CC` | Who is copied on the enquiry | `francesco.capuzzo@zoho.com` |
 | `MAIL_FROM` | The verified sender shown to Milka | `Pliva River Lodge <onboarding@resend.dev>` |
 | `MAIL_FROM_FALLBACK` | Plain sender address, used if `MAIL_FROM` is unset | none |
 

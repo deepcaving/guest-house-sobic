@@ -29,7 +29,7 @@ Every file in this folder uses these tokens:
 | Token | What it is | Current value |
 |---|---|---|
 | `{{SITE_URL}}` | the live site | `https://guesthousesobic.netlify.app/` |
-| `{{EMAIL}}` | the booking inbox | `domacinstvosobic@gmail.com` — **live**, Milka answers it herself |
+| `{{EMAIL}}` | the booking inbox | `milkasobic25@gmail.com` — **live**, Milka answers it herself |
 | `{{PHONE}}` | phone / WhatsApp, display form | `+387 65 622 760` |
 | `{{PHONE_E164}}` | phone, machine form | `+38765622760` |
 | `{{WHATSAPP}}` | WhatsApp link | `https://wa.me/38765622760` |
@@ -37,7 +37,7 @@ Every file in this folder uses these tokens:
 | `{{TRIPADVISOR}}` | TripAdvisor listing | see `tripadvisor-setup.md` |
 
 `{{EMAIL}}` is live. Milka gave the real inbox on 3 Nov 2026 —
-`domacinstvosobic@gmail.com` — and answers enquiries herself. The old address
+`milkasobic25@gmail.com` — and answers enquiries herself. The old address
 (`bookings@plivariverlodge.com`) was on a domain that does not resolve and is
 gone from the site, the JSON-LD and every copy file.
 

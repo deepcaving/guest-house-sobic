@@ -7,7 +7,7 @@ The enquiry form on the site does three things when a guest presses
    visible in the Netlify dashboard.
 2. **Opens WhatsApp** with the enquiry already written out.
 3. **Opens the guest's email app** with the enquiry already written out,
-   addressed to `domacinstvosobic@gmail.com`.
+   addressed to `milkasobic25@gmail.com`.
 
 Step 3 is what Milka asked for, and it works with no configuration at all —
 the guest just presses send in their own mail app. It also means the guest's
@@ -33,7 +33,7 @@ once by hand.
 4. Click **Add notification** → **Email notification**.
 5. Fill in:
    - **Subject**: `New enquiry — {{name}}`
-   - **To**: `domacinstvosobic@gmail.com`
+   - **To**: `milkasobic25@gmail.com`
 6. Click **Add notification**.
 
 That is it. From then on every submission lands in Milka's inbox as well as

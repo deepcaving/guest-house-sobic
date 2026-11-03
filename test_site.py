@@ -79,27 +79,31 @@ def test_milka_facts(r):
         f"email_live = {CONFIG.get('email_live')!r}",
     )
     r.check(
-        CONFIG.get("email") == "domacinstvosobic@gmail.com",
+        CONFIG.get("email") == "milkasobic25@gmail.com",
         "Q1  site-config.json has the real inbox",
         f"email = {CONFIG.get('email')!r}",
     )
     r.check(
-        "domacinstvosobic@gmail.com" in HTML,
+        "milkasobic25@gmail.com" in HTML,
         "Q1  the live inbox appears in index.html",
     )
     r.check(
         "bookings@plivariverlodge.com" not in HTML,
         "Q1  the dead placeholder address is gone from index.html",
     )
+    r.check(
+        "domacinstvosobic@gmail.com" not in HTML,
+        "Q1  Milka's previous address is gone from index.html",
+    )
     # The address is a mailto: link, not translatable copy, so it lives in
     # the markup and in site-config.json - not in the dictionary.
     r.check(
-        'href="mailto:domacinstvosobic@gmail.com"' in HTML,
+        'href="mailto:milkasobic25@gmail.com"' in HTML,
         "Q1  the contact link points at the live inbox",
     )
     # The form must carry the address so form.js can address the mailto.
     r.check(
-        'data-email="domacinstvosobic@gmail.com"' in HTML,
+        'data-email="milkasobic25@gmail.com"' in HTML,
         "Q8  the enquiry form carries data-email for the mailto path",
     )
     r.check(
@@ -356,7 +360,7 @@ def test_marketing_matches_site(r):
     facts = rendered.get("site-facts.md", "")
     r.check("Pljeva" in facts, "site-facts.md names Pljeva")
     r.check(
-        "domacinstvosobic@gmail.com" in facts,
+        "milkasobic25@gmail.com" in facts,
         "site-facts.md carries the live inbox",
     )
     r.check(
@@ -426,7 +430,7 @@ def test_standalone(r):
         "the images are inlined",
     )
     r.check(
-        "domacinstvosobic@gmail.com" in s,
+        "milkasobic25@gmail.com" in s,
         "the standalone carries the live inbox",
     )
 
@@ -451,8 +455,17 @@ def test_enquiry_function(r):
     # The live inbox must not be hardcoded as the only route: it reads MAIL_TO
     # but falls back to Milka, which is correct.
     r.check(
-        "domacinstvosobic@gmail.com" in s,
+        "milkasobic25@gmail.com" in s,
         "the function defaults to Milka's inbox",
+    )
+    # The collaborator is copied by default - the env var overrides it.
+    r.check(
+        "francesco.capuzzo@zoho.com" in s,
+        "the function defaults to copying the collaborator",
+    )
+    r.check(
+        "domacinstvosobic@gmail.com" not in s,
+        "the function no longer references Milka's previous address",
     )
     # Spam handling.
     r.check(

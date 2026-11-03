@@ -33,8 +33,9 @@ const RESEND_ENDPOINT = "https://api.resend.com/emails";
 function readConfig() {
   return {
     apiKey: process.env.RESEND_API_KEY,
-    to: process.env.MAIL_TO || "domacinstvosobic@gmail.com",
-    cc: process.env.MAIL_CC || "",
+    to: process.env.MAIL_TO || "milkasobic25@gmail.com",
+    // The collaborator is copied by default. MAIL_CC overrides it.
+    cc: process.env.MAIL_CC || "francesco.capuzzo@zoho.com",
     from:
       process.env.MAIL_FROM ||
       process.env.MAIL_FROM_FALLBACK ||

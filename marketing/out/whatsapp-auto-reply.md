@@ -99,7 +99,7 @@ it looks professional.
 | Address | Pljeva, Šipovo, Bosnia & Herzegovina |
 | Hours | Open year-round |
 | Website | https://guesthousesobic.netlify.app |
-| Email | domacinstvosobic@gmail.com |
+| Email | milkasobic25@gmail.com |
 | Profile photo | the exterior, same as Instagram |
 
 **Do not use a personal WhatsApp number for this if you can avoid it.** A

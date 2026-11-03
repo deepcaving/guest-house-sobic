@@ -117,18 +117,18 @@ EDITS = [
     # --- Q1: the real inbox ---
     (
         '"email": "bookings@plivariverlodge.com",',
-        '"email": "domacinstvosobic@gmail.com",',
+        '"email": "milkasobic25@gmail.com",',
         "Q1 the JSON-LD carried the dead placeholder address",
     ),
     (
         '<a href="mailto:bookings@plivariverlodge.com">bookings@plivariverlodge.com</a>',
-        '<a href="mailto:domacinstvosobic@gmail.com">domacinstvosobic@gmail.com</a>',
+        '<a href="mailto:milkasobic25@gmail.com">milkasobic25@gmail.com</a>',
         "Q1 the contact link pointed at the dead placeholder address",
     ),
     # --- Q8: the form must reach Milka by email ---
     (
         'netlify-honeypot="bot-field" data-wa="https://wa.me/38765622760">',
-        'netlify-honeypot="bot-field" data-wa="https://wa.me/38765622760" data-email="domacinstvosobic@gmail.com">',
+        'netlify-honeypot="bot-field" data-wa="https://wa.me/38765622760" data-email="milkasobic25@gmail.com">',
         "Q8 the form needs data-email for the mailto path",
     ),
     (

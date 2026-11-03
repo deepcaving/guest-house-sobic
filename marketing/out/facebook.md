@@ -18,7 +18,7 @@ Create it at facebook.com/pages/create.
 | Website | https://guesthousesobic.netlify.app |
 | Phone | +387 65 622 760 |
 | WhatsApp | +387 65 622 760 |
-| Email | domacinstvosobic@gmail.com |
+| Email | milkasobic25@gmail.com |
 | Price range | €€ |
 | Hours | Open year-round; reception arranged per booking |
 | Location | Pljeva, Šipovo, Bosnia & Herzegovina |

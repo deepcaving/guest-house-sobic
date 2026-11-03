@@ -13,7 +13,7 @@ re-run `./render.sh`.
 | Handle everywhere | @plivariverlodge |
 | Tagline | "The Pliva at your door. Fly fishing, home cooking, and a fireplace." |
 | Site | https://guesthousesobic.netlify.app |
-| Email | domacinstvosobic@gmail.com |
+| Email | milkasobic25@gmail.com |
 | Phone / WhatsApp | +387 65 622 760 |
 | Host | Milka Smjestaj Šobić |
 | Address (safe to publish) | Pljeva, Šipovo, Bosnia & Herzegovina |
