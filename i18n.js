@@ -131,6 +131,10 @@
         b.setAttribute('aria-checked', isActive ? 'true' : 'false');
       }
     }
+
+    // Anything that renders from the dictionary has to redraw now that the
+    // language has changed - the rates toggle, for one.
+    document.dispatchEvent(new CustomEvent('prl:langchange', { detail: { lang: lang } }));
   }
 
   function openMenu(open) {

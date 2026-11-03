@@ -102,7 +102,7 @@ IT = {
     "pkg_hosted": "Le nostre guide di pesca parlano inglese. Una giornata guidata costa 150–200 € per l'intero gruppo, a seconda di quanti siete — più anglici siete, più conviene a testa. Chiedete della schiusa autunnale del Blu-Winged Olive.",
     "rates_eyebrow": "Tariffe e servizi inclusi",
     "rates_h2": "Soggiorno da solo",
-    "rates_note": "Le tariffe di soggiorno sono per notte e includono la colazione. I pasti si aggiungono alla camera: mezza pensione 32 € e pensione completa 52 € a persona al giorno. Il permesso di pesca è di <b>40 € al giorno sul Pliva</b> e <b>50 € al giorno sul Ribnik</b> — sul Ribnik a novembre e dicembre scende a <b>35 € al giorno</b>. Non è incluso nelle tariffe di soggiorno; noi lo procuriamo per te all'arrivo. Così un pescatore da solo in camera singola, con pensione completa e permesso del Pliva, viene a <b>circa 162 € per giornata di pesca</b> — 70 € camera + 52 € pasti + 40 € permesso. Due persone che condividono una camera doppia pagano circa 134 € ciascuna per giornata di pesca. I bambini sotto i 6 anni soggiornano gratis e non pagano il permesso. I bambini dai 6 ai 12 anni pagano metà tariffa e non pagano il permesso. La tassa di soggiorno è di 2 € a persona a notte — è già inclusa nei nostri pacchetti, mentre per i soggiorni senza pacchetto viene addebitata all'arrivo e riportata separatamente sulla fattura.",
+    "rates_note": "Le tariffe di soggiorno sono per notte e includono la colazione. I pasti si aggiungono alla camera: mezza pensione 32 € e pensione completa 52 € a persona al giorno. I bambini sotto i 6 anni soggiornano gratis e non pagano il permesso. I bambini dai 6 ai 12 anni pagano metà tariffa e non pagano il permesso. La tassa di soggiorno è di 2 € a persona a notte — è già inclusa nei nostri pacchetti, mentre per i soggiorni senza pacchetto viene addebitata all'arrivo e riportata separatamente sulla fattura.",
     "quote_src": "Scrittore di pesca, sul Pliva e sul Ribnik",
     "air_eyebrow": "Come arrivare",
     "air_h2": "Tre aeroporti, una strada",
@@ -199,9 +199,9 @@ IT = {
     "r4_b": "Affitto dell'intera casa",
     "r4_s": "900 € a notte · fino a 16 ospiti",
     "r5_b": "Mezza pensione",
-    "r5_s": "32 € a persona al giorno · colazione e cena",
+    "r5_s": "32 € a persona al giorno · colazione e cena · si aggiunge alla tariffa della camera",
     "r6_b": "Pensione completa",
-    "r6_s": "52 € a persona al giorno · tutti i pasti",
+    "r6_s": "52 € a persona al giorno · tutti i pasti · si aggiunge alla tariffa della camera",
     "r7_b": "Transfer aeroportuale",
     "r7_s": "Sarajevo, Banja Luka e Split — organizzati con la locanda",
     "r8_b": "Guida di pesca",
@@ -210,6 +210,14 @@ IT = {
     "quote_text": "\"Ci sono peschi in abbondanza, e non sono per nulla più diffidenti verso l'esca di quanto lo siano in fiumi come il Test o l'Itchen — ma sono incredibilmente selettivi. Se avete mai pensato di pescare in un posto nuovo, è questo il viaggio che cambia il modo in cui pescate.\"",
     "pkg2_winter": "Nov–dic: <b>950 €</b> a persona",
     "pkg3_winter": "Nov–dic: <b>730 €</b> a persona",
+    "rates_toggle_label": "Mostra i totali",
+    "rates_toggle_off": "Solo camera e pasti",
+    "rates_toggle_on": "Incluso il permesso di pesca",
+    "rates_note_hint": "Il permesso di pesca è una tassa di Stato e non fa parte delle nostre tariffe di camera o pasti, quindi lo mostriamo separatamente. Non tutti devono pescare — molti ospiti vengono per il fiume, la cucina e la quiete. Attiva l'opzione per vedere quanto costa in totale una giornata di pesca.",
+    "rates_total_sep": "Un pescatore da solo in camera singola, con pensione completa, paga <b>122 € al giorno</b> — 70 € per camera e colazione, più 52 € per i pasti. Con il permesso del Pliva a <b>40 € al giorno</b> la giornata sale a <b>162 €</b>. Due persone che condividono una camera doppia pagano circa <b>94 € ciascuna</b> con i pasti, <b>134 €</b> con il permesso.",
+    "rates_total_inc": "Una giornata di pesca viene a <b>162 € per un pescatore da solo</b> in camera singola, con pensione completa — <b>70 €</b> camera e colazione, <b>52 €</b> pasti e il permesso del Pliva da <b>40 €</b>, tutto incluso. Due persone che condividono una camera doppia pagano circa <b>134 € ciascuna</b>. Il permesso te lo procuriamo noi all'arrivo; nella tariffa della camera non c'è nulla di nascosto.",
+    "rates_licence_line": "Permesso di pesca — <b>40 € al giorno sul Pliva</b>, <b>50 € al giorno sul Ribnik</b> (35 € a novembre e dicembre). Non incluso nelle tariffe di camera o pasti; noi lo procuriamo per te all'arrivo.",
+
 }
 
 

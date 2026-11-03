@@ -487,10 +487,10 @@ window.I18N = {
     "it": "Soggiorno da solo"
   },
   "rates_note": {
-    "en": "Room-only rates are per night and include breakfast. Meals are charged on top of the room: half board €32 and full board €52 per person per day. The fishing licence is <b>€40 per day on the Pliva</b> and <b>€50 per day on the Ribnik</b> — dropping to <b>€35 a day on the Ribnik in November and December</b>. It is not included in room-only rates; we arrange it for you on arrival. So a solo angler in the single room with full board and the Pliva licence works out at about <b>€162 per fishing day</b> — €70 room plus €52 meals plus €40 licence. Two people sharing a double room pay about €134 each per fishing day. Children under 6 stay free and pay no licence. Children 6–12 pay half rate and no licence. Tourist tax is €2 per person per night — it is already included in our packages, and on room-only stays it is charged on arrival and shown separately on your invoice.",
-    "de": "Die Übernachtungspreise gelten pro Nacht und enthalten das Frühstück. Die Mahlzeiten kommen zum Zimmerpreis dazu: Halbpension €32 und Vollpension €52 pro Person und Tag. Die Angel-Lizenz beträgt <b>€40 pro Tag auf der Pliva</b> und <b>€50 pro Tag auf der Ribnik</b> — am Ribnik im November und Dezember <b>€35 pro Tag</b>. Sie ist in den Übernachtungspreisen nicht enthalten; wir besorgen sie Ihnen bei Ankunft. Ein Einzelreisender im Einzelzimmer mit Vollpension und Pliva-Lizenz kommt damit auf etwa <b>€162 pro Angeltag</b> — €70 Zimmer plus €52 Verpflegung plus €40 Lizenz. Zwei Personen teilen sich ein Doppelzimmer und zahlen etwa €134 je Angeltag. Kinder unter 6 Jahren sind kostenlos und zahlen keine Lizenz. Kinder von 6 bis 12 Jahren zahlen den halben Preis und keine Lizenz. Die Kurtaxe beträgt €2 pro Person und Nacht — in unseren Paketen ist sie bereits enthalten, bei reinen Übernachtungen wird sie bei Ankunft berechnet und separat auf Ihrer Rechnung ausgewiesen.",
-    "bs": "Cijene smještaja su po noći i uključuju doručak. Obroci se plaćaju uz cijenu sobe: polupansion 32 € i puni pansion 52 € po osobi po danu. Dozvola za ribolov iznosi <b>40 € po danu na Plivi</b> i <b>50 € po danu na Ribniku</b> — na Ribniku u novembru i decembru <b>35 € po danu</b>. Nije uključena u cijene smještaja; mi je pribavljamo za vas pri dolasku. Tako ribolovac koji je sam u sobi za jednu osobu, s punim pansionom i dozvolom za Plivu, iznosi oko <b>162 € po ribolovnom danu</b> — 70 € soba + 52 € obroci + 40 € dozvola. Dvije osobe koje dijele dvov krevetnu sobu plaćaju oko 134 € svaka po ribolovnom danu. Djeca mlađa od 6 godina besplatno su i ne plaćaju dozvolu. Djeca od 6 do 12 godina plaćaju pola cijene i ne plaćaju dozvolu. Boravišna taksa je 2 € po osobi po noći — u našim je paketima već uključena, a kod smještaja bez paketa naplaćuje se pri dolasku i iskazuje zasebno na računu.",
-    "it": "Le tariffe di soggiorno sono per notte e includono la colazione. I pasti si aggiungono alla camera: mezza pensione 32 € e pensione completa 52 € a persona al giorno. Il permesso di pesca è di <b>40 € al giorno sul Pliva</b> e <b>50 € al giorno sul Ribnik</b> — sul Ribnik a novembre e dicembre scende a <b>35 € al giorno</b>. Non è incluso nelle tariffe di soggiorno; noi lo procuriamo per te all'arrivo. Così un pescatore da solo in camera singola, con pensione completa e permesso del Pliva, viene a <b>circa 162 € per giornata di pesca</b> — 70 € camera + 52 € pasti + 40 € permesso. Due persone che condividono una camera doppia pagano circa 134 € ciascuna per giornata di pesca. I bambini sotto i 6 anni soggiornano gratis e non pagano il permesso. I bambini dai 6 ai 12 anni pagano metà tariffa e non pagano il permesso. La tassa di soggiorno è di 2 € a persona a notte — è già inclusa nei nostri pacchetti, mentre per i soggiorni senza pacchetto viene addebitata all'arrivo e riportata separatamente sulla fattura."
+    "en": "Room-only rates are per night and include breakfast. Meals are charged on top of the room: half board €32 and full board €52 per person per day. Children under 6 stay free and pay no licence. Children 6–12 pay half rate and no licence. Tourist tax is €2 per person per night — it is already included in our packages, and on room-only stays it is charged on arrival and shown separately on your invoice.",
+    "de": "Die Zimmerpreise verstehen sich pro Nacht und inklusive Frühstück. Die Mahlzeiten kommen zur Zimmerrate dazu: Halbpension 32 € und Vollpension 52 € pro Person und Tag. Kinder unter 6 Jahren bleiben kostenlos und brauchen keine Lizenz. Kinder von 6 bis 12 Jahren zahlen den halben Preis und brauchen keine Lizenz. Die Kurtaxe beträgt 2 € pro Person und Nacht — in unseren Pauschalen ist sie bereits enthalten, bei reinen Zimmerbuchungen wird sie bei der Anreise berechnet und separat auf der Rechnung ausgewiesen.",
+    "bs": "Cijene smještaja su po noći i uključuju doručak. Obroci se plaćaju uz cijenu sobe: polupansion 32 € i puni pansion 52 € po osobi po danu. Djeca mlađa od 6 godina besplatno su i ne plaćaju dozvolu. Djeca od 6 do 12 godina plaćaju pola cijene i ne plaćaju dozvolu. Boravišna taksa je 2 € po osobi po noći — u našim je paketima već uključena, a kod smještaja bez paketa naplaćuje se pri dolasku i iskazuje zasebno na računu.",
+    "it": "Le tariffe di soggiorno sono per notte e includono la colazione. I pasti si aggiungono alla camera: mezza pensione 32 € e pensione completa 52 € a persona al giorno. I bambini sotto i 6 anni soggiornano gratis e non pagano il permesso. I bambini dai 6 ai 12 anni pagano metà tariffa e non pagano il permesso. La tassa di soggiorno è di 2 € a persona a notte — è già inclusa nei nostri pacchetti, mentre per i soggiorni senza pacchetto viene addebitata all'arrivo e riportata separatamente sulla fattura."
   },
   "quote_src": {
     "en": "Angling writer, on the Pliva and Ribnik",
@@ -1048,7 +1048,7 @@ window.I18N = {
     "en": "€32 per person per day · breakfast and dinner · added to the room rate",
     "de": "€32 pro Person und Tag · Frühstück und Abendessen · wird zum Zimmerpreis addiert",
     "bs": "32 € po osobi po danu · doručak i večera · dodaje se na cijenu sobe",
-    "it": "32 € a persona al giorno · colazione e cena"
+    "it": "32 € a persona al giorno · colazione e cena · si aggiunge alla tariffa della camera"
   },
   "r6_b": {
     "en": "Full board",
@@ -1060,7 +1060,7 @@ window.I18N = {
     "en": "€52 per person per day · all meals · added to the room rate",
     "de": "€52 pro Person und Tag · alle Mahlzeiten · wird zum Zimmerpreis addiert",
     "bs": "52 € po osobi po danu · svi obroci · dodaje se na cijenu sobe",
-    "it": "52 € a persona al giorno · tutti i pasti"
+    "it": "52 € a persona al giorno · tutti i pasti · si aggiunge alla tariffa della camera"
   },
   "r7_b": {
     "en": "Airport transfer",
@@ -1133,5 +1133,47 @@ window.I18N = {
     "de": "Danke — WhatsApp und Ihr E-Mail-Programm haben sich mit Ihren Angaben geöffnet. Senden Sie in einer der beiden Apps, und wir antworten innerhalb von 24 Stunden.",
     "bs": "Hvala — WhatsApp i vaša aplikacija za e-poštu otvorili su se s vašim podacima spremanim za slanje. Pošaljite u jednoj od njih i odgovorit ćemo vam u roku od 24 sata.",
     "it": "Grazie — WhatsApp e la tua app di posta si sono aperti con i tuoi dati pronti per l'invio. Premi invia in uno dei due e ti risponderemo entro 24 ore."
+  },
+  "rates_toggle_label": {
+    "en": "Show the totals",
+    "de": "Gesamtkosten anzeigen",
+    "bs": "Prikaži ukupne troškove",
+    "it": "Mostra i totali"
+  },
+  "rates_toggle_off": {
+    "en": "Room and meals only",
+    "de": "Nur Zimmer und Verpflegung",
+    "bs": "Samo soba i obroci",
+    "it": "Solo camera e pasti"
+  },
+  "rates_toggle_on": {
+    "en": "Including the fishing licence",
+    "de": "Einschließlich Angel-Lizenz",
+    "bs": "Uključujući dozvolu za ribolov",
+    "it": "Incluso il permesso di pesca"
+  },
+  "rates_note_hint": {
+    "en": "The fishing licence is a government charge, not part of our room or meal rates, so we show it separately. Nobody has to fish — plenty of guests come for the river, the food and the quiet. Switch it on if you want to see what a fishing day comes to in total.",
+    "de": "Die Angel-Lizenz ist eine staatliche Gebühr und nicht Teil unserer Zimmer- oder Mahlzeitenpreise, deshalb zeigen wir sie separat. Nicht jeder muss fischen — viele Gäste kommen wegen des Flusses, der Küche und der Ruhe. Schalten Sie die Option ein, wenn Sie sehen möchten, was ein Angeltag insgesamt kostet.",
+    "bs": "Dozvola za ribolov je državna taksa i dio nije naših cijena smještaja ili obroka, zato je prikazujemo zasebno. Niko ne mora riboloviti — mnogi gosti dolaze zbog rijeke, hrane i mira. Uključite opciju ako želite vidjeti koliko ukupno stoji ribolovni dan.",
+    "it": "Il permesso di pesca è una tassa di Stato e non fa parte delle nostre tariffe di camera o pasti, quindi lo mostriamo separatamente. Non tutti devono pescare — molti ospiti vengono per il fiume, la cucina e la quiete. Attiva l'opzione per vedere quanto costa in totale una giornata di pesca."
+  },
+  "rates_total_sep": {
+    "en": "A solo angler in the single room with full board pays <b>€122 a day</b> — €70 for the room and breakfast, plus €52 for meals. Add the Pliva fishing licence at <b>€40 a day</b> and the day comes to <b>€162</b>. Two people sharing a double room pay about <b>€94 each</b> with meals, <b>€134</b> with the licence.",
+    "de": "Ein Einzelreisender im Einzelzimmer mit Vollpension zahlt <b>€122 pro Tag</b> — €70 für Zimmer und Frühstück, plus €52 für die Mahlzeiten. Mit der Pliva-Lizenz von <b>€40 pro Tag</b> kommt der Tag auf <b>€162</b>. Zwei Personen teilen sich ein Doppelzimmer und zahlen mit Verpflegung etwa <b>€94 je Person</b>, mit Lizenz <b>€134</b>.",
+    "bs": "Ribolovac koji je sam u sobi za jednu osobu, s punim pansionom, plaća <b>122 € po danu</b> — 70 € za sobu i doručak, plus 52 € za obroke. Uz dozvolu za Plivu od <b>40 € po danu</b> dan iznosi <b>162 €</b>. Dvije osobe koje dijele dvov krevetnu sobu plaćaju sa obrocima oko <b>94 € svaka</b>, sa dozvolom <b>134 €</b>.",
+    "it": "Un pescatore da solo in camera singola, con pensione completa, paga <b>122 € al giorno</b> — 70 € per camera e colazione, più 52 € per i pasti. Con il permesso del Pliva a <b>40 € al giorno</b> la giornata sale a <b>162 €</b>. Due persone che condividono una camera doppia pagano circa <b>94 € ciascuna</b> con i pasti, <b>134 €</b> con il permesso."
+  },
+  "rates_total_inc": {
+    "en": "A fishing day comes to <b>€162 for a solo angler</b> in the single room with full board — <b>€70</b> room and breakfast, <b>€52</b> meals and the <b>€40</b> Pliva licence, all included. Two people sharing a double room pay about <b>€134 each</b>. The licence is arranged for you on arrival; nothing is hidden in the room rate.",
+    "de": "Ein Angeltag kostet <b>€162 für einen Einzelreisenden</b> im Einzelzimmer mit Vollpension — <b>€70</b> Zimmer und Frühstück, <b>€52</b> Verpflegung und die <b>€40</b> Pliva-Lizenz, alles inklusive. Zwei Personen teilen sich ein Doppelzimmer und zahlen etwa <b>€134 je Person</b>. Die Lizenz besorgen wir Ihnen bei Ankunft; im Zimmerpreis ist nichts versteckt.",
+    "bs": "Ribolovni dan iznosi <b>162 € za ribolovca koji je sam</b> u sobi za jednu osobu, s punim pansionom — <b>70 €</b> soba i doručak, <b>52 €</b> obroci i dozvola za Plivu od <b>40 €</b>, sve uključeno. Dvije osobe koje dijele dvov krevetnu sobu plaćaju oko <b>134 € svaka</b>. Dozvolu vam pribavljamo pri dolasku; ništa nije sakriveno u cijeni sobe.",
+    "it": "Una giornata di pesca viene a <b>162 € per un pescatore da solo</b> in camera singola, con pensione completa — <b>70 €</b> camera e colazione, <b>52 €</b> pasti e il permesso del Pliva da <b>40 €</b>, tutto incluso. Due persone che condividono una camera doppia pagano circa <b>134 € ciascuna</b>. Il permesso te lo procuriamo noi all'arrivo; nella tariffa della camera non c'è nulla di nascosto."
+  },
+  "rates_licence_line": {
+    "en": "Fishing licence — <b>€40 a day on the Pliva</b>, <b>€50 a day on the Ribnik</b> (€35 in November and December). Not included in the room or meal rates; we arrange it for you on arrival.",
+    "de": "Angel-Lizenz — <b>€40 pro Tag auf der Pliva</b>, <b>€50 pro Tag auf der Ribnik</b> (€35 im November und Dezember). Nicht in den Zimmer- oder Mahlzeitenpreisen enthalten; wir besorgen sie Ihnen bei Ankunft.",
+    "bs": "Dozvola za ribolov — <b>40 € po danu na Plivi</b>, <b>50 € po danu na Ribniku</b> (35 € u novembru i decembru). Nije uključena u cijene smještaja ni obroka; mi je pribavljamo za vas pri dolasku.",
+    "it": "Permesso di pesca — <b>40 € al giorno sul Pliva</b>, <b>50 € al giorno sul Ribnik</b> (35 € a novembre e dicembre). Non incluso nelle tariffe di camera o pasti; noi lo procuriamo per te all'arrivo."
   }
 };

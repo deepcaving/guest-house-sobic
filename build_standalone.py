@@ -178,6 +178,38 @@ def replace_form(html, cfg):
     return html
 
 
+def flatten_rates_toggle(html):
+    """Replace the interactive rates toggle with a static version.
+
+    The toggle needs JavaScript to swap the two totals. The standalone build
+    has no JavaScript, so leaving the radio buttons in would give a Carrd
+    visitor two dead controls. Instead the standalone shows the room-and-meals
+    total with the licence stated on its own line - the same information, with
+    nothing to click.
+    """
+    html, ok = replace_balanced(html, r'<div class="rates-toggle"', "")
+    if not ok:
+        print("  ! could not find the rates toggle - left it as it was", file=sys.stderr)
+
+    # The total paragraph keeps only the "room and meals" version. The
+    # standalone is English-only, so the English text is read straight out of
+    # the paragraph before the i18n attributes are stripped.
+    m = re.search(r'(<p[^>]*id="ratesTotal"[^>]*>)(.*?)(</p>)', html, flags=re.S)
+    if m:
+        html = html[: m.start()] + m.group(1) + m.group(2) + m.group(3) + html[m.end() :]
+
+    # The CSS for the toggle is now unused - both the main block and the
+    # mobile media-query rule.
+    html = re.sub(
+        r"\n?/\* -+ rates toggle -+ \*/\n(?:[^\n]*\n)*?(?=\n/\* -+)",
+        "\n",
+        html,
+    )
+    html = re.sub(r"\n[ \t]*\.rates-toggle\{[^\n]*\}", "", html)
+
+    return html
+
+
 def inline_favicon(html):
     svg = ROOT / "favicon.svg"
     if not svg.exists():
@@ -280,6 +312,9 @@ def build(args, cfg):
 
     print("Removing executable scripts...")
     out = strip_scripts(out)
+
+    print("Flattening the rates toggle...")
+    out = flatten_rates_toggle(out)
 
     print("Replacing the enquiry form with a static call to action...")
     out = replace_form(out, cfg)

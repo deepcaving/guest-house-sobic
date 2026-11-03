@@ -289,6 +289,15 @@ section{padding:72px 0}
 .inc b{display:block;color:var(--navy);font-size:.93rem;margin-bottom:1px}
 .inc span{font-size:.85rem;color:var(--muted)}
 
+/* ---------- rates toggle ---------- */
+.rates-toggle{display:flex;flex-wrap:wrap;align-items:center;gap:8px 22px;margin-top:34px;padding:16px 20px;background:var(--stone);border:1px solid var(--line);border-radius:12px}
+.rates-toggle-label{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.rates-toggle-opt{display:inline-flex;align-items:center;gap:9px;font-size:.88rem;color:var(--navy);cursor:pointer;user-select:none}
+.rates-toggle-opt input{width:17px;height:17px;accent-color:var(--river);cursor:pointer;margin:0;flex-shrink:0}
+.rates-toggle-opt:hover span{text-decoration:underline;text-underline-offset:3px}
+.rates-licence{margin-top:14px}
+.rates-total{margin-top:14px;padding:14px 18px;background:rgba(47,111,126,.07);border-left:3px solid var(--river);border-radius:0 8px 8px 0}
+
 /* ---------- river band ---------- */
 .band{position:relative;overflow:hidden;background:var(--navy)}
 .band-media{position:absolute;inset:0}
@@ -413,6 +422,7 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
   .stats{grid-template-columns:repeat(2,1fr);gap:30px 20px}
   .contact-grid{grid-template-columns:1fr;gap:34px}
   .inc-grid{grid-template-columns:1fr}
+  .rates-toggle{flex-direction:column;align-items:flex-start;gap:12px}
   .navlinks a:not(.nav-cta){display:none}
   section{padding:56px 0}
 }
@@ -437,6 +447,7 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
 </style>
 <script src="i18n-data.js" defer></script>
 <script src="i18n.js" defer></script>
+<script src="rates-toggle.js" defer></script>
 <script src="form.js" defer></script>
 </head>
 <body class="no-js">
@@ -821,8 +832,23 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
       </div>
     </div>
 
+    <div class="rates-toggle" role="group" aria-labelledby="ratesToggleLabel">
+      <span class="rates-toggle-label" id="ratesToggleLabel" data-i18n="rates_toggle_label" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="rates_toggle_label">Show the totals</span>
+      <label class="rates-toggle-opt">
+        <input type="radio" name="rates-view" id="ratesViewSep" value="sep" checked>
+        <span data-i18n="rates_toggle_off" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="rates_toggle_off">Room and meals only</span>
+      </label>
+      <label class="rates-toggle-opt">
+        <input type="radio" name="rates-view" id="ratesViewInc" value="inc">
+        <span data-i18n="rates_toggle_on" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="rates_toggle_on">Including the fishing licence</span>
+      </label>
+    </div>
+
     <div class="center space-top">
-      <p class="small muted" data-i18n="rates_note" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="rates_note">Room-only rates are per night and include breakfast. Meals are charged on top of the room: half board €32 and full board €52 per person per day. The fishing licence is <b>€40 per day on the Pliva</b> and <b>€50 per day on the Ribnik</b> — dropping to <b>€35 a day on the Ribnik in November and December</b>. It is not included in room-only rates; we arrange it for you on arrival. So a solo angler in the single room with full board and the Pliva licence works out at about <b>€162 per fishing day</b> — €70 room plus €52 meals plus €40 licence. Two people sharing a double room pay about €134 each per fishing day. Children under 6 stay free and pay no licence. Children 6–12 pay half rate and no licence. Tourist tax is €2 per person per night — it is already included in our packages, and on room-only stays it is charged on arrival and shown separately on your invoice.</p>
+      <p class="small muted rates-note" data-i18n="rates_note_hint" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="rates_note_hint">The fishing licence is a government charge, not part of our room or meal rates, so we show it separately. Nobody has to fish — plenty of guests come for the river, the food and the quiet. Switch it on if you want to see what a fishing day comes to in total.</p>
+      <p class="small muted rates-licence" data-i18n="rates_licence_line" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="rates_licence_line">Fishing licence — <b>€40 a day on the Pliva</b>, <b>€50 a day on the Ribnik</b> (€35 in November and December). Not included in the room or meal rates; we arrange it for you on arrival.</p>
+      <p class="small muted rates-total" id="ratesTotal" data-mode="sep" data-i18n="rates_total_sep" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="rates_total_sep">A solo angler in the single room with full board pays <b>€122 a day</b> — €70 for the room and breakfast, plus €52 for meals. Add the Pliva fishing licence at <b>€40 a day</b> and the day comes to <b>€162</b>. Two people sharing a double room pay about <b>€94 each</b> with meals, <b>€134</b> with the licence.</p>
+      <p class="small muted" data-i18n="rates_note" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="rates_note">Room-only rates are per night and include breakfast. Meals are charged on top of the room: half board €32 and full board €52 per person per day. Children under 6 stay free and pay no licence. Children 6–12 pay half rate and no licence. Tourist tax is €2 per person per night — it is already included in our packages, and on room-only stays it is charged on arrival and shown separately on your invoice.</p>
     </div>
   </div>
 </section>

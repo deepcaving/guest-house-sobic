@@ -239,24 +239,44 @@ def test_milka_facts(r):
             f"rib_price_sub[{lang}] = {sub!r}",
         )
 
-    # Q10b - the rates note explains the arithmetic: room + meals + licence.
+    # Q10b - the licence price and the worked totals.
+    # The licence and the two totals moved out of rates_note when the
+    # toggle was added: the licence onto rates_licence_line, and the
+    # totals onto rates_total_sep / rates_total_inc.
     for lang in LANGS:
         text = plain(html_text("rates_note"))
-        for needle in ("40", "50", "52", "32"):
+        for needle in ("52", "32"):
             r.check(
                 needle in text,
                 f"Q10b rates_note ({lang}) quotes {needle}",
                 f"rates_note[{lang}] = {text!r}",
             )
+
+        licence = plain(html_text("rates_licence_line"))
+        for needle in ("40", "50"):
+            r.check(
+                needle in licence,
+                f"Q10b rates_licence_line ({lang}) quotes {needle}",
+                f"rates_licence_line[{lang}] = {licence!r}",
+            )
+
+        sep = plain(html_text("rates_total_sep"))
         r.check(
-            "162" in text,
-            f"Q10b rates_note ({lang}) gives the €162 solo worked total",
-            f"rates_note[{lang}] = {text!r}",
+            "162" in sep,
+            f"Q10b rates_total_sep ({lang}) gives the €162 solo worked total",
+            f"rates_total_sep[{lang}] = {sep!r}",
         )
         r.check(
-            "134" in text,
-            f"Q10b rates_note ({lang}) gives the €134 shared-room total",
-            f"rates_note[{lang}] = {text!r}",
+            "134" in sep,
+            f"Q10b rates_total_sep ({lang}) gives the €134 shared-room total",
+            f"rates_total_sep[{lang}] = {sep!r}",
+        )
+
+        inc = plain(html_text("rates_total_inc"))
+        r.check(
+            "162" in inc,
+            f"Q10b rates_total_inc ({lang}) gives the €162 solo worked total",
+            f"rates_total_inc[{lang}] = {inc!r}",
         )
 
     # Q10c - the meal supplements say they are added to the room rate.
@@ -636,6 +656,120 @@ def test_form_wiring(r):
     )
 
 
+def test_rates_toggle(r):
+    """The rates toggle: licence-inclusive vs licence-separate totals.
+
+    Not every guest is an angler. The toggle lets a non-angler see what they
+    actually pay without a licence charge in it, and lets an angler see the
+    all-in figure. The licence price must always be visible either way.
+    """
+    html = (ROOT / "index.html").read_text(encoding="utf-8")
+
+    # The control exists, with the two radios and a default.
+    r.check('name="rates-view"' in html, "TOGGLE radio group is present")
+    r.check('id="ratesViewSep"' in html, "TOGGLE has the 'room and meals' radio")
+    r.check('id="ratesViewInc"' in html, "TOGGLE has the 'including licence' radio")
+    r.check(
+        re.search(r'id="ratesViewSep"[^>]*checked', html) is not None,
+        "TOGGLE defaults to 'room and meals only'",
+    )
+
+    # The script that drives it is loaded.
+    r.check(
+        'src="rates-toggle.js"' in html,
+        "TOGGLE script is loaded by the page",
+    )
+    toggle_js = (ROOT / "rates-toggle.js").read_text(encoding="utf-8")
+    r.check("rates_total_inc" in toggle_js, "TOGGLE renders the licence-inclusive total")
+    r.check("rates_total_sep" in toggle_js, "TOGGLE renders the licence-separate total")
+    r.check(
+        "prl:langchange" in toggle_js,
+        "TOGGLE survives a language change",
+    )
+    r.check(
+        "prl:langchange" in (ROOT / "i18n.js").read_text(encoding="utf-8"),
+        "i18n notifies the toggle after translating",
+    )
+
+    # Both totals exist in every language, with the right figures.
+    for key, figures in {
+        "rates_total_sep": ("€122", "€162", "€94", "€134"),
+        "rates_total_inc": ("€162", "€134"),
+    }.items():
+        for lang in LANGS:
+            text = plain(html_text(key))
+            for figure in figures:
+                r.check(
+                    figure in text,
+                    f"TOGGLE {key} ({lang}) mentions {figure}",
+                    f"{key}[{lang}] = {text!r}",
+                )
+
+    # The licence price is always stated on its own line, in every language.
+    for lang in LANGS:
+        text = plain(html_text("rates_licence_line"))
+        r.check("€40" in text, f"LICENCE line ({lang}) shows the Pliva price")
+        r.check("€50" in text, f"LICENCE line ({lang}) shows the Ribnik price")
+        r.check("€35" in text, f"LICENCE line ({lang}) shows the winter price")
+
+    # The hint explains the licence is separate and that not everyone fishes.
+    for lang in LANGS:
+        text = plain(html_text("rates_note_hint")).lower()
+        r.check(
+            len(text) > 40,
+            f"TOGGLE hint ({lang}) is present",
+            f"rates_note_hint[{lang}] = {text!r}",
+        )
+
+    # The labels are translated, not hard-coded English.
+    for key in ("rates_toggle_label", "rates_toggle_off", "rates_toggle_on"):
+        for lang in LANGS:
+            text = plain(html_text(key))
+            r.check(
+                len(text) > 3,
+                f"TOGGLE label {key} ({lang}) is translated",
+                f"{key}[{lang}] = {text!r}",
+            )
+
+    # Every language must say the meal figures are added to the room rate.
+    # The Italian copy lost this once - it is exactly the phrase that stops
+    # a guest reading "52 EUR a persona al giorno" as the whole day price.
+    phrases = {
+        "en": "added to the room rate",
+        "de": "zum Zimmerpreis",
+        "bs": "cijenu sobe",
+        "it": "tariffa della camera",
+    }
+    for key in ("r5_s", "r6_s"):
+        for lang, phrase in phrases.items():
+            text = plain(DICT.get(key, {}).get(lang, "")).lower()
+            r.check(
+                phrase.lower() in text,
+                f"MEALS {key} ({lang}) says the figure is added to the room rate",
+                f"{key}[{lang}] = {text!r}",
+            )
+
+    # The standalone has no scripts, so the radios must be gone and the
+    # licence-separate total must be shown as static text.
+    standalone = (ROOT / "PlivaRiverLodge-standalone.html").read_text(encoding="utf-8")
+    r.check(
+        'type="radio"' not in standalone,
+        "STANDALONE has no dead radio buttons",
+    )
+    r.check(
+        "rates-toggle" not in standalone,
+        "STANDALONE has no leftover toggle CSS",
+    )
+    r.check(
+        "A solo angler in the single room" in standalone,
+        "STANDALONE shows the room-and-meals total as static text",
+    )
+    r.check(
+        "Fishing licence" in standalone,
+        "STANDALONE still states the licence price",
+    )
+
+
 def test_package_prices_unchanged(r):
     """Milka's package prices must not drift. Pinned from the screenshot.
 
@@ -702,6 +836,7 @@ def main():
     test_standalone(r)
     test_enquiry_function(r)
     test_form_wiring(r)
+    test_rates_toggle(r)
     test_package_prices_unchanged(r)
 
     print(f"\n{r.passes} passed, {len(r.failures)} failed")

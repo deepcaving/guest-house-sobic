@@ -158,6 +158,9 @@ fishing day, with the Pliva licence:
 Breakfast-only (no meal supplement) is €110 for the solo angler in the single
 room, with the licence.
 
+Without the licence the same day is **€122** for the solo angler and **€94 each**
+for two sharing a double room.
+
 ### The licence — the thing every guest asks about
 
 The fishing licence is **€40 per day on the Pliva and €50 per day on the Ribnik — €35 a day on the Ribnik in November and December**
@@ -165,6 +168,16 @@ The fishing licence is **€40 per day on the Pliva and €50 per day on the Rib
 It is shown separately because there is no hidden fee: the package price
 already absorbs it, and room-only guests are told what it costs and that we
 will buy it for them.
+
+**Not every guest is an angler.** Many come for the river, the food and the
+quiet, and would never buy a licence. So the site offers a toggle on the rates
+section — *Room and meals only* (the default) and *Including the fishing
+licence* — and the licence price is stated on its own line either way. The
+default is off: a licence-inclusive total would mislead a guest who is still
+deciding whether to fish at all.
+
+When writing copy that quotes a total, say which version it is. "€162 a fishing
+day" means with the Pliva licence; "€122 a day" means room and meals only.
 
 Frame it as a value, not a cost — it funds river conservation, it is the same
 rate every operator in the market pays, and catch-and-release is mandatory.
