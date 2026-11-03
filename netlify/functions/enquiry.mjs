@@ -40,7 +40,10 @@ function readConfig() {
     from:
       process.env.MAIL_FROM ||
       process.env.MAIL_FROM_FALLBACK ||
-      "Pliva River Lodge <onboarding@resend.dev>",
+      // The Netlify domain, so the guest sees the lodge and not a sandbox.
+      // The email provider still has to verify this domain before it will
+      // accept mail from it.
+      "Pliva River Lodge <bookings@guesthousesobic.netlify.app>",
   };
 }
 

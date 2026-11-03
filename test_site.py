@@ -481,6 +481,17 @@ def test_enquiry_function(r):
         "MAIL_CC" not in s,
         "the function does not read a MAIL_CC variable",
     )
+    # The sender the guest sees must be the lodge, never a shared sandbox
+    # address - "onboarding@resend.dev" reads as a test account and costs
+    # trust before a word is said.
+    r.check(
+        "Pliva River Lodge <bookings@guesthousesobic.netlify.app>" in s,
+        "the function sends from the lodge's own address by default",
+    )
+    r.check(
+        "onboarding@resend.dev" not in s,
+        "the function no longer falls back to the shared sandbox sender",
+    )
     # Spam handling.
     r.check(
         "bot-field" in s,

@@ -30,16 +30,25 @@ Mailgun or another provider, only the request body in the function changes.
 
 ## Setting it up
 
-### 1. Pick a sending address
+### 1. Verify the sending address
 
-You need a domain you control, so you can send mail from your own name
-instead of a shared sandbox address. Options:
+The default sender is **`Pliva River Lodge <bookings@guesthousesobic.netlify.app>`** —
+the Netlify domain, so the guest sees the lodge and not a shared sandbox
+address. It needs no DNS setup, because the domain already exists.
 
-- Use the Netlify domain, e.g. `bookings@guesthousesobic.netlify.app`.
-  This works immediately and needs no DNS setup. Many mail providers accept
-  it as a verified sender.
-- Use your own domain and point it at the provider. Better deliverability,
-  a little more setup.
+You still have to **verify it with the email provider** before the provider
+will send mail from it. In Resend, that is: **Domains → Add Domain →**
+`guesthousesobic.netlify.app`, then add the DNS records it gives you. Netlify
+owns the DNS for that subdomain, so the records go in Netlify's
+**Domain settings → DNS → Add a record**.
+
+If you would rather send from your own domain, set `MAIL_FROM` to it instead
+and verify that one — deliverability is usually better on a domain with
+proper SPF and DKIM set up, which you get once the provider has added them.
+
+**If the sender is not verified, the provider rejects the message** and the
+form falls back to WhatsApp and the guest's mail app. Nothing is lost, but
+the guest does not get the confirmation email.
 
 ### 2. Create an account with the email provider
 
@@ -59,7 +68,7 @@ Go to **Site configuration → Environment variables** in the Netlify UI (or
 | `RESEND_API_KEY` | Your API key | **yes** |
 | `MAIL_TO` | `milkasobic25@gmail.com` | no — this is the default |
 | `MAIL_BCC` | `francesco.capuzzo@zoho.com` | no — this is the default |
-| `MAIL_FROM` | `Pliva River Lodge <bookings@yourdomain>` | recommended |
+| `MAIL_FROM` | `Pliva River Lodge <bookings@guesthousesobic.netlify.app>` | no — this is the default |
 
 Example:
 
@@ -102,7 +111,7 @@ to WhatsApp and the guest's mail app, and says so.
 | `RESEND_API_KEY` | Auth token for the email API | none — the function returns `503` and the form falls back |
 | `MAIL_TO` | Who receives the enquiry | `milkasobic25@gmail.com` |
 | `MAIL_BCC` | Who is blind-copied on the enquiry | `francesco.capuzzo@zoho.com` |
-| `MAIL_FROM` | The verified sender shown to Milka | `Pliva River Lodge <onboarding@resend.dev>` |
+| `MAIL_FROM` | The verified sender shown to Milka | `Pliva River Lodge <bookings@guesthousesobic.netlify.app>` |
 | `MAIL_FROM_FALLBACK` | Plain sender address, used if `MAIL_FROM` is unset | none |
 
 ## What the function rejects
