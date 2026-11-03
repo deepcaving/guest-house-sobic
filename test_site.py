@@ -449,8 +449,8 @@ def test_enquiry_function(r):
         "the function reads its API key from the environment",
     )
     r.check(
-        "MAIL_TO" in s and "MAIL_CC" in s and "MAIL_FROM" in s,
-        "the function reads recipient, cc and sender from the environment",
+        "MAIL_TO" in s and "MAIL_BCC" in s and "MAIL_FROM" in s,
+        "the function reads recipient, bcc and sender from the environment",
     )
     # The live inbox must not be hardcoded as the only route: it reads MAIL_TO
     # but falls back to Milka, which is correct.
@@ -458,14 +458,28 @@ def test_enquiry_function(r):
         "milkasobic25@gmail.com" in s,
         "the function defaults to Milka's inbox",
     )
-    # The collaborator is copied by default - the env var overrides it.
+    # The collaborator is blind-copied by default - the env var overrides it.
     r.check(
         "francesco.capuzzo@zoho.com" in s,
-        "the function defaults to copying the collaborator",
+        "the function defaults to blind-copying the collaborator",
     )
     r.check(
         "domacinstvosobic@gmail.com" not in s,
         "the function no longer references Milka's previous address",
+    )
+    # The collaborator must be BCC, never CC, so the address is not exposed
+    # when Milka forwards the enquiry on.
+    r.check(
+        "payload.bcc" in s,
+        "the function sends the collaborator as bcc",
+    )
+    r.check(
+        "payload.cc" not in s,
+        "the function does not send the collaborator as cc",
+    )
+    r.check(
+        "MAIL_CC" not in s,
+        "the function does not read a MAIL_CC variable",
     )
     # Spam handling.
     r.check(

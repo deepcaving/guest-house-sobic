@@ -89,7 +89,7 @@ With JavaScript on, `form.js` does this in order:
 
 1. POSTs the enquiry to the Netlify Function `/.netlify/functions/enquiry`,
    which sends it **by email from the server** — to Milka, with the
-   collaborator copied, and `Reply-To` set to the guest. The guest only presses
+   collaborator blind-copied, and `Reply-To` set to the guest. The guest only presses
    "Send enquiry"; no mail app, no WhatsApp, no second "send" click.
 2. Also POSTs to Netlify Forms in the background, so a copy always lands in the
    Netlify dashboard.
@@ -111,7 +111,7 @@ the repository:
 |---|---|
 | `RESEND_API_KEY` | your email provider's API key |
 | `MAIL_TO` | `milkasobic25@gmail.com` (the default) |
-| `MAIL_CC` | `francesco.capuzzo@zoho.com` — you are copied by default |
+| `MAIL_BCC` | `francesco.capuzzo@zoho.com` — you are blind-copied by default |
 | `MAIL_FROM` | `Pliva River Lodge <bookings@yourdomain>` |
 
 Full setup, testing and provider-swapping instructions are in

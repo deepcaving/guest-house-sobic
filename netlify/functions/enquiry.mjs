@@ -15,7 +15,7 @@
  * ENVIRONMENT VARIABLES - set these in Netlify, never in the repository:
  *   RESEND_API_KEY    the API key from your email provider
  *   MAIL_TO           who receives the enquiry (Milka)
- *   MAIL_CC           who is copied on it (the collaborator) - optional
+ *   MAIL_BCC          who is blind-copied on it (the collaborator) - optional
  *   MAIL_FROM         the verified sender, e.g. "Pliva River Lodge" <bookings@yourdomain>
  *   MAIL_FROM_FALLBACK plain address to use if MAIL_FROM is not set
  *
@@ -34,8 +34,9 @@ function readConfig() {
   return {
     apiKey: process.env.RESEND_API_KEY,
     to: process.env.MAIL_TO || "milkasobic25@gmail.com",
-    // The collaborator is copied by default. MAIL_CC overrides it.
-    cc: process.env.MAIL_CC || "francesco.capuzzo@zoho.com",
+    // The collaborator is blind-copied by default, so Milka can forward the
+    // enquiry on without exposing that address. MAIL_BCC overrides it.
+    bcc: process.env.MAIL_BCC || "francesco.capuzzo@zoho.com",
     from:
       process.env.MAIL_FROM ||
       process.env.MAIL_FROM_FALLBACK ||
@@ -113,7 +114,7 @@ export default async (request, context) => {
     text: message,
     reply_to: email,
   };
-  if (config.cc) payload.cc = [config.cc];
+  if (config.bcc) payload.bcc = [config.bcc];
 
   if (!config.apiKey) {
     // Not configured. Do not fail the form - the browser has fallbacks.
