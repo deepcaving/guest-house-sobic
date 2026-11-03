@@ -137,7 +137,7 @@ licence** · **the tourist tax** · round-trip airport transfer from Sarajevo.
 | Half board (breakfast + dinner) | €32 per person per day |
 | Full board (all meals) | €52 per person per day |
 | Fishing guide (English-speaking) | €150–200 per day for the group |
-| Fishing licence | **€40–70 per day, depending on which river you fish** — **included in the fishing packages**, arranged by us; for room-only bookings we buy it for you on arrival |
+| Fishing licence | **€40 per day on the Pliva, €50 per day on the Ribnik** — **included in the fishing packages**, arranged by us; for room-only bookings we buy it for you on arrival |
 | Tourist tax | €2 per person per night — **included in the packages** (Milka covers it); on room-only stays it is charged on arrival and shown separately on your invoice |
 | Airport transfer — Sarajevo | **included** in the packages |
 | Airport transfer — Banja Luka / Split | **arranged with the lodge** (we have a van) |
@@ -146,9 +146,21 @@ licence** · **the tourist tax** · round-trip airport transfer from Sarajevo.
 Children under 6 stay free and pay no licence. Children 6–12 pay half rate
 and no licence.
 
+**Meals are added on top of the room rate.** €32 (half board) and €52 (full
+board) are per-person supplements, not a daily total. Worked examples per
+fishing day, with the Pliva licence:
+
+| | Room | Meals | Licence | Total per fishing day |
+|---|---|---|---|---|
+| Single room, solo angler, full board | €70 | €52 | €40 | **€162** |
+| Double room, two anglers sharing, full board | €85 | €52 | €40 | **€134.50 each** |
+
+Breakfast-only (no meal supplement) is €110 for the solo angler in the single
+room, with the licence.
+
 ### The licence — the thing every guest asks about
 
-The fishing licence is **€40–70 per day, depending on which river you fish**
+The fishing licence is **€40 per day on the Pliva and €50 per day on the Ribnik**
 (Milka, 3 Nov 2026). Pliva sits at the lower end; the Ribnik days cost more.
 It is shown separately because there is no hidden fee: the package price
 already absorbs it, and room-only guests are told what it costs and that we

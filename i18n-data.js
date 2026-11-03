@@ -379,10 +379,10 @@ window.I18N = {
     "it": "6 giorni di pesca guidata con una guida locale che parla inglese"
   },
   "pkg1_l4": {
-    "en": "Fishing licence — €40–70 per day depending on the river, included",
-    "de": "Angel-Lizenz — €40–70 pro Tag je nach Fluss, inklusive",
-    "bs": "Dozvola za ribolov — 40–70 € po danu zavisno od rijeke, uključeno",
-    "it": "Permesso di pesca — 40–70 € al giorno a seconda del fiume, incluso"
+    "en": "Fishing licence — €40/day on the Pliva, €50/day on the Ribnik, included",
+    "de": "Angel-Lizenz — €40/Tag auf der Pliva, €50/Tag auf der Ribnik, inklusive",
+    "bs": "Dozvola za ribolov — 40 €/dan na Plivi, 50 €/dan na Ribniku, uključeno",
+    "it": "Permesso di pesca — 40 €/giorno sul Pliva, 50 €/giorno sul Ribnik, incluso"
   },
   "pkg1_l5": {
     "en": "Round-trip airport transfer from Sarajevo",
@@ -451,10 +451,10 @@ window.I18N = {
     "it": "3 giorni di pesca guidata con una guida locale"
   },
   "pkg3_l4": {
-    "en": "Fishing licence — €40–70 per day depending on the river, included",
-    "de": "Angel-Lizenz — €40–70 pro Tag je nach Fluss, inklusive",
-    "bs": "Dozvola za ribolov — 40–70 € po danu zavisno od rijeke, uključeno",
-    "it": "Permesso di pesca — 40–70 € al giorno a seconda del fiume, incluso"
+    "en": "Fishing licence — €40/day on the Pliva, €50/day on the Ribnik, included",
+    "de": "Angel-Lizenz — €40/Tag auf der Pliva, €50/Tag auf der Ribnik, inklusive",
+    "bs": "Dozvola za ribolov — 40 €/dan na Plivi, 50 €/dan na Ribniku, uključeno",
+    "it": "Permesso di pesca — 40 €/giorno sul Pliva, 50 €/giorno sul Ribnik, incluso"
   },
   "pkg3_l5": {
     "en": "Round-trip airport transfer from Sarajevo",
@@ -487,10 +487,10 @@ window.I18N = {
     "it": "Soggiorno da solo"
   },
   "rates_note": {
-    "en": "Room-only rates are per night, breakfast included. The fishing licence is <b>€40–70 per day</b> depending on which river you fish, and is not included in room-only rates; we arrange it for you on arrival. Children under 6 stay free and pay no licence. Children 6–12 pay half rate and no licence. Tourist tax is €2 per person per night — it is already included in our packages, and on room-only stays it is charged on arrival and shown separately on your invoice.",
-    "de": "Die Übernachtungspreise gelten pro Nacht inklusive Frühstück. Die Angel-Lizenz beträgt <b>€40–70 pro Tag</b> je nachdem, welchen Fluss Sie befischen, und ist in den Übernachtungspreisen nicht enthalten; wir besorgen sie Ihnen bei Ankunft. Kinder unter 6 Jahren sind kostenlos und zahlen keine Lizenz. Kinder von 6 bis 12 Jahren zahlen den halben Preis und keine Lizenz. Die Kurtaxe beträgt €2 pro Person und Nacht — in unseren Paketen ist sie bereits enthalten, bei reinen Übernachtungen wird sie bei Ankunft berechnet und separat auf Ihrer Rechnung ausgewiesen.",
-    "bs": "Cijene smještaja su po noći i uključuju doručak. Dozvola za ribolov iznosi <b>40–70 € po danu</b> zavisno od toga na kojoj rijeci lovite, i nije uključena u cijene smještaja; mi je pribavljamo za vas pri dolasku. Djeca mlađa od 6 godina besplatno su i ne plaćaju dozvolu. Djeca od 6 do 12 godina plaćaju pola cijene i ne plaćaju dozvolu. Boravišna taksa je 2 € po osobi po noći — u našim je paketima već uključena, a kod smještaja bez paketa naplaćuje se pri dolasku i iskazuje zasebno na računu.",
-    "it": "Le tariffe di soggiorno sono per notte e includono la colazione. Il permesso di pesca è di <b>40–70 € al giorno</b> a seconda del fiume che peschi, e non è incluso nelle tariffe di soggiorno; noi lo procuriamo per te all'arrivo. I bambini sotto i 6 anni soggiornano gratis e non pagano il permesso. I bambini dai 6 ai 12 anni pagano metà tariffa e non pagano il permesso. La tassa di soggiorno è di 2 € a persona a notte — è già inclusa nei nostri pacchetti, mentre per i soggiorni senza pacchetto viene addebitata all'arrivo e riportata separatamente sulla fattura."
+    "en": "Room-only rates are per night and include breakfast. Meals are charged on top of the room: half board €32 and full board €52 per person per day. The fishing licence is <b>€40 per day on the Pliva</b> and <b>€50 per day on the Ribnik</b>, and is not included in room-only rates; we arrange it for you on arrival. So a solo angler in the single room with full board and the licence works out at about <b>€162 per fishing day</b> — €70 room plus €52 meals plus €40 licence. Two people sharing a double room pay about €134 each per fishing day. Children under 6 stay free and pay no licence. Children 6–12 pay half rate and no licence. Tourist tax is €2 per person per night — it is already included in our packages, and on room-only stays it is charged on arrival and shown separately on your invoice.",
+    "de": "Die Übernachtungspreise gelten pro Nacht und enthalten das Frühstück. Die Mahlzeiten kommen zum Zimmerpreis dazu: Halbpension €32 und Vollpension €52 pro Person und Tag. Die Angel-Lizenz beträgt <b>€40 pro Tag auf der Pliva</b> und <b>€50 pro Tag auf der Ribnik</b> und ist in den Übernachtungspreisen nicht enthalten; wir besorgen sie Ihnen bei Ankunft. Ein Einzelreisender im Einzelzimmer mit Vollpension und Lizenz kommt damit auf etwa <b>€162 pro Angeltag</b> — €70 Zimmer plus €52 Verpflegung plus €40 Lizenz. Zwei Personen teilen sich ein Doppelzimmer und zahlen etwa €134 je Angeltag. Kinder unter 6 Jahren sind kostenlos und zahlen keine Lizenz. Kinder von 6 bis 12 Jahren zahlen den halben Preis und keine Lizenz. Die Kurtaxe beträgt €2 pro Person und Nacht — in unseren Paketen ist sie bereits enthalten, bei reinen Übernachtungen wird sie bei Ankunft berechnet und separat auf Ihrer Rechnung ausgewiesen.",
+    "bs": "Cijene smještaja su po noći i uključuju doručak. Obroci se plaćaju uz cijenu sobe: polupansion 32 € i puni pansion 52 € po osobi po danu. Dozvola za ribolov iznosi <b>40 € po danu na Plivi</b> i <b>50 € po danu na Ribniku</b>, i nije uključena u cijene smještaja; mi je pribavljamo za vas pri dolasku. Tako ribolovac koji je sam u sobi za jednu osobu, s punim pansionom i dozvolom, iznosi oko <b>162 € po ribolovnom danu</b> — 70 € soba + 52 € obroci + 40 € dozvola. Dvije osobe koje dijele dvov krevetnu sobu plaćaju oko 134 € svaka po ribolovnom danu. Djeca mlađa od 6 godina besplatno su i ne plaćaju dozvolu. Djeca od 6 do 12 godina plaćaju pola cijene i ne plaćaju dozvolu. Boravišna taksa je 2 € po osobi po noći — u našim je paketima već uključena, a kod smještaja bez paketa naplaćuje se pri dolasku i iskazuje zasebno na računu.",
+    "it": "Le tariffe di soggiorno sono per notte e includono la colazione. I pasti si aggiungono alla camera: mezza pensione 32 € e pensione completa 52 € a persona al giorno. Il permesso di pesca è di <b>40 € al giorno sul Pliva</b> e <b>50 € al giorno sul Ribnik</b>, e non è incluso nelle tariffe di soggiorno; noi lo procuriamo per te all'arrivo. Così un pescatore da solo in camera singola, con pensione completa e permesso, viene a <b>circa 162 € per giornata di pesca</b> — 70 € camera + 52 € pasti + 40 € permesso. Due persone che condividono una camera doppia pagano circa 134 € ciascuna per giornata di pesca. I bambini sotto i 6 anni soggiornano gratis e non pagano il permesso. I bambini dai 6 ai 12 anni pagano metà tariffa e non pagano il permesso. La tassa di soggiorno è di 2 € a persona a notte — è già inclusa nei nostri pacchetti, mentre per i soggiorni senza pacchetto viene addebitata all'arrivo e riportata separatamente sulla fattura."
   },
   "quote_src": {
     "en": "Angling writer, on the Pliva and Ribnik",
@@ -695,12 +695,6 @@ window.I18N = {
     "de": "Wir beantworten jede Anfrage innerhalb von 24 Stunden, meistens noch am selben Tag.",
     "bs": "Svaki upit odgovaramo unutar 24 sata, obično istog dana.",
     "it": "Rispondiamo a ogni richiesta entro 24 ore, di solito già in giornata."
-  },
-  "form_sent": {
-    "en": "Thank you — WhatsApp and your email app have opened with your details ready to send. Press send in either one and we will reply within 24 hours.",
-    "de": "Danke — WhatsApp und Ihr E-Mail-Programm haben sich mit Ihren Angaben geöffnet. Senden Sie in einer der beiden Apps, und wir antworten innerhalb von 24 Stunden.",
-    "bs": "Hvala — WhatsApp i vaša aplikacija za e-poštu otvorili su se s vašim podacima spremanim za slanje. Pošaljite u jednoj od njih i odgovorit ćemo vam u roku od 24 sata.",
-    "it": "Grazie — WhatsApp e la tua app di posta si sono aperti con i tuoi dati pronti per l'invio. Premi invia in uno dei due e ti risponderemo entro 24 ore."
   },
   "opt_1": {
     "en": "1 angler",
@@ -1051,9 +1045,9 @@ window.I18N = {
     "it": "Mezza pensione"
   },
   "r5_s": {
-    "en": "€32 per person per day · breakfast and dinner",
-    "de": "€32 pro Person und Tag · Frühstück und Abendessen",
-    "bs": "32 € po osobi dnevno · doručak i večera",
+    "en": "€32 per person per day · breakfast and dinner · added to the room rate",
+    "de": "€32 pro Person und Tag · Frühstück und Abendessen · wird zum Zimmerpreis addiert",
+    "bs": "32 € po osobi po danu · doručak i večera · dodaje se na cijenu sobe",
     "it": "32 € a persona al giorno · colazione e cena"
   },
   "r6_b": {
@@ -1063,9 +1057,9 @@ window.I18N = {
     "it": "Pensione completa"
   },
   "r6_s": {
-    "en": "€52 per person per day · all meals",
-    "de": "€52 pro Person und Tag · alle Mahlzeiten",
-    "bs": "52 € po osobi dnevno · svi obroci",
+    "en": "€52 per person per day · all meals · added to the room rate",
+    "de": "€52 pro Person und Tag · alle Mahlzeiten · wird zum Zimmerpreis addiert",
+    "bs": "52 € po osobi po danu · svi obroci · dodaje se na cijenu sobe",
     "it": "52 € a persona al giorno · tutti i pasti"
   },
   "r7_b": {
@@ -1115,5 +1109,29 @@ window.I18N = {
     "de": "Nov–Dez: <b>€730</b> pro Person",
     "bs": "Nov–dec: <b>730 €</b> po osobi",
     "it": "Nov–dic: <b>730 €</b> a persona"
+  },
+  "form_wa": {
+    "en": "or message us on WhatsApp",
+    "de": "oder schreiben Sie uns auf WhatsApp",
+    "bs": "ili nam pišite na WhatsApp-u",
+    "it": "oppure scrivici su WhatsApp"
+  },
+  "form_wa_btn": {
+    "en": "WhatsApp Milka",
+    "de": "WhatsApp Milka",
+    "bs": "WhatsApp Milka",
+    "it": "WhatsApp Milka"
+  },
+  "form_sent_ok": {
+    "en": "Thank you — your enquiry is on its way to us by email. We will reply within 24 hours, usually the same day.",
+    "de": "Danke — Ihre Anfrage ist per E-Mail unterwegs zu uns. Wir antworten innerhalb von 24 Stunden, meistens noch am selben Tag.",
+    "bs": "Hvala — vaš upit je poslan nama e-poštom. Odgovorit ćemo vam u roku od 24 sata, obično istog dana.",
+    "it": "Grazie — la tua richiesta è in viaggio verso di noi via email. Ti risponderemo entro 24 ore, di solito già in giornata."
+  },
+  "form_sent_fb": {
+    "en": "Thank you — WhatsApp and your email app have opened with your details ready to send. Press send in either one and we will reply within 24 hours.",
+    "de": "Danke — WhatsApp und Ihr E-Mail-Programm haben sich mit Ihren Angaben geöffnet. Senden Sie in einer der beiden Apps, und wir antworten innerhalb von 24 Stunden.",
+    "bs": "Hvala — WhatsApp i vaša aplikacija za e-poštu otvorili su se s vašim podacima spremanim za slanje. Pošaljite u jednoj od njih i odgovorit ćemo vam u roku od 24 sata.",
+    "it": "Grazie — WhatsApp e la tua app di posta si sono aperti con i tuoi dati pronti per l'invio. Premi invia in uno dei due e ti risponderemo entro 24 ore."
   }
 };

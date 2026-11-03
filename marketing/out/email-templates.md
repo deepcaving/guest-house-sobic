@@ -54,7 +54,7 @@ Send the moment the deposit clears, not when the guest asks.
 > • [n] guests, [room type]
 > • Full board: breakfast, packed lunch on the water, dinner
 > • Guided fishing with [guide name], English-speaking
-> • The fishing licence (€40–70 per day, depending on the river) — arranged by us
+> • The fishing licence (€40/day on the Pliva, €50/day on the Ribnik) — arranged by us
 > • Round-trip airport transfer from [airport]
 > • The tourist tax — included in your package
 > • €[total] in total, €[deposit] paid, balance of €[balance] on arrival
@@ -77,7 +77,7 @@ Send the moment the deposit clears, not when the guest asks.
 > supervision.
 >
 > **The licence**
-> The fishing licence is €40–70 per day, depending on which river you fish,
+> The fishing licence is €40 per day on the Pliva and €50 per day on the Ribnik,
 > and is already included in your package. There is nothing extra to pay for
 > it. The tourist tax is included too — so the price you agreed is the price
 > you pay.
@@ -122,7 +122,7 @@ almost nothing and it is the email people remember.
 > drinks. Prices are in EUR.
 >
 > **The fishing**
-> The licence is €40–70 per day depending on the river and is already in your
+> The licence is €40/day on the Pliva and €50/day on the Ribnik and is already in your
 > package. Catch and release only. The upper Pliva is open year-round; the
 > Jajce beat runs March to September. Expect the Pliva to be knee- to
 > thigh-deep over gravel, with a steady current — long leaders, small flies,
