@@ -134,8 +134,8 @@ licence** · **the tourist tax** · round-trip airport transfer from Sarajevo.
 
 | | |
 |---|---|
-| Half board | €32 per person per day — one meal |
-| Full board | €50 per person per day — breakfast + one other meal |
+| Half board | €32 per person per day — one meal, served in the evening |
+| Full board | **€50 per person per day — two of the day's three meals: breakfast, plus either lunch or dinner** |
 | Fishing guide (English-speaking) | €150–200 per day for the group |
 | Fishing licence | **€40 per day on the Pliva, €50 per day on the Ribnik (€35 in November and December)** — **included in the fishing packages**, arranged by us; for room-only bookings we buy it for you on arrival |
 | Tourist tax | €2 per person per night — **included in the packages** (Milka covers it); on room-only stays it is charged on arrival and shown separately on your invoice |
@@ -146,10 +146,11 @@ licence** · **the tourist tax** · round-trip airport transfer from Sarajevo.
 Children under 6 stay free and pay no licence. Children 6–12 pay half rate
 and no licence.
 
-**Meals are added on top of the room rate.** €32 (half board) and €50 (full
-board) are per-person supplements, not a daily total. **Full board = breakfast
-plus ONE other meal that day — lunch or dinner, not both** (Milka, 3 Nov 2026).
-The room rate already includes breakfast.
+**Meals are charged on top of the room rate.** €32 (half board) and €50 (full
+board) are per-person supplements, not a daily total. **Full board covers TWO
+of the day's three meals — breakfast, plus either lunch or dinner** (Milka,
+7 Nov 2026). It does **not** include all three. The room rate already includes
+breakfast.
 
 **The room price is for the ROOM, not per person** — single €70, double €85,
 triple €110, whole house €900. Meals are charged per person on top. That is why

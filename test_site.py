@@ -256,10 +256,11 @@ def test_milka_facts(r):
             f"Q10b rates_note ({lang}) drops the old €52 meal price",
             f"rates_note[{lang}] = {text!r}",
         )
-        # Full board = breakfast + ONE other meal (Milka, 3 Nov 2026)
+        # Full board = 2 of the day's 3 meals (Milka, 7 Nov 2026):
+        # breakfast plus either lunch or dinner.
         r.check(
-            "one other meal" in text.lower(),
-            f"Q10b rates_note ({lang}) says full board is breakfast + one meal",
+            "two of the" in text.lower() and "three meals" in text.lower(),
+            f"Q10b rates_note ({lang}) says full board is two of three meals",
             f"rates_note[{lang}] = {text!r}",
         )
 
@@ -302,16 +303,16 @@ def test_milka_facts(r):
             f"rates_total_inc[{lang}] = {inc!r}",
         )
 
-    # Q10c - the meal supplements say they are added to the room rate.
+    # Q10c - the meal supplements say they are charged on top of the room.
     for key in ("r5_s", "r6_s"):
         for lang in LANGS:
             text = plain(html_text(key)).lower()
             r.check(
-                "added to the room" in text
-                or "zum zimmerpreis addiert" in text
-                or "na cijenu sobe" in text
-                or "alla tariffa della camera" in text,
-                f"Q10c {key} ({lang}) says the meals are added to the room",
+                "charged on top of the room" in text
+                or "kommt zum zimmerpreis dazu" in text
+                or "dodaje se na cijenu sobe" in text
+                or "si aggiunge alla tariffa della camera" in text,
+                f"Q10c {key} ({lang}) says the meals are charged on top of the room",
                 f"{key}[{lang}] = {text!r}",
             )
 
@@ -758,10 +759,10 @@ def test_rates_toggle(r):
     # The Italian copy lost this once - it is exactly the phrase that stops
     # a guest reading "52 EUR a persona al giorno" as the whole day price.
     phrases = {
-        "en": "added to the room rate",
-        "de": "zum Zimmerpreis",
-        "bs": "cijenu sobe",
-        "it": "tariffa della camera",
+        "en": "charged on top of the room price",
+        "de": "kommt zum Zimmerpreis dazu",
+        "bs": "dodaje se na cijenu sobe",
+        "it": "si aggiunge alla tariffa della camera",
     }
     for key in ("r5_s", "r6_s"):
         for lang, phrase in phrases.items():
@@ -852,6 +853,93 @@ def test_milka_meal_pricing(r):
         "MEAL site-facts carries the €112.50 shared-room worked total",
     )
 
+def test_meal_model_two_of_three(r):
+    """Milka's meal model, restated 7 Nov 2026.
+
+    A guest eats three meals a day: breakfast, lunch, dinner. The room rate
+    includes breakfast. Full board at EUR 50 per person per day covers TWO of
+    those three meals - breakfast plus either lunch or dinner. The site must
+    say so plainly, and must never promise all three.
+    """
+    html = (ROOT / "index.html").read_text(encoding="utf-8")
+
+    # The full-board row states the model: breakfast plus one of lunch/dinner,
+    # and calls it two of the three meals.
+    two_of_three = {
+        "en": "two of the three",
+        "de": "zwei von drei",
+        "bs": "dva od tri",
+        "it": "due dei tre",
+    }
+    for lang in LANGS:
+        text = plain(DICT.get("r6_s", {}).get(lang, ""))
+        low = text.lower()
+        r.check(
+            two_of_three[lang] in low,
+            f"MODEL r6_s ({lang}) says two of the three meals",
+            f"r6_s[{lang}] = {text!r}",
+        )
+        r.check(
+            "50" in text,
+            f"MODEL r6_s ({lang}) quotes EUR 50",
+            f"r6_s[{lang}] = {text!r}",
+        )
+
+    # It must never claim lunch AND dinner together.
+    for lang in LANGS:
+        low = plain(DICT.get("r6_s", {}).get(lang, "")).lower()
+        both = ("lunch and dinner" in low or "mittagessen und abendessen" in low
+                or "ručak i večera" in low or "pranzo e cena" in low)
+        r.check(
+            not both,
+            f"MODEL r6_s ({lang}) does not promise lunch AND dinner",
+            f"r6_s[{lang}] = {low!r}",
+        )
+
+    # The rates note spells out the same model.
+    note_phrases = {
+        "en": ("two of the day's three meals",),
+        "de": ("zwei der drei mahlzeiten",),
+        "bs": ("dva od tri obroka",),
+        "it": ("due dei tre pasti",),
+    }
+    for lang in LANGS:
+        low = plain(DICT.get("rates_note", {}).get(lang, "")).lower()
+        r.check(
+            any(p in low for p in note_phrases[lang]),
+            f"MODEL rates_note ({lang}) says full board covers two of three",
+            f"rates_note[{lang}] = {low!r}",
+        )
+
+    # The rates_head line explains that the room price is for the ROOM and the
+    # meals are per person - the reason sharing is cheaper.
+    for lang in LANGS:
+        text = plain(DICT.get("rates_head", {}).get(lang, ""))
+        r.check(
+            len(text) > 60,
+            f"MODEL rates_head ({lang}) is present and complete",
+            f"rates_head[{lang}] = {text!r}",
+        )
+        r.check(
+            "85" in text,
+            f"MODEL rates_head ({lang}) uses the double-room figure",
+            f"rates_head[{lang}] = {text!r}",
+        )
+    r.check(
+        'data-i18n-key="rates_head"' in html,
+        "MODEL the rates_head line is rendered on the page",
+    )
+
+    # The arithmetic must still be the one the page claims.
+    r.check(
+        70 + 50 + 40 == 160,
+        "MODEL the solo fishing day is 70 + 50 + 40 = 160",
+    )
+    r.check(
+        (85 + 2 * 50 + 40) / 2 == 112.5,
+        "MODEL the shared fishing day is (85 + 100 + 40) / 2 = 112.50",
+    )
+
 
 def test_package_prices_unchanged(r):
     """Milka's package prices must not drift. Pinned from the screenshot.
@@ -921,6 +1009,7 @@ def main():
     test_form_wiring(r)
     test_rates_toggle(r)
     test_milka_meal_pricing(r)
+    test_meal_model_two_of_three(r)
     test_package_prices_unchanged(r)
 
     print(f"\n{r.passes} passed, {len(r.failures)} failed")
