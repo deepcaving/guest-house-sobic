@@ -303,18 +303,24 @@ def test_milka_facts(r):
             f"rates_total_inc[{lang}] = {inc!r}",
         )
 
-    # Q10c - the meal supplements say they are charged on top of the room.
-    for key in ("r5_s", "r6_s"):
+    # Q10c - "charged on top of the room price" was misleading: sitting at the
+    # end of the line it read as if the THIRD meal were charged separately.
+    # It is gone everywhere and must not come back.
+    banned = (
+        "on top of the room",
+        "zum zimmerpreis dazu",
+        "na cijenu sobe",
+        "alla tariffa della camera",
+    )
+    for key in ("r5_s", "r6_s", "rates_head", "rates_note"):
         for lang in LANGS:
-            text = plain(html_text(key)).lower()
-            r.check(
-                "charged on top of the room" in text
-                or "kommt zum zimmerpreis dazu" in text
-                or "dodaje se na cijenu sobe" in text
-                or "si aggiunge alla tariffa della camera" in text,
-                f"Q10c {key} ({lang}) says the meals are charged on top of the room",
-                f"{key}[{lang}] = {text!r}",
-            )
+            text = plain(DICT.get(key, {}).get(lang, "")).lower()
+            for phrase in banned:
+                r.check(
+                    phrase not in text,
+                    f"Q10c {key} ({lang}) does not carry the misleading {phrase!r}",
+                    f"{key}[{lang}] = {text!r}",
+                )
 
     # Q11 - the tourist tax is included in the packages.
     for lang in LANGS:
@@ -758,18 +764,16 @@ def test_rates_toggle(r):
     # Every language must say the meal figures are added to the room rate.
     # The Italian copy lost this once - it is exactly the phrase that stops
     # a guest reading "52 EUR a persona al giorno" as the whole day price.
-    phrases = {
-        "en": "charged on top of the room price",
-        "de": "kommt zum Zimmerpreis dazu",
-        "bs": "dodaje se na cijenu sobe",
-        "it": "si aggiunge alla tariffa della camera",
-    }
+    # The meal rows now say what the figure BUYS, and nothing about how it
+    # combines with the room - that combination is explained once, in
+    # rates_head, without a misleading phrase.
     for key in ("r5_s", "r6_s"):
-        for lang, phrase in phrases.items():
-            text = plain(DICT.get(key, {}).get(lang, "")).lower()
+        for lang in LANGS:
+            text = plain(DICT.get(key, {}).get(lang, ""))
             r.check(
-                phrase.lower() in text,
-                f"MEALS {key} ({lang}) says the figure is added to the room rate",
+                "per person" in text.lower() or "pro person" in text.lower()
+                or "po osobi" in text.lower() or "a persona" in text.lower(),
+                f"MEALS {key} ({lang}) says the figure is per person",
                 f"{key}[{lang}] = {text!r}",
             )
 

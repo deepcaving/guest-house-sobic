@@ -487,10 +487,10 @@ window.I18N = {
     "it": "Soggiorno da solo"
   },
   "rates_note": {
-    "en": "Room-only rates are per night and include breakfast. Meals are charged on top of the room: half board €32 and full board €50 per person per day. Full board covers two of the day's three meals — breakfast, plus either lunch or dinner. Children under 6 stay free and pay no licence. Children 6–12 pay half rate and no licence. Tourist tax is €2 per person per night — it is already included in our packages, and on room-only stays it is charged on arrival and shown separately on your invoice.",
-    "de": "Die Zimmerpreise verstehen sich pro Nacht und inklusive Frühstück. Die Mahlzeiten kommen zur Zimmerrate dazu: Halbpension 32 € und Vollpension 50 € pro Person und Tag. Die Vollpension deckt zwei der drei Mahlzeiten des Tages — Frühstück, plus Mittagessen oder Abendessen. Kinder unter 6 Jahren bleiben kostenlos und brauchen keine Lizenz. Kinder von 6 bis 12 Jahren zahlen den halben Preis und brauchen keine Lizenz. Die Kurtaxe beträgt 2 € pro Person und Nacht — in unseren Pauschalen ist sie bereits enthalten, bei reinen Zimmerbuchungen wird sie bei der Anreise berechnet und separat auf der Rechnung ausgewiesen.",
-    "bs": "Cijene smještaja su po noći i uključuju doručak. Obroci se plaćaju uz cijenu sobe: polupansion 32 € i puni pansion 50 € po osobi po danu. Puni pansion pokriva dva od tri obroka u danu — doručak, plus ručak ili večera. Djeca mlađa od 6 godina besplatno su i ne plaćaju dozvolu. Djeca od 6 do 12 godina plaćaju pola cijene i ne plaćaju dozvolu. Boravišna taksa je 2 € po osobi po noći — u našim je paketima već uključena, a kod smještaja bez paketa naplaćuje se pri dolasku i iskazuje zasebno na računu.",
-    "it": "Le tariffe di soggiorno sono per notte e includono la colazione. I pasti si aggiungono alla camera: mezza pensione 32 € e pensione completa 50 € a persona al giorno. La pensione completa copre due dei tre pasti della giornata — la colazione, più il pranzo o la cena. I bambini sotto i 6 anni soggiornano gratis e non pagano il permesso. I bambini dai 6 ai 12 anni pagano metà tariffa e non pagano il permesso. La tassa di soggiorno è di 2 € a persona a notte — è già inclusa nei nostri pacchetti, mentre per i soggiorni senza pacchetto viene addebitata all'arrivo e riportata separatamente sulla fattura."
+    "en": "Room-only rates are per night and include breakfast. Meals are priced per person: half board €32 and full board €50 per person per day. Full board covers two of the day's three meals — breakfast, plus either lunch or dinner. Children under 6 stay free and pay no licence. Children 6–12 pay half rate and no licence. Tourist tax is €2 per person per night — it is already included in our packages, and on room-only stays it is charged on arrival and shown separately on your invoice.",
+    "de": "Die Zimmerpreise verstehen sich pro Nacht und inklusive Frühstück. Die Mahlzeiten werden pro Person berechnet: Halbpension 32 € und Vollpension 50 € pro Person und Tag. Die Vollpension deckt zwei der drei Mahlzeiten des Tages — Frühstück, plus Mittagessen oder Abendessen. Kinder unter 6 Jahren bleiben kostenlos und brauchen keine Lizenz. Kinder von 6 bis 12 Jahren zahlen den halben Preis und brauchen keine Lizenz. Die Kurtaxe beträgt 2 € pro Person und Nacht — in unseren Pauschalen ist sie bereits enthalten, bei reinen Zimmerbuchungen wird sie bei der Anreise berechnet und separat auf der Rechnung ausgewiesen.",
+    "bs": "Cijene smještaja su po noći i uključuju doručak. Obroci se obračunavaju po osobi: polupansion 32 € i puni pansion 50 € po osobi po danu. Puni pansion pokriva dva od tri obroka u danu — doručak, plus ručak ili večera. Djeca mlađa od 6 godina besplatno su i ne plaćaju dozvolu. Djeca od 6 do 12 godina plaćaju pola cijene i ne plaćaju dozvolu. Boravišna taksa je 2 € po osobi po noći — u našim je paketima već uključena, a kod smještaja bez paketa naplaćuje se pri dolasku i iskazuje zasebno na računu.",
+    "it": "Le tariffe di soggiorno sono per notte e includono la colazione. I pasti si calcolano a persona: mezza pensione 32 € e pensione completa 50 € a persona al giorno. La pensione completa copre due dei tre pasti della giornata — la colazione, più il pranzo o la cena. I bambini sotto i 6 anni soggiornano gratis e non pagano il permesso. I bambini dai 6 ai 12 anni pagano metà tariffa e non pagano il permesso. La tassa di soggiorno è di 2 € a persona a notte — è già inclusa nei nostri pacchetti, mentre per i soggiorni senza pacchetto viene addebitata all'arrivo e riportata separatamente sulla fattura."
   },
   "quote_src": {
     "en": "Angling writer, on the Pliva and Ribnik",
@@ -1045,10 +1045,10 @@ window.I18N = {
     "it": "Mezza pensione"
   },
   "r5_s": {
-    "en": "€32 per person per day · one meal, served in the evening · charged on top of the room price",
-    "de": "€32 pro Person und Tag · eine Mahlzeit, abends serviert · kommt zum Zimmerpreis dazu",
-    "bs": "32 € po osobi po danu · jedan obrok, poslužen uveče · dodaje se na cijenu sobe",
-    "it": "32 € a persona al giorno · un pasto, servito alla sera · si aggiunge alla tariffa della camera"
+    "en": "€32 per person per day. One meal, served in the evening",
+    "de": "€32 pro Person und Tag. Eine Mahlzeit, abends serviert",
+    "bs": "32 € po osobi po danu. Jedan obrok, poslužen uveče",
+    "it": "32 € a persona al giorno. Un pasto, servito alla sera"
   },
   "r6_b": {
     "en": "Full board",
@@ -1057,10 +1057,10 @@ window.I18N = {
     "it": "Pensione completa"
   },
   "r6_s": {
-    "en": "€50 per person per day · breakfast plus one of lunch or dinner — two of the three meals · charged on top of the room price",
-    "de": "€50 pro Person und Tag · Frühstück plus Mittagessen oder Abendessen — zwei von drei Mahlzeiten · kommt zum Zimmerpreis dazu",
-    "bs": "50 € po osobi po danu · doručak plus ručak ili večera — dva od tri obroka · dodaje se na cijenu sobe",
-    "it": "50 € a persona al giorno · colazione più pranzo o cena — due dei tre pasti · si aggiunge alla tariffa della camera"
+    "en": "€50 per person per day. Includes two of the three meals: breakfast, plus either lunch or dinner",
+    "de": "€50 pro Person und Tag. Zwei von drei Mahlzeiten sind enthalten: Frühstück, plus Mittagessen oder Abendessen",
+    "bs": "50 € po osobi po danu. Uključena su dva od tri obroka: doručak, plus ručak ili večera",
+    "it": "50 € a persona al giorno. Include due dei tre pasti: colazione, più pranzo o cena"
   },
   "r7_b": {
     "en": "Airport transfer",
@@ -1177,9 +1177,9 @@ window.I18N = {
     "it": "Permesso di pesca — <b>40 € al giorno sul Pliva</b>, <b>50 € al giorno sul Ribnik</b> (35 € a novembre e dicembre). Non incluso nelle tariffe di camera o pasti; noi lo procuriamo per te all'arrivo."
   },
   "rates_head": {
-    "en": "Room prices are for the room. Meal prices are per person and are charged on top of the room rate — you pay both. Two people sharing a double room pay €85 for the room plus €50 each for meals, and split the room between them, which is why sharing is the better deal.",
-    "de": "Die Zimmerpreise gelten für das Zimmer. Die Mahlzeiten werden pro Person berechnet und kommen zum Zimmerpreis dazu — Sie zahlen beides. Zwei Personen teilen sich ein Doppelzimmer, zahlen €85 für das Zimmer und je €50 für die Mahlzeiten und teilen sich das Zimmer, deshalb ist das Teilen günstiger.",
-    "bs": "Cijene smještaja odnose se na sobu. Obroci se plaćaju po osobi i dodaju se na cijenu sobe — plaćate oboje. Dvije osobe koje dijele dvov krevetnu sobu plaćaju 85 € za sobu i po 50 € za obroke, i dijele sobu, zato je zajednički smještaj jeftiniji.",
-    "it": "Le tariffe di soggiorno si riferiscono alla camera. I pasti si calcolano a persona e si aggiungono alla tariffa della camera — paghi entrambi. Due persone che condividono una camera doppia pagano 85 € per la camera più 50 € a testa per i pasti, e dividono la camera: per questo è più conveniente condividere."
+    "en": "Room prices are for the room. Meal prices are per person. Two people sharing a double room pay €85 for the room plus €50 each for meals, and split the room between them, which is why sharing is the better deal.",
+    "de": "Die Zimmerpreise gelten für das Zimmer. Die Mahlzeiten werden pro Person berechnet. Zwei Personen teilen sich ein Doppelzimmer, zahlen €85 für das Zimmer und je €50 für die Mahlzeiten und teilen sich das Zimmer, deshalb ist das Teilen günstiger.",
+    "bs": "Cijene smještaja odnose se na sobu. Obroci se plaćaju po osobi. Dvije osobe koje dijele dvov krevetnu sobu plaćaju 85 € za sobu i po 50 € za obroke, i dijele sobu, zato je zajednički smještaj jeftiniji.",
+    "it": "Le tariffe di soggiorno si riferiscono alla camera. I pasti si calcolano a persona. Due persone che condividono una camera doppia pagano 85 € per la camera più 50 € a testa per i pasti, e dividono la camera: per questo è più conveniente condividere."
   }
 };

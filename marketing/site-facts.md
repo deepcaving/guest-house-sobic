@@ -146,11 +146,10 @@ licence** · **the tourist tax** · round-trip airport transfer from Sarajevo.
 Children under 6 stay free and pay no licence. Children 6–12 pay half rate
 and no licence.
 
-**Meals are charged on top of the room rate.** €32 (half board) and €50 (full
-board) are per-person supplements, not a daily total. **Full board covers TWO
-of the day's three meals — breakfast, plus either lunch or dinner** (Milka,
-7 Nov 2026). It does **not** include all three. The room rate already includes
-breakfast.
+**Meals are priced per person.** €32 (half board) and €50 (full board) are
+per-person supplements, not a daily total. **Full board covers TWO of the day's
+three meals — breakfast, plus either lunch or dinner** (Milka, 7 Nov 2026). It
+does **not** include all three. The room rate already includes breakfast.
 
 **The room price is for the ROOM, not per person** — single €70, double €85,
 triple €110, whole house €900. Meals are charged per person on top. That is why
