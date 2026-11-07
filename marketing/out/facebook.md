@@ -1,14 +1,5 @@
 # Facebook Page — full setup
 
-> **⚠️ BEFORE YOU USE THIS FILE**
-> The booking email in it is **not live yet** — `bookings@plivariverlodge.com` sits on a domain that
-> does not resolve, so anything sent there is lost.
->
-> Set the real inbox in `site-config.json`, set `"email_live": true`, then run
-> `python3 marketing/render.py` to regenerate this file. Until then, send
-> everything through WhatsApp: **+387 65 622 760**.
-
-
 The Facebook Page is not where the bookings come from. It is where the
 **Facebook groups** see you — the Fly Fishing Group, Fly Fishing Holidays
 Community, Reel Life, UK Fly Fishing, Fliegenfischen Deutschland. A real,
@@ -27,10 +18,10 @@ Create it at facebook.com/pages/create.
 | Website | https://guesthousesobic.netlify.app |
 | Phone | +387 65 622 760 |
 | WhatsApp | +387 65 622 760 |
-| Email | bookings@plivariverlodge.com |
+| Email | milkasobic25@gmail.com |
 | Price range | €€ |
 | Hours | Open year-round; reception arranged per booking |
-| Location | Šipovo, Republika Srpska, Bosnia & Herzegovina |
+| Location | Pljeva, Šipovo, Bosnia & Herzegovina |
 
 ## About (paste verbatim)
 

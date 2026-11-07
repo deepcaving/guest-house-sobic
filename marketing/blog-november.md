@@ -58,18 +58,18 @@ that stays with you until the wade-out.
 is 20 m from the water, with floor-to-ceiling windows. The terrace is over the
 river. When you're not fishing, you're watching it.
 
-*The price is right.* November is shoulder season. The hosted weeks at €1,790
-are over. We're running 4-night short breaks from €830 per person, with a
-guide, the licence, full board and the airport transfer from Sarajevo
-included. The river is the same river as in May. The fishing is the same
-fishing. The only difference is who's on it.
+*The price is right.* November is shoulder season. We're running 4-night
+short breaks from €830 per person, with a guide, the licence, the tourist tax,
+full board and the airport transfer from Sarajevo included. The river is the
+same river as in May. The fishing is the same fishing. The only difference is
+who's on it.
 
 If you've already fished the Ribnik in October and you think you've seen
 Bosnia — give November a try. The autumn is when the locals fish. There's a
 reason for that.
 
 **Pliva River Lodge** is a 7-room boutique guesthouse on the bank of the
-Pliva, two kilometres below the source, in Šipovo, Republika Srpska, Bosnia &
+Pliva, two kilometres below the source, in Pljeva near Šipovo, Bosnia &
 Herzegovina. Open year-round. Packages and dates at {{SITE_URL}} — or message
 us on WhatsApp {{PHONE}}.
 
@@ -108,10 +108,10 @@ different month or a different river:
 
 1. **"Why the Pliva in November is the best-kept secret in European fly fishing"** ← this one
 2. **"The Ribnik: an hour from the Pliva, and it's a different river entirely"** — 80% grayling, 20 m wide, knee-deep
-3. **"What a fishing licence actually costs on the Pliva, and why we don't hide it"** — the €50/day question, answered honestly
+3. **"What a fishing licence actually costs on the Pliva, and why we don't hide it"** — the €40/day on the Pliva and €50/day on the Ribnik (€35 in Nov–Dec) question, answered honestly
 4. **"Seven rivers, one week: can you actually fish all of them?"**
 5. **"The BWO hatch, explained: what to bring and when to be on the water"**
 
-Number 3 is worth writing carefully. Every guest asks whether the licence is
-really €50 a day, and the operators who answer that question well are the ones
-people remember.
+Number 3 is worth writing carefully. Every guest asks what the licence really
+costs, and the operators who answer that question well are the ones people
+remember. The honest answer is €40 a day on the Pliva and €50 a day on the Ribnik — €35 a day on the Ribnik in November and December.

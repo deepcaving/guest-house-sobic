@@ -40,10 +40,11 @@
   "url": "https://guesthousesobic.netlify.app/",
   "image": "https://guesthousesobic.netlify.app/img/og-image.jpg",
   "telephone": "+38765622760",
-  "email": "bookings@plivariverlodge.com",
-  "priceRange": "EUR 70 - EUR 1790 per person",
+  "email": "milkasobic25@gmail.com",
+  "priceRange": "EUR 70 - EUR 1390 per person",
   "address": {
     "@type": "PostalAddress",
+    "streetAddress": "Pljeva",
     "addressLocality": "Šipovo",
     "addressRegion": "Republika Srpska",
     "addressCountry": "BA"
@@ -288,6 +289,16 @@ section{padding:72px 0}
 .inc b{display:block;color:var(--navy);font-size:.93rem;margin-bottom:1px}
 .inc span{font-size:.85rem;color:var(--muted)}
 
+/* ---------- rates toggle ---------- */
+.rates-toggle{display:flex;flex-wrap:wrap;align-items:center;gap:8px 22px;margin-top:34px;padding:16px 20px;background:var(--stone);border:1px solid var(--line);border-radius:12px}
+.rates-toggle-label{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.rates-toggle-opt{display:inline-flex;align-items:center;gap:9px;font-size:.88rem;color:var(--navy);cursor:pointer;user-select:none}
+.rates-toggle-opt input{width:17px;height:17px;accent-color:var(--river);cursor:pointer;margin:0;flex-shrink:0}
+.rates-toggle-opt:hover span{text-decoration:underline;text-underline-offset:3px}
+.rates-head{margin-top:26px;padding:14px 18px;background:rgba(47,111,126,.07);border-left:3px solid var(--river);border-radius:0 8px 8px 0}
+.rates-licence{margin-top:14px}
+.rates-total{margin-top:14px;padding:14px 18px;background:rgba(47,111,126,.07);border-left:3px solid var(--river);border-radius:0 8px 8px 0}
+
 /* ---------- river band ---------- */
 .band{position:relative;overflow:hidden;background:var(--navy)}
 .band-media{position:absolute;inset:0}
@@ -345,6 +356,9 @@ section{padding:72px 0}
 .form .note .wa-link{color:var(--river);font-weight:700;text-decoration:none;border-bottom:1px solid var(--river)}
 .form .note .wa-link:hover{color:var(--navy);border-bottom-color:var(--navy)}
 .form .form-status{color:var(--river);font-weight:700}
+.form .form-actions{margin-top:20px}
+.form .form-actions .btn{flex:0 1 auto}
+#wa-button{white-space:nowrap}
 .form .btn{width:100%;margin-top:6px;border:none;cursor:pointer;font-family:var(--sans)}
 
 /* ---------- footer ---------- */
@@ -409,6 +423,7 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
   .stats{grid-template-columns:repeat(2,1fr);gap:30px 20px}
   .contact-grid{grid-template-columns:1fr;gap:34px}
   .inc-grid{grid-template-columns:1fr}
+  .rates-toggle{flex-direction:column;align-items:flex-start;gap:12px}
   .navlinks a:not(.nav-cta){display:none}
   section{padding:56px 0}
 }
@@ -433,6 +448,7 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
 </style>
 <script src="i18n-data.js" defer></script>
 <script src="i18n.js" defer></script>
+<script src="rates-toggle.js" defer></script>
 <script src="form.js" defer></script>
 </head>
 <body class="no-js">
@@ -446,7 +462,7 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
       </span>
       <span class="brand-txt">
         <b data-i18n="con_h2" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="con_h2">Pliva River Lodge</b>
-        <span data-i18n="brand_sub" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="brand_sub">Sipovo · Bosnia &amp; Herzegovina</span>
+        <span data-i18n="brand_sub" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="brand_sub">Pljeva · Šipovo · Bosnia &amp; Herzegovina</span>
       </span>
     </a>
     <nav class="navlinks">
@@ -601,7 +617,7 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
         <ul>
           <li data-i18n-key="angl_l1" data-i18n="angl_l1"><b>Wading</b> — thigh-deep, gravel bottom, strong current</li>
           <li data-i18n-key="angl_l2" data-i18n="angl_l2"><b>Bank casting</b> — from the lodge terrace and the meadow flat</li>
-          <li data-i18n-key="angl_l3" data-i18n="angl_l3"><b>Guided days</b> — a local guide, waders and rods included</li>
+          <li data-i18n-key="angl_l3" data-i18n="angl_l3"><b>Guided days</b> — a local English-speaking guide on the river</li>
         </ul>
         <p class="small muted" data-i18n="angl_safe" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="angl_safe">The water is 8 °C all year. A wetsuit and a buoyancy aid are essential, and we provide both. Life vests are worn at all times on the guided days.</p>
       </div>
@@ -663,12 +679,12 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
       <div class="season">
         <div class="season-tag" data-i18n="seas_tag1" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="seas_tag1">15 Nov – 31 Dec 2026</div>
         <h3 data-i18n="seas_h3a" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="seas_h3a">The Pliva Week — €1,190</h3>
-        <p data-i18n="seas_pa" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="seas_pa">Seven nights, six days of guided fishing, full board, licence and the Sarajevo transfer. Group of four. The BWO hatch is at its tail end and the grayling are in prime condition.</p>
+        <p data-i18n="seas_pa" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="seas_pa">Seven nights, six days of guided fishing, full board, licence, tourist tax and the Sarajevo transfer. Group of four. The BWO hatch is at its tail end and the grayling are in prime condition.</p>
       </div>
       <div class="season">
         <div class="season-tag" data-i18n="seas_tag2" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="seas_tag2">Year round</div>
         <h3 data-i18n="seas_h3b" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="seas_h3b">Short Break — €730</h3>
-        <p data-i18n="seas_pb" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="seas_pb">Four nights, three fishing days, half board, licence and transfer. The easy way to try the river — and the easiest to fill in the gaps between trips.</p>
+        <p data-i18n="seas_pb" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="seas_pb">Four nights, three fishing days, half board, licence, tourist tax and transfer. The easy way to try the river — and the easiest to fill in the gaps between trips.</p>
       </div>
       <div class="season">
         <div class="season-tag" data-i18n-key="seas_tag2" data-i18n="seas_tag2">Year round</div>
@@ -686,7 +702,7 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
       <div class="eyebrow" data-i18n="pkg_eyebrow" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="pkg_eyebrow">Packages</div>
       <h2 data-i18n="pkg_h2" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="pkg_h2">Three ways to come</h2>
       <div class="hairline"></div>
-      <p class="lede" data-i18n="pkg_p" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="pkg_p">All packages include the lodge, the table, the guide and the fishing licence. Tourist tax is €2 per person per night, paid on arrival. November and December rates are lower — see each card.</p>
+      <p class="lede" data-i18n="pkg_p" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="pkg_p">All packages include the lodge, the table, the guide, the fishing licence and the tourist tax — there is nothing to pay on arrival. November and December rates are lower — see each card.</p>
     </div>
 
     <div class="pkg-grid">
@@ -702,11 +718,11 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
           </div>
           <ul>
             <li data-i18n="pkg1_l1" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="pkg1_l1">7 nights in a river-view room, ensuite</li>
-            <li data-i18n="pkg1_l2" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="pkg1_l2">Full board: breakfast, packed lunch on the water, dinner</li>
+            <li data-i18n="pkg1_l2" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="pkg1_l2">Full board: breakfast and one other meal each day</li>
             <li data-i18n="pkg1_l3" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="pkg1_l3">6 days guided fishing with a local English-speaking guide</li>
-            <li data-i18n="pkg1_l4" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="pkg1_l4">Pliva fishing licence — €50/day non-resident rate, included</li>
+            <li data-i18n="pkg1_l4" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="pkg1_l4">Fishing licence — €40/day on the Pliva, €50/day on the Ribnik (€35 in November and December), included</li>
             <li data-i18n="pkg1_l5" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="pkg1_l5">Round-trip airport transfer from Sarajevo</li>
-            <li data-i18n="pkg1_l6" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="pkg1_l6">Rod and waders on request</li>
+            <li data-i18n="pkg1_l6" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="pkg1_l6">Own rods and waders — bring your own or hire them in Šipovo</li>
           </ul>
           <a href="#contact" class="btn btn-primary" data-i18n-key="nav_enquire" data-i18n="nav_enquire">Enquire</a>
           <div class="pkg-note" data-i18n-key="pkg1_note" data-i18n="pkg1_note">Group of 4 · €1,590 for two · €2,090 solo</div>
@@ -752,7 +768,7 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
             <li data-i18n="pkg3_l1" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="pkg3_l1">4 nights in a river-view room, ensuite</li>
             <li data-i18n="pkg3_l2" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="pkg3_l2">Half board: breakfast and dinner</li>
             <li data-i18n="pkg3_l3" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="pkg3_l3">3 days guided fishing with a local guide</li>
-            <li data-i18n="pkg3_l4" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="pkg3_l4">Pliva fishing licence — €50/day non-resident rate, included</li>
+            <li data-i18n="pkg3_l4" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="pkg3_l4">Fishing licence — €40/day on the Pliva, €50/day on the Ribnik (€35 in November and December), included</li>
             <li data-i18n="pkg3_l5" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="pkg3_l5">Round-trip airport transfer from Sarajevo</li>
             <li data-i18n="pkg3_l6" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="pkg3_l6">Perfect for combining with a Jajce or Šipovo trip</li>
           </ul>
@@ -764,7 +780,7 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
     </div>
 
     <div class="center space-top">
-      <p class="small muted" data-i18n="pkg_hosted" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="pkg_hosted">Hosted weeks with named guides (UK, German, French- and Italian-speaking) are available from €1,790 per person. Ask about the autumn Blue-Winged Olive hatch.</p>
+      <p class="small muted" data-i18n="pkg_hosted" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="pkg_hosted">Fishing guides speak English. A guided day costs €150–200 for the group, depending on how many of you there are — so it works out cheaper the more anglers you bring. Ask about the autumn Blue-Winged Olive hatch.</p>
     </div>
   </div>
 </section>
@@ -776,6 +792,10 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
       <div class="eyebrow" data-i18n="rates_eyebrow" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="rates_eyebrow">Rates &amp; what's included</div>
       <h2 data-i18n="rates_h2" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="rates_h2">Accommodation on its own</h2>
       <div class="hairline"></div>
+    </div>
+
+    <div class="center space-top">
+      <p class="small muted rates-head" data-i18n="rates_head" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="rates_head">Room prices are for the room. Meal prices are per person. Two people sharing a double room pay €85 for the room plus €50 each for meals, and split the room between them, which is why sharing is the better deal.</p>
     </div>
 
     <div class="inc-grid">
@@ -797,28 +817,43 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
       </div>
       <div class="inc">
         <svg viewbox="0 0 24 24"><path d="M12 3v18"></path><path d="M5 8h14"></path><path d="M7 21h10"></path><path d="M7 8l-2 6h4z"></path><path d="M17 8l2 6h-4z"></path></svg>
-        <div><b data-i18n-key="r5_b" data-i18n="r5_b" data-i18n-inline="1">Half board</b><span data-i18n-key="r5_s" data-i18n="r5_s" data-i18n-inline="1">€32 per person per day · breakfast and dinner</span></div>
+        <div><b data-i18n-key="r5_b" data-i18n="r5_b" data-i18n-inline="1">Half board</b><span data-i18n-key="r5_s" data-i18n="r5_s" data-i18n-inline="1">€32 per person per day. One meal, served in the evening</span></div>
       </div>
       <div class="inc">
         <svg viewbox="0 0 24 24"><path d="M12 3v18"></path><path d="M5 8h14"></path><path d="M7 21h10"></path><path d="M7 8l-2 6h4z"></path><path d="M17 8l2 6h-4z"></path></svg>
-        <div><b data-i18n-key="r6_b" data-i18n="r6_b" data-i18n-inline="1">Full board</b><span data-i18n-key="r6_s" data-i18n="r6_s" data-i18n-inline="1">€52 per person per day · all meals</span></div>
+        <div><b data-i18n-key="r6_b" data-i18n="r6_b" data-i18n-inline="1">Full board</b><span data-i18n-key="r6_s" data-i18n="r6_s" data-i18n-inline="1">€50 per person per day. Includes two of the three meals: breakfast, plus either lunch or dinner</span></div>
       </div>
       <div class="inc">
         <svg viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
-        <div><b data-i18n-key="r7_b" data-i18n="r7_b" data-i18n-inline="1">Airport transfer</b><span data-i18n-key="r7_s" data-i18n="r7_s" data-i18n-inline="1">Sarajevo included · Banja Luka and Split on request</span></div>
+        <div><b data-i18n-key="r7_b" data-i18n="r7_b" data-i18n-inline="1">Airport transfer</b><span data-i18n-key="r7_s" data-i18n="r7_s" data-i18n-inline="1">Sarajevo, Banja Luka and Split — arranged with the lodge</span></div>
       </div>
       <div class="inc">
         <svg viewbox="0 0 24 24"><path d="M4 19h16"></path><path d="M7 16V8"></path><path d="M12 16V5"></path><path d="M17 16v-6"></path></svg>
-        <div><b data-i18n-key="r8_b" data-i18n="r8_b" data-i18n-inline="1">Equipment rental</b><span data-i18n-key="r8_s" data-i18n="r8_s" data-i18n-inline="1">Rod, reel, line and waders · €22 per day</span></div>
+        <div><b data-i18n-key="r8_b" data-i18n="r8_b" data-i18n-inline="1">Fishing guide</b><span data-i18n-key="r8_s" data-i18n="r8_s" data-i18n-inline="1">English-speaking · €150–200 per day for the group</span></div>
       </div>
       <div class="inc">
         <svg viewbox="0 0 24 24"><path d="M5 17h14"></path><path d="M6 17v-4l2-5h8l2 5v4"></path><path d="M6 13h12"></path><circle cx="8" cy="17" r="2"></circle><circle cx="16" cy="17" r="2"></circle></svg>
-        <div><b data-i18n-key="rib_price" data-i18n="rib_price" data-i18n-inline="1">Daily car transport to the Ribnik · arrange at reception</b><span data-i18n-key="rib_price_sub" data-i18n="rib_price_sub" data-i18n-inline="1">≈ 50 km · about an hour each way</span></div>
+        <div><b data-i18n-key="rib_price" data-i18n="rib_price" data-i18n-inline="1">Daily car transport to the Ribnik · €80 per group</b><span data-i18n-key="rib_price_sub" data-i18n="rib_price_sub" data-i18n-inline="1">Up to 7 people · one car · about an hour each way</span></div>
       </div>
     </div>
 
+    <div class="rates-toggle" role="group" aria-labelledby="ratesToggleLabel">
+      <span class="rates-toggle-label" id="ratesToggleLabel" data-i18n="rates_toggle_label" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="rates_toggle_label">Show the totals</span>
+      <label class="rates-toggle-opt">
+        <input type="radio" name="rates-view" id="ratesViewSep" value="sep" checked>
+        <span data-i18n="rates_toggle_off" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="rates_toggle_off">Room and meals only</span>
+      </label>
+      <label class="rates-toggle-opt">
+        <input type="radio" name="rates-view" id="ratesViewInc" value="inc">
+        <span data-i18n="rates_toggle_on" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="rates_toggle_on">Including the fishing licence</span>
+      </label>
+    </div>
+
     <div class="center space-top">
-      <p class="small muted" data-i18n="rates_note" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="rates_note">Room-only rates are per night, breakfast included. The Pliva fishing licence is <b>€50 per day</b> for non-resident guests and is not included in room-only rates; we arrange it for you on arrival. Children under 6 stay free and pay no licence. Children 6–12 pay half rate and no licence. Tourist tax is €2 per person per night, charged on arrival and shown separately on your invoice.</p>
+      <p class="small muted rates-note" data-i18n="rates_note_hint" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="rates_note_hint">The fishing licence is a government charge, not part of our room or meal rates, so we show it separately. Nobody has to fish — plenty of guests come for the river, the food and the quiet. Switch it on if you want to see what a fishing day comes to in total.</p>
+      <p class="small muted rates-licence" data-i18n="rates_licence_line" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="rates_licence_line">Fishing licence — <b>€40 a day on the Pliva</b>, <b>€50 a day on the Ribnik</b> (€35 in November and December). Not included in the room or meal rates; we arrange it for you on arrival.</p>
+      <p class="small muted rates-total" id="ratesTotal" data-mode="sep" data-i18n="rates_total_sep" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="rates_total_sep">A solo angler in the single room with full board pays <b>€160 a day</b> — €70 for the room and breakfast, plus €50 for the meals. Two people sharing a double room pay about <b>€113 each</b> — €85 for the room split two ways, plus €50 each for meals.</p>
+      <p class="small muted" data-i18n="rates_note" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="rates_note">Room-only rates are per night and include breakfast. Meals are priced per person: half board €32 and full board €50 per person per day. Full board covers two of the day's three meals — breakfast, plus either lunch or dinner. Children under 6 stay free and pay no licence. Children 6–12 pay half rate and no licence. Tourist tax is €2 per person per night — it is already included in our packages, and on room-only stays it is charged on arrival and shown separately on your invoice.</p>
     </div>
   </div>
 </section>
@@ -840,7 +875,7 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
       <div class="eyebrow" data-i18n="air_eyebrow" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="air_eyebrow">Getting here</div>
       <h2 data-i18n="air_h2" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="air_h2">Three airports, one road</h2>
       <div class="hairline"></div>
-      <p class="lede" data-i18n="air_p" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="air_p">We arrange door-to-door transfers in a private car or minivan. Tell us your flight and we will be waiting with a name board.</p>
+      <p class="lede" data-i18n="air_p" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="air_p">We arrange door-to-door transfers in a private van or car from Sarajevo, Banja Luka and Split. Tell us your flight and we will be waiting with a name board.</p>
     </div>
 
     <div class="air-grid">
@@ -862,7 +897,7 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
         <span class="air-code">SPU · SPLIT</span>
         <h4>Split</h4>
         <div class="drive" data-i18n="air_spu_d" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="air_spu_d">≈ 3.5 hours · 250 km</div>
-        <p data-i18n="air_spu_p" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="air_spu_p">Croatia, one border crossing. Excellent low-cost connectivity from the UK, Germany and Italy. We cross at Kamensko and the border is usually straightforward.</p>
+        <p data-i18n="air_spu_p" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="air_spu_p">Croatia, one border crossing. Excellent low-cost connectivity from the UK, Germany and Italy. We cross at Kamensko with our own van, so there is no second vehicle to change into and no transfer you have to arrange yourself.</p>
         <span class="rec" data-i18n="air_spu_r" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="air_spu_r">Many UK low-cost flights</span>
       </div>
     </div>
@@ -899,11 +934,11 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
           </li>
           <li>
             <svg viewbox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M22 6l-10 7L2 6"></path></svg>
-            <div><b data-i18n="con_email" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="con_email">Email</b><span class="contact-links"><a href="mailto:bookings@plivariverlodge.com">bookings@plivariverlodge.com</a></span></div>
+            <div><b data-i18n="con_email" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="con_email">Email</b><span class="contact-links"><a href="mailto:milkasobic25@gmail.com">milkasobic25@gmail.com</a></span></div>
           </li>
           <li>
             <svg viewbox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1116 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-            <div><b data-i18n="con_addr" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="con_addr">Address</b><span data-i18n-key="con_addr_v" data-i18n="con_addr_v">Šipovo, Republika Srpska, Bosnia &amp; Herzegovina<br>2 km downstream of the Pliva springs</span></div>
+            <div><b data-i18n="con_addr" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="con_addr">Address</b><span data-i18n-key="con_addr_v" data-i18n="con_addr_v">Pljeva, Šipovo<br>Bosnia &amp; Herzegovina<br>2 km downstream of the Pliva springs</span></div>
           </li>
           <li>
             <svg viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
@@ -917,7 +952,7 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
       </div>
 
       <div class="form">
-        <form name="enquiry" id="enquiry-form" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" data-wa="https://wa.me/38765622760">
+        <form name="enquiry" id="enquiry-form" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" data-wa="https://wa.me/38765622760" data-email="milkasobic25@gmail.com" data-function="/.netlify/functions/enquiry">
           <input type="hidden" name="form-name" value="enquiry">
           <p style="display:none"><label>Leave this field empty: <input name="bot-field"></label></p>
           <div class="field">
@@ -957,12 +992,16 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
             <label for="f-msg" data-i18n="form_msg" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="form_msg">Anything we should know</label>
             <textarea id="f-msg" name="message" data-ph="ph_msg" placeholder="Fishing experience, dietary requirements, room preferences…"></textarea>
           </div>
-          <button type="submit" class="btn btn-primary" data-i18n="form_btn" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="form_btn">Send enquiry</button>
+          <div class="btn-row form-actions">
+            <button type="submit" class="btn btn-primary" data-i18n="form_btn" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="form_btn">Send enquiry</button>
+            <a class="btn btn-ghost" id="wa-button" href="https://wa.me/38765622760" target="_blank" rel="noopener" data-i18n="form_wa_btn" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="form_wa_btn">WhatsApp Milka</a>
+          </div>
           <p class="note">
             <span data-i18n="form_note" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="form_note">We answer every enquiry within 24 hours, usually the same day.</span>
-            <a class="wa-link" href="https://wa.me/38765622760" target="_blank" rel="noopener">WhatsApp</a>
+            <a class="wa-link" id="wa-link" href="https://wa.me/38765622760" target="_blank" rel="noopener" data-i18n="form_wa" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="form_wa">or message us on WhatsApp</a>
           </p>
-          <p class="note form-status" id="enquiry-status" hidden data-i18n="form_sent" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="form_sent">Thank you — WhatsApp has opened with your details ready to send. Hit send there and we will reply within 24 hours.</p>
+          <p class="note form-status" id="enquiry-status-ok" hidden data-i18n="form_sent_ok" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="form_sent_ok">Thank you — your enquiry is on its way to us by email. We will reply within 24 hours, usually the same day.</p>
+          <p class="note form-status" id="enquiry-status-fallback" hidden data-i18n="form_sent_fb" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="form_sent_fb">Thank you — WhatsApp and your email app have opened with your details ready to send. Press send in either one and we will reply within 24 hours.</p>
         </form>
       </div>
     </div>
@@ -975,7 +1014,7 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
     <div class="foot-grid">
       <div class="foot-brand">
         <b data-i18n-key="con_h2" data-i18n="con_h2">Pliva River Lodge</b>
-        <span data-i18n="foot_sip" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="foot_sip">Šipovo, Republika Srpska, Bosnia &amp; Herzegovina<br>Fly fishing on the Pliva · Open year-round</span>
+        <span data-i18n="foot_sip" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="foot_sip">Pljeva, Šipovo<br>Bosnia &amp; Herzegovina<br>Fly fishing on the Pliva · Open year-round</span>
         <span class="host-line" data-i18n="host_line" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="host_line">Hosted by Milka Smjestaj Šobić</span>
       </div>
       <nav class="foot-links">

@@ -1,14 +1,5 @@
 # Cold outreach — 9 templates, EN / DE / IT
 
-> **⚠️ BEFORE YOU USE THIS FILE**
-> The booking email in it is **not live yet** — `bookings@plivariverlodge.com` sits on a domain that
-> does not resolve, so anything sent there is lost.
->
-> Set the real inbox in `site-config.json`, set `"email_live": true`, then run
-> `python3 marketing/render.py` to regenerate this file. Until then, send
-> everything through WhatsApp: **+387 65 622 760**.
-
-
 ## The rules, which matter more than the words
 
 1. **Never open with a price.** Open with the property, the river, and why
@@ -136,11 +127,11 @@ everyone at once.
 > Details:
 > • 7 rooms, all river view, en-suite
 > • Wood-fire dining hall, private terrace over the bank
-> • Licensed guides, full board, airport transfers from Sarajevo, Banja Luka
->   and Split
+> • English-speaking fishing guides, full board, airport transfers from
+>   Sarajevo, Banja Luka and Split
 > • Open year-round
-> • Pliva River Lodge, Šipovo, Republika Srpska
-> • +387 65 622 760 · bookings@plivariverlodge.com · https://guesthousesobic.netlify.app
+> • Pliva River Lodge, Pljeva, Šipovo
+> • +387 65 622 760 · milkasobic25@gmail.com · https://guesthousesobic.netlify.app
 >
 > I can send photos and any documents you need.
 >

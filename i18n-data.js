@@ -1,10 +1,10 @@
 /* Pliva River Lodge - i18n dictionary. Generated; do not edit by hand. */
 window.I18N = {
   "brand_sub": {
-    "en": "Sipovo · Bosnia &amp; Herzegovina",
-    "de": "Sipovo · Bosnien &amp; Herzegowina",
-    "bs": "Sipovo · Bosna i Hercegovina",
-    "it": "Sipovo · Bosnia ed Erzegovina"
+    "en": "Pljeva · Šipovo · Bosnia &amp; Herzegovina",
+    "de": "Pljeva · Šipovo · Bosnien &amp; Herzegowina",
+    "bs": "Pljeva · Šipovo · Bosna i Hercegovina",
+    "it": "Pljeva · Šipovo · Bosnia ed Erzegovina"
   },
   "host_line": {
     "en": "Hosted by Milka Smjestaj Šobić",
@@ -259,10 +259,10 @@ window.I18N = {
     "it": "La settimana sul Pliva — 1.190 €"
   },
   "seas_pa": {
-    "en": "Seven nights, six days of guided fishing, full board, licence and the Sarajevo transfer. Group of four. The BWO hatch is at its tail end and the grayling are in prime condition.",
-    "de": "Sieben Nächte, sechs Tage begleitetes Fischen, Vollpension, Lizenz und der Transfer ab Sarajevo. Vier Personen. Die BWO-Schlüpfe sind am Ende und die Äsche in Bestform.",
-    "bs": "Sedam noći, šest dana vođenog ribolova, puni pansion, dozvola i transfer sa Sarajeva. Grupa od četiri. Rok bijele mušice je na izmaku, a lipljen je u savršenoj kondiciji.",
-    "it": "Sette notti, sei giorni di pesca guidata, pensione completa, permesso e transfer da Sarajevo. Gruppo di quattro. La schiusa della BWO è al suo epilogo e i temoli sono in condizioni perfette."
+    "en": "Seven nights, six days of guided fishing, full board, licence, tourist tax and the Sarajevo transfer. Group of four. The BWO hatch is at its tail end and the grayling are in prime condition.",
+    "de": "Sieben Nächte, sechs Tage begleitetes Fischen, Vollpension, Lizenz, Kurtaxe und der Transfer ab Sarajevo. Vier Personen. Die BWO-Schlüpfe sind am Ende und die Äsche in Bestform.",
+    "bs": "Sedam noći, šest dana vođenog ribolova, puni pansion, dozvola, boravišna taksa i transfer sa Sarajeva. Grupa od četiri. Rok bijele mušice je na izmaku, a lipljen je u savršenoj kondiciji.",
+    "it": "Sette notti, sei giorni di pesca guidata, pensione completa, permesso, tassa di soggiorno e transfer da Sarajevo. Gruppo di quattro. La schiusa della BWO è al suo epilogo e i temoli sono in condizioni perfette."
   },
   "seas_tag2": {
     "en": "Year round",
@@ -277,10 +277,10 @@ window.I18N = {
     "it": "Soggiorno breve — 730 €"
   },
   "seas_pb": {
-    "en": "Four nights, three fishing days, half board, licence and transfer. The easy way to try the river — and the easiest to fill in the gaps between trips.",
-    "de": "Vier Nächte, drei Fischeitage, Halbpension, Lizenz und Transfer. Der einfache Weg, den Fluss zu testen – und am leichtesten zwischen zwei Reisen zu füllen.",
-    "bs": "Četiri noći, tri ribolovna dana, polupansion, dozvola i transfer. Najlakši način da isprobate rijeku – i najlakše popuniti praznine između putovanja.",
-    "it": "Quattro notti, tre giorni di pesca, mezza pensione, permesso e transfer. Il modo più semplice di provare il fiume — e il più facile per colmare i vuoti fra un viaggio e l'altro."
+    "en": "Four nights, three fishing days, half board, licence, tourist tax and transfer. The easy way to try the river — and the easiest to fill in the gaps between trips.",
+    "de": "Vier Nächte, drei Fischeitage, Halbpension, Lizenz, Kurtaxe und Transfer. Der einfache Weg, den Fluss zu testen – und am leichtesten zwischen zwei Reisen zu füllen.",
+    "bs": "Četiri noći, tri ribolovna dana, polupansion, dozvola, boravišna taksa i transfer. Najlakši način da isprobate rijeku – i najlakše popuniti praznine između putovanja.",
+    "it": "Quattro notti, tre giorni di pesca, mezza pensione, permesso, tassa di soggiorno e transfer. Il modo più semplice di provare il fiume — e il più facile per colmare i vuoti fra un viaggio e l'altro."
   },
   "seas_h3c": {
     "en": "The Companion Week — €950",
@@ -307,10 +307,10 @@ window.I18N = {
     "it": "Tre modi per venire"
   },
   "pkg_p": {
-    "en": "All packages include the lodge, the table, the guide and the fishing licence. Tourist tax is €2 per person per night, paid on arrival. November and December rates are lower — see each card.",
-    "de": "Alle Pakete enthalten das Haus, den Tisch, den Guide und die Angel-Lizenz. Die Kurtaxe beträgt €2 pro Person und Nacht, wird bei Ankunft bezahlt. Im November und Dezember sind die Preise niedriger – siehe jede Karte.",
-    "bs": "Svi paketi uključuju pansion, sto, vodiča i dozvolu za ribolov. Boravišna taksa je 2 € po osobi po noći, plaća se pri dolasku. Cijene u novembru i decembru su niže – vidite svaku karticu.",
-    "it": "Tutti i pacchetti includono la locanda, la tavola, la guida e il permesso di pesca. La tassa di soggiorno è di 2 € a persona a notte, da pagare all'arrivo. A novembre e dicembre le tariffe sono più basse — vedi ogni scheda."
+    "en": "All packages include the lodge, the table, the guide, the fishing licence and the tourist tax — there is nothing to pay on arrival. November and December rates are lower — see each card.",
+    "de": "Alle Pakete enthalten das Haus, den Tisch, den Guide, die Angel-Lizenz und die Kurtaxe — bei der Ankunft ist nichts zu zahlen. Im November und Dezember sind die Preise niedriger — siehe jede Karte.",
+    "bs": "Svi paketi uključuju pansion, sto, vodiča, dozvolu za ribolov i boravišnu taksu — pri dolasku se ne plaća ništa. Cijene u novembru i decembru su niže – vidite svaku karticu.",
+    "it": "Tutti i pacchetti includono la locanda, la tavola, la guida, il permesso di pesca e la tassa di soggiorno — all'arrivo non devi pagare nulla. A novembre e dicembre le tariffe sono più basse: vedi ogni scheda."
   },
   "pkg1_h3": {
     "en": "The Pliva Week",
@@ -367,22 +367,22 @@ window.I18N = {
     "it": "7 notti in una camera con vista sul fiume, bagno privato"
   },
   "pkg1_l2": {
-    "en": "Full board: breakfast, packed lunch on the water, dinner",
-    "de": "Vollpension: Frühstück, Lunchpaket am Wasser, Abendessen",
-    "bs": "Puni pansion: doručak, lunch na obali, večera",
-    "it": "Pensione completa: colazione, pranzo al sacco sull'acqua, cena"
+    "en": "Full board: breakfast and one other meal each day",
+    "de": "Vollpension: Frühstück und eine weitere Mahlzeit am Tag",
+    "bs": "Puni pansion: doručak i još jedan obrok svaki dan",
+    "it": "Pensione completa: colazione e un altro pasto ogni giorno"
   },
   "pkg1_l3": {
     "en": "6 days guided fishing with a local English-speaking guide",
-    "de": "6 Tage begleitetes Fischen mit einem englischsprachigen lokalen Guide",
+    "de": "6 Tage begleitetes Fischen mit einem englischsprachigen Guide aus der Region",
     "bs": "6 dana vođenog ribolova sa lokalnim vodičem koji govori engleski",
     "it": "6 giorni di pesca guidata con una guida locale che parla inglese"
   },
   "pkg1_l4": {
-    "en": "Pliva fishing licence — €50/day non-resident rate, included",
-    "de": "Angel-Lizenz für die Pliva — €50/Tag für Nicht-Einwohner, inklusive",
-    "bs": "Dozvola za ribolov na Plivi — 50 €/dan za stanare, uključeno",
-    "it": "Permesso di pesca sul Pliva — 50 €/giorno per non residenti, incluso"
+    "en": "Fishing licence — €40/day on the Pliva, €50/day on the Ribnik (€35 in November and December), included",
+    "de": "Angel-Lizenz — €40/Tag auf der Pliva, €50/Tag auf der Ribnik (€35 im November und Dezember), inklusive",
+    "bs": "Dozvola za ribolov — 40 €/dan na Plivi, 50 €/dan na Ribniku (35 € u novembru i decembru), uključeno",
+    "it": "Permesso di pesca — 40 €/giorno sul Pliva, 50 €/giorno sul Ribnik (35 € a novembre e dicembre), incluso"
   },
   "pkg1_l5": {
     "en": "Round-trip airport transfer from Sarajevo",
@@ -391,10 +391,10 @@ window.I18N = {
     "it": "Transfer aeroportuale andata e ritorno da Sarajevo"
   },
   "pkg1_l6": {
-    "en": "Rod and waders on request",
-    "de": "Rute und Watlings auf Wunsch",
-    "bs": "Štap i čizme na zahtjev",
-    "it": "Canna e stivali da guado su richiesta"
+    "en": "Own rods and waders — bring your own or hire them in Šipovo",
+    "de": "Eigene Ruten und Watlings — mitbringen oder in Šipovo ausleihen",
+    "bs": "Vlastiti štapovi i čizme — ponesite svoje ili iznajmite u Šipovu",
+    "it": "Le tue canne e stivali da guado — porta le tue o affittale a Šipovo"
   },
   "pkg2_l1": {
     "en": "7 nights in a river-view room, ensuite",
@@ -451,10 +451,10 @@ window.I18N = {
     "it": "3 giorni di pesca guidata con una guida locale"
   },
   "pkg3_l4": {
-    "en": "Pliva fishing licence — €50/day non-resident rate, included",
-    "de": "Angel-Lizenz für die Pliva — €50/Tag für Nicht-Einwohner, inklusive",
-    "bs": "Dozvola za ribolov na Plivi — 50 €/dan za stanare, uključeno",
-    "it": "Permesso di pesca sul Pliva — 50 €/giorno per non residenti, incluso"
+    "en": "Fishing licence — €40/day on the Pliva, €50/day on the Ribnik (€35 in November and December), included",
+    "de": "Angel-Lizenz — €40/Tag auf der Pliva, €50/Tag auf der Ribnik (€35 im November und Dezember), inklusive",
+    "bs": "Dozvola za ribolov — 40 €/dan na Plivi, 50 €/dan na Ribniku (35 € u novembru i decembru), uključeno",
+    "it": "Permesso di pesca — 40 €/giorno sul Pliva, 50 €/giorno sul Ribnik (35 € a novembre e dicembre), incluso"
   },
   "pkg3_l5": {
     "en": "Round-trip airport transfer from Sarajevo",
@@ -469,10 +469,10 @@ window.I18N = {
     "it": "Perfetto da abbinare a un viaggio a Jajce o a Šipovo"
   },
   "pkg_hosted": {
-    "en": "Hosted weeks with named guides (UK, German, French- and Italian-speaking) are available from €1,790 per person. Ask about the autumn Blue-Winged Olive hatch.",
-    "de": "Begleitete Wochen mit namentlichen Guides (britisch, deutsch, französisch- und italienischsprachig) sind ab €1.790 pro Person möglich. Fragen Sie nach dem herbstlichen Blue-Winged-Olive-Schlupf.",
-    "bs": "Hostovane sedmice sa imenovanim vodičima (engleski, njemački, francuski i talijanski) dostupne su od 1.790 € po osobi. Pitajte o jesenskom roju bijele mušice.",
-    "it": "Settimane guidate con guide di nome (inglesi, tedesche, francesi e italiane) sono disponibili da 1.790 € a persona. Chiedi della schiusa autunnale del Blu-Winged Olive."
+    "en": "Fishing guides speak English. A guided day costs €150–200 for the group, depending on how many of you there are — so it works out cheaper the more anglers you bring. Ask about the autumn Blue-Winged Olive hatch.",
+    "de": "Unsere Fischguides sprechen Englisch. Ein begleiteter Tag kostet €150–200 für die ganze Gruppe, je nachdem, wie viele von Ihnen kommen — je mehr Angler, desto günstiger pro Person. Fragen Sie nach der herbstlichen Blue-Winged-Olive-Schlüpfe.",
+    "bs": "Naši vodiči za ribolov govore engleski. Vođeni dan košta 150–200 € za cijelu grupu, zavisno od toga koliko vas dođe — što više ribolovaca, to je jeftinije po osobi. Pitajte o jesenskom roju bijele mušice.",
+    "it": "Le nostre guide di pesca parlano inglese. Una giornata guidata costa 150–200 € per l'intero gruppo, a seconda di quanti siete — più anglici siete, più conviene a testa. Chiedete della schiusa autunnale del Blu-Winged Olive."
   },
   "rates_eyebrow": {
     "en": "Rates &amp; what's included",
@@ -487,10 +487,10 @@ window.I18N = {
     "it": "Soggiorno da solo"
   },
   "rates_note": {
-    "en": "Room-only rates are per night, breakfast included. The Pliva fishing licence is <b>€50 per day</b> for non-resident guests and is not included in room-only rates; we arrange it for you on arrival. Children under 6 stay free and pay no licence. Children 6–12 pay half rate and no licence. Tourist tax is €2 per person per night, charged on arrival and shown separately on your invoice.",
-    "de": "Die Übernachtungspreise gelten pro Nacht inklusive Frühstück. Die Angel-Lizenz für die Pliva beträgt <b>€50 pro Tag</b> für Nicht-Einwohner und ist in den Übernachtungspreisen nicht enthalten; wir besorgen sie Ihnen bei Ankunft. Kinder unter 6 Jahren sind kostenlos und zahlen keine Lizenz. Kinder von 6 bis 12 Jahren zahlen den halben Preis und keine Lizenz. Die Kurtaxe beträgt €2 pro Person und Nacht, wird bei Ankunft berechnet und separat auf Ihrer Rechnung ausgewiesen.",
-    "bs": "Cijene smještaja su po noći i uključuju doručak. Dozvola za ribolov na Plivi iznosi <b>50 € po danu</b> za stanare i nije uključena u cijene smještaja; mi je pribavljamo za vas pri dolasku. Djeca mlađa od 6 godina besplatno su i ne plaćaju dozvolu. Djeca od 6 do 12 godina plaćaju pola cijene i ne plaćaju dozvolu. Boravišna taksa je 2 € po osobi po noći, naplaćuje se pri dolasku i iskazuje zasebno na računu.",
-    "it": "Le tariffe di soggiorno sono per notte e includono la colazione. Il permesso di pesca sul Pliva è di <b>50 € al giorno</b> per i non residenti e non è incluso nelle tariffe di soggiorno; noi lo procuriamo per te all'arrivo. I bambini sotto i 6 anni soggiornano gratis e non pagano il permesso. I bambini dai 6 ai 12 anni pagano metà tariffa e non pagano il permesso. La tassa di soggiorno è di 2 € a persona a notte, addebitata all'arrivo e riportata separatamente sulla fattura."
+    "en": "Room-only rates are per night and include breakfast. Meals are priced per person: half board €32 and full board €50 per person per day. Full board covers two of the day's three meals — breakfast, plus either lunch or dinner. Children under 6 stay free and pay no licence. Children 6–12 pay half rate and no licence. Tourist tax is €2 per person per night — it is already included in our packages, and on room-only stays it is charged on arrival and shown separately on your invoice.",
+    "de": "Die Zimmerpreise verstehen sich pro Nacht und inklusive Frühstück. Die Mahlzeiten werden pro Person berechnet: Halbpension 32 € und Vollpension 50 € pro Person und Tag. Die Vollpension deckt zwei der drei Mahlzeiten des Tages — Frühstück, plus Mittagessen oder Abendessen. Kinder unter 6 Jahren bleiben kostenlos und brauchen keine Lizenz. Kinder von 6 bis 12 Jahren zahlen den halben Preis und brauchen keine Lizenz. Die Kurtaxe beträgt 2 € pro Person und Nacht — in unseren Pauschalen ist sie bereits enthalten, bei reinen Zimmerbuchungen wird sie bei der Anreise berechnet und separat auf der Rechnung ausgewiesen.",
+    "bs": "Cijene smještaja su po noći i uključuju doručak. Obroci se obračunavaju po osobi: polupansion 32 € i puni pansion 50 € po osobi po danu. Puni pansion pokriva dva od tri obroka u danu — doručak, plus ručak ili večera. Djeca mlađa od 6 godina besplatno su i ne plaćaju dozvolu. Djeca od 6 do 12 godina plaćaju pola cijene i ne plaćaju dozvolu. Boravišna taksa je 2 € po osobi po noći — u našim je paketima već uključena, a kod smještaja bez paketa naplaćuje se pri dolasku i iskazuje zasebno na računu.",
+    "it": "Le tariffe di soggiorno sono per notte e includono la colazione. I pasti si calcolano a persona: mezza pensione 32 € e pensione completa 50 € a persona al giorno. La pensione completa copre due dei tre pasti della giornata — la colazione, più il pranzo o la cena. I bambini sotto i 6 anni soggiornano gratis e non pagano il permesso. I bambini dai 6 ai 12 anni pagano metà tariffa e non pagano il permesso. La tassa di soggiorno è di 2 € a persona a notte — è già inclusa nei nostri pacchetti, mentre per i soggiorni senza pacchetto viene addebitata all'arrivo e riportata separatamente sulla fattura."
   },
   "quote_src": {
     "en": "Angling writer, on the Pliva and Ribnik",
@@ -511,10 +511,10 @@ window.I18N = {
     "it": "Tre aeroporti, una strada"
   },
   "air_p": {
-    "en": "We arrange door-to-door transfers in a private car or minivan. Tell us your flight and we will be waiting with a name board.",
-    "de": "Wir organisieren Tür-zu-Tür-Transfers im privaten PKW oder Kleinbus. Nennen Sie uns Ihren Flug, und wir warten mit einem Namensschild.",
-    "bs": "Organizujemo transfer od vrata do vrata privatnim automobilom ili minibusom. Javite nam let, a čekat ćemo vas s natpisnom pločom.",
-    "it": "Organizziamo transfer porta a porta con auto privata o minibus. Comunicateci il vostro volo e vi aspetteremo con un cartello con il vostro nome."
+    "en": "We arrange door-to-door transfers in a private van or car from Sarajevo, Banja Luka and Split. Tell us your flight and we will be waiting with a name board.",
+    "de": "Wir arrangieren Tür-zu-Tür-Transfers in einem privaten Van oder Auto ab Sarajevo, Banja Luka und Split. Nennen Sie uns Ihren Flug, und wir warten mit einem Namensschild.",
+    "bs": "Organizujemo transfer od vrata do vrata privatnim kombijem ili autom iz Sarajeva, Banje Luke i Splita. Javite nam let i čekat ćemo s natpisom.",
+    "it": "Organizziamo trasferimenti porta a porta con un van o un'auto privata da Sarajevo, Banja Luka e Split. Ci dica il suo volo e la aspettiamo con un cartello con il suo nome."
   },
   "air_sjj": {
     "en": "SJJ · SARAJEVO",
@@ -565,10 +565,10 @@ window.I18N = {
     "it": "≈ 3,5 ore · 250 km"
   },
   "air_spu_p": {
-    "en": "Croatia, one border crossing. Excellent low-cost connectivity from the UK, Germany and Italy. We cross at Kamensko and the border is usually straightforward.",
-    "de": "Kroatien, eine Grenzüberfahrt. Hervorragende Billigflug-Anbindung aus Großbritannien, Deutschland und Italien. Wir fahren über Kamensko, die Grenze ist meist unkompliziert.",
-    "bs": "Hrvatska, jedan prelazak granice. Odlična veza niskotarifnim letovima iz Velike Britanije, Njemačke i Italije. Prelazimo preko Kamenskog, a granica je obično bez poteškoća.",
-    "it": "Croazia, un solo attraversamento di frontiera. Ottimi collegamenti low cost dal Regno Unito, dalla Germania e dall'Italia. Passiamo da Kamensko e il confine di solito si attraversa senza problemi."
+    "en": "Croatia, one border crossing. Excellent low-cost connectivity from the UK, Germany and Italy. We cross at Kamensko with our own van, so there is no second vehicle to change into and no transfer you have to arrange yourself.",
+    "de": "Kroatien, eine Grenzüberfahrt. Hervorragende Low-Cost-Verbindungen aus Großbritannien, Deutschland und Italien. Wir überqueren bei Kamensko mit unserem eigenen Van — Sie müssen also nicht in ein zweites Fahrzeug umsteigen und selbst nichts organisieren.",
+    "bs": "Hrvatska, jedan prelaz granice. Odlične niskotarifne veze iz Ujedinjenog Kraljevstva, Njemačke i Italije. Prelazimo na Kamenskom svojim kombijem, pa ne morate prelaziti u drugo vozilo niti sami organizovati prijevoz.",
+    "it": "Croazia, un solo attraversamento di frontiera. Ottimi collegamenti low cost dal Regno Unito, dalla Germania e dall'Italia. Attraversiamo a Kamensko con il nostro van: non dovete cambiare veicolo né organizzarvi il trasferimento da soli."
   },
   "air_spu_r": {
     "en": "Many UK low-cost flights",
@@ -696,12 +696,6 @@ window.I18N = {
     "bs": "Svaki upit odgovaramo unutar 24 sata, obično istog dana.",
     "it": "Rispondiamo a ogni richiesta entro 24 ore, di solito già in giornata."
   },
-  "form_sent": {
-    "en": "Thank you — WhatsApp has opened with your details ready to send. Hit send there and we will reply within 24 hours.",
-    "de": "Danke — WhatsApp hat sich mit Ihren Angaben geöffnet. Senden Sie die Nachricht dort ab, wir antworten innerhalb von 24 Stunden.",
-    "bs": "Hvala — WhatsApp se otvorio s vašim podacima. Pošaljite poruku tamo i odgovorit ćemo vam unutar 24 sata.",
-    "it": "Grazie — WhatsApp si è aperto con i vostri dati pronti da inviare. Inviate il messaggio da lì e risponderemo entro 24 ore."
-  },
   "opt_1": {
     "en": "1 angler",
     "de": "1 Angler",
@@ -769,10 +763,10 @@ window.I18N = {
     "it": "Esperienza di pesca, esigenze alimentari, preferenze per la camera…"
   },
   "foot_sip": {
-    "en": "Šipovo, Republika Srpska, Bosnia &amp; Herzegovina<br>Fly fishing on the Pliva · Open year-round",
-    "de": "Šipovo, Republika Srpska, Bosnien &amp; Herzegowina<br>Fliegenfischen auf der Pliva · Ganzjährig geöffnet",
-    "bs": "Šipovo, Republika Srpska, Bosna i Hercegovina<br>Mušičarenje na Plivi · Otvoreno cijele godine",
-    "it": "Šipovo, Republika Srpska, Bosnia ed Erzegovina<br>Pesca a mosca sul Pliva · Aperto tutto l'anno"
+    "en": "Pljeva, Šipovo<br>Bosnia &amp; Herzegovina<br>Fly fishing on the Pliva · Open year-round",
+    "de": "Pljeva, Šipovo<br>Bosnien &amp; Herzegowina<br>Fliegenfischen auf der Pliva · Ganzjährig geöffnet",
+    "bs": "Pljeva, Šipovo<br>Bosna i Hercegovina<br>Mušičarenje na Plivi · Otvoreno cijele godine",
+    "it": "Pljeva, Šipovo<br>Bosnia ed Erzegovina<br>Pesca a mosca sul Pliva · Aperto tutto l'anno"
   },
   "foot_safe": {
     "en": "Catch and release. Travel insurance recommended.",
@@ -877,10 +871,10 @@ window.I18N = {
     "it": "Nov–dic: <b>1.190 €</b> a persona"
   },
   "con_addr_v": {
-    "en": "Šipovo, Republika Srpska, Bosnia &amp; Herzegovina<br>2 km downstream of the Pliva springs",
-    "de": "Šipovo, Republika Srpska, Bosnien &amp; Herzegowina<br>2 km unterhalb der Pliva-Quellen",
-    "bs": "Šipovo, Republika Srpska, Bosna i Hercegovina<br>2 km nizvodnije od izvora Plive",
-    "it": "Šipovo, Republika Srpska, Bosnia ed Erzegovina<br>2 km a valle delle sorgenti del Pliva"
+    "en": "Pljeva, Šipovo<br>Bosnia &amp; Herzegovina<br>2 km downstream of the Pliva springs",
+    "de": "Pljeva, Šipovo<br>Bosnien &amp; Herzegowina<br>2 km unterhalb der Pliva-Quellen",
+    "bs": "Pljeva, Šipovo<br>Bosna i Hercegovina<br>2 km nizvodnije od izvora Plive",
+    "it": "Pljeva, Šipovo<br>Bosnia ed Erzegovina<br>2 km a valle delle sorgenti del Pliva"
   },
   "con_co_v": {
     "en": "From 11:00 · until 10:00",
@@ -925,10 +919,10 @@ window.I18N = {
     "it": "<b>Lancio dalla riva</b> — dalla terrazza della locanda e dal prato"
   },
   "angl_l3": {
-    "en": "<b>Guided days</b> — a local guide, waders and rods included",
-    "de": "<b>Geführte Tage</b> – lokaler Guide, Watlings und Ruten inklusive",
-    "bs": "<b>Vodeni dani</b> – lokalni vodič, čizme i štapovi uključeni",
-    "it": "<b>Giornate guidate</b> — una guida locale, stivali e canne inclusi"
+    "en": "<b>Guided days</b> — a local English-speaking guide on the river",
+    "de": "<b>Geführte Tage</b> – ein englischsprachiger Guide aus der Region auf dem Fluss",
+    "bs": "<b>Vodeni dani</b> – lokalni vodič koji govori engleski na rijeci",
+    "it": "<b>Giornate guidate</b> — una guida locale che parla inglese sul fiume"
   },
   "angl_safe": {
     "en": "The water is 8 °C all year. A wetsuit and a buoyancy aid are essential, and we provide both. Life vests are worn at all times on the guided days.",
@@ -985,10 +979,10 @@ window.I18N = {
     "it": "Chiedi una giornata sul Ribnik"
   },
   "rib_price": {
-    "en": "Daily car transport to the Ribnik · arrange at reception",
-    "de": "Täglicher Autotransport zur Ribnik · an der Rezeption arrangieren",
-    "bs": "Svakodnevni prevoz autom na Ribnik · organizuje se na recepciji",
-    "it": "Servizio auto giornaliero per il Ribnik · da concordare alla reception"
+    "en": "Daily car transport to the Ribnik · €80 per group",
+    "de": "Tägliche Autofahrt zum Ribnik · 80 € pro Gruppe",
+    "bs": "Svakodnevni prevoz automobilom na Ribnik · 80 € po grupi",
+    "it": "Trasporto giornaliero in auto al Ribnik · 80 € per gruppo"
   },
   "nav_ribnik": {
     "en": "The Ribnik",
@@ -1051,10 +1045,10 @@ window.I18N = {
     "it": "Mezza pensione"
   },
   "r5_s": {
-    "en": "€32 per person per day · breakfast and dinner",
-    "de": "€32 pro Person und Tag · Frühstück und Abendessen",
-    "bs": "32 € po osobi dnevno · doručak i večera",
-    "it": "32 € a persona al giorno · colazione e cena"
+    "en": "€32 per person per day. One meal, served in the evening",
+    "de": "€32 pro Person und Tag. Eine Mahlzeit, abends serviert",
+    "bs": "32 € po osobi po danu. Jedan obrok, poslužen uveče",
+    "it": "32 € a persona al giorno. Un pasto, servito alla sera"
   },
   "r6_b": {
     "en": "Full board",
@@ -1063,10 +1057,10 @@ window.I18N = {
     "it": "Pensione completa"
   },
   "r6_s": {
-    "en": "€52 per person per day · all meals",
-    "de": "€52 pro Person und Tag · alle Mahlzeiten",
-    "bs": "52 € po osobi dnevno · svi obroci",
-    "it": "52 € a persona al giorno · tutti i pasti"
+    "en": "€50 per person per day. Includes two of the three meals: breakfast, plus either lunch or dinner",
+    "de": "€50 pro Person und Tag. Zwei von drei Mahlzeiten sind enthalten: Frühstück, plus Mittagessen oder Abendessen",
+    "bs": "50 € po osobi po danu. Uključena su dva od tri obroka: doručak, plus ručak ili večera",
+    "it": "50 € a persona al giorno. Include due dei tre pasti: colazione, più pranzo o cena"
   },
   "r7_b": {
     "en": "Airport transfer",
@@ -1075,28 +1069,28 @@ window.I18N = {
     "it": "Transfer aeroportuale"
   },
   "r7_s": {
-    "en": "Sarajevo included · Banja Luka and Split on request",
-    "de": "Sarajevo inklusive · Banja Luka und Split auf Wunsch",
-    "bs": "Sarajevo uključeno · Banja Luka i Split na zahtjev",
-    "it": "Sarajevo incluso · Banja Luka e Split su richiesta"
+    "en": "Sarajevo, Banja Luka and Split — arranged with the lodge",
+    "de": "Sarajevo, Banja Luka und Split — mit dem Haus arrangiert",
+    "bs": "Sarajevo, Banja Luka i Split — organizuje se s pansionom",
+    "it": "Sarajevo, Banja Luka e Split — organizzati con la locanda"
   },
   "r8_b": {
-    "en": "Equipment rental",
-    "de": "Ausrüstungsverleih",
-    "bs": "Iznajmljivanje opreme",
-    "it": "Noleggio attrezzatura"
+    "en": "Fishing guide",
+    "de": "Fischguide",
+    "bs": "Vodič za ribolov",
+    "it": "Guida di pesca"
   },
   "r8_s": {
-    "en": "Rod, reel, line and waders · €22 per day",
-    "de": "Rute, Rolle, Schnur und Watlings · €22 pro Tag",
-    "bs": "Štap, kalem, struna i čizme · 22 € dnevno",
-    "it": "Canna, mulinello, lenza e stivali da guado · 22 € al giorno"
+    "en": "English-speaking · €150–200 per day for the group",
+    "de": "Englischsprachig · €150–200 pro Tag für die ganze Gruppe",
+    "bs": "Govori engleski · 150–200 € po danu za cijelu grupu",
+    "it": "Parla inglese · 150–200 € al giorno per l'intero gruppo"
   },
   "rib_price_sub": {
-    "en": "≈ 50 km · about an hour each way",
-    "de": "≈ 50 km · rund eine Stunde pro Strecke",
-    "bs": "≈ 50 km · oko sat vremena u jednom smjeru",
-    "it": "≈ 50 km · circa un'ora per tratta"
+    "en": "Up to 7 people · one car · about an hour each way",
+    "de": "Bis zu 7 Personen · ein Auto · etwa eine Stunde pro Strecke",
+    "bs": "Do 7 osoba · jedan automobil · otprilike sat vremena u jednom pravcu",
+    "it": "Fino a 7 persone · un'auto · circa un'ora per tratta"
   },
   "quote_text": {
     "en": "\"There are plenty of fish, and they are by no means as wary of the bait as in rivers like the Test or Itchen — but they are incredibly picky. If you've ever thought about fishing somewhere new, this is the trip that changes the way you fish.\"",
@@ -1115,5 +1109,77 @@ window.I18N = {
     "de": "Nov–Dez: <b>€730</b> pro Person",
     "bs": "Nov–dec: <b>730 €</b> po osobi",
     "it": "Nov–dic: <b>730 €</b> a persona"
+  },
+  "form_wa": {
+    "en": "or message us on WhatsApp",
+    "de": "oder schreiben Sie uns auf WhatsApp",
+    "bs": "ili nam pišite na WhatsApp-u",
+    "it": "oppure scrivici su WhatsApp"
+  },
+  "form_wa_btn": {
+    "en": "WhatsApp Milka",
+    "de": "WhatsApp Milka",
+    "bs": "WhatsApp Milka",
+    "it": "WhatsApp Milka"
+  },
+  "form_sent_ok": {
+    "en": "Thank you — your enquiry is on its way to us by email. We will reply within 24 hours, usually the same day.",
+    "de": "Danke — Ihre Anfrage ist per E-Mail unterwegs zu uns. Wir antworten innerhalb von 24 Stunden, meistens noch am selben Tag.",
+    "bs": "Hvala — vaš upit je poslan nama e-poštom. Odgovorit ćemo vam u roku od 24 sata, obično istog dana.",
+    "it": "Grazie — la tua richiesta è in viaggio verso di noi via email. Ti risponderemo entro 24 ore, di solito già in giornata."
+  },
+  "form_sent_fb": {
+    "en": "Thank you — WhatsApp and your email app have opened with your details ready to send. Press send in either one and we will reply within 24 hours.",
+    "de": "Danke — WhatsApp und Ihr E-Mail-Programm haben sich mit Ihren Angaben geöffnet. Senden Sie in einer der beiden Apps, und wir antworten innerhalb von 24 Stunden.",
+    "bs": "Hvala — WhatsApp i vaša aplikacija za e-poštu otvorili su se s vašim podacima spremanim za slanje. Pošaljite u jednoj od njih i odgovorit ćemo vam u roku od 24 sata.",
+    "it": "Grazie — WhatsApp e la tua app di posta si sono aperti con i tuoi dati pronti per l'invio. Premi invia in uno dei due e ti risponderemo entro 24 ore."
+  },
+  "rates_toggle_label": {
+    "en": "Show the totals",
+    "de": "Gesamtkosten anzeigen",
+    "bs": "Prikaži ukupne troškove",
+    "it": "Mostra i totali"
+  },
+  "rates_toggle_off": {
+    "en": "Room and meals only",
+    "de": "Nur Zimmer und Verpflegung",
+    "bs": "Samo soba i obroci",
+    "it": "Solo camera e pasti"
+  },
+  "rates_toggle_on": {
+    "en": "Including the fishing licence",
+    "de": "Einschließlich Angel-Lizenz",
+    "bs": "Uključujući dozvolu za ribolov",
+    "it": "Incluso il permesso di pesca"
+  },
+  "rates_note_hint": {
+    "en": "The fishing licence is a government charge, not part of our room or meal rates, so we show it separately. Nobody has to fish — plenty of guests come for the river, the food and the quiet. Switch it on if you want to see what a fishing day comes to in total.",
+    "de": "Die Angel-Lizenz ist eine staatliche Gebühr und nicht Teil unserer Zimmer- oder Mahlzeitenpreise, deshalb zeigen wir sie separat. Nicht jeder muss fischen — viele Gäste kommen wegen des Flusses, der Küche und der Ruhe. Schalten Sie die Option ein, wenn Sie sehen möchten, was ein Angeltag insgesamt kostet.",
+    "bs": "Dozvola za ribolov je državna taksa i dio nije naših cijena smještaja ili obroka, zato je prikazujemo zasebno. Niko ne mora riboloviti — mnogi gosti dolaze zbog rijeke, hrane i mira. Uključite opciju ako želite vidjeti koliko ukupno stoji ribolovni dan.",
+    "it": "Il permesso di pesca è una tassa di Stato e non fa parte delle nostre tariffe di camera o pasti, quindi lo mostriamo separatamente. Non tutti devono pescare — molti ospiti vengono per il fiume, la cucina e la quiete. Attiva l'opzione per vedere quanto costa in totale una giornata di pesca."
+  },
+  "rates_total_sep": {
+    "en": "A solo angler in the single room with full board pays <b>€160 a day</b> — €70 for the room and breakfast, plus €50 for the meals. Two people sharing a double room pay about <b>€113 each</b> — €85 for the room split two ways, plus €50 each for meals.",
+    "de": "Ein Einzelreisender im Einzelzimmer mit Vollpension zahlt <b>€160 pro Tag</b> — €70 für Zimmer und Frühstück, plus €50 für die Mahlzeiten. Zwei Personen teilen sich ein Doppelzimmer und zahlen etwa <b>€113 je Person</b> — €85 für das Zimmer, auf zwei geteilt, plus je €50 für die Mahlzeiten.",
+    "bs": "Ribolovac koji je sam u sobi za jednu osobu, s punim pansionom, plaća <b>160 € po danu</b> — 70 € za sobu i doručak, plus 50 € za obroke. Dvije osobe koje dijele dvov krevetnu sobu plaćaju oko <b>113 € svaka</b> — 85 € za sobu podijeljeno na dvoje, plus po 50 € za obroke.",
+    "it": "Un pescatore da solo in camera singola, con pensione completa, paga <b>160 € al giorno</b> — 70 € per camera e colazione, più 50 € per i pasti. Due persone che condividono una camera doppia pagano circa <b>113 € ciascuna</b> — 85 € per la camera divisa in due, più 50 € a testa per i pasti."
+  },
+  "rates_total_inc": {
+    "en": "A fishing day comes to <b>€160 for a solo angler</b> in the single room with full board — <b>€70</b> room and breakfast, <b>€50</b> meals and the <b>€40</b> Pliva licence, all included. Two people sharing a double room pay about <b>€113 each</b>. The licence is arranged for you on arrival; nothing is hidden in the room rate.",
+    "de": "Ein Angeltag kostet <b>€160 für einen Einzelreisenden</b> im Einzelzimmer mit Vollpension — <b>€70</b> Zimmer und Frühstück, <b>€50</b> Verpflegung und die <b>€40</b> Pliva-Lizenz, alles inklusive. Zwei Personen teilen sich ein Doppelzimmer und zahlen etwa <b>€113 je Person</b>. Die Lizenz besorgen wir Ihnen bei Ankunft; im Zimmerpreis ist nichts versteckt.",
+    "bs": "Ribolovni dan iznosi <b>160 € za ribolovca koji je sam</b> u sobi za jednu osobu, s punim pansionom — <b>70 €</b> soba i doručak, <b>50 €</b> obroci i dozvola za Plivu od <b>40 €</b>, sve uključeno. Dvije osobe koje dijele dvov krevetnu sobu plaćaju oko <b>113 € svaka</b>. Dozvolu vam pribavljamo pri dolasku; ništa nije sakriveno u cijeni sobe.",
+    "it": "Una giornata di pesca viene a <b>160 € per un pescatore da solo</b> in camera singola, con pensione completa — <b>70 €</b> camera e colazione, <b>50 €</b> pasti e il permesso del Pliva da <b>40 €</b>, tutto incluso. Due persone che condividono una camera doppia pagano circa <b>113 € ciascuna</b>. Il permesso te lo procuriamo noi all'arrivo; nella tariffa della camera non c'è nulla di nascosto."
+  },
+  "rates_licence_line": {
+    "en": "Fishing licence — <b>€40 a day on the Pliva</b>, <b>€50 a day on the Ribnik</b> (€35 in November and December). Not included in the room or meal rates; we arrange it for you on arrival.",
+    "de": "Angel-Lizenz — <b>€40 pro Tag auf der Pliva</b>, <b>€50 pro Tag auf der Ribnik</b> (€35 im November und Dezember). Nicht in den Zimmer- oder Mahlzeitenpreisen enthalten; wir besorgen sie Ihnen bei Ankunft.",
+    "bs": "Dozvola za ribolov — <b>40 € po danu na Plivi</b>, <b>50 € po danu na Ribniku</b> (35 € u novembru i decembru). Nije uključena u cijene smještaja ni obroka; mi je pribavljamo za vas pri dolasku.",
+    "it": "Permesso di pesca — <b>40 € al giorno sul Pliva</b>, <b>50 € al giorno sul Ribnik</b> (35 € a novembre e dicembre). Non incluso nelle tariffe di camera o pasti; noi lo procuriamo per te all'arrivo."
+  },
+  "rates_head": {
+    "en": "Room prices are for the room. Meal prices are per person. Two people sharing a double room pay €85 for the room plus €50 each for meals, and split the room between them, which is why sharing is the better deal.",
+    "de": "Die Zimmerpreise gelten für das Zimmer. Die Mahlzeiten werden pro Person berechnet. Zwei Personen teilen sich ein Doppelzimmer, zahlen €85 für das Zimmer und je €50 für die Mahlzeiten und teilen sich das Zimmer, deshalb ist das Teilen günstiger.",
+    "bs": "Cijene smještaja odnose se na sobu. Obroci se plaćaju po osobi. Dvije osobe koje dijele dvov krevetnu sobu plaćaju 85 € za sobu i po 50 € za obroke, i dijele sobu, zato je zajednički smještaj jeftiniji.",
+    "it": "Le tariffe di soggiorno si riferiscono alla camera. I pasti si calcolano a persona. Due persone che condividono una camera doppia pagano 85 € per la camera più 50 € a testa per i pasti, e dividono la camera: per questo è più conveniente condividere."
   }
 };

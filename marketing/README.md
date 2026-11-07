@@ -29,17 +29,22 @@ Every file in this folder uses these tokens:
 | Token | What it is | Current value |
 |---|---|---|
 | `{{SITE_URL}}` | the live site | `https://guesthousesobic.netlify.app/` |
-| `{{EMAIL}}` | the booking inbox | **not set yet — see below** |
+| `{{EMAIL}}` | the booking inbox | `milkasobic25@gmail.com` — **live**, Milka answers it herself |
 | `{{PHONE}}` | phone / WhatsApp, display form | `+387 65 622 760` |
 | `{{PHONE_E164}}` | phone, machine form | `+38765622760` |
 | `{{WHATSAPP}}` | WhatsApp link | `https://wa.me/38765622760` |
 | `{{HOST}}` | host name | `Milka Smjestaj Šobić` |
 | `{{TRIPADVISOR}}` | TripAdvisor listing | see `tripadvisor-setup.md` |
 
-`{{EMAIL}}` is the one still open. The old address
-(`bookings@plivariverlodge.com`) is on a domain that does not resolve, so mail
-to it goes nowhere — it is currently the one genuinely broken contact route on
-the site.
+`{{EMAIL}}` is live. Milka gave the real inbox on 3 Nov 2026 —
+`milkasobic25@gmail.com` — and answers enquiries herself. The old address
+(`bookings@plivariverlodge.com`) was on a domain that does not resolve and is
+gone from the site, the JSON-LD and every copy file.
+
+The enquiry form reaches her two ways: it posts to Netlify Forms (so
+enquiries are kept in the dashboard) and it opens the guest's email app with
+the enquiry already written out. See `docs/form-email-notification.md` for
+the one Netlify setting that turns the form into a direct email to Milka.
 
 ### Master copy and generated copy
 
@@ -58,10 +63,11 @@ without running anything. It is generated output, though — if you change a
 fact in `marketing/`, re-run the renderer rather than editing `out/` by hand,
 or the next render will overwrite your change.
 
-**When you have the real inbox**, do this and every file updates at once:
+**When you change a shared value** (the inbox, the phone, the address), do this
+and every file updates at once:
 
 ```bash
-# 1. put the new address in the single source of truth
+# 1. put the new value in the single source of truth
 vim site-config.json          # "email": "your-new-inbox@example.com"
                              # "email_live": true
 
@@ -75,10 +81,9 @@ python3 marketing/render.py
 python3 build_standalone.py
 ```
 
-Until step 1 is done, every file in `marketing/out/` carries a banner at the
-top saying the email is not live yet. The renderer adds that banner for you
-based on `"email_live"` in `site-config.json` — you never have to remember to
-remove it.
+The banner that says the email is not live yet is added automatically based on
+`"email_live"` in `site-config.json` — you never have to remember to remove
+it, and it disappears on its own the moment the address is right.
 
 ## The files
 

@@ -1,11 +1,11 @@
 {
-  "email_live": false,
+  "email_live": true,
   "site_url": "https://guesthousesobic.netlify.app/",
   "phone_display": "+387 65 622 760",
   "phone_e164": "+38765622760",
   "whatsapp": "https://wa.me/38765622760",
-  "email": "bookings@plivariverlodge.com",
+  "email": "milkasobic25@gmail.com",
   "host": "Milka Smjestaj Šobić",
-  "location": "Šipovo, Republika Srpska, Bosnia & Herzegovina",
+  "location": "Pljeva, Šipovo, Bosnia & Herzegovina",
   "standalone_output": "PlivaRiverLodge-standalone.html"
 }

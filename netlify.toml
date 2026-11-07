@@ -7,6 +7,12 @@
   # No build command - there is nothing to compile.
   publish = "."
 
+# The enquiry email is a Netlify Function. Netlify finds it in
+# netlify/functions/ automatically; this states it explicitly so the path
+# cannot drift. It is served at /.netlify/functions/enquiry.
+[functions]
+  directory = "netlify/functions"
+
 # Branch deploys give every non-production branch its own live URL, which
 # updates automatically on every push:
 #   https://<branch>--guesthousesobic.netlify.app

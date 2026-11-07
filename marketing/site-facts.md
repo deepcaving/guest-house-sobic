@@ -16,10 +16,11 @@ re-run `./render.sh`.
 | Email | {{EMAIL}} |
 | Phone / WhatsApp | {{PHONE}} |
 | Host | {{HOST}} |
-| Address (safe to publish) | Šipovo, Republika Srpska, Bosnia & Herzegovina |
+| Address (safe to publish) | Pljeva, Šipovo, Bosnia & Herzegovina |
 | GPS (confirm before publishing) | approx. 44.286° N, 17.097° E |
 | Open | Year-round |
 | Rooms | 7, all with river view and en-suite bathroom |
+| Check-in / check-out | From 11:00 · until 10:00 (confirmed by Milka) |
 
 ## The property
 
@@ -56,8 +57,8 @@ re-run `./render.sh`.
 
 ### The Ribnik (the second river)
 
-- 50 km north-west, **about an hour** by car. Daily transport can be arranged
-  at reception.
+- 50 km north-west, **about an hour** by car. Daily transport is arranged at
+  reception for **€80 per group** (up to 7 people, one car).
 - Runs 5.5 km before meeting the Sana. ~20 m wide, knee-deep, stony bottom.
 - **~80% grayling**, many over 50 cm — the highest ratio in the region. Brown
   trout in the same water, to double figures.
@@ -88,15 +89,34 @@ must appear everywhere — website, GBP, Instagram, Facebook, DMs, invoices.
 | **The Pliva Week** — 7 nights, 6 days guided fishing | **€1,390** | €1,590 | €2,090 | **€1,190** |
 | **The Companion Week** — 7 nights, non-angling | **€1,090** | €1,230 | €1,630 | **€950** |
 | **Short Break** — 4 nights, 3 fishing days | **€830** | €930 | €1,230 | **€730** |
-| **Hosted weeks** — named guide (UK, German, French- or Italian-speaking) | from **€1,790** | — | — | — |
 
 Every fishing package includes: 7 nights (4 for the short break) in a
 river-view en-suite room · full board (breakfast, packed lunch on the water,
-dinner) · guided fishing with a local English-speaking guide · **the Pliva
-fishing licence** · round-trip airport transfer from Sarajevo · rod and waders
-on request.
+dinner) · guided fishing with a local English-speaking guide · **the fishing
+licence** · **the tourist tax** · round-trip airport transfer from Sarajevo.
 
 **Not included:** flights, alcoholic drinks, travel insurance, tips.
+
+### Guides (confirmed by Milka, 3 Nov 2026)
+
+- The guides **speak English**.
+- A guided day costs **€150–200 for the whole group**, depending on how many
+  anglers there are — so the per-person cost falls as the group grows.
+- There are **no named UK / German / French guides** and no hosted weeks at a
+  fixed €1,790. Do not offer them. (The earlier version of this file said
+  otherwise; it was AI-written and Milka corrected it.)
+- One of Milka's contacts works in tourism, is experienced with the fishing,
+  has hosted agency clients before, and has a van for the transfers. That
+  contact is the source of both the guide and the transport arrangement.
+
+### Equipment (confirmed by Milka, 3 Nov 2026)
+
+- **There is NO equipment rental at the lodge.** No rods, no waders, no reels
+  on hire. The earlier €22/day line was wrong — remove it everywhere.
+- Guests bring their own, or hire in Šipovo. Say so plainly; do not hint at
+  a rental we do not have.
+- We still provide **wetsuits and buoyancy aids** (the safety kit), which is
+  a different thing from tackle. Keep that line.
 
 ### Room only (per night, breakfast included)
 
@@ -107,31 +127,75 @@ on request.
 | Triple, river view | **€110** | €100 |
 | Whole-house takeover, up to 16 guests | **€900** | €800 |
 
+*All room-only prices above were checked one by one by Milka and approved
+(3 Nov 2026).*
+
 ### Extras charged separately
 
 | | |
 |---|---|
-| Half board (breakfast + dinner) | €32 per person per day |
-| Full board (all meals) | €52 per person per day |
-| Equipment rental — rod, reel, line, waders | €22 per day |
-| Pliva fishing licence (non-resident rate) | €50 per day — **included in the fishing packages**, arranged by us; for room-only bookings we buy it for you on arrival |
-| Tourist tax | €2 per person per night, charged on arrival |
+| Half board | €32 per person per day — one meal, served in the evening |
+| Full board | **€50 per person per day — two of the day's three meals: breakfast, plus either lunch or dinner** |
+| Fishing guide (English-speaking) | €150–200 per day for the group |
+| Fishing licence | **€40 per day on the Pliva, €50 per day on the Ribnik (€35 in November and December)** — **included in the fishing packages**, arranged by us; for room-only bookings we buy it for you on arrival |
+| Tourist tax | €2 per person per night — **included in the packages** (Milka covers it); on room-only stays it is charged on arrival and shown separately on your invoice |
 | Airport transfer — Sarajevo | **included** in the packages |
-| Airport transfer — Banja Luka / Split | on request |
-| Daily car transport to the Ribnik | arrange at reception, ≈50 km, about an hour each way |
+| Airport transfer — Banja Luka / Split | **arranged with the lodge** (we have a van) |
+| Daily car transport to the Ribnik | **€80 per group** (up to 7 people, one car) — arrange at reception; ≈50 km, about an hour each way |
 
 Children under 6 stay free and pay no licence. Children 6–12 pay half rate
 and no licence.
 
+**Meals are priced per person.** €32 (half board) and €50 (full board) are
+per-person supplements, not a daily total. **Full board covers TWO of the day's
+three meals — breakfast, plus either lunch or dinner** (Milka, 7 Nov 2026). It
+does **not** include all three. The room rate already includes breakfast.
+
+**The room price is for the ROOM, not per person** — single €70, double €85,
+triple €110, whole house €900. Meals are charged per person on top. That is why
+a solo angler pays more per night than someone sharing: the single room is
+€85→€70 for one person, while two people split one €85 double room.
+
+Worked examples per fishing day, with the Pliva licence:
+
+| | Room | Meals | Licence | Total per fishing day |
+|---|---|---|---|---|
+| Single room, solo angler, full board | €70 | €50 | €40 | **€160** |
+| Double room, two anglers sharing, full board | €85 | €50 each | €40 | **€112.50 each** |
+
+Breakfast-only (no meal supplement) is €110 for the solo angler in the single
+room, with the licence.
+
+Without the licence the same day is **€120** for the solo angler and **€67.50
+each** for two sharing a double room.
+
 ### The licence — the thing every guest asks about
 
-The Pliva licence is **€50/day for non-resident guests** (LTG, who hold the
-fishing rights, charge their own guests €20). It is shown separately because
-there is no hidden fee: the package price already absorbs it, and room-only
-guests are told what it costs and that we will buy it for them.
+The fishing licence is **€40 per day on the Pliva and €50 per day on the Ribnik — €35 a day on the Ribnik in November and December**
+(Milka, 3 Nov 2026). Pliva sits at the lower end; the Ribnik days cost more.
+It is shown separately because there is no hidden fee: the package price
+already absorbs it, and room-only guests are told what it costs and that we
+will buy it for them.
+
+**Not every guest is an angler.** Many come for the river, the food and the
+quiet, and would never buy a licence. So the site offers a toggle on the rates
+section — *Room and meals only* (the default) and *Including the fishing
+licence* — and the licence price is stated on its own line either way. The
+default is off: a licence-inclusive total would mislead a guest who is still
+deciding whether to fish at all.
+
+When writing copy that quotes a total, say which version it is. "€160 a fishing
+day" means with the Pliva licence; "€120 a day" means room and meals only.
 
 Frame it as a value, not a cost — it funds river conservation, it is the same
 rate every operator in the market pays, and catch-and-release is mandatory.
+
+### The tourist tax (confirmed by Milka, 3 Nov 2026)
+
+Milka wants the tourist tax **included in the packages** and will absorb it.
+So a package guest pays the stated package price and nothing more on arrival.
+On room-only stays the tax is still charged on arrival and itemised on the
+invoice. Never say "paid on arrival" about a package.
 
 ### How we sit against the market
 
@@ -158,6 +222,20 @@ fireplace, a private terrace over the water and home cooking — and we are
 | Zagreb (ZAG) | ≈4.5 h | 340 km | the default for most hosted Bosnia weeks |
 | Driving yourself | — | — | free secure parking on site |
 | Bus from Banja Luka or Sarajevo | — | — | we can pick you up in Šipovo |
+
+**All three airports — Sarajevo, Banja Luka and Split — are arranged with the
+lodge**, using our own van (Milka confirmed, 3 Nov 2026). Split is not a
+problem: the van crosses the border at Kamensko, so the guest is never asked
+to change vehicles and never has to arrange a second leg. The only caveat
+Milka raised is that some drivers do not hold a valid visa for Europe, so the
+transport must always be arranged **through us** rather than by the guest
+booking their own driver from Split.
+
+The Ribnik day uses the same van. Daily transport to the Ribnik is **€80 per
+group**, for up to 7 people in one car, arranged at reception. The car stays
+with the group for the whole
+day, so it is theirs to use — lunch stops, a second water, a walk. Budget the
+day as a car-and-driver day, not a shuttle.
 
 ## The one-line pitch
 
