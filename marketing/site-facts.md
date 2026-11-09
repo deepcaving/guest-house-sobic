@@ -91,9 +91,11 @@ must appear everywhere — website, GBP, Instagram, Facebook, DMs, invoices.
 | **Short Break** — 4 nights, 3 fishing days | **€830** | €930 | €1,230 | **€730** |
 
 Every fishing package includes: 7 nights (4 for the short break) in a
-river-view en-suite room · full board (breakfast, packed lunch on the water,
-dinner) · guided fishing with a local English-speaking guide · **the fishing
-licence** · **the tourist tax** · round-trip airport transfer from Sarajevo.
+river-view en-suite room · full board — **all three meals**, breakfast, lunch
+and dinner, with the lunch served at the guest house or packed as a picnic when
+the fishing spot for the day is far enough to justify it · guided fishing with a
+local English-speaking guide · **the fishing licence** · **the tourist tax** ·
+round-trip airport transfer from Sarajevo.
 
 **Not included:** flights, alcoholic drinks, travel insurance, tips.
 

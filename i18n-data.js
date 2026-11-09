@@ -301,10 +301,10 @@ window.I18N = {
     "it": "Pacchetti"
   },
   "pkg_h2": {
-    "en": "Three ways to come",
-    "de": "Drei Wege zu uns",
-    "bs": "Tri načina da dođete",
-    "it": "Tre modi per venire"
+    "en": "A week on the water, a week off it, or a few days",
+    "de": "Eine Woche auf dem Wasser, eine Woche abseits davon, oder ein paar Tage",
+    "bs": "Nedjelja na vodi, nedjelja van nje, ili nekoliko dana",
+    "it": "Una settimana sul fiume, una settimana lontano, o pochi giorni"
   },
   "pkg_p": {
     "en": "All packages include the lodge, the table, the guide, the fishing licence and the tourist tax — there is nothing to pay on arrival. November and December rates are lower — see each card.",
@@ -367,10 +367,10 @@ window.I18N = {
     "it": "7 notti in una camera con vista sul fiume, bagno privato"
   },
   "pkg1_l2": {
-    "en": "Full board: breakfast and one other meal each day",
-    "de": "Vollpension: Frühstück und eine weitere Mahlzeit am Tag",
-    "bs": "Puni pansion: doručak i još jedan obrok svaki dan",
-    "it": "Pensione completa: colazione e un altro pasto ogni giorno"
+    "en": "Full board: all three meals, breakfast, lunch and dinner",
+    "de": "Vollpension: alle drei Mahlzeiten, Frühstück, Mittagessen und Abendessen",
+    "bs": "Puni pansion: sva tri obroka, doručak, ručak i večera",
+    "it": "Pensione completa: tutti e tre i pasti, colazione, pranzo e cena"
   },
   "pkg1_l3": {
     "en": "6 days guided fishing with a local English-speaking guide",
@@ -403,10 +403,10 @@ window.I18N = {
     "it": "7 notti in una camera con vista sul fiume, bagno privato"
   },
   "pkg2_l2": {
-    "en": "Full board, including dinners on the terrace",
-    "de": "Vollpension, inklusive Abendessen auf der Terrasse",
-    "bs": "Puni pansion, uključujući večere na terasi",
-    "it": "Pensione completa, con le cene in terrazza"
+    "en": "Full board: all three meals, breakfast, lunch and dinner",
+    "de": "Vollpension: alle drei Mahlzeiten, Frühstück, Mittagessen und Abendessen",
+    "bs": "Puni pansion: sva tri obroka, doručak, ručak i večera",
+    "it": "Pensione completa: tutti e tre i pasti, colazione, pranzo e cena"
   },
   "pkg2_l3": {
     "en": "Daily programme: Šipovo market, Jajce waterfalls and fortress",
@@ -439,10 +439,10 @@ window.I18N = {
     "it": "4 notti in una camera con vista sul fiume, bagno privato"
   },
   "pkg3_l2": {
-    "en": "Half board: breakfast and dinner",
-    "de": "Halbpension: Frühstück und Abendessen",
-    "bs": "Polupansion: doručak i večera",
-    "it": "Mezza pensione: colazione e cena"
+    "en": "Full board: all three meals, breakfast, lunch and dinner",
+    "de": "Vollpension: alle drei Mahlzeiten, Frühstück, Mittagessen und Abendessen",
+    "bs": "Puni pansion: sva tri obroka, doručak, ručak i večera",
+    "it": "Pensione completa: tutti e tre i pasti, colazione, pranzo e cena"
   },
   "pkg3_l3": {
     "en": "3 days guided fishing with a local guide",
@@ -1181,5 +1181,11 @@ window.I18N = {
     "de": "Die Zimmerpreise gelten für das Zimmer. Die Mahlzeiten werden pro Person berechnet. Zwei Personen teilen sich ein Doppelzimmer, zahlen €85 für das Zimmer und je €50 für die Mahlzeiten und teilen sich das Zimmer, deshalb ist das Teilen günstiger.",
     "bs": "Cijene smještaja odnose se na sobu. Obroci se plaćaju po osobi. Dvije osobe koje dijele dvov krevetnu sobu plaćaju 85 € za sobu i po 50 € za obroke, i dijele sobu, zato je zajednički smještaj jeftiniji.",
     "it": "Le tariffe di soggiorno si riferiscono alla camera. I pasti si calcolano a persona. Due persone che condividono una camera doppia pagano 85 € per la camera più 50 € a testa per i pasti, e dividono la camera: per questo è più conveniente condividere."
+  },
+  "pkg_meals": {
+    "en": "Three meals a day. Lunch is served at the guest house, or packed as a picnic when the fishing spot for the day is far enough to justify it.",
+    "de": "Drei Mahlzeiten am Tag. Das Mittagessen wird im Gästehaus serviert, oder als Picknick eingepackt, wenn das Angelplatz des Tages weit genug weg ist, um es zu rechtfertigen.",
+    "bs": "Tri obroka dnevno. Ručak se poslužuje u pansionu, ili se pakira za piknik kada je ribolovno mjesto tog dana dovoljno daleko da to opravda.",
+    "it": "Tre pasti al giorno. Il pranzo viene servito in casa, oppure preparato come picnic quando il luogo di pesca del giorno è abbastanza lontano da giustificarlo."
   }
 };

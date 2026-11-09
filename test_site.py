@@ -836,14 +836,58 @@ def test_milka_meal_pricing(r):
                 f"r6_s[{lang}] = {text!r}",
             )
 
-    # The package bullet must not promise breakfast + lunch + dinner either.
+    # Milka confirmed 9 Nov 2026: the PACKAGES include all three meals -
+    # breakfast, lunch and dinner. The lunch is served at the guest house or
+    # packed as a picnic when the day's fishing spot is far enough away.
+    # (The room-only rates are a different thing and stay at two meals -
+    # see test_meal_model_two_of_three.)
+    three_meals = {
+        "en": ("all three meals", "breakfast, lunch and dinner"),
+        "de": ("alle drei mahlzeiten", "frühstück, mittagessen und abendessen"),
+        "bs": ("sva tri obroka", "doručak, ručak i večera"),
+        "it": ("tutti e tre i pasti", "colazione, pranzo e cena"),
+    }
+    for key in ("pkg1_l2", "pkg2_l2", "pkg3_l2"):
+        for lang in LANGS:
+            low = plain(DICT.get(key, {}).get(lang, "")).lower()
+            for phrase in three_meals[lang]:
+                r.check(
+                    phrase in low,
+                    f"MEAL {key} ({lang}) says {phrase!r}",
+                    f"{key}[{lang}] = {low!r}",
+                )
+
+    # The shared note says three meals a day and explains the picnic option.
+    picnic = {
+        "en": ("three meals a day", "picnic", "guest house"),
+        "de": ("drei mahlzeiten am tag", "picknick", "gästehaus"),
+        "bs": ("tri obroka dnevno", "piknik", "pansionu"),
+        "it": ("tre pasti al giorno", "picnic", "in casa"),
+    }
     for lang in LANGS:
-        text = plain(DICT.get("pkg1_l2", {}).get(lang, "")).lower()
+        low = plain(DICT.get("pkg_meals", {}).get(lang, "")).lower()
+        for phrase in picnic[lang]:
+            r.check(
+                phrase in low,
+                f"MEAL pkg_meals ({lang}) mentions {phrase!r}",
+                f"pkg_meals[{lang}] = {low!r}",
+            )
+
+    # The section heading is no longer the vague "Three ways to come".
+    for lang in LANGS:
+        text = plain(DICT.get("pkg_h2", {}).get(lang, ""))
         r.check(
-            "dinner" not in text and "abendessen" not in text
-            and "večera" not in text and "cena" not in text,
-            f"MEAL pkg1_l2 ({lang}) does not promise dinner on top",
-            f"pkg1_l2[{lang}] = {text!r}",
+            "three ways to come" not in text.lower()
+            and "drei wege" not in text.lower()
+            and "tri načina" not in text.lower()
+            and "tre modi" not in text.lower(),
+            f"HEAD pkg_h2 ({lang}) is not the vague old heading",
+            f"pkg_h2[{lang}] = {text!r}",
+        )
+        r.check(
+            len(text) > 8,
+            f"HEAD pkg_h2 ({lang}) is set",
+            f"pkg_h2[{lang}] = {text!r}",
         )
 
     # The room price is for the ROOM. The worked totals must be the ones that

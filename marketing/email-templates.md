@@ -52,7 +52,9 @@ Send the moment the deposit clears, not when the guest asks.
 > **What you've booked**
 > • [package name] — [nights] nights, [n] days guided fishing
 > • [n] guests, [room type]
-> • Full board: breakfast, packed lunch on the water, dinner
+> • Full board: all three meals — breakfast, lunch and dinner. The lunch is
+>   served at the guest house, or packed as a picnic if the fishing spot
+>   that day is far enough away to justify it.
 > • Guided fishing with [guide name], English-speaking
 > • The fishing licence (€40/day on the Pliva, €50/day on the Ribnik — €35 in Nov–Dec) — arranged by us
 > • Round-trip airport transfer from [airport]
