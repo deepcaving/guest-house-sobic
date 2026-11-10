@@ -233,7 +233,7 @@ The Companion Week EUR 1,230 / EUR 1,630 · Short Break EUR 930 / EUR 1,230.
 
 **Room-only rates** (per night, breakfast included):
 double/twin EUR 85 / single EUR 70 / triple EUR 110 / whole house EUR 900 (16 guests)
-Half board EUR 32 pp/day / full board EUR 52 pp/day — both are **added to the room
+Half board EUR 42 pp/day / full board EUR 50 pp/day — both are **added to the room
 rate**, not a replacement daily total.
 
 **Charged separately:**
@@ -249,12 +249,12 @@ rate**, not a replacement daily total.
 
 A solo angler in the single room, full board, with the Pliva licence:
 
-    EUR 70 room + EUR 52 meals + EUR 40 licence = about EUR 162 per fishing day
+    EUR 70 room + EUR 50 meals + EUR 40 licence = EUR 160 per fishing day
 
 Two people sharing a double room, full board, with the licence:
 
-    EUR 85 room + EUR 52 meals + EUR 40 licence = about EUR 177 for the room,
-    which is about EUR 134 each per fishing day
+    EUR 85 room + EUR 50 meals + EUR 40 licence = EUR 175 for the room,
+    which is about EUR 113 each per fishing day
 
 Breakfast-only in the single room, with the licence, is EUR 110 per fishing day.
 

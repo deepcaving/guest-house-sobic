@@ -243,12 +243,17 @@ def test_milka_facts(r):
     # The licence and the two totals moved out of rates_note when the
     # toggle was added: the licence onto rates_licence_line, and the
     # totals onto rates_total_sep / rates_total_inc.
+    # Read the DICTIONARY per language - html_text() returns the English
+    # value for every language, so it cannot check the DE/BS/IT figures.
+    half_board_figure = {"en": "€42", "de": "42 €", "bs": "42 €", "it": "42 €"}
+    full_board_figure = {"en": "€50", "de": "50 €", "bs": "50 €", "it": "50 €"}
     for lang in LANGS:
-        text = plain(html_text("rates_note"))
-        for needle in ("50", "32"):
+        text = plain(DICT.get("rates_note", {}).get(lang, ""))
+        for label, needle in (("half board", half_board_figure[lang]),
+                              ("full board", full_board_figure[lang])):
             r.check(
                 needle in text,
-                f"Q10b rates_note ({lang}) quotes {needle}",
+                f"Q10b rates_note ({lang}) quotes {label} {needle}",
                 f"rates_note[{lang}] = {text!r}",
             )
         r.check(
@@ -256,13 +261,28 @@ def test_milka_facts(r):
             f"Q10b rates_note ({lang}) drops the old €52 meal price",
             f"rates_note[{lang}] = {text!r}",
         )
-        # Full board = 2 of the day's 3 meals (Milka, 7 Nov 2026):
-        # breakfast plus either lunch or dinner.
         r.check(
-            "two of the" in text.lower() and "three meals" in text.lower(),
-            f"Q10b rates_note ({lang}) says full board is two of three meals",
+            "32" not in text,
+            f"Q10b rates_note ({lang}) drops the old €32 half-board price",
             f"rates_note[{lang}] = {text!r}",
         )
+        # Full board = 2 of the day's 3 meals (Milka, 7 Nov 2026):
+        # breakfast plus either lunch or dinner. Checked PER LANGUAGE -
+        # the old version used html_text(), which returns English for every
+        # language, so the DE/BS/IT wording was never actually checked.
+        two_of_three = {
+            "en": ("two of the", "three meals"),
+            "de": ("zwei der drei", "mahlzeiten"),
+            "bs": ("dva od tri", "obroka"),
+            "it": ("due dei tre", "pasti"),
+        }
+        low = text.lower()
+        for phrase in two_of_three[lang]:
+            r.check(
+                phrase in low,
+                f"Q10b rates_note ({lang}) says full board is two of three meals ({phrase!r})",
+                f"rates_note[{lang}] = {text!r}",
+            )
 
         licence = plain(html_text("rates_licence_line"))
         for needle in ("40", "50"):

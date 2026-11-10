@@ -136,7 +136,7 @@ round-trip airport transfer from Sarajevo.
 
 | | |
 |---|---|
-| Half board | €32 per person per day — one meal, served in the evening |
+| Half board | €42 per person per day — one meal, served in the evening |
 | Full board | **€50 per person per day — two of the day's three meals: breakfast, plus either lunch or dinner** |
 | Fishing guide (English-speaking) | €150–200 per day for the group |
 | Fishing licence | **€40 per day on the Pliva, €50 per day on the Ribnik (€35 in November and December)** — **included in the fishing packages**, arranged by us; for room-only bookings we buy it for you on arrival |
@@ -148,7 +148,7 @@ round-trip airport transfer from Sarajevo.
 Children under 6 stay free and pay no licence. Children 6–12 pay half rate
 and no licence.
 
-**Meals are priced per person.** €32 (half board) and €50 (full board) are
+**Meals are priced per person.** €42 (half board) and €50 (full board) are
 per-person supplements, not a daily total. **Full board covers TWO of the day's
 three meals — breakfast, plus either lunch or dinner** (Milka, 7 Nov 2026). It
 does **not** include all three. The room rate already includes breakfast.

@@ -487,10 +487,10 @@ window.I18N = {
     "it": "Soggiorno da solo"
   },
   "rates_note": {
-    "en": "Room-only rates are per night and include breakfast. Meals are priced per person: half board €32 and full board €50 per person per day. Full board covers two of the day's three meals — breakfast, plus either lunch or dinner. Children under 6 stay free and pay no licence. Children 6–12 pay half rate and no licence. Tourist tax is €2 per person per night — it is already included in our packages, and on room-only stays it is charged on arrival and shown separately on your invoice.",
-    "de": "Die Zimmerpreise verstehen sich pro Nacht und inklusive Frühstück. Die Mahlzeiten werden pro Person berechnet: Halbpension 32 € und Vollpension 50 € pro Person und Tag. Die Vollpension deckt zwei der drei Mahlzeiten des Tages — Frühstück, plus Mittagessen oder Abendessen. Kinder unter 6 Jahren bleiben kostenlos und brauchen keine Lizenz. Kinder von 6 bis 12 Jahren zahlen den halben Preis und brauchen keine Lizenz. Die Kurtaxe beträgt 2 € pro Person und Nacht — in unseren Pauschalen ist sie bereits enthalten, bei reinen Zimmerbuchungen wird sie bei der Anreise berechnet und separat auf der Rechnung ausgewiesen.",
-    "bs": "Cijene smještaja su po noći i uključuju doručak. Obroci se obračunavaju po osobi: polupansion 32 € i puni pansion 50 € po osobi po danu. Puni pansion pokriva dva od tri obroka u danu — doručak, plus ručak ili večera. Djeca mlađa od 6 godina besplatno su i ne plaćaju dozvolu. Djeca od 6 do 12 godina plaćaju pola cijene i ne plaćaju dozvolu. Boravišna taksa je 2 € po osobi po noći — u našim je paketima već uključena, a kod smještaja bez paketa naplaćuje se pri dolasku i iskazuje zasebno na računu.",
-    "it": "Le tariffe di soggiorno sono per notte e includono la colazione. I pasti si calcolano a persona: mezza pensione 32 € e pensione completa 50 € a persona al giorno. La pensione completa copre due dei tre pasti della giornata — la colazione, più il pranzo o la cena. I bambini sotto i 6 anni soggiornano gratis e non pagano il permesso. I bambini dai 6 ai 12 anni pagano metà tariffa e non pagano il permesso. La tassa di soggiorno è di 2 € a persona a notte — è già inclusa nei nostri pacchetti, mentre per i soggiorni senza pacchetto viene addebitata all'arrivo e riportata separatamente sulla fattura."
+    "en": "Room-only rates are per night and include breakfast. Meals are priced per person: half board €42 and full board €50 per person per day. Full board covers two of the day's three meals — breakfast, plus either lunch or dinner. Children under 6 stay free and pay no licence. Children 6–12 pay half rate and no licence. Tourist tax is €2 per person per night — it is already included in our packages, and on room-only stays it is charged on arrival and shown separately on your invoice.",
+    "de": "Die Zimmerpreise verstehen sich pro Nacht und inklusive Frühstück. Die Mahlzeiten werden pro Person berechnet: Halbpension 42 € und Vollpension 50 € pro Person und Tag. Die Vollpension deckt zwei der drei Mahlzeiten des Tages — Frühstück, plus Mittagessen oder Abendessen. Kinder unter 6 Jahren bleiben kostenlos und brauchen keine Lizenz. Kinder von 6 bis 12 Jahren zahlen den halben Preis und brauchen keine Lizenz. Die Kurtaxe beträgt 2 € pro Person und Nacht — in unseren Pauschalen ist sie bereits enthalten, bei reinen Zimmerbuchungen wird sie bei der Anreise berechnet und separat auf der Rechnung ausgewiesen.",
+    "bs": "Cijene smještaja su po noći i uključuju doručak. Obroci se obračunavaju po osobi: polupansion 42 € i puni pansion 50 € po osobi po danu. Puni pansion pokriva dva od tri obroka u danu — doručak, plus ručak ili večera. Djeca mlađa od 6 godina besplatno su i ne plaćaju dozvolu. Djeca od 6 do 12 godina plaćaju pola cijene i ne plaćaju dozvolu. Boravišna taksa je 2 € po osobi po noći — u našim je paketima već uključena, a kod smještaja bez paketa naplaćuje se pri dolasku i iskazuje zasebno na računu.",
+    "it": "Le tariffe di soggiorno sono per notte e includono la colazione. I pasti si calcolano a persona: mezza pensione 42 € e pensione completa 50 € a persona al giorno. La pensione completa copre due dei tre pasti della giornata — la colazione, più il pranzo o la cena. I bambini sotto i 6 anni soggiornano gratis e non pagano il permesso. I bambini dai 6 ai 12 anni pagano metà tariffa e non pagano il permesso. La tassa di soggiorno è di 2 € a persona a notte — è già inclusa nei nostri pacchetti, mentre per i soggiorni senza pacchetto viene addebitata all'arrivo e riportata separatamente sulla fattura."
   },
   "quote_src": {
     "en": "Angling writer, on the Pliva and Ribnik",
@@ -1045,10 +1045,10 @@ window.I18N = {
     "it": "Mezza pensione"
   },
   "r5_s": {
-    "en": "€32 per person per day. One meal, served in the evening",
-    "de": "€32 pro Person und Tag. Eine Mahlzeit, abends serviert",
-    "bs": "32 € po osobi po danu. Jedan obrok, poslužen uveče",
-    "it": "32 € a persona al giorno. Un pasto, servito alla sera"
+    "en": "€42 per person per day. One meal, served in the evening",
+    "de": "€42 pro Person und Tag. Eine Mahlzeit, abends serviert",
+    "bs": "42 € po osobi po danu. Jedan obrok, poslužen uveče",
+    "it": "42 € a persona al giorno. Un pasto, servito alla sera"
   },
   "r6_b": {
     "en": "Full board",
