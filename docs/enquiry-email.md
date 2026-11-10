@@ -117,11 +117,57 @@ Submit the form on the live site and check:
 If the provider is not configured, the form still succeeds — it falls back
 to WhatsApp and the guest's mail app, and says so.
 
-## Environment variable reference
+## Two transports: SMTP and Resend
+
+The function can send by **SMTP** (a normal mailbox) or by the **Resend HTTP
+API**. It uses SMTP when SMTP is configured, and falls back to Resend when it
+is not.
+
+### SMTP (Zoho)
+
+```
+SMTP_HOST=smtp.zoho.com
+SMTP_PORT=465
+SMTP_USER=guesthousesobic@blink2ask.com
+SMTP_PASSWORD=your-zoho-app-password
+SMTP_FROM_EMAIL=guesthousesobic@blink2ask.com
+SMTP_SECURE=ssl
+SMTP_FROM_NAME=Pliva River Lodge
+```
+
+| Variable | Meaning |
+|---|---|
+| `SMTP_HOST` | the SMTP server, e.g. `smtp.zoho.com` |
+| `SMTP_PORT` | `465` for implicit TLS, `587` for STARTTLS |
+| `SMTP_USER` | the mailbox to log in as |
+| `SMTP_PASSWORD` | the mailbox password, or a Zoho **app password** |
+| `SMTP_FROM_EMAIL` | the From address |
+| `SMTP_FROM_NAME` | the display name on the From line |
+| `SMTP_SECURE` | `ssl` (implicit TLS) or `starttls` |
+
+**Why a hand-written client?** Netlify Functions cannot use a normal SMTP
+library: most of them open a long-lived plain socket, which is blocked. The
+client in `netlify/functions/smtp.mjs` speaks SMTP directly over a TLS
+socket, which works because the TLS handshake and the SMTP session are the
+same connection. It handles both `AUTH PLAIN` and `AUTH LOGIN`, dot-stuffs
+the message body, and sets `Reply-To` to the guest.
+
+**Zoho needs an app password, not the account password.** In Zoho Mail:
+Settings -> Mailboxes -> the mailbox -> Edit -> App passwords -> Generate.
+The generated password is shown once. If the server answers
+`535 Authentication Failed`, the password is wrong or the mailbox has no app
+password yet.
+
+### Environment variable reference
 
 | Variable | Purpose | Default when unset |
 |---|---|---|
 | `RESEND_API_KEY` | Auth token for the email API | none — the function returns `503` and the form falls back |
+| `SMTP_HOST` + `SMTP_USER` + `SMTP_PASSWORD` | The SMTP mailbox | none — the function returns `503` and the form falls back |
+| `SMTP_PORT` | SMTP port | `465` |
+| `SMTP_FROM_EMAIL` | The From address on an SMTP send | `SMTP_USER` is not assumed — set it explicitly |
+| `SMTP_FROM_NAME` | The display name on the From line | none |
+| `SMTP_SECURE` | `ssl` or `starttls` | `ssl` |
 | `MAIL_TO` | Who receives the enquiry | `milkasobic25@gmail.com` |
 | `MAIL_BCC` | Who is blind-copied on the enquiry | `francesco.capuzzo@zoho.com` |
 | `MAIL_FROM` | The verified sender shown to Milka | `Pliva River Lodge <bookings@plivariverlodge.com>` |
@@ -166,3 +212,38 @@ Swap in the other provider's endpoint and body format, and rename
 `RESEND_API_KEY` to whatever the provider calls it. The function's contract
 with the front end does not change, so `form.js` and the site stay as they
 are.
+
+## What the email contains
+
+The enquiry form has two ways of asking how many people are coming, and the
+email always says which one the guest used:
+
+| Field | Meaning |
+|---|---|
+| `people_mode` | `fishing` (the guest ticked Fly fishing) or `booking` |
+| `people` | the headline number: the anglers, or the total people |
+| `people_label` | the guest's own wording, e.g. "2 adults, 1 child, 1 room" |
+| `adults` / `children` / `rooms` | the occupancy counts (booking mode only) |
+
+The email body then reads:
+
+```
+Trip type: Fly fishing
+People: 2 anglers
+Occupancy: 2 anglers
+```
+
+or
+
+```
+Trip type: General stay
+Adults: 2
+Children: 1
+Rooms: 1
+Total people: 3
+Occupancy: 2 adults, 1 child, 1 room
+```
+
+`reply_to` is always the guest, so pressing reply in Milka's inbox reaches
+them. The collaborator is blind-copied, never copied - Milka can forward an
+enquiry to a guide or a supplier without exposing that address.

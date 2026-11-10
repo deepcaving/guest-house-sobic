@@ -24,6 +24,8 @@
  * to WhatsApp and the guest's own mail app. The enquiry is never lost.
  */
 
+import { sendMail } from "./smtp.mjs";
+
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
 
 // Netlify injects these into process.env. They are read on every call
@@ -31,8 +33,22 @@ const RESEND_ENDPOINT = "https://api.resend.com/emails";
 // takes effect without a redeploy, and so that a missing key is handled as
 // "not configured" rather than "failed".
 function readConfig() {
+  const smtp = {
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT || 465),
+    user: process.env.SMTP_USER,
+    password: process.env.SMTP_PASSWORD,
+    fromEmail: process.env.SMTP_FROM_EMAIL,
+    fromName: process.env.SMTP_FROM_NAME,
+    secure: (process.env.SMTP_SECURE || "ssl").toLowerCase(),
+  };
+  // SMTP is configured when the host, the user and the password are all
+  // present. Anything less and the transport is simply not available.
+  smtp.configured = Boolean(smtp.host && smtp.user && smtp.password);
+
   return {
     apiKey: process.env.RESEND_API_KEY,
+    smtp,
     to: process.env.MAIL_TO || "milkasobic25@gmail.com",
     // The collaborator is blind-copied by default, so Milka can forward the
     // enquiry on without exposing that address. MAIL_BCC overrides it.
@@ -53,7 +69,6 @@ const FIELDS = [
   ["name", "Name"],
   ["email", "Email"],
   ["dates", "Preferred dates"],
-  ["people", "How many people"],
   ["airport", "Arriving via"],
   ["message", "Message"],
 ];
@@ -63,6 +78,43 @@ function readField(body, name) {
   return typeof value === "string" ? value.trim() : "";
 }
 
+/**
+ * The occupancy block.
+ *
+ * The form has two ways of saying how many people are coming:
+ *   - "fishing" - the guest ticked Fly fishing, so "people" is the number
+ *     of ANGLERS (1-4, or 5 or more, or a companion).
+ *   - "booking" - the guest unticked it, so they picked a Booking.com-style
+ *     occupancy: adults, children and rooms.
+ *
+ * Both are captured, so the email always says which kind of enquiry it is,
+ * the total number of people, the category, and how many rooms.
+ */
+function occupancyLines(body) {
+  const lines = [];
+  const mode = readField(body, "people_mode");
+  const label = readField(body, "people_label");
+  const people = readField(body, "people");
+
+  lines.push(mode === "fishing" ? "Trip type: Fly fishing" : "Trip type: General stay");
+
+  if (mode === "booking") {
+    const adults = readField(body, "adults");
+    const children = readField(body, "children");
+    const rooms = readField(body, "rooms");
+    if (adults !== "") lines.push(`Adults: ${adults}`);
+    if (children !== "") lines.push(`Children: ${children}`);
+    if (rooms !== "") lines.push(`Rooms: ${rooms}`);
+    const total = Number(adults || 0) + Number(children || 0);
+    if (total > 0) lines.push(`Total people: ${total}`);
+  } else if (people) {
+    lines.push(`People: ${people}`);
+  }
+
+  if (label) lines.push(`Occupancy: ${label}`);
+  return lines;
+}
+
 /** Build the plain-text body of the email from the posted fields. */
 function buildBody(body) {
   const lines = ["Website enquiry from guesthousesobic.netlify.app", ""];
@@ -70,6 +122,8 @@ function buildBody(body) {
     const value = readField(body, name);
     if (value) lines.push(`${label}: ${value}`);
   }
+  lines.push("");
+  lines.push(...occupancyLines(body));
   lines.push("");
   lines.push(`Sent: ${body.page || "unknown page"}`);
   return lines.join("\n");
@@ -107,8 +161,11 @@ export default async (request, context) => {
   }
 
   const message = buildBody(body);
+  const peopleSummary =
+    readField(body, "people_label") || readField(body, "people");
   const subject = `New enquiry — ${name}` +
-    (readField(body, "dates") ? ` — ${readField(body, "dates")}` : "");
+    (readField(body, "dates") ? ` — ${readField(body, "dates")}` : "") +
+    (peopleSummary ? ` — ${peopleSummary}` : "");
 
   // Reply-To is the guest, so pressing reply in Milka's inbox reaches them.
   const payload = {
@@ -119,6 +176,47 @@ export default async (request, context) => {
     reply_to: email,
   };
   if (config.bcc) payload.bcc = [config.bcc];
+
+  // 1. The SMTP transport. If Zoho is configured, use it - it is the
+  //    mailbox the lodge actually owns, and it needs no domain verification.
+  if (config.smtp.configured) {
+    try {
+      const result = await sendMail(config.smtp, {
+        to: [config.to],
+        bcc: config.bcc ? [config.bcc] : [],
+        subject,
+        text: message,
+        replyTo: email,
+      });
+      console.log("[enquiry] sent over SMTP:", result.messageId || "no id");
+      return json(200, {
+        ok: true,
+        id: result.messageId || null,
+        transport: "smtp",
+      });
+    } catch (err) {
+      // A failed SMTP send must not lose the enquiry. Log it and carry on
+      // to the HTTP provider, which may still be configured.
+      console.error("[enquiry] SMTP send failed:", err && err.message);
+      // The password may be wrong, the mailbox may not be active, or Zoho
+      // may be refusing the EHLO hostname. Say so precisely.
+      if (/Authentication failed/i.test(String(err && err.message))) {
+        return json(502, {
+          ok: false,
+          error: "The SMTP server rejected the login",
+          detail: { hint: "SMTP_USER / SMTP_PASSWORD are wrong, or the mailbox has no Zoho account password yet." },
+        });
+      }
+      if (!config.apiKey) {
+        return json(502, {
+          ok: false,
+          error: "The email service could not be reached",
+          detail: { message: String(err && err.message) },
+        });
+      }
+      // Fall through to the HTTP provider.
+    }
+  }
 
   if (!config.apiKey) {
     // Not configured. Do not fail the form - the browser has fallbacks.
@@ -131,7 +229,8 @@ export default async (request, context) => {
     // The deploy context is reported so the cause is obvious in the logs.
     const context = process.env.CONTEXT || process.env.DEPLOY_CONTEXT || "unknown";
     console.error(
-      `[enquiry] RESEND_API_KEY is not set (deploy context: ${context}). ` +
+      `[enquiry] neither SMTP nor RESEND_API_KEY is configured ` +
+        `(deploy context: ${context}). ` +
         "Check that the variable's scope includes Functions and that it has a " +
         "value for this deploy context.\nEnquiry was:\n" +
         message
@@ -142,8 +241,9 @@ export default async (request, context) => {
       error: "Email service is not configured",
       context,
       hint:
-        "RESEND_API_KEY must have the Functions scope and a value for this " +
-        "deploy context (Production, and Branch deploys for branch previews).",
+        "Set either SMTP_HOST + SMTP_USER + SMTP_PASSWORD, or RESEND_API_KEY, " +
+        "with the Functions scope and a value for this deploy context " +
+        "(Production, and Branch deploys for branch previews).",
     });
   }
 

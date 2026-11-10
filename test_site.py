@@ -1189,6 +1189,107 @@ def test_live_date_placeholder(r):
             "DATE dates.js re-applies after a language change",
         )
 
+
+def test_contact_form_occupancy(r):
+    """The enquiry form has two ways of asking how many people come.
+
+    - Fly fishing UNCHECKED (the default): the Booking.com-style occupancy
+      panel - adults, children, rooms.
+    - Fly fishing CHECKED: the angler dropdown (1..5 or more, companion).
+
+    Both must reach the email: the trip type, the total number of people,
+    the category and the number of rooms.
+    """
+    html = Path(ROOT / "index.html").read_text(encoding="utf-8")
+
+    # --- the markup ---
+    r.check('id="f-flyfishing"' in html,
+            "FORM the Fly fishing toggle exists")
+    r.check('type="checkbox"' in html and 'id="f-flyfishing"' in html,
+            "FORM the Fly fishing control is a checkbox")
+    r.check('id="people-angler"' in html and 'id="people-booking"' in html,
+            "FORM both people panels exist")
+    r.check('id="occ-adults"' in html and 'id="occ-children"' in html
+            and 'id="occ-rooms"' in html,
+            "FORM the occupancy panel has adults, children and rooms")
+    for hidden in ("f-people-mode", "f-people-value", "f-people-label",
+                   "f-adults", "f-children", "f-rooms"):
+        r.check(f'id="{hidden}"' in html,
+                f"FORM the hidden field {hidden} exists")
+
+    # The angler dropdown must NOT post under the name "people" as well -
+    # that would send two different values for the same thing.
+    r.check(re.search(r'<select id="f-people"[^>]*name=', html) is None,
+            "FORM the angler dropdown does not post its own 'people' field")
+
+    # The toggle starts UNCHECKED.
+    m = re.search(r'<input type="checkbox" id="f-flyfishing"[^>]*>', html)
+    r.check(m is not None, "FORM the toggle markup is found")
+    if m:
+        r.check("checked" not in m.group(0),
+                "FORM the Fly fishing toggle is unchecked by default",
+                m.group(0))
+
+    # --- the script ---
+    js = ROOT / "occupancy.js"
+    r.check(js.exists(), "FORM occupancy.js exists")
+    r.check('src="occupancy.js"' in html,
+            "FORM index.html loads occupancy.js")
+    if js.exists():
+        src = js.read_text(encoding="utf-8")
+        r.check("people-angler" in src and "people-booking" in src,
+                "FORM occupancy.js switches between the two panels")
+        # The arithmetic bug: "1" + 1 is "11" when the value is a string.
+        r.check("clamp(s.input.value) + 1" in src,
+                "FORM occupancy.js adds to a parsed number, not a string")
+        r.check("s.input.value + 1" not in src,
+                "FORM occupancy.js never concatenates a string with 1")
+
+    # --- the email captures it ---
+    fn = (ROOT / "netlify/functions" / "enquiry.mjs").read_text(encoding="utf-8")
+    for token in ("people_mode", "people_label", "adults", "children", "rooms"):
+        r.check(token in fn, f"FORM the function reads {token}")
+    r.check("Trip type" in fn,
+            "FORM the email states the trip type")
+    r.check("Total people" in fn,
+            "FORM the email states the total number of people")
+    r.check("Occupancy" in fn,
+            "FORM the email states the occupancy")
+
+    # --- the SMTP transport ---
+    smtp = ROOT / "netlify/functions" / "smtp.mjs"
+    r.check(smtp.exists(), "SMTP smtp.mjs exists")
+    if smtp.exists():
+        s = smtp.read_text(encoding="utf-8")
+        r.check("tls.connect" in s,
+                "SMTP smtp.mjs speaks SMTP over TLS")
+        r.check("AUTH PLAIN" in s and "AUTH LOGIN" in s,
+                "SMTP smtp.mjs supports both AUTH mechanisms")
+        r.check("MAIL FROM" in s and "RCPT TO" in s and "DATA" in s,
+                "SMTP smtp.mjs runs the SMTP conversation")
+        r.check("Reply-To" in s,
+                "SMTP smtp.mjs sets Reply-To")
+        # dot-stuffing: a body line that is a single dot must be escaped
+        r.check('line === "." ? ".." : line' in s,
+                "SMTP smtp.mjs dot-stuffs the message body")
+    r.check("SMTP_HOST" in fn and "SMTP_PASSWORD" in fn,
+            "SMTP the function reads the SMTP environment variables")
+
+    # --- the .env is present but never committed ---
+    env = ROOT / ".env"
+    r.check(env.exists(), "ENV .env exists")
+    if env.exists():
+        for var in ("SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASSWORD",
+                    "SMTP_FROM_EMAIL", "SMTP_SECURE", "SMTP_FROM_NAME",
+                    "JWT_SECRET"):
+            r.check(var in env.read_text(encoding="utf-8"),
+                    f"ENV .env defines {var}")
+    ignore = (ROOT / ".gitignore").read_text(encoding="utf-8")
+    r.check(re.search(r"^\.env$", ignore, re.M) is not None,
+            "ENV .gitignore excludes .env")
+    r.check((ROOT / ".env.example").exists(),
+            "ENV .env.example exists so the setup is reproducible")
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--strict", action="store_true", help="exit 1 on any failure")
@@ -1207,6 +1308,7 @@ def main():
     test_meal_model_two_of_three(r)
     test_package_prices_unchanged(r)
     test_live_date_placeholder(r)
+    test_contact_form_occupancy(r)
 
     print(f"\n{r.passes} passed, {len(r.failures)} failed")
     if r.failures:

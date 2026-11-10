@@ -35,6 +35,18 @@
     return lab ? lab.textContent.replace(/\s+/g, ' ').trim() : el.name;
   }
 
+  /* The occupancy fields are hidden inputs, so they have no visible label
+   * to read. Give them names a guest would understand. */
+  var FIELD_LABELS = {
+    flyfishing: 'Fly fishing',
+    people_mode: 'Trip type',
+    people: 'People',
+    people_label: 'Occupancy',
+    adults: 'Adults',
+    children: 'Children',
+    rooms: 'Rooms'
+  };
+
   function composeMessage() {
     var lines = ['Enquiry from the website', ''];
     var fields = form.querySelectorAll('input[name], select[name], textarea[name]');
@@ -43,7 +55,15 @@
       if (el.name === 'form-name' || el.name === 'bot-field') continue;
       var val = (el.value || '').trim();
       if (!val) continue;
-      lines.push(fieldLabel(el) + ': ' + val);
+      // The trip type reads better as words than as "fishing"/"booking".
+      if (el.name === 'people_mode') {
+        val = val === 'fishing' ? 'Fly fishing' : 'General stay';
+      }
+      if (el.name === 'flyfishing') {
+        val = val === 'yes' ? 'yes' : 'no';
+      }
+      var label = FIELD_LABELS[el.name] || fieldLabel(el);
+      lines.push(label + ': ' + val);
     }
     lines.push('');
     lines.push('Sent from ' + location.href);
