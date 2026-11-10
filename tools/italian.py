@@ -148,7 +148,7 @@ IT = {
     "opt_5": "5 o più",
     "opt_comp": "Accompagnatore / senza pesca",
     "opt_drive": "Arrivo in auto",
-    "ph_dates": "es. 10–17 ottobre 2026",
+    "ph_dates": "es. {{d1}}–{{d2}} {{month}} {{year}}",
     "ph_name": "Nome e cognome",
     "ph_email": "tu@esempio.it",
     "ph_msg": "Esperienza di pesca, esigenze alimentari, preferenze per la camera…",

@@ -13,3 +13,5 @@ npm-debug.log*
 Thumbs.db
 
 *.bundle
+__pycache__/
+*.pyc

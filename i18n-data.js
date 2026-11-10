@@ -739,10 +739,10 @@ window.I18N = {
     "it": "Arrivo in auto"
   },
   "ph_dates": {
-    "en": "e.g. 10–17 October 2026",
-    "de": "z. B. 10.–17. Oktober 2026",
-    "bs": "npr. 10–17. oktobar 2026.",
-    "it": "es. 10–17 ottobre 2026"
+    "en": "e.g. {{d1}}–{{d2}} {{month}} {{year}}",
+    "de": "z. B. {{d1}}.–{{d2}}. {{month}} {{year}}",
+    "bs": "npr. {{d1}}–{{d2}}. {{month}} {{year}}.",
+    "it": "es. {{d1}}–{{d2}} {{month}} {{year}}"
   },
   "ph_name": {
     "en": "Full name",

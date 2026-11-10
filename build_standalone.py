@@ -69,6 +69,10 @@ SIZES = {
 }
 
 
+sys.path.insert(0, str(ROOT / "tools"))
+from dates import english_example  # noqa: E402
+
+
 def load_config():
     with open(CONFIG, encoding="utf-8") as fh:
         return json.load(fh)
@@ -175,6 +179,28 @@ def replace_form(html, cfg):
     html, ok = replace_balanced(html, r'<div class="form">', cta)
     if not ok:
         print("  ! could not find the enquiry form - left it as it was", file=sys.stderr)
+    return html
+
+
+def refresh_date_placeholder(html):
+    """Rewrite the enquiry form's static date placeholder so it always
+    points one month ahead. dates.js does this in the browser; this is the
+    fallback for anyone whose JavaScript does not run."""
+    value = english_example()
+    html, n = re.subn(
+        r'(placeholder=")[^"]*("\s+data-ph="ph_dates")',
+        lambda m: f'{m.group(1)}{value}{m.group(2)}',
+        html)
+    if n == 0:
+        # attribute order may differ - fall back to a plain value swap
+        html, n = re.subn(
+            r'(data-ph="ph_dates"[^>]*\splaceholder=")[^"]*(")',
+            lambda m: f'{m.group(1)}{value}{m.group(2)}',
+            html)
+    if n == 0:
+        print("  ! could not find the dates placeholder", file=sys.stderr)
+    else:
+        print(f"  date placeholder -> {value}")
     return html
 
 
@@ -306,6 +332,9 @@ def build(args, cfg):
         return tag
 
     out = re.sub(r"<img\b[^>]*>", img_sub, out)
+
+    print("Refreshing the static date placeholder (one month ahead)...")
+    out = refresh_date_placeholder(out)
 
     print("Removing the language switcher and translation attributes...")
     out = strip_i18n(out)

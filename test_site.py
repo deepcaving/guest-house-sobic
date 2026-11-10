@@ -1062,6 +1062,133 @@ def test_package_prices_unchanged(r):
             )
 
 
+
+def test_live_date_placeholder(r):
+    """The "Preferred dates" placeholder must always point ONE MONTH AHEAD
+    and must never be retroactive.
+
+    It used to be a hand-written string ("e.g. 10-17 October 2026") that
+    went stale the moment the season moved on - a guest in November was
+    invited to book a date in a month that had already passed.
+
+    The dictionary now holds a TEMPLATE with {{d1}} {{d2}} {{month}}
+    {{year}}; dates.js fills it in the browser, tools/dates.py computes
+    the static fallback. These checks pin the rule.
+    """
+    import datetime
+    sys.path.insert(0, str(ROOT / "tools"))
+    from dates import (example_range, target_month, days_in_month,
+                        fill as fill_dates, english_example)
+
+    today = datetime.date.today()
+
+    # 1. The target month is exactly one month after the current one.
+    year, month = target_month(today)
+    expected_year, expected_month = today.year, today.month + 1
+    if expected_month > 12:
+        expected_month, expected_year = 1, expected_year + 1
+    r.check(
+        (year, month) == (expected_year, expected_month),
+        "DATE target month is one month ahead",
+        f"got {year}-{month}, expected {expected_year}-{expected_month}",
+    )
+
+    # 2. The example is NEVER retroactive: it is always in the future.
+    ex = example_range("en", today)
+    r.check(
+        month > today.month or year > today.year,
+        "DATE the example month is in the future",
+        f"{ex['month']} {ex['year']} vs today {today.month}/{today.year}",
+    )
+
+    # 3. The day numbers are valid in that month.
+    last = days_in_month(year, month)
+    r.check(
+        1 <= ex["d1"] <= ex["d2"] <= last,
+        "DATE the example days are valid in the target month",
+        f"d1={ex['d1']} d2={ex['d2']} last={last}",
+    )
+
+    # 4. The month name is the right one for that month, in every language.
+    from dates import MONTHS
+    for lang in ("en", "de", "bs", "it"):
+        got = example_range(lang, today)["month"]
+        want = MONTHS[lang][month - 1]
+        r.check(
+            got == want,
+            f"DATE the {lang} month name matches the target month",
+            f"got {got!r}, expected {want!r}",
+        )
+
+    # 5. The dictionary templates carry the placeholders, not a literal date.
+    for lang in LANGS:
+        tmpl = DICT.get("ph_dates", {}).get(lang, "")
+        r.check(
+            "{{d1}}" in tmpl and "{{month}}" in tmpl,
+            f"DATE ph_dates ({lang}) is a template, not a fixed date",
+            f"ph_dates[{lang}] = {tmpl!r}",
+        )
+        r.check(
+            not re.search(r"\b20\d\d\b", tmpl),
+            f"DATE ph_dates ({lang}) carries no hard-coded year",
+            f"ph_dates[{lang}] = {tmpl!r}",
+        )
+
+    # 6. The filled English example reads correctly and is in the future.
+    text = english_example(today)
+    r.check(
+        re.match(r"e\.g\. \d{1,2}[–-]\d{1,2} \w+ 20\d\d$", text),
+        "DATE the English example has the expected shape",
+        f"english_example = {text!r}",
+    )
+    # The same year is correct when only the month rolls forward; a
+    # DIFFERENT year means December -> January, which is also correct.
+    shown_year = int(re.search(r"(20\d\d)$", text).group(1))
+    r.check(
+        shown_year in (today.year, today.year + 1),
+        "DATE the English example shows the current or next year",
+        f"english_example = {text!r}, today = {today}",
+    )
+    r.check(
+        not (shown_year == today.year and month < today.month),
+        "DATE the English example is never in a month that has passed",
+        f"english_example = {text!r}, today = {today}",
+    )
+
+    # 7. The static fallback in index.html matches the computed value.
+    html = Path(ROOT / "index.html").read_text(encoding="utf-8")
+    m = re.search(r'id="f-dates"[^>]*placeholder="([^"]+)"', html)
+    r.check(m is not None, "DATE index.html has the dates placeholder")
+    if m:
+        r.check(
+            m.group(1) == text,
+            "DATE index.html's static placeholder matches the computed one",
+            f"in html: {m.group(1)!r} / computed: {text!r}",
+        )
+
+    # 8. dates.js must exist, be loaded, and contain no fixed month name.
+    js = ROOT / "dates.js"
+    r.check(js.exists(), "DATE dates.js exists")
+    if js.exists():
+        jstext = js.read_text(encoding="utf-8")
+        r.check(
+            'src="dates.js"' in html,
+            "DATE index.html loads dates.js",
+        )
+        r.check(
+            "{{d1}}" in jstext and "{{month}}" in jstext,
+            "DATE dates.js fills the template placeholders",
+        )
+        # a hard-coded English month name would freeze the example
+        r.check(
+            "October 2026" not in jstext,
+            "DATE dates.js has no hard-coded example date",
+        )
+        r.check(
+            "prl:langchange" in jstext,
+            "DATE dates.js re-applies after a language change",
+        )
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--strict", action="store_true", help="exit 1 on any failure")
@@ -1079,6 +1206,7 @@ def main():
     test_milka_meal_pricing(r)
     test_meal_model_two_of_three(r)
     test_package_prices_unchanged(r)
+    test_live_date_placeholder(r)
 
     print(f"\n{r.passes} passed, {len(r.failures)} failed")
     if r.failures:
