@@ -1,14 +1,5 @@
 # The host's English card
 
-> **⚠️ BEFORE YOU USE THIS FILE**
-> The booking email in it is **not live yet** — `bookings@plivariverlodge.com` sits on a domain that
-> does not resolve, so anything sent there is lost.
->
-> Set the real inbox in `site-config.json`, set `"email_live": true`, then run
-> `python3 marketing/render.py` to regenerate this file. Until then, send
-> everything through WhatsApp: **+387 65 622 760**.
-
-
 Print this on A4, laminate it, and pin it inside the kitchen-cabinet door.
 This is the single cheapest thing in the whole marketing folder: it removes
 the awkwardness of every interaction with a guest who cannot speak English,
@@ -43,6 +34,7 @@ understands a careful person trying; what they do not understand is silence.
 | Life vests only on the water. | /lyf vests on-lee on the wo-ter/ |
 | Tomorrow we go fishing at seven. Be downstairs at 6:45 with your gear. | /tuh-mor-ow wee go fish-ing at sev-en. bee down-stairz at six-for-tee-fiv with your geer/ |
 | You need a licence. I will get it for you. | /yoo nee-d a ly-sens. ai wil get it for yoo/ |
+| No rods here. Bring your own, or hire in Šipovo. | /no rodz heer. bring your own, or hire in shee-po-vo/ |
 | Catch and release only. | /kach and ree-lees on-lee/ |
 | The water is eight degrees. It is cold. | /the wah-ter iz eit dee-grees. it iz kold/ |
 

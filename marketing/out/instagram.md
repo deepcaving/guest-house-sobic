@@ -1,14 +1,5 @@
 # Instagram — full setup
 
-> **⚠️ BEFORE YOU USE THIS FILE**
-> The booking email in it is **not live yet** — `bookings@plivariverlodge.com` sits on a domain that
-> does not resolve, so anything sent there is lost.
->
-> Set the real inbox in `site-config.json`, set `"email_live": true`, then run
-> `python3 marketing/render.py` to regenerate this file. Until then, send
-> everything through WhatsApp: **+387 65 622 760**.
-
-
 Instagram does not sell rooms. It sells the *room you will remember in
 February*. Every post is a picture of the thing no competitor has: the
 terrace, the fire, the water, the food.
@@ -28,7 +19,7 @@ terrace, the fire, the water, the food.
 Pliva River Lodge 🏞️
 Boutique fly-fishing base on the Pliva, Bosnia
 2 km from the spring · 7 rooms · Fireplace · Home cooking
-Šipovo, Republika Srpska 📍
+Pljeva, Šipovo 📍
 WhatsApp → +387 65 622 760
 https://guesthousesobic.netlify.app
 ```
@@ -81,7 +72,7 @@ comments.
 
 **2 — exterior**
 > White walls, new roof, and a mountain behind the field. Šipovo,
-> Republika Srpska.
+> Bosnia & Herzegovina.
 >
 > Open year-round. https://guesthousesobic.netlify.app
 

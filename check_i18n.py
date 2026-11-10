@@ -77,6 +77,16 @@ def main():
 
     placeholder_keys = set(re.findall(r'\bdata-ph="([^"]+)"', html))
 
+    # Keys that are rendered from JavaScript rather than from a data-i18n-key
+    # attribute. The rates toggle picks its text out of the dictionary at
+    # runtime, so those keys are referenced in the script, not in the markup.
+    js_keys = set()
+    for js_name in ("i18n.js", "rates-toggle.js", "form.js"):
+        js_path = ROOT / js_name
+        if js_path.exists():
+            js_src = js_path.read_text(encoding="utf-8")
+            js_keys |= set(re.findall(r"['\"]([a-z][a-z0-9_]*)['\"]", js_src))
+
     # ---- 1. missing keys -------------------------------------------------
     for key in sorted(used):
         if key not in data:
@@ -87,7 +97,9 @@ def main():
             fail(f"placeholder key '{key}' is used in the HTML but is not in the dictionary", problems)
 
     # ---- 2. unused keys --------------------------------------------------
-    referenced = set(used) | placeholder_keys
+    # A key counts as used if the markup references it, if it is a
+    # placeholder, or if a script pulls it out of the dictionary at runtime.
+    referenced = set(used) | placeholder_keys | (js_keys & set(data))
     for key in sorted(set(data) - referenced):
         fail(f"key '{key}' is in the dictionary but nothing uses it", problems)
 

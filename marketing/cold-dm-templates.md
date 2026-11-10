@@ -127,10 +127,10 @@ everyone at once.
 > Details:
 > • 7 rooms, all river view, en-suite
 > • Wood-fire dining hall, private terrace over the bank
-> • Licensed guides, full board, airport transfers from Sarajevo, Banja Luka
->   and Split
+> • English-speaking fishing guides, full board, airport transfers from
+>   Sarajevo, Banja Luka and Split
 > • Open year-round
-> • Pliva River Lodge, Šipovo, Republika Srpska
+> • Pliva River Lodge, Pljeva, Šipovo
 > • {{PHONE}} · {{EMAIL}} · {{SITE_URL}}
 >
 > I can send photos and any documents you need.

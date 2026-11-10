@@ -1,14 +1,5 @@
 # WhatsApp Business — the channel that actually gets answered
 
-> **⚠️ BEFORE YOU USE THIS FILE**
-> The booking email in it is **not live yet** — `bookings@plivariverlodge.com` sits on a domain that
-> does not resolve, so anything sent there is lost.
->
-> Set the real inbox in `site-config.json`, set `"email_live": true`, then run
-> `python3 marketing/render.py` to regenerate this file. Until then, send
-> everything through WhatsApp: **+387 65 622 760**.
-
-
 Set up in **WhatsApp Business** (business.whatsapp.com, or the Business app on
 the phone) → **Settings → Business tools → Away message**.
 
@@ -30,7 +21,7 @@ setup.
 >
 > In the meantime, our packages and rates are here: https://guesthousesobic.netlify.app
 >
-> Pliva River Lodge, Šipovo, Republika Srpska 🇧🇦
+> Pliva River Lodge, Pljeva, Šipovo 🇧🇦
 
 **Set it to send after 15 minutes** of inactivity, not instantly — an instant
 reply to every "hi" looks like a bot and the conversation dies there.
@@ -44,11 +35,11 @@ WhatsApp Business to trigger them.
 
 | Shortcut | Sends |
 |---|---|
-| `/rates` | Our packages and rates: The Pliva Week — 7 nights, 6 days guided fishing, full board, licence and the airport transfer from Sarajevo — €1,390 per person for a group of four, €1,590 for two, €2,090 for one, and €1,190 in November and December. The Companion Week for non-anglers, €1,090 per person. The Short Break — 4 nights, 3 fishing days — €830 per person. Hosted weeks with a named guide from €1,790. Room-only from €85 a night, breakfast included. |
-| `/licence` | About the fishing licence: it's €50 per day for non-resident guests. It's already included in the fishing packages, so there is nothing extra to pay on arrival — we're not hiding it in the price. Catch and release is mandatory on the Pliva. |
-| `/transfer` | Airport transfers: from Sarajevo about 4 hours, from Banja Luka about 2 hours, from Split about 3.5 hours including the border. We arrange door-to-door transport and meet you at arrivals with a name board. Send me your flight number and we're set. Free secure parking if you drive. |
+| `/rates` | Our packages and rates: The Pliva Week — 7 nights, 6 days guided fishing, full board, licence, tourist tax and the airport transfer from Sarajevo — €1,390 per person for a group of four, €1,590 for two, €2,090 for one, and €1,190 in November and December. The Companion Week for non-anglers, €1,090 per person. The Short Break — 4 nights, 3 fishing days — €830 per person. A guided day is €150–200 for the group. Room-only from €85 a night, breakfast included. We do not hire out fishing tackle — bring your own, or hire it in Šipovo. |
+| `/licence` | About the fishing licence: it's €40 per day on the Pliva and €50 per day on the Ribnik — €35 a day on the Ribnik in November and December. It's already included in the fishing packages, so there is nothing extra to pay on arrival — we're not hiding it in the price. The tourist tax is included too. Catch and release is mandatory on the Pliva. |
+| `/transfer` | Airport transfers: from Sarajevo about 4 hours, from Banja Luka about 2 hours, from Split about 3.5 hours including the border. We arrange door-to-door transport in our own van from all three airports and meet you at arrivals with a name board. Send me your flight number and we're set. Free secure parking if you drive. |
 | `/safety` | One thing to know before you come: the Pliva is a spring creek at 8 °C all year. It's far too cold to swim in and it can cause cold-water shock in under a minute — so no swimming outside the property. Life vests are worn at all times on the guided days, and a wetsuit and buoyancy aid are essential for wading. We provide both. Light rafting is summer only, for guests aged 10 and over, with adult supervision and a safety briefing. |
-| `/arrival` | Check-in is from 14:00 and dinner is at 19:00. Breakfast is on the terrace when the weather allows. If you have a preference for fish or meat, tell us a day ahead and the cook will plan around it. Wi-Fi details and the door code come on arrival. |
+| `/arrival` | Check-in is from 11:00 and check-out until 10:00. Dinner is at 19:00. Breakfast is on the terrace when the weather allows. If you have a preference for fish or meat, tell us a day ahead and the cook will plan around it. Wi-Fi details and the door code come on arrival. |
 | `/photos` | Here are the photographs — the terrace over the water, the dining hall with the fire lit, and the river itself. I'll send them properly by email if you'd like them in full resolution. |
 
 ---
@@ -105,10 +96,10 @@ it looks professional.
 | Business name | Pliva River Lodge |
 | Category | Hotel / Guest house |
 | Description | 7-room riverside lodge on the Pliva, 2 km below the spring. Fly fishing, home cooking, wood-fire dining hall. Open year-round. |
-| Address | Šipovo, Republika Srpska, Bosnia & Herzegovina |
+| Address | Pljeva, Šipovo, Bosnia & Herzegovina |
 | Hours | Open year-round |
 | Website | https://guesthousesobic.netlify.app |
-| Email | bookings@plivariverlodge.com |
+| Email | milkasobic25@gmail.com |
 | Profile photo | the exterior, same as Instagram |
 
 **Do not use a personal WhatsApp number for this if you can avoid it.** A
