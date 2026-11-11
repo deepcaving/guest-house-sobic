@@ -84,8 +84,13 @@ One-time setup, in the [Zoho API console](https://api-console.zoho.com):
    the authorisation URL, and exchanges the code for you:
 
    ```bash
-   ./tools/zoho-token.sh <client_id> <client_secret> us
+   ./tools/zoho-token.sh <client_id> us
    ```
+
+   The client secret is **asked for at the prompt** rather than passed as an
+   argument. A secret typed on the command line is saved in your shell
+   history — and shell history is exactly the kind of thing that ends up in
+   a screenshot or a chat transcript. It is also not echoed as you type.
 
    The region matters. **This account is on the US/global data centre**
    (`accounts.zoho.com`) — proven by asking each data centre about the

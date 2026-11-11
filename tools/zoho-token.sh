@@ -18,9 +18,24 @@ CLIENT_ID="${1:-}"
 CLIENT_SECRET="${2:-}"
 REGION="${3:-us}"
 
-if [ -z "$CLIENT_ID" ] || [ -z "$CLIENT_SECRET" ]; then
-  echo "usage: $0 <client_id> <client_secret> [region]" >&2
+# The secret can be left off the command line and typed at the prompt
+# instead. That is the better way: a secret typed as an argument is saved
+# in your shell history, and the shell history is exactly the kind of
+# thing that ends up in a screenshot or a chat transcript.
+if [ -z "$CLIENT_ID" ]; then
+  echo "usage: $0 <client_id> [client_secret] [region]" >&2
+  echo "       $0 <client_id> us      # asks for the secret at the prompt" >&2
   exit 2
+fi
+
+if [ -z "$CLIENT_SECRET" ]; then
+  echo "Client secret (it will not be echoed, and it stays out of your shell history):"
+  read -r -s -p "> " CLIENT_SECRET
+  echo
+  if [ -z "$CLIENT_SECRET" ]; then
+    echo "no client secret given" >&2
+    exit 1
+  fi
 fi
 
 case "$REGION" in
@@ -107,7 +122,8 @@ echo "Mailbox   : ${MAILBOX:-<not found>}"
 echo "Account id: ${ACCOUNT_ID:-<not found>}"
 echo
 echo "Now set these four variables in Netlify"
-echo "(Site configuration -> Environment variables -> Functions scope):"
+echo "(Site configuration -> Environment variables -> Functions scope, and"
+echo " tick Production):"
 echo
 echo "  ZOHO_CLIENT_ID      = ${CLIENT_ID}"
 echo "  ZOHO_CLIENT_SECRET  = ${CLIENT_SECRET}"
