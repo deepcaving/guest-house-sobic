@@ -181,7 +181,9 @@ async function fetchAccessToken(config) {
     }
     throw new Error(
       `Zoho token refresh failed (${response.status}): ${error} - ${hint} ` +
-        `[client_id=${config.clientId} region=${config.region}]`
+        `[client_id=${config.clientId} region=${config.region} ` +
+        `secret:${describeSecret(config.clientSecret)} ` +
+        `token:${describeSecret(config.refreshToken)}]`
     );
   }
 
@@ -237,6 +239,26 @@ async function fetchAccountId(config, accessToken) {
  * @param {string}   [message.fromName] the display name
  * @returns {Promise<{id: string|null}>}
  */
+/**
+ * Describe a secret without revealing it.
+ *
+ * Only the shape is reported: the length, and which characters are
+ * present. That is enough to spot a paste that carried a stray "%25",
+ * a missing pair of quotes, or a truncated value - without printing the
+ * credential itself.
+ */
+function describeSecret(value) {
+  const raw = String(value == null ? "" : value);
+  const flags = [];
+  if (raw.includes("%")) flags.push("has%");
+  if (raw.includes("%25")) flags.push("has%25");
+  if (raw !== raw.trim()) flags.push("has-whitespace");
+  if (raw.includes(" ")) flags.push("has-space");
+  if (raw.includes("\n")) flags.push("has-newline");
+  if (raw.includes('"')) flags.push("has-quote");
+  return `len=${raw.length}${flags.length ? " " + flags.join(" ") : ""}`;
+}
+
 /**
  * Compare two email addresses, ignoring case and any display name.
  */
