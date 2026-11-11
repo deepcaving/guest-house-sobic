@@ -139,7 +139,7 @@ IT = {
     "form_note": "Rispondiamo a ogni richiesta entro 24 ore, di solito già in giornata.",
     "form_wa_btn": "WhatsApp Milka",
     "form_wa": "oppure scrivici su WhatsApp",
-    "form_sent_fb": "Ci dispiace — non e stato possibile inviare l'email in questo momento. La tua richiesta è stata salvata; puoi contattarci anche via WhatsApp o per telefono.",
+    "form_sent_fb": "Ci dispiace — non è stato possibile inviare l'email in questo momento. Usa WhatsApp o il numero di telefono qui sotto, oppure riprova tra un momento; ti risponderemo entro 24 ore.",
     "form_sent_ok": "Grazie — la tua richiesta è in viaggio verso di noi via email. Ti risponderemo entro 24 ore, di solito già in giornata.",
     "opt_1": "1 pescatore",
     "opt_2": "2 pescatori",

@@ -251,11 +251,16 @@ export default async (request, context) => {
       console.log("[enquiry] sent over the Zoho Mail API:", result.id || "no id");
       // Keep a copy in the Netlify dashboard as well, so an enquiry is never
       // only in one mailbox.
-      await saveToNetlifyForms(body);
+      const stored = await saveToNetlifyForms(body);
       return json(200, {
         ok: true,
         id: result.id || null,
         transport: "zoho-api",
+        // false means the Netlify Forms copy did not work - most likely
+        // because form detection is off in the Netlify dashboard. The
+        // email still went out, so this is not fatal, but it is worth
+        // knowing about.
+        storedInForms: stored,
       });
     } catch (err) {
       // A failed send must not lose the enquiry. Log it and carry on to the
@@ -395,8 +400,12 @@ export default async (request, context) => {
     console.log("[enquiry] sent:", result.id || "no id returned");
     // Keep a copy in the Netlify dashboard as well, so an enquiry is never
     // only in one mailbox.
-    await saveToNetlifyForms(body);
-    return json(200, { ok: true, id: result.id || null });
+    const stored = await saveToNetlifyForms(body);
+    return json(200, {
+      ok: true,
+      id: result.id || null,
+      storedInForms: stored,
+    });
   } catch (err) {
     console.error("[enquiry] request failed:", err);
     transportErrors.push({ transport: "resend", error: String(err && err.message) });

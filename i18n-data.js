@@ -1129,10 +1129,10 @@ window.I18N = {
     "it": "Grazie — la tua richiesta è in viaggio verso di noi via email. Ti risponderemo entro 24 ore, di solito già in giornata."
   },
   "form_sent_fb": {
-    "en": "Sorry — the email could not be sent just now. Your enquiry has been saved, and you can also reach us on WhatsApp or by phone below.",
-    "de": "Entschuldigung — die E-Mail konnte gerade nicht gesendet werden. Ihre Anfrage wurde gespeichert; Sie erreichen uns auch über WhatsApp oder telefonisch.",
-    "bs": "Izvinjte — e-mail trenutno nije moguće poslati. Vaša upit je sačuvan, a možete nas kontaktirati i putem WhatsAppa ili telefona.",
-    "it": "Ci dispiace — non e stato possibile inviare l'email in questo momento. La tua richiesta è stata salvata; puoi contattarci anche via WhatsApp o per telefono."
+    "en": "Sorry — the email could not be sent just now. Please use WhatsApp or the phone number below, or try again in a moment, and we will reply within 24 hours.",
+    "de": "Entschuldigung — die E-Mail konnte gerade nicht gesendet werden. Bitte nutzen Sie WhatsApp oder die Telefonnummer unten, oder versuchen Sie es gleich noch einmal; wir antworten innerhalb von 24 Stunden.",
+    "bs": "Izvinjte — e-mail trenutno nije moguće poslati. Molimo koristite WhatsApp ili broj telefona ispod, ili pokušajte ponovo za koji trenutak, a odgovorit ćemo vam u roku od 24 sata.",
+    "it": "Ci dispiace — non è stato possibile inviare l'email in questo momento. Usa WhatsApp o il numero di telefono qui sotto, oppure riprova tra un momento; ti risponderemo entro 24 ore."
   },
   "rates_toggle_label": {
     "en": "Show the totals",
