@@ -237,7 +237,7 @@ async function fetchAccessToken(config) {
  * and it is needed in every send URL. It is fetched once per call here
  * rather than cached, because a function instance is short-lived anyway.
  */
-async function fetchAccountId(config, accessToken) {
+async function fetchAccounts(config, accessToken) {
   const response = await fetch(`${config.scheme}://${config.mailUrl}/api/accounts`, {
     headers: {
       Authorization: `Zoho-oauthtoken ${accessToken}`,
@@ -262,6 +262,11 @@ async function fetchAccountId(config, accessToken) {
     );
   }
 
+  return accounts;
+}
+
+async function fetchAccountId(config, accessToken) {
+  const accounts = await fetchAccounts(config, accessToken);
   return String(accounts[0].accountId);
 }
 
@@ -389,18 +394,43 @@ export async function sendZohoMail(config, message) {
   // The account id is normally fetched at runtime. A configured
   // ZOHO_ACCOUNT_ID is used as-is, but if it turns out to be wrong the
   // send fails with a 404 and the reason is invisible - so fall back to
-  // looking the real one up rather than failing on a stale value.
-  let accountId = config.accountId ? String(config.accountId) : null;
-  if (!accountId) {
-    accountId = await fetchAccountId(config, accessToken);
+  // looking the real ones up rather than failing on a stale value.
+  //
+  // A Zoho user can have SEVERAL accounts, each with its own account id
+  // (an external POP/IMAP account is one of them). Only the account that
+  // owns the From address can send, so every account is tried until one
+  // of them works.
+  const allAccounts = await fetchAccounts(config, accessToken);
+  const accountIds = [];
+  if (config.accountId) accountIds.push(String(config.accountId));
+  for (const account of allAccounts) {
+    const id = String(account.accountId || "");
+    if (id && !accountIds.includes(id)) accountIds.push(id);
   }
+  if (!accountIds.length) {
+    throw new Error("Zoho returned no usable account id.");
+  }
+  let lastError = null;
+  for (const accountId of accountIds) {
+    try {
+      return await sendWithAccount(config, message, accountId, accessToken);
+    } catch (err) {
+      lastError = err;
+      if (!/404/.test(String(err && err.message))) throw err;
+      // 404 = this account cannot send. Try the next one.
+      console.warn("[zoho] account " + accountId + " cannot send; trying the next.");
+    }
+  }
+  throw lastError;
+}
 
+/**
+ * Send one message through one Zoho account.
+ */
+async function sendWithAccount(config, message, accountId, accessToken) {
   // Zoho wants the From as a bare address. The display name goes in
   // `fromDisplayName` instead of being folded into the address.
   //
-  // If nothing is configured, the account's own primary mailbox is used -
-  // the token is already scoped to that mailbox, and Zoho rejects a send
-  // with an empty From with a bare 404.
   // The From must be an address the account actually owns, or one of its
   // aliases. A configured ZOHO_FROM_EMAIL that is neither is rejected by
   // Zoho with a bare 404, so it is checked against the account and
@@ -470,22 +500,13 @@ export async function sendZohoMail(config, message) {
 
   if (!response.ok) {
     const messageText = String(result.message || result.error || "");
-    // A 404 on the send usually means the account id is wrong. Look the
-    // real one up and try once more before giving up.
-    if (response.status === 404 && config.accountId) {
-      const realAccountId = await fetchAccountId(config, accessToken);
-      if (realAccountId && realAccountId !== String(config.accountId)) {
-        console.warn(
-          "[zoho] the configured ZOHO_ACCOUNT_ID was wrong:",
-          config.accountId,
-          "-> using",
-          realAccountId
-        );
-        return sendZohoMail(
-          { ...config, accountId: realAccountId },
-          message
-        );
-      }
+    // A 404 means THIS account cannot send - the caller tries the next
+    // account id. Anything else is a real error and stops here.
+    if (response.status === 404) {
+      throw new Error(
+        `Zoho rejected the message (404) for account ${accountId}: ` +
+          `${messageText || "no detail"}`
+      );
     }
     // The usual causes, named precisely so the logs are useful.
     let hint = "";
