@@ -88,6 +88,7 @@ export function readZohoConfig(env = process.env) {
     accountId: env.ZOHO_ACCOUNT_ID,
     fromEmail: env.ZOHO_FROM_EMAIL,
     fromName: env.ZOHO_FROM_NAME,
+    region: String(env.ZOHO_REGION || "us").trim().toLowerCase() || "us",
     accountsUrl: region.accounts,
     mailUrl: region.mail,
     // The scheme is configurable so the transport can be pointed at a
@@ -128,13 +129,31 @@ async function fetchAccessToken(config) {
     // The most common cause by far: the token was minted in a different
     // region than the one configured. Say so, because the raw error
     // ("invalid_client") does not hint at it.
-    const hint = /invalid_client/i.test(String(result.error || ""))
-      ? "That usually means ZOHO_REGION does not match the data centre the " +
-        "account and token belong to. A European account is 'eu', not 'us'."
-      : "Check ZOHO_CLIENT_ID, ZOHO_CLIENT_SECRET and ZOHO_REFRESH_TOKEN.";
+    const error = String(result.error || "unknown error");
+    // What Zoho checks, and in what order, on the refresh_token grant:
+    //   invalid_client        -> the CLIENT ID is not known here
+    //   invalid_client_secret -> the client id is fine, the SECRET is wrong
+    //   invalid_code          -> both are fine, the TOKEN is wrong/revoked
+    // So the error names the first thing that is wrong. Say so, and show
+    // the client id and region that were actually used - never the secret
+    // or the token.
+    let hint;
+    if (/invalid_client_secret/i.test(error)) {
+      hint = "The client id was accepted, so ZOHO_CLIENT_SECRET is wrong.";
+    } else if (/invalid_client/i.test(error)) {
+      hint =
+        "ZOHO_CLIENT_ID was rejected - the client id in Netlify is not the " +
+        "one this token was minted against. Check it for a stray " +
+        "character, a different client, or an empty value.";
+    } else if (/invalid_code/i.test(error)) {
+      hint = "The client id and secret were accepted, so ZOHO_REFRESH_TOKEN " +
+        "is wrong or revoked. Mint a new one.";
+    } else {
+      hint = "Check ZOHO_CLIENT_ID, ZOHO_CLIENT_SECRET and ZOHO_REFRESH_TOKEN.";
+    }
     throw new Error(
-      `Zoho token refresh failed (${response.status}): ` +
-        `${result.error || "unknown error"} - ${hint}`
+      `Zoho token refresh failed (${response.status}): ${error} - ${hint} ` +
+        `[client_id=${config.clientId} region=${config.region}]`
     );
   }
 
