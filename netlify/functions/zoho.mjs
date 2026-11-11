@@ -407,6 +407,22 @@ export async function sendZohoMail(config, message) {
     const id = String(account.accountId || "");
     if (id && !accountIds.includes(id)) accountIds.push(id);
   }
+  // Report what the account list actually contains. A Zoho account can be
+  // a personal mailbox, an organisation, or an external POP account, and
+  // only some of them can send.
+  console.warn(
+    "[zoho] accounts:",
+    JSON.stringify(
+      allAccounts.map((a) => ({
+        accountId: a.accountId,
+        primaryEmailAddress: a.primaryEmailAddress,
+        accountName: a.accountName,
+        accountType: a.accountType,
+        isAdmin: a.isAdmin,
+        keys: Object.keys(a).join(","),
+      }))
+    )
+  );
   if (!accountIds.length) {
     throw new Error("Zoho returned no usable account id.");
   }
@@ -505,7 +521,8 @@ async function sendWithAccount(config, message, accountId, accessToken) {
     if (response.status === 404) {
       throw new Error(
         `Zoho rejected the message (404) for account ${accountId}: ` +
-          `${messageText || "no detail"}`
+          `${messageText || "no detail"} [url=${config.mailUrl} ` +
+          `content-length=${String(message.text || "").length}]`
       );
     }
     // The usual causes, named precisely so the logs are useful.
