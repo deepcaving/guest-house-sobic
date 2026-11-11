@@ -240,9 +240,14 @@ async function fetchAccountId(config, accessToken) {
 export async function sendZohoMail(config, message) {
   const accessToken = await fetchAccessToken(config);
 
-  const accountId = config.accountId
-    ? String(config.accountId)
-    : await fetchAccountId(config, accessToken);
+  // The account id is normally fetched at runtime. A configured
+  // ZOHO_ACCOUNT_ID is used as-is, but if it turns out to be wrong the
+  // send fails with a 404 and the reason is invisible - so fall back to
+  // looking the real one up rather than failing on a stale value.
+  let accountId = config.accountId ? String(config.accountId) : null;
+  if (!accountId) {
+    accountId = await fetchAccountId(config, accessToken);
+  }
 
   // Zoho wants the From as a bare address. The display name goes in
   // `fromDisplayName` instead of being folded into the address.
@@ -287,6 +292,23 @@ export async function sendZohoMail(config, message) {
 
   if (!response.ok) {
     const messageText = String(result.message || result.error || "");
+    // A 404 on the send usually means the account id is wrong. Look the
+    // real one up and try once more before giving up.
+    if (response.status === 404 && config.accountId) {
+      const realAccountId = await fetchAccountId(config, accessToken);
+      if (realAccountId && realAccountId !== String(config.accountId)) {
+        console.warn(
+          "[zoho] the configured ZOHO_ACCOUNT_ID was wrong:",
+          config.accountId,
+          "-> using",
+          realAccountId
+        );
+        return sendZohoMail(
+          { ...config, accountId: realAccountId },
+          message
+        );
+      }
+    }
     // The usual causes, named precisely so the logs are useful.
     let hint = "";
     if (/invalid.*sender|from.*address|not.*allowed/i.test(messageText)) {
@@ -301,7 +323,8 @@ export async function sendZohoMail(config, message) {
         "data centre the token was created in.";
     }
     throw new Error(
-      `Zoho rejected the message (${response.status}): ${messageText}${hint}`
+      `Zoho rejected the message (${response.status}): ${messageText}${hint}` +
+        ` [account_id=${accountId} from=${fromAddress}]`
     );
   }
 
