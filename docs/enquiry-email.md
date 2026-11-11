@@ -251,8 +251,20 @@ uses `smtppro.zoho.com`. Zoho shows the right one in *Settings → Mailboxes
 → the mailbox → Edit → Server Configurations Details* — use that rather
 than assuming.
 
+> **The wrong host looks exactly like a wrong password.** Asking
+> `smtp.zoho.com` for a mailbox that lives on `smtppro.zoho.com` gets
+> `535 5.7.8 Authentication Failed` — the same reply a wrong password gets.
+> That is what made this take so long to find. The transport now tries the
+> sibling host automatically when the login is refused, so a wrong host is
+> no longer a dead end, but the right one should still be configured.
+
+**The From address must be one the mailbox may send as.** Zoho refuses
+anything else with `550 5.7.1 Sender is not allowed to relay emails` — so
+a second address on the same domain is not enough; it has to be a sender
+the mailbox actually owns.
+
 ```bash
-SMTP_HOST=smtp.zoho.com
+SMTP_HOST=smtppro.zoho.com
 SMTP_PORT=465
 SMTP_USER=francesco.capuzzo@zoho.com
 SMTP_PASSWORD=your-zoho-app-password
@@ -263,13 +275,18 @@ SMTP_FROM_NAME=Pliva River Lodge
 
 | Variable | Meaning |
 |---|---|
-| `SMTP_HOST` | the SMTP server, e.g. `smtp.zoho.com` |
+| `SMTP_HOST` | the SMTP server, e.g. `smtppro.zoho.com` |
 | `SMTP_PORT` | `465` for implicit TLS, `587` for STARTTLS |
 | `SMTP_USER` | the mailbox to log in as |
 | `SMTP_PASSWORD` | the mailbox password, or a Zoho **app password** |
 | `SMTP_FROM_EMAIL` | the From address |
 | `SMTP_FROM_NAME` | the display name on the From line |
 | `SMTP_SECURE` | `ssl` (implicit TLS) or `starttls` |
+
+> **Proven live on 11 Nov 2026:** these exact values sent mail to
+> `milkasobic25@gmail.com`, and the function answered `200` with
+> `transport: "smtp"`. The same password on `smtp.zoho.com` was refused
+> with `535`; on `smtppro.zoho.com` it was accepted.
 
 **Why a hand-written client?** Netlify Functions cannot use a normal SMTP
 library: most of them open a long-lived plain socket, which is blocked. The

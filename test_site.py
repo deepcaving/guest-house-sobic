@@ -1591,6 +1591,85 @@ def test_contact_form_occupancy(r):
             r.check(host in s, f"ZOHO the region tool asks {host}")
 
 
+def test_smtp_transport_and_zoho_host_fallback(r):
+    """The SMTP transport, and the Zoho host trap that broke it for days.
+
+    What happened: the SMTP transport was pointed at smtp.zoho.com and every
+    attempt was refused with "535 5.7.8 Authentication Failed", which reads
+    exactly like a wrong password. It was not - the mailbox is a PAID account
+    on a custom domain, and a paid account uses smtppro.zoho.com. Asking the
+    wrong host produces the same error as a wrong password, so the cause was
+    invisible for a long time.
+
+    What must hold:
+      - both Zoho hosts are known to the transport
+      - a 535 on one host makes the transport try the other one
+      - the From address is only ever an address the mailbox may send as
+      - the transport still reports honestly when it fails
+    """
+    spath = ROOT / "netlify/functions" / "smtp.mjs"
+    r.check(spath.exists(), "SMTP smtp.mjs exists")
+    if not spath.exists():
+        return
+    s = spath.read_text(encoding="utf-8")
+
+    # --- both Zoho hosts are known ---
+    for host in ("smtp.zoho.com", "smtppro.zoho.com"):
+        r.check(host in s, f"SMTP transport knows the {host} host")
+
+    # --- a refused login on one host makes it try the other ---
+    r.check("siblingZohoHost" in s,
+            "SMTP transport can find the sibling Zoho host")
+    r.check("isAuthFailure" in s,
+            "SMTP transport recognises an authentication failure")
+    r.check("535" in s,
+            "SMTP transport recognises Zoho's 535 authentication refusal")
+    # The retry must be inside the send path, not just mentioned.
+    r.check(re.search(r"catch\s*\(\s*err\s*\)[\s\S]{0,900}sibling", s) is not None,
+            "SMTP transport retries the sibling host after a refused login")
+
+    # --- the From address ---
+    r.check("MAIL FROM" in s, "SMTP transport sends MAIL FROM")
+    # Zoho's relay refusal ("550 5.7.1 Sender is not allowed to relay emails")
+    # arrives as the server's reply text, so the transport must pass that text
+    # through instead of swallowing it.
+    r.check("Message rejected: ${sent.text}" in s,
+            "SMTP transport passes the server's refusal text through")
+
+    # --- the honest failure ---
+    r.check("Authentication failed" in s,
+            "SMTP transport names an authentication failure")
+    r.check("Message rejected" in s,
+            "SMTP transport names a refused message")
+
+    # --- the enquiry function uses the SMTP result and reports it ---
+    epath = ROOT / "netlify/functions" / "enquiry.mjs"
+    if epath.exists():
+        e = epath.read_text(encoding="utf-8")
+        r.check('transport: "smtp"' in e,
+                "the enquiry function reports the SMTP transport by name")
+        # The Forms backup must be reported for every successful transport,
+        # not only for the Zoho one. Look inside the SMTP branch itself.
+        smtp_at = e.find('transport: "smtp"')
+        r.check(smtp_at != -1, "the enquiry function has an SMTP branch")
+        if smtp_at != -1:
+            branch = e[smtp_at:smtp_at + 700]
+            r.check("storedInForms" in branch,
+                    "the SMTP branch also reports storedInForms")
+        # The hint must mention the host, since a wrong host is the trap.
+        r.check("smtppro.zoho.com" in e,
+                "the SMTP failure hint names the paid-account Zoho host")
+
+    # --- the example config must not point at the host that fails ---
+    ex = ROOT / ".env.example"
+    if ex.exists():
+        text = ex.read_text(encoding="utf-8")
+        r.check("smtppro.zoho.com" in text,
+                ".env.example shows the paid-account Zoho host")
+        r.check("535" in text,
+                ".env.example explains that the wrong host answers 535")
+
+
 def test_zoho_mail_api_transport(r):
     """The Zoho Mail API is the primary transport.
 
@@ -1710,6 +1789,7 @@ def main():
     test_form_name_does_not_collide_with_function(r)
     test_zoho_helper_safety(r)
     test_zoho_mail_api_transport(r)
+    test_smtp_transport_and_zoho_host_fallback(r)
 
     print(f"\n{r.passes} passed, {len(r.failures)} failed")
     if r.failures:

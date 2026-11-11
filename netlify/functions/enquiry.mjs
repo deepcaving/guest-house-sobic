@@ -291,10 +291,17 @@ export default async (request, context) => {
         replyTo: email,
       });
       console.log("[enquiry] sent over SMTP:", result.messageId || "no id");
+      // Keep a copy in the Netlify dashboard too, so an enquiry is never only
+      // in one mailbox.
+      const stored = await saveToNetlifyForms(body);
       return json(200, {
         ok: true,
         id: result.messageId || null,
         transport: "smtp",
+        // false means the Netlify Forms copy did not work - most likely
+        // because form detection is off in the Netlify dashboard. The email
+        // still went out, so this is not fatal, but it is worth knowing.
+        storedInForms: stored,
       });
     } catch (err) {
       // A failed SMTP send must not lose the enquiry. Log it and carry on
@@ -307,7 +314,9 @@ export default async (request, context) => {
         return json(502, {
           ok: false,
           error: "The SMTP server rejected the login",
-          detail: { hint: "SMTP_USER / SMTP_PASSWORD are wrong, or the mailbox has no Zoho account password yet." },
+          detail: {
+            hint: "SMTP_USER / SMTP_PASSWORD are wrong, or the mailbox has no Zoho app password yet. A wrong SMTP host gives the same 535 - a paid custom-domain mailbox uses smtppro.zoho.com, a personal one uses smtp.zoho.com.",
+          },
         });
       }
       if (!config.apiKey) {

@@ -79,12 +79,56 @@ function encodeHeader(value) {
 }
 
 /**
+ * Zoho runs two SMTP hosts and a mailbox lives on exactly one of them:
+ *
+ *   smtp.zoho.com     personal accounts and free organisation accounts
+ *   smtppro.zoho.com  paid accounts on a custom domain
+ *
+ * Asking the wrong one does not fail loudly. The server accepts the
+ * connection and then answers `535 5.7.8 Authentication Failed`, which
+ * reads exactly like a wrong password. So when the host is a Zoho host
+ * and the authentication is refused, the other one is tried before the
+ * error is given up on.
+ */
+const ZOHO_HOST_PAIRS = [
+  ["smtp.zoho.com", "smtppro.zoho.com"],
+  ["smtppro.zoho.com", "smtp.zoho.com"],
+  ["smtp.zoho.eu", "smtppro.zoho.eu"],
+  ["smtppro.zoho.eu", "smtp.zoho.eu"],
+  ["smtp.zoho.in", "smtppro.zoho.in"],
+  ["smtppro.zoho.in", "smtp.zoho.in"],
+];
+
+function siblingZohoHost(host) {
+  const found = ZOHO_HOST_PAIRS.find((pair) => pair[0] === host);
+  return found ? found[1] : null;
+}
+
+function isAuthFailure(err) {
+  const message = String((err && err.message) || "");
+  return /Authentication failed/i.test(message) || /\b535\b/.test(message);
+}
+
+/**
  * Send one email over SMTP.
  * Returns { ok: true, messageId } or throws with a useful message.
  */
 export async function sendMail(config, mail) {
+  try {
+    return await sendMailOnHost(config, mail, config.host);
+  } catch (err) {
+    const sibling = siblingZohoHost(config.host);
+    if (!sibling || !isAuthFailure(err)) throw err;
+
+    console.warn(
+      `[smtp] ${config.host} refused the credentials - retrying on ${sibling}`
+    );
+    return await sendMailOnHost({ ...config, host: sibling }, mail, sibling);
+  }
+}
+
+async function sendMailOnHost(config, mail, host) {
   const {
-    host,
     port,
     user,
     password,
