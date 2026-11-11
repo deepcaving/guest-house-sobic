@@ -812,6 +812,53 @@ def test_form_name_does_not_collide_with_function(r):
     )
 
 
+def test_zoho_helper_safety(r):
+    """The token helper must not be able to hand over a broken token.
+
+    A refresh token that cannot be exchanged for an access token is
+    useless, and discovering that in production means a 502 and a lost
+    enquiry. The helper now proves the token works before printing it,
+    and always asks for a fresh one via prompt=consent.
+    """
+    helper = (ROOT / "tools" / "zoho-token.sh").read_text(encoding="utf-8")
+
+    r.check(
+        "prompt=consent" in helper,
+        "the authorization URL asks for consent every time",
+    )
+    r.check(
+        "access_type=offline" in helper,
+        "the authorization URL asks for offline access",
+    )
+    r.check(
+        "grant_type=refresh_token" in helper,
+        "the helper verifies the refresh token by exchanging it",
+    )
+    r.check(
+        '"access_token"' in helper,
+        "the helper checks the exchange actually returned an access token",
+    )
+    r.check(
+        "read -r -s" in helper,
+        "the client secret is prompted for without echo",
+    )
+    r.check(
+        "Do not put this token in Netlify" in helper,
+        "the helper refuses to print a token that does not work",
+    )
+
+    # The docs must not tell anybody to use a stale region for this account.
+    docs = (ROOT / "docs" / "enquiry-email.md").read_text(encoding="utf-8")
+    r.check(
+        "accounts.zoho.com/oauth/v2/auth" in docs,
+        "the manual authorization URL uses the .com data centre",
+    )
+    r.check(
+        "invalid_code" in docs,
+        "the docs explain what invalid_code means",
+    )
+
+
 def test_rates_toggle(r):
     """The rates toggle: licence-inclusive vs licence-separate totals.
 
@@ -1543,6 +1590,9 @@ def main():
     test_package_prices_unchanged(r)
     test_live_date_placeholder(r)
     test_contact_form_occupancy(r)
+    test_send_button_only_sends_email(r)
+    test_form_name_does_not_collide_with_function(r)
+    test_zoho_helper_safety(r)
     test_zoho_mail_api_transport(r)
 
     print(f"\n{r.passes} passed, {len(r.failures)} failed")

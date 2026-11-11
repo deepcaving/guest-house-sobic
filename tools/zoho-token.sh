@@ -55,11 +55,11 @@ REDIRECT="http://localhost"
 echo
 echo "STEP 1 - open this URL in your browser and approve the app:"
 echo
-echo "https://${ACCOUNTS}/oauth/v2/auth?scope=${SCOPES}&client_id=${CLIENT_ID}&response_type=code&access_type=offline&redirect_uri=${REDIRECT}"
+echo "https://${ACCOUNTS}/oauth/v2/auth?scope=${SCOPES}&client_id=${CLIENT_ID}&response_type=code&access_type=offline&prompt=consent&redirect_uri=${REDIRECT}"
 echo
 echo "STEP 1 - open this URL in your browser and approve the app:"
 echo
-echo "https://${ACCOUNTS}/oauth/v2/auth?scope=${SCOPES}&client_id=${CLIENT_ID}&response_type=code&access_type=offline&redirect_uri=${REDIRECT}"
+echo "https://${ACCOUNTS}/oauth/v2/auth?scope=${SCOPES}&client_id=${CLIENT_ID}&response_type=code&access_type=offline&prompt=consent&redirect_uri=${REDIRECT}"
 echo
 echo "Zoho redirects you to ${REDIRECT}?code=XXXX"
 echo "The page will say it cannot be reached - that is expected."
@@ -111,6 +111,27 @@ if [ -z "$ACCESS" ] || [ -z "$REFRESH" ]; then
 fi
 
 echo "OK. Tokens acquired."
+echo
+
+# Prove the refresh token actually works BEFORE anyone pastes it into
+# Netlify. A refresh token that cannot exchange for an access token is
+# useless, and finding that out here is far better than finding it out
+# from a 502 in production.
+echo "Checking that the refresh token works..."
+VERIFY=$(curl -s -X POST "https://${ACCOUNTS}/oauth/v2/token" \
+  -d "grant_type=refresh_token" \
+  -d "client_id=${CLIENT_ID}" \
+  -d "client_secret=${CLIENT_SECRET}" \
+  -d "refresh_token=${REFRESH}")
+if printf '%s' "$VERIFY" | grep -q '"access_token"'; then
+  echo "  yes - it exchanges for a fresh access token."
+else
+  echo "  NO - the refresh token does NOT work:"
+  echo "  ${VERIFY}"
+  echo
+  echo "Do not put this token in Netlify. Make a new one."
+  exit 1
+fi
 echo
 
 ACCOUNTS_JSON=$(curl -s "https://${MAIL}/api/accounts" \

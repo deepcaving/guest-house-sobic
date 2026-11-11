@@ -122,13 +122,13 @@ One-time setup, in the [Zoho API console](https://api-console.zoho.com):
 
    ```bash
    # 1. open this in a browser and approve it
-   https://accounts.zoho.eu/oauth/v2/auth?scope=ZohoMail.messages.CREATE,ZohoMail.accounts.READ&client_id=YOUR_CLIENT_ID&response_type=code&access_type=offline&redirect_uri=http://localhost
+   https://accounts.zoho.com/oauth/v2/auth?scope=ZohoMail.messages.CREATE,ZohoMail.accounts.READ&client_id=YOUR_CLIENT_ID&response_type=code&access_type=offline&prompt=consent&redirect_uri=http://localhost
 
    # 2. Zoho redirects you to http://localhost?code=XXXX
    #    (the page will fail to load - that is expected, copy the code)
 
    # 3. exchange it
-   curl -X POST "https://accounts.zoho.eu/oauth/v2/token" \
+   curl -X POST "https://accounts.zoho.com/oauth/v2/token" \
      -d "grant_type=authorization_code" \
      -d "code=THE_CODE" \
      -d "client_id=YOUR_CLIENT_ID" \
@@ -137,7 +137,32 @@ One-time setup, in the [Zoho API console](https://api-console.zoho.com):
    ```
 
    The reply contains a `refresh_token`. **It does not expire**, so nothing
-   needs rotating.
+   needs rotating — unless you revoke it yourself.
+
+   `prompt=consent` is in the URL on purpose. `access_type=offline` issues a
+   refresh token only the *first* time you authorise the app; with
+   `prompt=consent` you always get a fresh one, so a second run of the
+   script cannot quietly hand you an access token with no refresh token
+   beside it.
+
+   The script **tests the refresh token before printing it**. If the token
+   cannot be exchanged for an access token, the script says so and stops.
+   A token that fails here will fail in Netlify too, so there is no point
+   pasting it in.
+
+   **If the function reports `invalid_code`:** that is Zoho's way of saying
+   the refresh token is wrong or has been revoked. It happens when
+
+   - the **access token** was pasted into `ZOHO_REFRESH_TOKEN` by mistake —
+     the refresh token is a *different* value in the JSON reply, and it is
+     the one labelled `refresh_token`;
+   - the token was revoked in Zoho Accounts → Connected Apps;
+   - the Zoho password was changed and web sessions were removed;
+   - the **client secret was regenerated** after the token was minted — the
+     old token is no longer bound to the new secret.
+
+   In all four cases the fix is the same: run the script again, approve the
+   authorisation, and paste the new `ZOHO_REFRESH_TOKEN` into Netlify.
 
    **The scopes** are `ZohoMail.messages.CREATE` (to send) and
    `ZohoMail.accounts.READ` (to look up the account id). Both are needed:
@@ -162,6 +187,12 @@ Then set these in Netlify (Site configuration → Environment variables):
 > wrong region is rejected with `invalid_client`. The function says so
 > explicitly when that happens. **This particular account is on the
 > US/global data centre**, so use `us`.
+
+> **The function tells you which transport failed and why.** Every failed
+> transport is reported in a `transports` array in the JSON response, so a
+> silent fallthrough is never possible. `invalid_code` means the refresh
+> token is wrong or revoked; `invalid_client` means the client id or secret
+> is wrong, or the region does not match.
 
 **Zoho's limits** (free account): 50–500 external emails per hour on a
 rolling basis, 100 recipients per message, and 30 API calls per minute. A
