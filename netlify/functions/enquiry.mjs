@@ -335,6 +335,9 @@ export default async (request, context) => {
           ok: false,
           error: "The sending domain is not verified yet",
           detail: result,
+          // The chain of attempts, so the real cause is visible and not
+          // hidden behind the last transport's error.
+          transports: transportErrors,
           hint:
             "Verify the sending domain with the email provider, then add the " +
             "DNS records it gives you. A *.netlify.app address cannot be " +
