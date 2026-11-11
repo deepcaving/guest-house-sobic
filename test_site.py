@@ -1305,6 +1305,22 @@ def test_contact_form_occupancy(r):
         for region in ("us", "eu", "in", "au", "jp", "ca", "uk"):
             r.check(region in h, f"ZOHO the helper knows the {region} region")
 
+    # The region checker. A token from the wrong data centre is refused
+    # with "invalid_client", which says nothing about the real cause - so
+    # there has to be a way to find the right one without needing a secret.
+    region_tool = ROOT / "tools" / "zoho-region.sh"
+    r.check(region_tool.exists(), "ZOHO tools/zoho-region.sh exists")
+    if region_tool.exists():
+        s = region_tool.read_text(encoding="utf-8")
+        r.check("invalid_code" in s and "invalid_client" in s,
+                "ZOHO the region tool distinguishes a known client from an unknown one")
+        r.check("probe" in s,
+                "ZOHO the region tool probes with a fake code, not a real one")
+        for host in ("accounts.zoho.com", "accounts.zoho.eu", "accounts.zoho.in",
+                     "accounts.zoho.com.au", "accounts.zoho.jp",
+                     "accounts.zohocloud.ca", "accounts.zoho.uk"):
+            r.check(host in s, f"ZOHO the region tool asks {host}")
+
 
 def test_zoho_mail_api_transport(r):
     """The Zoho Mail API is the primary transport.
