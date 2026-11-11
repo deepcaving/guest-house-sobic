@@ -255,8 +255,29 @@ function describeSecret(value) {
   if (raw !== raw.trim()) flags.push("has-whitespace");
   if (raw.includes(" ")) flags.push("has-space");
   if (raw.includes("\n")) flags.push("has-newline");
+  if (raw.includes("\r")) flags.push("has-cr");
+  if (raw.includes("\t")) flags.push("has-tab");
   if (raw.includes('"')) flags.push("has-quote");
-  return `len=${raw.length}${flags.length ? " " + flags.join(" ") : ""}`;
+  if (raw.includes("'")) flags.push("has-apostrophe");
+  if (raw.includes("&")) flags.push("has-amp");
+  if (raw.includes("+")) flags.push("has-plus");
+  if (raw.includes("=")) flags.push("has-equals");
+  // The first and last few characters are safe to show when they are
+  // ordinary letters or digits - enough to spot a copy-paste that
+  // started in the wrong place, without revealing the credential.
+  const edge = raw.slice(0, 4).replace(/[^A-Za-z0-9]/g, "") +
+    ".." +
+    raw.slice(-4).replace(/[^A-Za-z0-9]/g, "");
+  // The character codes of the first six characters: if the value is
+  // shifted or mis-encoded, this shows it without printing anything
+  // meaningful.
+  const codes = Array.from(raw.slice(0, 6))
+    .map((c) => c.charCodeAt(0))
+    .join(",");
+  return (
+    `len=${raw.length} edge=${edge} codes=${codes}` +
+    (flags.length ? " " + flags.join(" ") : "")
+  );
 }
 
 /**
