@@ -1591,6 +1591,51 @@ def test_contact_form_occupancy(r):
             r.check(host in s, f"ZOHO the region tool asks {host}")
 
 
+def test_forms_backup_carries_the_same_fields_as_the_email(r):
+    """The Netlify Forms backup must be the SAME enquiry as the email.
+
+    What happened: the browser-side backup was built from
+    `new FormData(form)`. FormData drops an UNCHECKED checkbox, so the Fly
+    fishing switch was missing from the backup while the email had it -
+    the two copies of one enquiry disagreed, and the backup copy was the
+    one Milka reads in the dashboard.
+
+    What must hold:
+      - the backup body is built from collectFields(), the same object the
+        function receives - not from FormData
+      - the honeypot is still sent, so Netlify's spam protection applies
+      - the backup still POSTs to "/" as a urlencoded body
+    """
+    fpath = ROOT / "form.js"
+    r.check(fpath.exists(), "form.js exists")
+    if not fpath.exists():
+        return
+    f = fpath.read_text(encoding="utf-8")
+
+    backup = f[f.find("function saveToNetlifyForms"):]
+    backup = backup[: backup.find("\n  }") + 4] if "function saveToNetlifyForms" in f else ""
+
+    r.check("new FormData(form)" not in f,
+            "form.js does not build the backup body from FormData "
+            "(it drops unchecked checkboxes)")
+    r.check("collectFields()" in backup,
+            "the Netlify Forms backup is built from collectFields()")
+    r.check("bot-field" in backup,
+            "the Netlify Forms backup still carries the honeypot")
+    r.check("application/x-www-form-urlencoded" in backup,
+            "the Netlify Forms backup is still a urlencoded POST")
+    r.check("fetch('/'" in backup or 'fetch("/"' in backup,
+            "the Netlify Forms backup still POSTs to /")
+
+    # The trip type must reach the function in both states. occupancy.js
+    # sets the checkbox VALUE to yes/no, so the value is always readable.
+    opath = ROOT / "occupancy.js"
+    if opath.exists():
+        o = opath.read_text(encoding="utf-8")
+        r.check("toggle.value" in o,
+                "occupancy.js keeps the flyfishing value at yes/no")
+
+
 def test_smtp_transport_and_zoho_host_fallback(r):
     """The SMTP transport, and the Zoho host trap that broke it for days.
 
@@ -1790,6 +1835,7 @@ def main():
     test_zoho_helper_safety(r)
     test_zoho_mail_api_transport(r)
     test_smtp_transport_and_zoho_host_fallback(r)
+    test_forms_backup_carries_the_same_fields_as_the_email(r)
 
     print(f"\n{r.passes} passed, {len(r.failures)} failed")
     if r.failures:

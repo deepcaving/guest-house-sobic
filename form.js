@@ -126,13 +126,22 @@
    * on Netlify's "form detection" switch being on in the dashboard, so it
    * is the one that matters; this browser-side POST is kept because it
    * costs nothing and covers the case where the function is unreachable.
+   *
+   * The body is built from collectFields(), NOT from FormData. FormData
+   * drops an UNCHECKED checkbox, so the Fly fishing switch went missing
+   * from this copy while the email had it - the two copies of the same
+   * enquiry disagreed. Using the same object the function receives makes
+   * them identical by construction.
    */
   function saveToNetlifyForms() {
     try {
+      var fields = collectFields();
+      // The honeypot stays, so Netlify's own spam protection still applies.
+      fields['bot-field'] = bot ? bot.value : '';
       return fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(new FormData(form)).toString()
+        body: new URLSearchParams(fields).toString()
       })['catch'](function () {});
     } catch (err) {
       return undefined;
