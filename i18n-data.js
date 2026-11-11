@@ -1129,10 +1129,10 @@ window.I18N = {
     "it": "Grazie — la tua richiesta è in viaggio verso di noi via email. Ti risponderemo entro 24 ore, di solito già in giornata."
   },
   "form_sent_fb": {
-    "en": "Thank you — WhatsApp and your email app have opened with your details ready to send. Press send in either one and we will reply within 24 hours.",
-    "de": "Danke — WhatsApp und Ihr E-Mail-Programm haben sich mit Ihren Angaben geöffnet. Senden Sie in einer der beiden Apps, und wir antworten innerhalb von 24 Stunden.",
-    "bs": "Hvala — WhatsApp i vaša aplikacija za e-poštu otvorili su se s vašim podacima spremanim za slanje. Pošaljite u jednoj od njih i odgovorit ćemo vam u roku od 24 sata.",
-    "it": "Grazie — WhatsApp e la tua app di posta si sono aperti con i tuoi dati pronti per l'invio. Premi invia in uno dei due e ti risponderemo entro 24 ore."
+    "en": "Sorry — the email could not be sent just now. Please use WhatsApp or the phone number below, or try again in a moment, and we will reply within 24 hours.",
+    "de": "Entschuldigung — die E-Mail konnte gerade nicht gesendet werden. Bitte nutzen Sie WhatsApp oder die Telefonnummer unten, oder versuchen Sie es gleich noch einmal; wir antworten innerhalb von 24 Stunden.",
+    "bs": "Izvinjte — e-mail trenutno nije moguće poslati. Molimo koristite WhatsApp ili broj telefona ispod, ili pokušajte ponovo za koji trenutak, a odgovorit ćemo vam u roku od 24 sata.",
+    "it": "Ci dispiace — non è stato possibile inviare l'email in questo momento. Usa WhatsApp o il numero di telefono qui sotto, oppure riprova tra un momento; ti risponderemo entro 24 ore."
   },
   "rates_toggle_label": {
     "en": "Show the totals",

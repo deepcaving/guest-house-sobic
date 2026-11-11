@@ -3,7 +3,7 @@
 ## What the guest sees
 
 The guest fills in the enquiry form and presses **Send enquiry**. The form
-does three things, in this order:
+does two things:
 
 1. **Sends the enquiry by email, from the server.** It lands in Milka's inbox
    (`milkasobic25@gmail.com`) with you blind-copied on it. The guest does
@@ -11,11 +11,35 @@ does three things, in this order:
    "press send" step.
 2. **Keeps a copy in Netlify Forms**, so the enquiry also shows up in the
    Netlify dashboard and nothing is ever lost.
-3. **Falls back to WhatsApp and the guest's own mail app** if the email
-   service is down or has not been configured yet.
 
-With JavaScript switched off, the form still posts to Netlify Forms as a
-normal Netlify Form, so the enquiry is captured either way.
+**The button does not open WhatsApp.** It never did on purpose, and it was
+removed on 11 Nov 2026 after it was found opening a WhatsApp tab whenever
+the server email did not go out. WhatsApp is a separate, clearly labelled
+button next to it, and it stays a plain link. If the email cannot be sent,
+the guest is told so plainly, and the enquiry is still stored.
+
+With JavaScript switched off, the form posts to Netlify Forms as a normal
+Netlify Form, so the enquiry is captured either way — provided form
+detection is enabled (see below).
+
+### One switch in the Netlify dashboard
+
+Netlify registers a form at **deploy time**, by parsing the published HTML.
+That switch has to be turned on once by hand:
+
+> **Netlify → the site → Forms → Enable form detection**
+
+Until it is on, the site's forms are not registered, and a submission to
+`/` returns **404**. This was the state of `guesthousesobic` on 11 Nov 2026:
+no form endpoint answered under any name, on production or on a branch
+deploy, so the backup copy of every enquiry was being lost.
+
+The enquiry function now writes its own copy to the Netlify Forms API,
+which does not depend on that switch — so an enquiry is never only in one
+mailbox even with the switch off. Turning it on is still worth doing: it
+makes the form work with JavaScript disabled, and it puts the submissions
+in the dashboard's **Verified submissions** list rather than only in the
+raw form entries.
 
 ## Why it works this way
 
@@ -69,23 +93,106 @@ DKIM, no SMTP password.**
 
 One-time setup, in the [Zoho API console](https://api-console.zoho.com):
 
-1. **Add Client** → **Server-based Application** (or **Self Client**, which
-   is quicker and needs no redirect URI).
-2. Authorise the scope `ZohoMail.messages.ALL`. Add
-   `ZohoMail.accounts.READ` if you do not know the account id.
-3. Exchange the authorisation code for a **refresh token**:
+1. **Add Client** → **Server-based Application**. Fill in:
+   - **Client Name**: `Pliva River Lodge` (anything readable)
+   - **Homepage URL**: `https://guesthousesobic.netlify.app`
+   - **Authorized Redirect URIs**: `http://localhost` — then press the **+**
+     to add it
+
+   ("Self Client" is quicker and needs no redirect URI, but Server-based is
+   what the steps below assume.)
+
+2. Copy the **Client ID** and **Client Secret** that Zoho shows you.
+
+3. Get the refresh token. The helper script does the whole thing — it prints
+   the authorisation URL, and exchanges the code for you:
 
    ```bash
+   ./tools/zoho-token.sh <client_id> us
+   ```
+
+   The client secret is **asked for at the prompt** rather than passed as an
+   argument. A secret typed on the command line is saved in your shell
+   history — and shell history is exactly the kind of thing that ends up in
+   a screenshot or a chat transcript. It is also not echoed as you type.
+
+   The region matters. **This account is on the US/global data centre**
+   (`accounts.zoho.com`) — proven by asking each data centre about the
+   client: `.com` answers `invalid_code` (it knows the client, only the
+   code was wrong) while every other region answers `invalid_client`
+   (it does not know the client at all).
+
+   Use `eu` only for a European account, `in` for India, `au` for Australia,
+   `jp` for Japan, `ca` for Canada, `uk` for the UK. A token minted in the
+   wrong region is refused with the same unhelpful `invalid_client`.
+
+   The script prints the four variables to paste into Netlify.
+
+   **What the script does, step by step:**
+
+   1. It prints an authorisation URL.
+   2. You open that URL in a browser and click **Authorize**.
+   3. Zoho redirects you to `http://localhost/?code=...`. **That page will
+      fail to load — that is expected**, there is no server on your own
+      machine. The code is in the address bar.
+   4. Paste the **whole address bar line** back into the terminal (the script
+      also accepts just the code). It exchanges it, finds your account id,
+      and prints the variables to paste into Netlify.
+
+   Steps 1 and 4 are the script; steps 2 and 3 are you, and they happen once
+   in the whole life of the setup.
+
+   **What it does under the hood**, if you would rather do it by hand:
+
+   ```bash
+   # 1. open this in a browser and approve it
+   https://accounts.zoho.com/oauth/v2/auth?scope=ZohoMail.messages.CREATE,ZohoMail.accounts.READ&client_id=YOUR_CLIENT_ID&response_type=code&access_type=offline&prompt=consent&redirect_uri=http://localhost
+
+   # 2. Zoho redirects you to http://localhost?code=XXXX
+   #    (the page will fail to load - that is expected, copy the code)
+
+   # 3. exchange it
    curl -X POST "https://accounts.zoho.com/oauth/v2/token" \
      -d "grant_type=authorization_code" \
-     -d "code=THE_CODE_ZOHO_GAVE_YOU" \
+     -d "code=THE_CODE" \
      -d "client_id=YOUR_CLIENT_ID" \
      -d "client_secret=YOUR_CLIENT_SECRET" \
      -d "redirect_uri=http://localhost"
    ```
 
    The reply contains a `refresh_token`. **It does not expire**, so nothing
-   needs rotating.
+   needs rotating — unless you revoke it yourself.
+
+   `prompt=consent` is in the URL on purpose. `access_type=offline` issues a
+   refresh token only the *first* time you authorise the app; with
+   `prompt=consent` you always get a fresh one, so a second run of the
+   script cannot quietly hand you an access token with no refresh token
+   beside it.
+
+   The script **tests the refresh token before printing it**. If the token
+   cannot be exchanged for an access token, the script says so and stops.
+   A token that fails here will fail in Netlify too, so there is no point
+   pasting it in.
+
+   **If the function reports `invalid_code`:** that is Zoho's way of saying
+   the refresh token is wrong or has been revoked. It happens when
+
+   - the **access token** was pasted into `ZOHO_REFRESH_TOKEN` by mistake —
+     the refresh token is a *different* value in the JSON reply, and it is
+     the one labelled `refresh_token`;
+   - the token was revoked in Zoho Accounts → Connected Apps;
+   - the Zoho password was changed and web sessions were removed;
+   - the **client secret was regenerated** after the token was minted — the
+     old token is no longer bound to the new secret.
+
+   In all four cases the fix is the same: run the script again, approve the
+   authorisation, and paste the new `ZOHO_REFRESH_TOKEN` into Netlify.
+
+   **The scopes** are `ZohoMail.messages.CREATE` (to send) and
+   `ZohoMail.accounts.READ` (to look up the account id). Both are needed:
+   the send endpoint itself only wants CREATE, but the account id lookup
+   wants READ, and the id is fetched at runtime when it is not set.
+
 4. The **account id** can be left unset — the function fetches it. To find it
    by hand: `GET https://mail.zoho.com/api/accounts` with the access token.
 
@@ -102,7 +209,14 @@ Then set these in Netlify (Site configuration → Environment variables):
 > **The region matters.** A European Zoho account lives on
 > `accounts.zoho.eu` / `mail.zoho.eu`, not `.com`. A token minted in the
 > wrong region is rejected with `invalid_client`. The function says so
-> explicitly when that happens.
+> explicitly when that happens. **This particular account is on the
+> US/global data centre**, so use `us`.
+
+> **The function tells you which transport failed and why.** Every failed
+> transport is reported in a `transports` array in the JSON response, so a
+> silent fallthrough is never possible. `invalid_code` means the refresh
+> token is wrong or revoked; `invalid_client` means the client id or secret
+> is wrong, or the region does not match.
 
 **Zoho's limits** (free account): 50–500 external emails per hour on a
 rolling basis, 100 recipients per message, and 30 API calls per minute. A

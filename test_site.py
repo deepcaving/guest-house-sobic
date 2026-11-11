@@ -106,8 +106,14 @@ def test_milka_facts(r):
         'data-email="milkasobic25@gmail.com"' in HTML,
         "Q8  the enquiry form carries data-email for the mailto path",
     )
+    # The form name must match the hidden form-name input, and must not
+    # collide with the name of the Netlify function ("enquiry").
+    _form_name = re.search(r'<form name="([^"]+)"', HTML)
     r.check(
-        'data-netlify="true"' in HTML and 'name="enquiry"' in HTML,
+        'data-netlify="true"' in HTML
+        and _form_name is not None
+        and f'name="form-name" value="{_form_name.group(1)}"' in HTML
+        and _form_name.group(1) != "enquiry",
         "Q8  the enquiry form is still Netlify-native",
     )
 
@@ -706,6 +712,171 @@ def test_form_wiring(r):
     )
 
 
+def test_send_button_only_sends_email(r):
+    """The submit button sends an email. It opens nothing else.
+
+    The bug this pins: pressing "Send enquiry" opened a WhatsApp tab and
+    the guest's mail app, because the fallback fired whenever the server
+    email did not go out. The host asked for the button to send an email
+    and nothing more - WhatsApp is already a separate, labelled link.
+    """
+    form_js = (ROOT / "form.js").read_text(encoding="utf-8")
+    html = (ROOT / "index.html").read_text(encoding="utf-8")
+
+    # No application is launched from the submit handler.
+    r.check(
+        "window.open" not in form_js,
+        "the form script never launches another application",
+    )
+    r.check(
+        "openWhatsApp" not in form_js,
+        "the submit handler does not open WhatsApp",
+    )
+    r.check(
+        "openMailApp" not in form_js,
+        "the submit handler does not open the guest's mail app",
+    )
+    r.check(
+        "api.whatsapp.com" not in form_js,
+        "the form script does not build a WhatsApp send URL",
+    )
+    r.check(
+        "mailto:" not in form_js,
+        "the form script does not build a mailto URL",
+    )
+
+    # The fallback message must not promise a WhatsApp popup any more.
+    fb = re.search(r'id="enquiry-status-fallback"[^>]*>([^<]*)<', html)
+    r.check(
+        fb is not None,
+        "the fallback message is in the markup",
+    )
+    if fb:
+        text = fb.group(1)
+        r.check(
+            "WhatsApp and your email app have opened" not in text,
+            "the fallback message does not claim WhatsApp and the mail app opened",
+        )
+        r.check(
+            "have opened" not in text,
+            "the fallback message does not claim anything opened",
+        )
+
+    # The failure is still reported, and the enquiry is still kept.
+    r.check(
+        "show(statusFallback)" in form_js,
+        "the guest is told when the email did not go out",
+    )
+    r.check(
+        "saveToNetlifyForms()" in form_js,
+        "the enquiry is still saved when the email fails",
+    )
+
+    # The server must say WHY it failed, so the fallthrough is debuggable.
+    fn = (ROOT / "netlify" / "functions" / "enquiry.mjs").read_text(encoding="utf-8")
+    r.check(
+        "transportErrors" in fn,
+        "the function records why each transport failed",
+    )
+    r.check(
+        "transports: transportErrors" in fn,
+        "the function reports the transport failures to the client",
+    )
+
+
+def test_form_name_does_not_collide_with_function(r):
+    """The Netlify form and the Netlify function must not share a name.
+
+    The form was named "enquiry" and the function was "enquiry.mjs". Netlify
+    registers a form under its name and serves the function from
+    /.netlify/functions/<name> - the collision made the form's POST to "/"
+    return 404, so the fallback copy of every enquiry was silently lost.
+    """
+    html = (ROOT / "index.html").read_text(encoding="utf-8")
+
+    r.check(
+        'name="lodge-enquiry"' in html,
+        "the form is named lodge-enquiry",
+    )
+    r.check(
+        'name="form-name" value="lodge-enquiry"' in html,
+        "the hidden form-name input matches the form name",
+    )
+    r.check(
+        'name="enquiry"' not in html,
+        "the form no longer uses the name of the function",
+    )
+    r.check(
+        (ROOT / "netlify" / "functions" / "enquiry.mjs").exists(),
+        "the function is still called enquiry",
+    )
+
+
+def test_zoho_helper_safety(r):
+    """The token helper must not be able to hand over a broken token.
+
+    A refresh token that cannot be exchanged for an access token is
+    useless, and discovering that in production means a 502 and a lost
+    enquiry. The helper now proves the token works before printing it,
+    and always asks for a fresh one via prompt=consent.
+    """
+    helper = (ROOT / "tools" / "zoho-token.sh").read_text(encoding="utf-8")
+
+    r.check(
+        "prompt=consent" in helper,
+        "the authorization URL asks for consent every time",
+    )
+    r.check(
+        "access_type=offline" in helper,
+        "the authorization URL asks for offline access",
+    )
+    r.check(
+        "grant_type=refresh_token" in helper,
+        "the helper verifies the refresh token by exchanging it",
+    )
+    r.check(
+        '"access_token"' in helper,
+        "the helper checks the exchange actually returned an access token",
+    )
+    r.check(
+        "read -r -s" in helper,
+        "the client secret is prompted for without echo",
+    )
+    r.check(
+        "Do not put this token in Netlify" in helper,
+        "the helper refuses to print a token that does not work",
+    )
+
+    # The docs must not tell anybody to use a stale region for this account.
+    docs = (ROOT / "docs" / "enquiry-email.md").read_text(encoding="utf-8")
+    r.check(
+        "accounts.zoho.com/oauth/v2/auth" in docs,
+        "the manual authorization URL uses the .com data centre",
+    )
+    r.check(
+        "invalid_code" in docs,
+        "the docs explain what invalid_code means",
+    )
+
+    # The function must store its own copy in Netlify Forms. The browser
+    # POST to "/" only works if "form detection" is enabled in the Netlify
+    # dashboard, and it was off on this site - so every enquiry's backup
+    # copy was being lost. The server-side copy does not depend on it.
+    fn = (ROOT / "netlify" / "functions" / "enquiry.mjs").read_text(encoding="utf-8")
+    r.check(
+        "saveToNetlifyForms" in fn,
+        "the function stores a copy of the enquiry itself",
+    )
+    r.check(
+        "api.netlify.com/api/v1/forms/lodge-enquiry" in fn,
+        "the function posts to the Netlify Forms endpoint",
+    )
+    r.check(
+        fn.count("await saveToNetlifyForms(body);") >= 2,
+        "the copy is stored on both successful send paths",
+    )
+
+
 def test_rates_toggle(r):
     """The rates toggle: licence-inclusive vs licence-separate totals.
 
@@ -1290,6 +1461,37 @@ def test_contact_form_occupancy(r):
     r.check((ROOT / ".env.example").exists(),
             "ENV .env.example exists so the setup is reproducible")
 
+    # The helper that gets the refresh token. Without it the setup is a
+    # guessing game: the authorisation URL has to be assembled by hand.
+    helper = ROOT / "tools" / "zoho-token.sh"
+    r.check(helper.exists(), "ZOHO tools/zoho-token.sh exists")
+    if helper.exists():
+        h = helper.read_text(encoding="utf-8")
+        r.check("oauth/v2/auth" in h and "access_type=offline" in h,
+                "ZOHO the helper builds the authorisation URL and asks for a refresh token")
+        r.check("ZohoMail.messages.CREATE" in h,
+                "ZOHO the helper requests the CREATE scope")
+        r.check("refresh_token" in h,
+                "ZOHO the helper extracts the refresh token")
+        for region in ("us", "eu", "in", "au", "jp", "ca", "uk"):
+            r.check(region in h, f"ZOHO the helper knows the {region} region")
+
+    # The region checker. A token from the wrong data centre is refused
+    # with "invalid_client", which says nothing about the real cause - so
+    # there has to be a way to find the right one without needing a secret.
+    region_tool = ROOT / "tools" / "zoho-region.sh"
+    r.check(region_tool.exists(), "ZOHO tools/zoho-region.sh exists")
+    if region_tool.exists():
+        s = region_tool.read_text(encoding="utf-8")
+        r.check("invalid_code" in s and "invalid_client" in s,
+                "ZOHO the region tool distinguishes a known client from an unknown one")
+        r.check("probe" in s,
+                "ZOHO the region tool probes with a fake code, not a real one")
+        for host in ("accounts.zoho.com", "accounts.zoho.eu", "accounts.zoho.in",
+                     "accounts.zoho.com.au", "accounts.zoho.jp",
+                     "accounts.zohocloud.ca", "accounts.zoho.uk"):
+            r.check(host in s, f"ZOHO the region tool asks {host}")
+
 
 def test_zoho_mail_api_transport(r):
     """The Zoho Mail API is the primary transport.
@@ -1317,8 +1519,13 @@ def test_zoho_mail_api_transport(r):
         # --- the send endpoint ---
         r.check("/api/accounts/" in z and "/messages" in z,
                 "ZOHO zoho.mjs posts to the Zoho send-messages endpoint")
-        r.check("http://" not in z.replace("http://accounts", "http://ACCOUNTS"),
-                "ZOHO zoho.mjs never uses plain HTTP")
+        # Every fetch must go over TLS. The only plain http:// allowed is the
+        # redirect_uri, which is never dialled - it is a browser callback.
+        fetches = re.findall(r"fetch\(`?\$?\{?[^,\n]*", z)
+        r.check(all("http://" not in f for f in fetches),
+                "ZOHO zoho.mjs never fetches over plain HTTP")
+        r.check("${config.scheme}://" in z,
+                "ZOHO zoho.mjs builds its URLs from the scheme")
 
         # --- the OAuth flow ---
         r.check("grant_type" in z and "refresh_token" in z,
@@ -1401,6 +1608,9 @@ def main():
     test_package_prices_unchanged(r)
     test_live_date_placeholder(r)
     test_contact_form_occupancy(r)
+    test_send_button_only_sends_email(r)
+    test_form_name_does_not_collide_with_function(r)
+    test_zoho_helper_safety(r)
     test_zoho_mail_api_transport(r)
 
     print(f"\n{r.passes} passed, {len(r.failures)} failed")

@@ -147,6 +147,41 @@ function buildBody(body) {
   return lines.join("\n");
 }
 
+
+/**
+ * Store a copy of the enquiry in Netlify Forms, from the server.
+ *
+ * The browser also POSTs to the form endpoint, but that only works if
+ * "form detection" is switched on in the Netlify UI (Forms > Enable form
+ * detection). When it is off, the browser POST returns 404 and the copy
+ * is lost. This function-side submission does not depend on that toggle
+ * being on, so the enquiry is never lost.
+ *
+ * Best effort: a failure here is logged and does not affect the email.
+ */
+async function saveToNetlifyForms(fields) {
+  try {
+    const response = await fetch("https://api.netlify.com/api/v1/forms/lodge-enquiry", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(fields),
+    });
+    if (!response.ok) {
+      console.error(
+        "[enquiry] Netlify Forms copy failed:",
+        response.status,
+        await response.text().catch(() => "")
+      );
+      return false;
+    }
+    console.log("[enquiry] Netlify Forms copy stored");
+    return true;
+  } catch (err) {
+    console.error("[enquiry] Netlify Forms copy failed:", err && err.message);
+    return false;
+  }
+}
+
 export default async (request, context) => {
   const config = readConfig();
 
@@ -195,6 +230,11 @@ export default async (request, context) => {
   };
   if (config.bcc) payload.bcc = [config.bcc];
 
+  // Each transport's failure reason is collected, so the response can say
+  // WHY the enquiry fell through instead of only that it did. A silent
+  // fallback is impossible to debug.
+  const transportErrors = [];
+
   // 1. The Zoho Mail API. This is the transport that works with no domain
   //    setup and no SMTP password, so it is tried first.
   if (config.zoho.configured) {
@@ -209,20 +249,30 @@ export default async (request, context) => {
         fromName: config.zoho.fromName || undefined,
       });
       console.log("[enquiry] sent over the Zoho Mail API:", result.id || "no id");
+      // Keep a copy in the Netlify dashboard as well, so an enquiry is never
+      // only in one mailbox.
+      const stored = await saveToNetlifyForms(body);
       return json(200, {
         ok: true,
         id: result.id || null,
         transport: "zoho-api",
+        // false means the Netlify Forms copy did not work - most likely
+        // because form detection is off in the Netlify dashboard. The
+        // email still went out, so this is not fatal, but it is worth
+        // knowing about.
+        storedInForms: stored,
       });
     } catch (err) {
       // A failed send must not lose the enquiry. Log it and carry on to the
       // next transport, which may still be configured.
       console.error("[enquiry] Zoho Mail API send failed:", err && err.message);
+      transportErrors.push({ transport: "zoho-api", error: String(err && err.message) });
       if (!config.smtp.configured && !config.apiKey) {
         return json(502, {
           ok: false,
           error: "The email service could not be reached",
           detail: { message: String(err && err.message) },
+          transports: transportErrors,
         });
       }
       // Fall through to SMTP.
@@ -250,6 +300,7 @@ export default async (request, context) => {
       // A failed SMTP send must not lose the enquiry. Log it and carry on
       // to the HTTP provider, which may still be configured.
       console.error("[enquiry] SMTP send failed:", err && err.message);
+      transportErrors.push({ transport: "smtp", error: String(err && err.message) });
       // The password may be wrong, the mailbox may not be active, or Zoho
       // may be refusing the EHLO hostname. Say so precisely.
       if (/Authentication failed/i.test(String(err && err.message))) {
@@ -316,6 +367,7 @@ export default async (request, context) => {
 
     if (!response.ok) {
       console.error("[enquiry] provider error:", response.status, result);
+      transportErrors.push({ transport: "resend", error: String(result.message || result.error || response.status) });
 
       // The common case: the sending domain has not been verified at the
       // provider. Say so precisely, because "rejected the enquiry" hides the
@@ -326,6 +378,9 @@ export default async (request, context) => {
           ok: false,
           error: "The sending domain is not verified yet",
           detail: result,
+          // The chain of attempts, so the real cause is visible and not
+          // hidden behind the last transport's error.
+          transports: transportErrors,
           hint:
             "Verify the sending domain with the email provider, then add the " +
             "DNS records it gives you. A *.netlify.app address cannot be " +
@@ -338,14 +393,27 @@ export default async (request, context) => {
         ok: false,
         error: "The email service rejected the enquiry",
         detail: result,
+        transports: transportErrors,
       });
     }
 
     console.log("[enquiry] sent:", result.id || "no id returned");
-    return json(200, { ok: true, id: result.id || null });
+    // Keep a copy in the Netlify dashboard as well, so an enquiry is never
+    // only in one mailbox.
+    const stored = await saveToNetlifyForms(body);
+    return json(200, {
+      ok: true,
+      id: result.id || null,
+      storedInForms: stored,
+    });
   } catch (err) {
     console.error("[enquiry] request failed:", err);
-    return json(502, { ok: false, error: "Could not reach the email service" });
+    transportErrors.push({ transport: "resend", error: String(err && err.message) });
+    return json(502, {
+      ok: false,
+      error: "Could not reach the email service",
+      transports: transportErrors,
+    });
   }
 };
 
