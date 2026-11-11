@@ -912,6 +912,33 @@ def test_zoho_helper_safety(r):
         "the copy is stored on both successful send paths",
     )
 
+    # The percent sign must go to Zoho RAW. A Zoho client secret contains
+    # a literal "%", and URLSearchParams encodes it to "%25" - which Zoho's
+    # token endpoint answers with an HTTP 400 "Access Denied" page instead
+    # of a normal OAuth error. That wall is what blocked the very first
+    # real send attempt.
+    zfn = (ROOT / "netlify" / "functions" / "zoho.mjs").read_text(encoding="utf-8")
+    r.check(
+        "URLSearchParams" not in zfn,
+        "the OAuth request does not use URLSearchParams, which would encode %",
+    )
+    r.check(
+        "function formBody" in zfn,
+        "the OAuth request uses the percent-safe body builder",
+    )
+    r.check(
+        '.replace(/&/g, "%26")' in zfn,
+        "the body builder encodes the ampersand",
+    )
+    r.check(
+        '.replace(/\\+/g, "%2B")' in zfn,
+        "the body builder encodes the plus sign",
+    )
+    r.check(
+        ".replace(/%/g" not in fn,
+        "the body builder never encodes the percent sign",
+    )
+
 
 def test_rates_toggle(r):
     """The rates toggle: licence-inclusive vs licence-separate totals.

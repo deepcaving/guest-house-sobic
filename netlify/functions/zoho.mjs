@@ -104,13 +104,41 @@ export function readZohoConfig(env = process.env) {
 }
 
 /**
+ * Build an application/x-www-form-urlencoded body.
+ *
+ * Almost every value can be encoded normally - but NOT the percent sign.
+ * Zoho client secrets contain a literal "%", and Zoho's token endpoint
+ * rejects the percent-ENCODED form ("%25") with an HTTP 400 "Access
+ * Denied" page instead of a normal OAuth error. The raw "%" has to go
+ * through untouched.
+ *
+ * Everything else is still encoded, so a secret containing "&" or "+" or
+ * a space cannot break the body apart.
+ */
+function formBody(params) {
+  return Object.entries(params)
+    .map(([key, value]) => {
+      const raw = String(value == null ? "" : value);
+      // Encode the characters that would otherwise break the body, but
+      // leave "%" alone - Zoho wants it raw.
+      const safe = raw
+        .replace(/&/g, "%26")
+        .replace(/\+/g, "%2B")
+        .replace(/ /g, "%20")
+        .replace(/=/g, "%3D");
+      return `${key}=${safe}`;
+    })
+    .join("&");
+}
+
+/**
  * Exchange the refresh token for a fresh access token.
  *
  * The access token is short-lived, so this runs on every send. The refresh
  * token itself does not expire, which is why nothing here needs rotating.
  */
 async function fetchAccessToken(config) {
-  const body = new URLSearchParams({
+  const body = formBody({
     grant_type: "refresh_token",
     client_id: config.clientId,
     client_secret: config.clientSecret,
