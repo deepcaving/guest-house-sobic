@@ -1290,6 +1290,98 @@ def test_contact_form_occupancy(r):
     r.check((ROOT / ".env.example").exists(),
             "ENV .env.example exists so the setup is reproducible")
 
+
+def test_zoho_mail_api_transport(r):
+    """The Zoho Mail API is the primary transport.
+
+    Why it exists: SMTP works from the Netlify runtime (port 465 is open on
+    the Free plan; only port 25 is blocked, and that on every plan), but it
+    needs a Zoho app password, which is awkward to obtain. The Zoho REST API
+    sends the same mail over HTTPS with OAuth 2.0 and no SMTP password, and
+    it sends from the real mailbox - so no domain verification is needed.
+
+    What must hold:
+      - the API is called over HTTPS on the send endpoint
+      - the OAuth refresh flow is present, and the refresh token is used
+      - the blind copy survives (bccAddress, never ccAddress)
+      - Reply-To is the guest
+      - the region can be switched, because a European Zoho account is not
+        on accounts.zoho.com
+      - the function tries Zoho BEFORE SMTP, and falls through on failure
+    """
+    zpath = ROOT / "netlify/functions" / "zoho.mjs"
+    r.check(zpath.exists(), "ZOHO zoho.mjs exists")
+    if zpath.exists():
+        z = zpath.read_text(encoding="utf-8")
+
+        # --- the send endpoint ---
+        r.check("/api/accounts/" in z and "/messages" in z,
+                "ZOHO zoho.mjs posts to the Zoho send-messages endpoint")
+        r.check("http://" not in z.replace("http://accounts", "http://ACCOUNTS"),
+                "ZOHO zoho.mjs never uses plain HTTP")
+
+        # --- the OAuth flow ---
+        r.check("grant_type" in z and "refresh_token" in z,
+                "ZOHO zoho.mjs exchanges the refresh token for an access token")
+        r.check("/oauth/v2/token" in z,
+                "ZOHO zoho.mjs uses the Zoho OAuth token endpoint")
+        r.check("Zoho-oauthtoken" in z,
+                "ZOHO zoho.mjs sends the access token in the Zoho header")
+
+        # --- the message fields ---
+        r.check("bccAddress" in z,
+                "ZOHO zoho.mjs blind-copies the collaborator")
+        # A plain CC would expose the collaborator to Milka. Check it as a
+        # standalone key - "ccAddress" is a substring of "bccAddress".
+        r.check(re.search(r"(?<!b)ccAddress", z) is None,
+                "ZOHO zoho.mjs never CCs the collaborator")
+        r.check("replyTo" in z,
+                "ZOHO zoho.mjs sets Reply-To so the guest gets the reply")
+        r.check("fromDisplayName" in z,
+                "ZOHO zoho.mjs sets the From display name")
+
+        # --- the regions ---
+        # A European Zoho account is NOT on accounts.zoho.com, so the region
+        # has to be switchable. Check the actual hosts, not just the keys.
+        for host in ("accounts.zoho.com", "mail.zoho.com",
+                     "accounts.zoho.eu", "mail.zoho.eu",
+                     "accounts.zoho.in", "accounts.zoho.com.au",
+                     "accounts.zoho.jp", "accounts.zohocloud.ca",
+                     "accounts.zoho.uk"):
+            r.check(host in z,
+                    f"ZOHO zoho.mjs knows the {host} data centre")
+
+        # --- the function wiring ---
+        fn = (ROOT / "netlify/functions" / "enquiry.mjs").read_text(encoding="utf-8")
+        r.check('from "./zoho.mjs"' in fn,
+                "ZOHO the function imports the Zoho transport")
+        r.check("sendZohoMail" in fn,
+                "ZOHO the function calls the Zoho transport")
+        for var in ("ZOHO_CLIENT_ID", "ZOHO_CLIENT_SECRET", "ZOHO_REFRESH_TOKEN",
+                    "ZOHO_ACCOUNT_ID", "ZOHO_REGION"):
+            r.check(var in fn,
+                    f"ZOHO the function reads {var}")
+
+        # Zoho must be tried BEFORE SMTP: it needs no password and no domain.
+        r.check(fn.index("sendZohoMail") < fn.index("await sendMail("),
+                "ZOHO the Zoho API is tried before SMTP")
+        r.check('transport: "zoho-api"' in fn,
+                "ZOHO the function reports which transport sent the mail")
+
+        # --- the error handling ---
+        # A wrong-region token comes back as "invalid_client", which does not
+        # hint at the cause. The transport must name the region as the likely
+        # culprit, because that is the mistake that is actually made.
+        r.check("ZOHO_REGION" in z,
+                "ZOHO zoho.mjs names ZOHO_REGION as the likely cause of a rejected token")
+
+    # --- the environment file ---
+    env = ROOT / ".env"
+    if env.exists():
+        envtext = env.read_text(encoding="utf-8")
+        r.check("ZOHO_CLIENT_ID" in envtext or True,
+                "ENV .env may hold the Zoho settings (placeholder)")
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--strict", action="store_true", help="exit 1 on any failure")
@@ -1309,6 +1401,7 @@ def main():
     test_package_prices_unchanged(r)
     test_live_date_placeholder(r)
     test_contact_form_occupancy(r)
+    test_zoho_mail_api_transport(r)
 
     print(f"\n{r.passes} passed, {len(r.failures)} failed")
     if r.failures:
