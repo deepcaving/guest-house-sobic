@@ -15,37 +15,57 @@
 set -euo pipefail
 
 CLIENT_ID="${1:-}"
-CLIENT_SECRET="${2:-}"
-REGION="${3:-us}"
-
-# The secret can be left off the command line and typed at the prompt
-# instead. That is the better way: a secret typed as an argument is saved
-# in your shell history, and the shell history is exactly the kind of
-# thing that ends up in a screenshot or a chat transcript.
 # A version stamp, so it is obvious at a glance whether the script on disk
-# is the current one. An old copy prints STEP 1 twice and never asks for
-# the secret - that is the giveaway.
-VERSION="2026-11-11.2"
+# is the current one.
+VERSION="2026-11-11.3"
+
+# The arguments are parsed by SHAPE, not by position. A region is one of a
+# known set of words; anything else in that slot is the secret. This matters:
+# the previous version read the secret from $2 and the region from $3, so
+# `<client_id> eu` sent the literal text "eu" to Zoho as the client secret
+# and the region silently fell back to "us".
+#
+#   zoho-token.sh <client_id> <region>          -> secret is prompted for
+#   zoho-token.sh <client_id> <secret> <region>  -> secret given directly
+#
+REGION="us"
+CLIENT_SECRET=""
+CLIENT_ID="${1:-}"
+
+case "${2:-}" in
+  ""|us|eu|in|au|jp|ca|uk)
+    [ -n "${2:-}" ] && REGION="$2"
+    ;;
+  *)
+    CLIENT_SECRET="$2"
+    case "${3:-}" in
+      us|eu|in|au|jp|ca|uk) REGION="$3" ;;
+      "") ;;
+      *) echo "unknown region: $3" >&2; exit 2 ;;
+    esac
+    ;;
+esac
 
 if [ -z "$CLIENT_ID" ]; then
-  echo "usage: $0 <client_id> [region]      # the secret is prompted for" >&2
-  echo "       $0 <client_id> us" >&2
+  echo "usage: $0 <client_id> [region]" >&2
+  echo "       $0 <client_id> us          # the secret is prompted for" >&2
+  echo "       $0 <client_id> <secret> us" >&2
   echo "       (helper version ${VERSION})" >&2
   exit 2
 fi
 
-if [ -z "$CLIENT_SECRET" ]; then
-  echo "Client secret (it will not be echoed, and it stays out of your shell history):"
-  read -r -s -p "> " CLIENT_SECRET
-  echo
-  if [ -z "$CLIENT_SECRET" ]; then
-    echo "no client secret given" >&2
-    exit 1
-  fi
-fi
-
 echo "Pliva River Lodge - Zoho token helper, version ${VERSION}"
 echo
+
+# A Zoho client secret is a long random string. A region name is never a
+# secret, and sending one produces a baffling "invalid_client_secret".
+case "$CLIENT_SECRET" in
+  us|eu|in|au|jp|ca|uk)
+    echo "That looks like a region, not a client secret." >&2
+    echo "A Zoho client secret is a long random string from the API console." >&2
+    exit 2
+    ;;
+esac
 
 case "$REGION" in
   us) ACCOUNTS="accounts.zoho.com"; MAIL="mail.zoho.com" ;;
@@ -65,6 +85,8 @@ echo
 echo "STEP 1 - open this URL in your browser and approve the app:"
 echo
 echo "https://${ACCOUNTS}/oauth/v2/auth?scope=${SCOPES}&client_id=${CLIENT_ID}&response_type=code&access_type=offline&prompt=consent&redirect_uri=${REDIRECT}"
+echo
+echo "(Open that now, approve it, and paste the redirect URL back here.)"
 echo
 echo "Zoho redirects you to ${REDIRECT}?code=XXXX"
 echo "The page will say it cannot be reached - that is expected."
@@ -91,7 +113,27 @@ if [ -z "$CODE" ]; then
 fi
 
 echo
-echo "Got the code. Exchanging it for tokens..."
+echo "Got the code."
+echo
+
+if [ -z "$CLIENT_SECRET" ]; then
+  echo "Client secret (it will not be echoed, and it stays out of your shell history):"
+  read -r -s -p "> " CLIENT_SECRET
+  echo
+  echo
+  if [ -z "$CLIENT_SECRET" ]; then
+    echo "no client secret given" >&2
+    exit 1
+  fi
+  case "$CLIENT_SECRET" in
+    us|eu|in|au|jp|ca|uk)
+      echo "That looks like a region, not a client secret." >&2
+      exit 2
+      ;;
+  esac
+fi
+
+echo "Exchanging it for tokens..."
 echo
 
 RESPONSE=$(curl -s -X POST "https://${ACCOUNTS}/oauth/v2/token" \

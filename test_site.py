@@ -859,6 +859,29 @@ def test_zoho_helper_safety(r):
         helper.count("STEP 1 - open this URL") == 1,
         "the authorization step is printed exactly once",
     )
+    # The region must be recognised BY NAME, never by position. The old
+    # helper read the secret from $2 and the region from $3, so
+    # "<client_id> eu" sent the literal text "eu" to Zoho as the client
+    # secret - which came back as a baffling "invalid_client_secret".
+    r.check(
+        'case "${2:-}" in' in helper,
+        "the arguments are parsed by shape, not by position",
+    )
+    for region in ("us", "eu", "in", "au", "jp", "ca", "uk"):
+        r.check(
+            f"{region}) ACCOUNTS=" in helper,
+            f"the {region} region has a data centre",
+        )
+    r.check(
+        "That looks like a region, not a client secret." in helper,
+        "the helper refuses a region name in the secret slot",
+    )
+    # The secret must be asked for AFTER the URL is printed, so the URL can
+    # be copied straight away.
+    r.check(
+        helper.index("oauth/v2/auth?") < helper.index('read -r -s -p "> " CLIENT_SECRET'),
+        "the authorization URL is printed before the secret is requested",
+    )
 
     # The docs must not tell anybody to use a stale region for this account.
     docs = (ROOT / "docs" / "enquiry-email.md").read_text(encoding="utf-8")
