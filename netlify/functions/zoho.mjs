@@ -17,9 +17,16 @@
  * rotating.
  *
  * Because it is the real mailbox sending, the mail arrives from
- * `guesthousesobic@blink2ask.com` exactly as if Milka had sent it from
- * Zoho webmail. No domain verification is needed and no DKIM setup is
- * needed - which is the whole reason this transport exists.
+ * `francesco.capuzzo@zoho.com` exactly as if Milka had sent it from Zoho
+ * webmail. No domain verification is needed and no DKIM setup is needed -
+ * which is the whole reason this transport exists.
+ *
+ * LIMIT (free Zoho Workplace mailbox): the Mail API cannot send to
+ * EXTERNAL addresses. Zoho accepts the request and then answers 404 with
+ * an empty body. Sending to another @zoho.com address works; sending to
+ * gmail.com or any external domain does not. This is a plan restriction,
+ * not a misconfiguration - see the SMTP transport for a path that works
+ * on the free plan.
  *
  * SETUP (one time, in the Zoho API console)
  *
@@ -515,10 +522,18 @@ async function sendWithAccount(config, message, accountId, accessToken) {
     // A 404 means THIS account cannot send - the caller tries the next
     // account id. Anything else is a real error and stops here.
     if (response.status === 404) {
+      // An empty 404 on this endpoint is what Zoho returns when the
+      // mailbox is on a FREE Zoho Workplace plan and the recipient is
+      // EXTERNAL. The request is accepted, then dropped. It also happens
+      // when the account id belongs to an account that cannot send, so
+      // the caller tries the next account id first.
       throw new Error(
         `Zoho rejected the message (404) for account ${accountId}: ` +
           `${messageText || "no detail"} [url=${config.mailUrl} ` +
-          `accounts=${JSON.stringify(config.accountSummary || [])}]`
+          `accounts=${JSON.stringify(config.accountSummary || [])} ` +
+          `hint=On a FREE Zoho Workplace mailbox the Mail API cannot send ` +
+          `to external recipients - use the SMTP transport, or a Zoho ` +
+          `account with a custom domain]`
       );
     }
     // The usual causes, named precisely so the logs are useful.

@@ -117,7 +117,9 @@ export async function sendMail(config, mail) {
       throw new Error(`SMTP greeting failed: ${greeting.text}`);
     }
 
-    let hostname = "blink2ask.com";
+    // EHLO hostname. Zoho does not check it against anything, but a real
+    // name is tidier than a placeholder.
+    let hostname = "plivariverlodge.com";
     if (secure === "starttls") {
       send("EHLO " + hostname);
       const ehlo = await read();

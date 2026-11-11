@@ -86,10 +86,16 @@ never lost**.
 
 ### Option A — the Zoho Mail API (recommended)
 
-This sends from the mailbox the lodge already owns
-(`guesthousesobic@blink2ask.com`), so the mail arrives exactly as if Milka
-had sent it from Zoho webmail. **No domain to register, no DNS records, no
+This sends from the Zoho mailbox the lodge already owns
+(`francesco.capuzzo@zoho.com`), so the mail arrives exactly as if Milka had
+sent it from Zoho webmail. **No domain to register, no DNS records, no
 DKIM, no SMTP password.**
+
+> **A free Zoho Workplace mailbox cannot use this transport to reach
+> external recipients.** Zoho answers the send with an empty `404`. It
+> works for `@zoho.com` recipients only. That is a plan restriction — if
+> you need to reach Milka's Gmail, use Option B (SMTP), which the free plan
+> does allow, or upgrade the Zoho plan.
 
 One-time setup, in the [Zoho API console](https://api-console.zoho.com):
 
@@ -221,6 +227,13 @@ Then set these in Netlify (Site configuration → Environment variables):
 **Zoho's limits** (free account): 50–500 external emails per hour on a
 rolling basis, 100 recipients per message, and 30 API calls per minute. A
 lodge taking a handful of enquiries a day is nowhere near any of those.
+>
+> **Known limit on a FREE Zoho Workplace mailbox:** the Mail API cannot send
+> to external addresses. Zoho accepts the request and then answers `404`
+> with an empty body, which is why this transport can fail with no
+> explanation. Sending to another `@zoho.com` address works; sending to
+> `gmail.com` or any external domain does not. This is a plan restriction,
+> not a misconfiguration — see Option B below for the way out.
 
 ### Option B — SMTP
 
@@ -228,12 +241,22 @@ Needs a Zoho **app password**: Zoho Mail → Settings → Mailboxes → the
 mailbox → Edit → App passwords → Generate. The account password is refused
 by Zoho from an unrecognised host.
 
+The app password is **12 characters** and is shown only once. Generate one
+per client so it can be revoked on its own. SMTP sending to external
+recipients is allowed on the free plan — only the **API** is restricted.
+
+**Personal vs paid accounts use different SMTP hosts.** A personal or free
+organisation mailbox uses `smtp.zoho.com`. A **paid** custom-domain mailbox
+uses `smtppro.zoho.com`. Zoho shows the right one in *Settings → Mailboxes
+→ the mailbox → Edit → Server Configurations Details* — use that rather
+than assuming.
+
 ```bash
 SMTP_HOST=smtp.zoho.com
 SMTP_PORT=465
-SMTP_USER=guesthousesobic@blink2ask.com
+SMTP_USER=francesco.capuzzo@zoho.com
 SMTP_PASSWORD=your-zoho-app-password
-SMTP_FROM_EMAIL=guesthousesobic@blink2ask.com
+SMTP_FROM_EMAIL=francesco.capuzzo@zoho.com
 SMTP_SECURE=ssl
 SMTP_FROM_NAME=Pliva River Lodge
 ```
@@ -331,12 +354,13 @@ Submit the form on the live site and check:
 - Milka's inbox receives the email, with you in **Bcc** — so your address is
   not visible to her and is not exposed if she forwards the enquiry on.
 - The email's **Reply-To** is the guest, so pressing reply reaches them.
-- The mail arrives **from `guesthousesobic@blink2ask.com`**, not from a
+- The mail arrives **from `francesco.capuzzo@zoho.com`**, not from a
   random transactional sender.
 - The enquiry also appears under **Forms** in the Netlify dashboard.
 
-If the provider is not configured, the form still succeeds — it falls back
-to WhatsApp and the guest's mail app, and says so.
+If every email transport fails, the form says so plainly and points to
+WhatsApp, the phone number and retrying. It never claims the enquiry was
+saved when it was not.
 
 ### Environment variable reference
 
