@@ -268,14 +268,18 @@ function describeSecret(value) {
   const edge = raw.slice(0, 4).replace(/[^A-Za-z0-9]/g, "") +
     ".." +
     raw.slice(-4).replace(/[^A-Za-z0-9]/g, "");
-  // The character codes of the first six characters: if the value is
-  // shifted or mis-encoded, this shows it without printing anything
-  // meaningful.
-  const codes = Array.from(raw.slice(0, 6))
-    .map((c) => c.charCodeAt(0))
+  // The full set of character codes. A secret is hex, so every code
+  // should be in the 48-122 range and there should be nothing unusual
+  // in it. This is the whole value's fingerprint without being the
+  // value: a run of codes above 127 or a stray 0 shows a paste that
+  // carried something invisible.
+  const codes = Array.from(raw).map((c) => c.charCodeAt(0)).join(",");
+  // Which characters are present at all, as a set of code points.
+  const charset = Array.from(new Set(Array.from(raw).map((c) => c.charCodeAt(0))))
+    .sort((a, b) => a - b)
     .join(",");
   return (
-    `len=${raw.length} edge=${edge} codes=${codes}` +
+    `len=${raw.length} edge=${edge} charset=${charset}` +
     (flags.length ? " " + flags.join(" ") : "")
   );
 }
