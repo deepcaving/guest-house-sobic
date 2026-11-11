@@ -5,13 +5,13 @@
  *
  *   1. The enquiry is EMAILED from the server, by the Netlify Function in
  *      netlify/functions/enquiry.mjs. It arrives in Milka's inbox, with the
- *      collaborator copied, and the guest does nothing beyond pressing the
- *      button. This is the path the host asked for.
- *   2. If the function is not configured or the provider is down, the
- *      enquiry still goes to Netlify Forms, so it is stored in the Netlify
- *      dashboard and never lost.
- *   3. If that also fails, WhatsApp opens with the enquiry written out, and
- *      the guest's own mail app opens too.
+ *      collaborator blind-copied, and the guest does nothing beyond pressing
+ *      the button. This is the path the host asked for.
+ *   2. A copy always goes to Netlify Forms as well, so the enquiry is in the
+ *      Netlify dashboard and never lost.
+ *   3. If the email could not be sent, the guest is told so plainly. The
+ *      button does NOT open WhatsApp and does NOT open the guest's mail app:
+ *      WhatsApp is a separate, clearly labelled link on the page.
  *
  * With JavaScript off, the form posts to Netlify Forms as a normal Netlify
  * Form (data-netlify="true"), so the enquiry is still captured.
@@ -87,12 +87,16 @@
   }
 
   /**
-   * Send the enquiry through the Netlify Function. Resolves to true when the
-   * email was sent, false when it could not be - in which case the caller
-   * falls back to Netlify Forms and WhatsApp.
+   * Send the enquiry through the Netlify Function.
+   *
+   * Resolves to { sent: true } when the email went out. When it did not,
+   * it resolves to { sent: false, reason: <what the server said> } so the
+   * failure can be reported honestly instead of being swallowed.
    */
   function sendByEmail() {
-    if (!functionUrl || typeof fetch !== 'function') return Promise.resolve(false);
+    if (!functionUrl || typeof fetch !== 'function') {
+      return Promise.resolve({ sent: false, reason: 'no-function' });
+    }
 
     return fetch(functionUrl, {
       method: 'POST',
@@ -100,10 +104,18 @@
       body: JSON.stringify(collectFields())
     })
       .then(function (r) {
-        if (!r.ok) return false;
-        return r.json().then(function (j) { return !!(j && j.ok); });
+        return r.json().catch(function () { return null; })
+          .then(function (j) {
+            if (r.ok && j && j.ok) return { sent: true };
+            return {
+              sent: false,
+              reason: (j && (j.error || j.detail && j.detail.message)) || ('HTTP ' + r.status)
+            };
+          });
       })
-      ['catch'](function () { return false; });
+      ['catch'](function (err) {
+        return { sent: false, reason: String(err && err.message) };
+      });
   }
 
   /** Store the enquiry in Netlify Forms. Best effort - never fatal. */
@@ -117,13 +129,6 @@
     } catch (err) {
       return undefined;
     }
-  }
-
-  function openWhatsApp() {
-    if (!waBase) return;
-    var url = waBase + '?text=' + encodeURIComponent(composeMessage());
-    var w = window.open(url, '_blank');
-    if (w) w.opener = null;
   }
 
   /**
@@ -167,20 +172,6 @@
     }
   }
 
-  function openMailApp() {
-    if (!emailTo) return;
-    var subject = 'Website enquiry';
-    var dateField = form.querySelector('[name="dates"]');
-    if (dateField && dateField.value.trim()) {
-      subject += ' - ' + dateField.value.trim();
-    }
-    var mailto = 'mailto:' + emailTo +
-      '?subject=' + encodeURIComponent(subject) +
-      '&body=' + encodeURIComponent(composeMessage());
-    var m = window.open(mailto, '_blank');
-    if (m) m.opener = null;
-  }
-
   wireWhatsAppLinks();
 
   // Keep the WhatsApp links in step with what the guest has typed.
@@ -203,10 +194,19 @@
       btn.setAttribute('aria-busy', 'true');
     }
 
-    // 1. Email, from the server. This is the path that matters.
-    sendByEmail().then(function (sent) {
-      if (sent) {
-        // 2. Also keep a copy in the Netlify dashboard.
+    // "Send enquiry" sends an email. Nothing else.
+    //
+    // It deliberately does NOT open WhatsApp, and does NOT open the guest's
+    // mail app. A button that says "send" and then launches two other
+    // applications is confusing, and it takes the guest away from the page
+    // without their consent. WhatsApp is a separate, clearly labelled
+    // button right next to this one, and it stays a plain link.
+    //
+    // If the server cannot send the email, the enquiry is still saved to
+    // Netlify Forms, the guest is told plainly that the email did not go
+    // out, and the WhatsApp and phone links on the page remain available.
+    sendByEmail().then(function (result) {
+      if (result.sent) {
         saveToNetlifyForms();
         show(statusOk);
         if (status) status.hidden = true;
@@ -214,10 +214,9 @@
         return;
       }
 
-      // 3. The function is not available. Do not lose the enquiry.
+      // The function is not available, or the provider refused the send.
+      // Do not lose the enquiry - keep a copy in Netlify Forms.
       saveToNetlifyForms();
-      openWhatsApp();
-      openMailApp();
       show(statusFallback);
       if (status) status.hidden = true;
       if (btn) { btn.disabled = false; btn.removeAttribute('aria-busy'); }

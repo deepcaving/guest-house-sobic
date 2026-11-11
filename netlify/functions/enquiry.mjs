@@ -195,6 +195,11 @@ export default async (request, context) => {
   };
   if (config.bcc) payload.bcc = [config.bcc];
 
+  // Each transport's failure reason is collected, so the response can say
+  // WHY the enquiry fell through instead of only that it did. A silent
+  // fallback is impossible to debug.
+  const transportErrors = [];
+
   // 1. The Zoho Mail API. This is the transport that works with no domain
   //    setup and no SMTP password, so it is tried first.
   if (config.zoho.configured) {
@@ -218,11 +223,13 @@ export default async (request, context) => {
       // A failed send must not lose the enquiry. Log it and carry on to the
       // next transport, which may still be configured.
       console.error("[enquiry] Zoho Mail API send failed:", err && err.message);
+      transportErrors.push({ transport: "zoho-api", error: String(err && err.message) });
       if (!config.smtp.configured && !config.apiKey) {
         return json(502, {
           ok: false,
           error: "The email service could not be reached",
           detail: { message: String(err && err.message) },
+          transports: transportErrors,
         });
       }
       // Fall through to SMTP.
@@ -250,6 +257,7 @@ export default async (request, context) => {
       // A failed SMTP send must not lose the enquiry. Log it and carry on
       // to the HTTP provider, which may still be configured.
       console.error("[enquiry] SMTP send failed:", err && err.message);
+      transportErrors.push({ transport: "smtp", error: String(err && err.message) });
       // The password may be wrong, the mailbox may not be active, or Zoho
       // may be refusing the EHLO hostname. Say so precisely.
       if (/Authentication failed/i.test(String(err && err.message))) {
@@ -316,6 +324,7 @@ export default async (request, context) => {
 
     if (!response.ok) {
       console.error("[enquiry] provider error:", response.status, result);
+      transportErrors.push({ transport: "resend", error: String(result.message || result.error || response.status) });
 
       // The common case: the sending domain has not been verified at the
       // provider. Say so precisely, because "rejected the enquiry" hides the
@@ -338,6 +347,7 @@ export default async (request, context) => {
         ok: false,
         error: "The email service rejected the enquiry",
         detail: result,
+        transports: transportErrors,
       });
     }
 
@@ -345,7 +355,12 @@ export default async (request, context) => {
     return json(200, { ok: true, id: result.id || null });
   } catch (err) {
     console.error("[enquiry] request failed:", err);
-    return json(502, { ok: false, error: "Could not reach the email service" });
+    transportErrors.push({ transport: "resend", error: String(err && err.message) });
+    return json(502, {
+      ok: false,
+      error: "Could not reach the email service",
+      transports: transportErrors,
+    });
   }
 };
 

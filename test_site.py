@@ -106,8 +106,14 @@ def test_milka_facts(r):
         'data-email="milkasobic25@gmail.com"' in HTML,
         "Q8  the enquiry form carries data-email for the mailto path",
     )
+    # The form name must match the hidden form-name input, and must not
+    # collide with the name of the Netlify function ("enquiry").
+    _form_name = re.search(r'<form name="([^"]+)"', HTML)
     r.check(
-        'data-netlify="true"' in HTML and 'name="enquiry"' in HTML,
+        'data-netlify="true"' in HTML
+        and _form_name is not None
+        and f'name="form-name" value="{_form_name.group(1)}"' in HTML
+        and _form_name.group(1) != "enquiry",
         "Q8  the enquiry form is still Netlify-native",
     )
 
@@ -703,6 +709,106 @@ def test_form_wiring(r):
     r.check(
         "form_sent_fb" in (ROOT / "i18n-data.js").read_text(encoding="utf-8"),
         "the fallback message is translated",
+    )
+
+
+def test_send_button_only_sends_email(r):
+    """The submit button sends an email. It opens nothing else.
+
+    The bug this pins: pressing "Send enquiry" opened a WhatsApp tab and
+    the guest's mail app, because the fallback fired whenever the server
+    email did not go out. The host asked for the button to send an email
+    and nothing more - WhatsApp is already a separate, labelled link.
+    """
+    form_js = (ROOT / "form.js").read_text(encoding="utf-8")
+    html = (ROOT / "index.html").read_text(encoding="utf-8")
+
+    # No application is launched from the submit handler.
+    r.check(
+        "window.open" not in form_js,
+        "the form script never launches another application",
+    )
+    r.check(
+        "openWhatsApp" not in form_js,
+        "the submit handler does not open WhatsApp",
+    )
+    r.check(
+        "openMailApp" not in form_js,
+        "the submit handler does not open the guest's mail app",
+    )
+    r.check(
+        "api.whatsapp.com" not in form_js,
+        "the form script does not build a WhatsApp send URL",
+    )
+    r.check(
+        "mailto:" not in form_js,
+        "the form script does not build a mailto URL",
+    )
+
+    # The fallback message must not promise a WhatsApp popup any more.
+    fb = re.search(r'id="enquiry-status-fallback"[^>]*>([^<]*)<', html)
+    r.check(
+        fb is not None,
+        "the fallback message is in the markup",
+    )
+    if fb:
+        text = fb.group(1)
+        r.check(
+            "WhatsApp and your email app have opened" not in text,
+            "the fallback message does not claim WhatsApp and the mail app opened",
+        )
+        r.check(
+            "have opened" not in text,
+            "the fallback message does not claim anything opened",
+        )
+
+    # The failure is still reported, and the enquiry is still kept.
+    r.check(
+        "show(statusFallback)" in form_js,
+        "the guest is told when the email did not go out",
+    )
+    r.check(
+        "saveToNetlifyForms()" in form_js,
+        "the enquiry is still saved when the email fails",
+    )
+
+    # The server must say WHY it failed, so the fallthrough is debuggable.
+    fn = (ROOT / "netlify" / "functions" / "enquiry.mjs").read_text(encoding="utf-8")
+    r.check(
+        "transportErrors" in fn,
+        "the function records why each transport failed",
+    )
+    r.check(
+        "transports: transportErrors" in fn,
+        "the function reports the transport failures to the client",
+    )
+
+
+def test_form_name_does_not_collide_with_function(r):
+    """The Netlify form and the Netlify function must not share a name.
+
+    The form was named "enquiry" and the function was "enquiry.mjs". Netlify
+    registers a form under its name and serves the function from
+    /.netlify/functions/<name> - the collision made the form's POST to "/"
+    return 404, so the fallback copy of every enquiry was silently lost.
+    """
+    html = (ROOT / "index.html").read_text(encoding="utf-8")
+
+    r.check(
+        'name="lodge-enquiry"' in html,
+        "the form is named lodge-enquiry",
+    )
+    r.check(
+        'name="form-name" value="lodge-enquiry"' in html,
+        "the hidden form-name input matches the form name",
+    )
+    r.check(
+        'name="enquiry"' not in html,
+        "the form no longer uses the name of the function",
+    )
+    r.check(
+        (ROOT / "netlify" / "functions" / "enquiry.mjs").exists(),
+        "the function is still called enquiry",
     )
 
 
