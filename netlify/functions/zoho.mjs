@@ -25,14 +25,19 @@
  *
  *   1. https://api-console.zoho.com -> Add Client -> Server-based Application
  *      (or "Self Client", which is quicker and needs no redirect URI).
- *   2. Authorise the scope ZohoMail.messages.ALL (plus ZohoMail.accounts.READ
- *      if the account id is not known - it can be fetched with GET /api/accounts).
+ *      Client Name: anything readable. Homepage URL: the site address.
+ *      Authorized Redirect URI: http://localhost
+ *   2. Authorise the scope ZohoMail.messages.CREATE (to send) plus
+ *      ZohoMail.accounts.READ (to look up the account id). Both are needed:
+ *      the send endpoint itself wants only CREATE, but the account id lookup
+ *      wants READ, and the id is fetched at runtime when it is not set.
  *   3. Exchange the authorisation code for a refresh token:
  *        POST https://accounts.zoho.com/oauth/v2/token
  *        grant_type=authorization_code
  *        code=<the code Zoho gave you>
  *        client_id=<client id>
  *        client_secret=<client secret>
+ *        redirect_uri=http://localhost
  *      The response contains a long-lived `refresh_token`.
  *   4. Find the account id: GET https://mail.zoho.com/api/accounts with the
  *      access token - the response lists each account with its `accountId`.

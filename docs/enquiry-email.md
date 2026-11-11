@@ -69,16 +69,40 @@ DKIM, no SMTP password.**
 
 One-time setup, in the [Zoho API console](https://api-console.zoho.com):
 
-1. **Add Client** → **Server-based Application** (or **Self Client**, which
-   is quicker and needs no redirect URI).
-2. Authorise the scope `ZohoMail.messages.ALL`. Add
-   `ZohoMail.accounts.READ` if you do not know the account id.
-3. Exchange the authorisation code for a **refresh token**:
+1. **Add Client** → **Server-based Application**. Fill in:
+   - **Client Name**: `Pliva River Lodge` (anything readable)
+   - **Homepage URL**: `https://guesthousesobic.netlify.app`
+   - **Authorized Redirect URIs**: `http://localhost` — then press the **+**
+     to add it
+
+   ("Self Client" is quicker and needs no redirect URI, but Server-based is
+   what the steps below assume.)
+
+2. Copy the **Client ID** and **Client Secret** that Zoho shows you.
+
+3. Get the refresh token. The helper script does the whole thing — it prints
+   the authorisation URL, and exchanges the code for you:
 
    ```bash
-   curl -X POST "https://accounts.zoho.com/oauth/v2/token" \
+   ./tools/zoho-token.sh <client_id> <client_secret> eu
+   ```
+
+   Use `eu` as the region if your Zoho account is European (`us` is the
+   default). It prints the four variables to paste into Netlify.
+
+   **What it does under the hood**, if you would rather do it by hand:
+
+   ```bash
+   # 1. open this in a browser and approve it
+   https://accounts.zoho.eu/oauth/v2/auth?scope=ZohoMail.messages.CREATE,ZohoMail.accounts.READ&client_id=YOUR_CLIENT_ID&response_type=code&access_type=offline&redirect_uri=http://localhost
+
+   # 2. Zoho redirects you to http://localhost?code=XXXX
+   #    (the page will fail to load - that is expected, copy the code)
+
+   # 3. exchange it
+   curl -X POST "https://accounts.zoho.eu/oauth/v2/token" \
      -d "grant_type=authorization_code" \
-     -d "code=THE_CODE_ZOHO_GAVE_YOU" \
+     -d "code=THE_CODE" \
      -d "client_id=YOUR_CLIENT_ID" \
      -d "client_secret=YOUR_CLIENT_SECRET" \
      -d "redirect_uri=http://localhost"
@@ -86,6 +110,12 @@ One-time setup, in the [Zoho API console](https://api-console.zoho.com):
 
    The reply contains a `refresh_token`. **It does not expire**, so nothing
    needs rotating.
+
+   **The scopes** are `ZohoMail.messages.CREATE` (to send) and
+   `ZohoMail.accounts.READ` (to look up the account id). Both are needed:
+   the send endpoint itself only wants CREATE, but the account id lookup
+   wants READ, and the id is fetched at runtime when it is not set.
+
 4. The **account id** can be left unset — the function fetches it. To find it
    by hand: `GET https://mail.zoho.com/api/accounts` with the access token.
 

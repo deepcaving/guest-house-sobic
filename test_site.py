@@ -1290,6 +1290,21 @@ def test_contact_form_occupancy(r):
     r.check((ROOT / ".env.example").exists(),
             "ENV .env.example exists so the setup is reproducible")
 
+    # The helper that gets the refresh token. Without it the setup is a
+    # guessing game: the authorisation URL has to be assembled by hand.
+    helper = ROOT / "tools" / "zoho-token.sh"
+    r.check(helper.exists(), "ZOHO tools/zoho-token.sh exists")
+    if helper.exists():
+        h = helper.read_text(encoding="utf-8")
+        r.check("oauth/v2/auth" in h and "access_type=offline" in h,
+                "ZOHO the helper builds the authorisation URL and asks for a refresh token")
+        r.check("ZohoMail.messages.CREATE" in h,
+                "ZOHO the helper requests the CREATE scope")
+        r.check("refresh_token" in h,
+                "ZOHO the helper extracts the refresh token")
+        for region in ("us", "eu", "in", "au", "jp", "ca", "uk"):
+            r.check(region in h, f"ZOHO the helper knows the {region} region")
+
 
 def test_zoho_mail_api_transport(r):
     """The Zoho Mail API is the primary transport.
@@ -1317,8 +1332,13 @@ def test_zoho_mail_api_transport(r):
         # --- the send endpoint ---
         r.check("/api/accounts/" in z and "/messages" in z,
                 "ZOHO zoho.mjs posts to the Zoho send-messages endpoint")
-        r.check("http://" not in z.replace("http://accounts", "http://ACCOUNTS"),
-                "ZOHO zoho.mjs never uses plain HTTP")
+        # Every fetch must go over TLS. The only plain http:// allowed is the
+        # redirect_uri, which is never dialled - it is a browser callback.
+        fetches = re.findall(r"fetch\(`?\$?\{?[^,\n]*", z)
+        r.check(all("http://" not in f for f in fetches),
+                "ZOHO zoho.mjs never fetches over plain HTTP")
+        r.check("${config.scheme}://" in z,
+                "ZOHO zoho.mjs builds its URLs from the scheme")
 
         # --- the OAuth flow ---
         r.check("grant_type" in z and "refresh_token" in z,

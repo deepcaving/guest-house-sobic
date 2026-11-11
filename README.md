@@ -113,6 +113,13 @@ in the repository. **Three transports**, tried in this order:
 | SMTP over TLS | `SMTP_HOST`, `SMTP_USER`, `SMTP_PASSWORD` | a Zoho **app password** |
 | Resend | `RESEND_API_KEY` | a verified sending domain |
 
+To get the Zoho refresh token, there is a helper that does the whole
+OAuth dance and prints the variables to paste into Netlify:
+
+```bash
+./tools/zoho-token.sh <client_id> <client_secret> eu
+```
+
 Plus these, which apply to all of them:
 
 | Variable | Value |
