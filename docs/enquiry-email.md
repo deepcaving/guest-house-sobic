@@ -3,7 +3,7 @@
 ## What the guest sees
 
 The guest fills in the enquiry form and presses **Send enquiry**. The form
-does three things, in this order:
+does two things:
 
 1. **Sends the enquiry by email, from the server.** It lands in Milka's inbox
    (`milkasobic25@gmail.com`) with you blind-copied on it. The guest does
@@ -11,11 +11,35 @@ does three things, in this order:
    "press send" step.
 2. **Keeps a copy in Netlify Forms**, so the enquiry also shows up in the
    Netlify dashboard and nothing is ever lost.
-3. **Falls back to WhatsApp and the guest's own mail app** if the email
-   service is down or has not been configured yet.
 
-With JavaScript switched off, the form still posts to Netlify Forms as a
-normal Netlify Form, so the enquiry is captured either way.
+**The button does not open WhatsApp.** It never did on purpose, and it was
+removed on 11 Nov 2026 after it was found opening a WhatsApp tab whenever
+the server email did not go out. WhatsApp is a separate, clearly labelled
+button next to it, and it stays a plain link. If the email cannot be sent,
+the guest is told so plainly, and the enquiry is still stored.
+
+With JavaScript switched off, the form posts to Netlify Forms as a normal
+Netlify Form, so the enquiry is captured either way — provided form
+detection is enabled (see below).
+
+### One switch in the Netlify dashboard
+
+Netlify registers a form at **deploy time**, by parsing the published HTML.
+That switch has to be turned on once by hand:
+
+> **Netlify → the site → Forms → Enable form detection**
+
+Until it is on, the site's forms are not registered, and a submission to
+`/` returns **404**. This was the state of `guesthousesobic` on 11 Nov 2026:
+no form endpoint answered under any name, on production or on a branch
+deploy, so the backup copy of every enquiry was being lost.
+
+The enquiry function now writes its own copy to the Netlify Forms API,
+which does not depend on that switch — so an enquiry is never only in one
+mailbox even with the switch off. Turning it on is still worth doing: it
+makes the form work with JavaScript disabled, and it puts the submissions
+in the dashboard's **Verified submissions** list rather than only in the
+raw form entries.
 
 ## Why it works this way
 
