@@ -200,6 +200,30 @@ export default async (request, context) => {
     return json(400, { ok: false, error: "Bad JSON" });
   }
 
+  // A one-off diagnostic: send a KNOWN-CLEAN token request from inside
+  // Netlify and report what Zoho answers. It proves whether the problem
+  // is the payload or the place the request comes from.
+  if (body.__selftest) {
+    const body2 =
+      "grant_type=refresh_token" +
+      "&client_id=1000.0PURR6879S646U70PHNCU98IK92W1J" +
+      "&client_secret=" + "a".repeat(42) +
+      "&refresh_token=1000." + "b".repeat(65);
+    const out = { note: "known-clean body" };
+    try {
+      const r = await fetch("https://accounts.zoho.com/oauth/v2/token", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: body2,
+      });
+      out.status = r.status;
+      out.response = (await r.text()).slice(0, 200);
+    } catch (e) {
+      out.error = String(e && e.message);
+    }
+    return json(200, out);
+  }
+
   // The honeypot field must stay empty. A filled one means a bot.
   if (readField(body, "bot-field")) {
     return json(200, { ok: true, skipped: true });
