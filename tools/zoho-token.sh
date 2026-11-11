@@ -42,12 +42,28 @@ echo "STEP 1 - open this URL in your browser and approve the app:"
 echo
 echo "https://${ACCOUNTS}/oauth/v2/auth?scope=${SCOPES}&client_id=${CLIENT_ID}&response_type=code&access_type=offline&redirect_uri=${REDIRECT}"
 echo
+echo "STEP 1 - open this URL in your browser and approve the app:"
+echo
+echo "https://${ACCOUNTS}/oauth/v2/auth?scope=${SCOPES}&client_id=${CLIENT_ID}&response_type=code&access_type=offline&redirect_uri=${REDIRECT}"
+echo
 echo "Zoho redirects you to ${REDIRECT}?code=XXXX"
 echo "The page will say it cannot be reached - that is expected."
-echo "Copy the 'code' value out of the address bar and paste it below."
+echo
+echo "Copy the WHOLE address bar line and paste it below."
+echo "You can paste either the full URL or just the code - both work."
 echo
 
-read -r -p "Paste the code here: " CODE
+# Accept either the full redirect URL or just the code. Selecting a
+# 60-character code out of a long address bar is where people get stuck.
+read -r -p "Paste the URL or the code here: " PASTE
+
+CODE="${PASTE}"
+case "$PASTE" in
+  *code=*) CODE="${PASTE##*[?&]code=}" ;;
+esac
+# Drop anything that came after the code (a &state=... parameter, say).
+CODE="${CODE%%&*}"
+CODE="$(printf '%s' "$CODE" | tr -d '[:space:]')"
 
 if [ -z "$CODE" ]; then
   echo "no code given" >&2
@@ -55,7 +71,7 @@ if [ -z "$CODE" ]; then
 fi
 
 echo
-echo "STEP 2 - exchanging the code for tokens..."
+echo "Got the code. Exchanging it for tokens..."
 echo
 
 RESPONSE=$(curl -s -X POST "https://${ACCOUNTS}/oauth/v2/token" \

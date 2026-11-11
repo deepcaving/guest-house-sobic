@@ -90,6 +90,20 @@ One-time setup, in the [Zoho API console](https://api-console.zoho.com):
    Use `eu` as the region if your Zoho account is European (`us` is the
    default). It prints the four variables to paste into Netlify.
 
+   **What the script does, step by step:**
+
+   1. It prints an authorisation URL.
+   2. You open that URL in a browser and click **Authorize**.
+   3. Zoho redirects you to `http://localhost/?code=...`. **That page will
+      fail to load — that is expected**, there is no server on your own
+      machine. The code is in the address bar.
+   4. Paste the **whole address bar line** back into the terminal (the script
+      also accepts just the code). It exchanges it, finds your account id,
+      and prints the variables to paste into Netlify.
+
+   Steps 1 and 4 are the script; steps 2 and 3 are you, and they happen once
+   in the whole life of the setup.
+
    **What it does under the hood**, if you would rather do it by hand:
 
    ```bash
