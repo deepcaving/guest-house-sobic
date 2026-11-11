@@ -846,6 +846,19 @@ def test_zoho_helper_safety(r):
         "Do not put this token in Netlify" in helper,
         "the helper refuses to print a token that does not work",
     )
+    r.check(
+        "invalid_client_secret" in helper,
+        "the helper names the cause when the client secret is wrong",
+    )
+    r.check(
+        "VERSION=" in helper,
+        "the helper carries a version stamp, so an old copy is obvious",
+    )
+    # STEP 1 must be printed once. The old script printed it twice.
+    r.check(
+        helper.count("STEP 1 - open this URL") == 1,
+        "the authorization step is printed exactly once",
+    )
 
     # The docs must not tell anybody to use a stale region for this account.
     docs = (ROOT / "docs" / "enquiry-email.md").read_text(encoding="utf-8")

@@ -22,9 +22,15 @@ REGION="${3:-us}"
 # instead. That is the better way: a secret typed as an argument is saved
 # in your shell history, and the shell history is exactly the kind of
 # thing that ends up in a screenshot or a chat transcript.
+# A version stamp, so it is obvious at a glance whether the script on disk
+# is the current one. An old copy prints STEP 1 twice and never asks for
+# the secret - that is the giveaway.
+VERSION="2026-11-11.2"
+
 if [ -z "$CLIENT_ID" ]; then
-  echo "usage: $0 <client_id> [client_secret] [region]" >&2
-  echo "       $0 <client_id> us      # asks for the secret at the prompt" >&2
+  echo "usage: $0 <client_id> [region]      # the secret is prompted for" >&2
+  echo "       $0 <client_id> us" >&2
+  echo "       (helper version ${VERSION})" >&2
   exit 2
 fi
 
@@ -37,6 +43,9 @@ if [ -z "$CLIENT_SECRET" ]; then
     exit 1
   fi
 fi
+
+echo "Pliva River Lodge - Zoho token helper, version ${VERSION}"
+echo
 
 case "$REGION" in
   us) ACCOUNTS="accounts.zoho.com"; MAIL="mail.zoho.com" ;;
@@ -52,10 +61,6 @@ esac
 SCOPES="ZohoMail.messages.CREATE,ZohoMail.accounts.READ"
 REDIRECT="http://localhost"
 
-echo
-echo "STEP 1 - open this URL in your browser and approve the app:"
-echo
-echo "https://${ACCOUNTS}/oauth/v2/auth?scope=${SCOPES}&client_id=${CLIENT_ID}&response_type=code&access_type=offline&prompt=consent&redirect_uri=${REDIRECT}"
 echo
 echo "STEP 1 - open this URL in your browser and approve the app:"
 echo
@@ -103,10 +108,30 @@ if [ -z "$ACCESS" ] || [ -z "$REFRESH" ]; then
   echo "The exchange failed:"
   echo "$RESPONSE"
   echo
-  echo "Common causes:"
-  echo "  - wrong region (a European account needs 'eu', not 'us')"
-  echo "  - the redirect_uri does not match the one you registered"
-  echo "  - the code was already used, or has expired - make a new one"
+  case "$RESPONSE" in
+    *invalid_client_secret*)
+      echo "=> The CLIENT SECRET is wrong."
+      echo "   Zoho does not accept it for this client. Either it was typed"
+      echo "   incorrectly, or it was rotated in the API console since then."
+      echo "   Copy it again from api-console.zoho.com -> the client -> Client"
+      echo "   Secret, and paste it at the prompt above."
+      ;;
+    *invalid_client*)
+      echo "=> The CLIENT ID or the REGION is wrong."
+      echo "   A token minted in another data centre is refused the same way."
+      echo "   Run tools/zoho-region.sh ${CLIENT_ID} to find the right one."
+      ;;
+    *invalid_code*)
+      echo "=> The CODE is wrong, not the secret."
+      echo "   The code lasts two minutes and can be used only once. Open the"
+      echo "   authorisation URL again, approve it, and paste the new code"
+      echo "   straight away."
+      ;;
+    *)
+      echo "=> Check the client id, the secret, and that the redirect URI in"
+      echo "   the Zoho console is exactly http://localhost"
+      ;;
+  esac
   exit 1
 fi
 
