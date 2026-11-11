@@ -84,11 +84,20 @@ One-time setup, in the [Zoho API console](https://api-console.zoho.com):
    the authorisation URL, and exchanges the code for you:
 
    ```bash
-   ./tools/zoho-token.sh <client_id> <client_secret> eu
+   ./tools/zoho-token.sh <client_id> <client_secret> us
    ```
 
-   Use `eu` as the region if your Zoho account is European (`us` is the
-   default). It prints the four variables to paste into Netlify.
+   The region matters. **This account is on the US/global data centre**
+   (`accounts.zoho.com`) — proven by asking each data centre about the
+   client: `.com` answers `invalid_code` (it knows the client, only the
+   code was wrong) while every other region answers `invalid_client`
+   (it does not know the client at all).
+
+   Use `eu` only for a European account, `in` for India, `au` for Australia,
+   `jp` for Japan, `ca` for Canada, `uk` for the UK. A token minted in the
+   wrong region is refused with the same unhelpful `invalid_client`.
+
+   The script prints the four variables to paste into Netlify.
 
    **What the script does, step by step:**
 
@@ -146,7 +155,8 @@ Then set these in Netlify (Site configuration → Environment variables):
 > **The region matters.** A European Zoho account lives on
 > `accounts.zoho.eu` / `mail.zoho.eu`, not `.com`. A token minted in the
 > wrong region is rejected with `invalid_client`. The function says so
-> explicitly when that happens.
+> explicitly when that happens. **This particular account is on the
+> US/global data centre**, so use `us`.
 
 **Zoho's limits** (free account): 50–500 external emails per hour on a
 rolling basis, 100 recipients per message, and 30 API calls per minute. A
