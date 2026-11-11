@@ -238,6 +238,21 @@ async function fetchAccountId(config, accessToken) {
  * @returns {Promise<{id: string|null}>}
  */
 /**
+ * Compare two email addresses, ignoring case and any display name.
+ */
+function sameMailbox(a, b) {
+  const bare = (value) =>
+    String(value || "")
+      .replace(/^[^<]*</, "")
+      .replace(/>.*$/, "")
+      .trim()
+      .toLowerCase();
+  const left = bare(a);
+  const right = bare(b);
+  return left !== "" && left === right;
+}
+
+/**
  * Read the account's primary mailbox address.
  *
  * Used as the From address when nothing is configured. The token is
@@ -281,9 +296,28 @@ export async function sendZohoMail(config, message) {
   // If nothing is configured, the account's own primary mailbox is used -
   // the token is already scoped to that mailbox, and Zoho rejects a send
   // with an empty From with a bare 404.
-  let fromAddress = message.from || config.fromEmail || "";
+  // The From must be an address the account actually owns, or one of its
+  // aliases. A configured ZOHO_FROM_EMAIL that is neither is rejected by
+  // Zoho with a bare 404, so it is checked against the account and
+  // ignored when it does not belong.
+  const accountMailbox = await fetchPrimaryMailbox(config, accessToken);
+  const configured = message.from || config.fromEmail || "";
+  let fromAddress = "";
+  if (configured) {
+    if (!accountMailbox || sameMailbox(configured, accountMailbox)) {
+      fromAddress = configured;
+    } else {
+      console.warn(
+        "[zoho] the configured From address is not this account's mailbox -",
+        "using",
+        accountMailbox,
+        "instead of",
+        configured
+      );
+    }
+  }
   if (!fromAddress) {
-    fromAddress = await fetchPrimaryMailbox(config, accessToken);
+    fromAddress = accountMailbox;
   }
   if (!fromAddress) {
     throw new Error(

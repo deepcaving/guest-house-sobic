@@ -950,6 +950,14 @@ def test_zoho_helper_safety(r):
         "the transport says so plainly when no From address can be found",
     )
     r.check(
+        "sameMailbox" in zfn,
+        "the transport checks the From address against the account",
+    )
+    r.check(
+        "is not this account's mailbox" in zfn,
+        "a From address the account does not own is rejected, not sent",
+    )
+    r.check(
         ".replace(/%/g" not in fn,
         "the body builder never encodes the percent sign",
     )
