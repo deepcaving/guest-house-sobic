@@ -104,15 +104,28 @@ has already typed, and updates live as they type.
 
 ### Switching the email on
 
-The function needs environment variables in Netlify — the API key never goes in
-the repository:
+The function needs environment variables in Netlify — the credentials never go
+in the repository. **Three transports**, tried in this order:
+
+| Transport | Variables | Needs |
+|---|---|---|
+| **Zoho Mail API** (recommended) | `ZOHO_CLIENT_ID`, `ZOHO_CLIENT_SECRET`, `ZOHO_REFRESH_TOKEN`, `ZOHO_REGION` | nothing else — no domain, no SMTP password |
+| SMTP over TLS | `SMTP_HOST`, `SMTP_USER`, `SMTP_PASSWORD` | a Zoho **app password** |
+| Resend | `RESEND_API_KEY` | a verified sending domain |
+
+Plus these, which apply to all of them:
 
 | Variable | Value |
 |---|---|
-| `RESEND_API_KEY` | your email provider's API key |
 | `MAIL_TO` | `milkasobic25@gmail.com` (the default) |
 | `MAIL_BCC` | `francesco.capuzzo@zoho.com` — you are blind-copied by default |
-| `MAIL_FROM` | `Pliva River Lodge <bookings@plivariverlodge.com>` (the default) |
+| `MAIL_FROM` | `Pliva River Lodge <bookings@plivariverlodge.com>` (the default, Resend only) |
+
+**On outbound SMTP and Netlify's plan:** the Free plan is not the obstacle.
+Measured from the live runtime on 11 Nov 2026 — port 25 is blocked (an AWS
+Lambda restriction on every plan), but **465 and 587 are open**. A full SMTP
+session from the Netlify runtime succeeded. The "SMTP needs Pro" rule is
+Railway's and Render's, not Netlify's.
 
 Full setup, testing and provider-swapping instructions are in
 [`docs/enquiry-email.md`](docs/enquiry-email.md).

@@ -1,6 +1,8 @@
 # Secrets — never commit these.
 .env
 .env.*
+# ...but the example holds no secrets and is how the setup is reproducible.
+!.env.example
 .netlify/
 !netlify/functions/
 

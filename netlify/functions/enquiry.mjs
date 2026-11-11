@@ -7,24 +7,37 @@
  *   - the collaborator is copied on it
  *   - the guest does nothing beyond pressing the button
  *
- * Netlify Functions cannot speak SMTP (no outbound port 25, no long-lived
- * process), so the mail is handed to a transactional email API. Resend is
- * used because it is the simplest to set up, but the API call below is
- * plain HTTP, so any provider can be swapped in.
+ * There are three transports, tried in this order:
  *
- * ENVIRONMENT VARIABLES - set these in Netlify, never in the repository:
- *   RESEND_API_KEY    the API key from your email provider
- *   MAIL_TO           who receives the enquiry (Milka)
- *   MAIL_BCC          who is blind-copied on it (the collaborator) - optional
- *   MAIL_FROM         the verified sender, e.g. "Pliva River Lodge" <bookings@yourdomain>
- *   MAIL_FROM_FALLBACK plain address to use if MAIL_FROM is not set
+ *   1. The Zoho Mail API (HTTPS, OAuth 2.0). This is the primary one. It
+ *      sends from the mailbox the lodge actually owns, so the mail arrives
+ *      as if Milka sent it, and it needs no domain verification. Proved to
+ *      work from the Netlify runtime.
+ *   2. SMTP (port 465, implicit TLS). Also proved to work from the Netlify
+ *      runtime - only port 25 is blocked, and that on every plan. It needs
+ *      a Zoho app password, which is why it is second.
+ *   3. The Resend HTTP API. The fallback that needs a verified sending
+ *      domain of its own.
  *
- * If the API key is missing the function does not fail the form: it logs the
+ * If none is configured the function does not fail the form: it logs the
  * enquiry and returns a "not configured" status, and the browser falls back
  * to WhatsApp and the guest's own mail app. The enquiry is never lost.
+ *
+ * ENVIRONMENT VARIABLES - set these in Netlify, never in the repository:
+ *   ZOHO_CLIENT_ID     Zoho API console
+ *   ZOHO_CLIENT_SECRET Zoho API console
+ *   ZOHO_REFRESH_TOKEN Zoho API console
+ *   ZOHO_ACCOUNT_ID    optional - fetched at runtime if absent
+ *   ZOHO_REGION        us (default) | eu | in | au | jp | ca | uk
+ *   SMTP_HOST / SMTP_PORT / SMTP_USER / SMTP_PASSWORD / SMTP_FROM_EMAIL
+ *   RESEND_API_KEY     the API key from an HTTP email provider
+ *   MAIL_TO            who receives the enquiry (Milka)
+ *   MAIL_BCC           who is blind-copied on it (the collaborator) - optional
+ *   MAIL_FROM          the verified sender for the Resend transport
  */
 
 import { sendMail } from "./smtp.mjs";
+import { readZohoConfig, sendZohoMail } from "./zoho.mjs";
 
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
 
@@ -46,9 +59,14 @@ function readConfig() {
   // present. Anything less and the transport is simply not available.
   smtp.configured = Boolean(smtp.host && smtp.user && smtp.password);
 
+  // The Zoho Mail API. This is the primary transport: it needs no SMTP
+  // password and no verified domain, and it sends from the real mailbox.
+  const zoho = readZohoConfig(process.env);
+
   return {
     apiKey: process.env.RESEND_API_KEY,
     smtp,
+    zoho,
     to: process.env.MAIL_TO || "milkasobic25@gmail.com",
     // The collaborator is blind-copied by default, so Milka can forward the
     // enquiry on without exposing that address. MAIL_BCC overrides it.
@@ -177,7 +195,41 @@ export default async (request, context) => {
   };
   if (config.bcc) payload.bcc = [config.bcc];
 
-  // 1. The SMTP transport. If Zoho is configured, use it - it is the
+  // 1. The Zoho Mail API. This is the transport that works with no domain
+  //    setup and no SMTP password, so it is tried first.
+  if (config.zoho.configured) {
+    try {
+      const result = await sendZohoMail(config.zoho, {
+        to: [config.to],
+        bcc: config.bcc ? [config.bcc] : [],
+        subject,
+        text: message,
+        replyTo: email,
+        from: config.zoho.fromEmail || undefined,
+        fromName: config.zoho.fromName || undefined,
+      });
+      console.log("[enquiry] sent over the Zoho Mail API:", result.id || "no id");
+      return json(200, {
+        ok: true,
+        id: result.id || null,
+        transport: "zoho-api",
+      });
+    } catch (err) {
+      // A failed send must not lose the enquiry. Log it and carry on to the
+      // next transport, which may still be configured.
+      console.error("[enquiry] Zoho Mail API send failed:", err && err.message);
+      if (!config.smtp.configured && !config.apiKey) {
+        return json(502, {
+          ok: false,
+          error: "The email service could not be reached",
+          detail: { message: String(err && err.message) },
+        });
+      }
+      // Fall through to SMTP.
+    }
+  }
+
+  // 2. The SMTP transport. If Zoho is configured, use it - it is the
   //    mailbox the lodge actually owns, and it needs no domain verification.
   if (config.smtp.configured) {
     try {
@@ -218,7 +270,7 @@ export default async (request, context) => {
     }
   }
 
-  if (!config.apiKey) {
+  if (!config.apiKey && !config.zoho.configured && !config.smtp.configured) {
     // Not configured. Do not fail the form - the browser has fallbacks.
     //
     // This is almost always one of two Netlify settings problems:
@@ -227,23 +279,26 @@ export default async (request, context) => {
     //   - it was given a value only for the "Production" deploy context,
     //     while this branch is running under the "Branch deploys" context.
     // The deploy context is reported so the cause is obvious in the logs.
-    const context = process.env.CONTEXT || process.env.DEPLOY_CONTEXT || "unknown";
+    const deployContext = process.env.CONTEXT || process.env.DEPLOY_CONTEXT || "unknown";
     console.error(
-      `[enquiry] neither SMTP nor RESEND_API_KEY is configured ` +
-        `(deploy context: ${context}). ` +
-        "Check that the variable's scope includes Functions and that it has a " +
-        "value for this deploy context.\nEnquiry was:\n" +
+      `[enquiry] no email transport is configured ` +
+        `(deploy context: ${deployContext}). ` +
+        "Set ZOHO_CLIENT_ID + ZOHO_CLIENT_SECRET + ZOHO_REFRESH_TOKEN, " +
+        "or SMTP_HOST + SMTP_USER + SMTP_PASSWORD, or RESEND_API_KEY, " +
+        "with the Functions scope and a value for this deploy context.\n" +
+        "Enquiry was:\n" +
         message
     );
     return json(503, {
       ok: false,
       configured: false,
       error: "Email service is not configured",
-      context,
+      context: deployContext,
       hint:
-        "Set either SMTP_HOST + SMTP_USER + SMTP_PASSWORD, or RESEND_API_KEY, " +
-        "with the Functions scope and a value for this deploy context " +
-        "(Production, and Branch deploys for branch previews).",
+        "Set ZOHO_CLIENT_ID + ZOHO_CLIENT_SECRET + ZOHO_REFRESH_TOKEN (the " +
+        "Zoho Mail API, recommended), or SMTP_HOST + SMTP_USER + SMTP_PASSWORD, " +
+        "or RESEND_API_KEY - with the Functions scope and a value for this " +
+        "deploy context (Production, and Branch deploys for branch previews).",
     });
   }
 
