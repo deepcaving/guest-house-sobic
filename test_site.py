@@ -934,6 +934,21 @@ def test_zoho_helper_safety(r):
         '.replace(/\\+/g, "%2B")' in zfn,
         "the body builder encodes the plus sign",
     )
+
+    # Zoho rejects a send with an empty From with a bare 404. The
+    # transport now falls back to the account's own primary mailbox.
+    r.check(
+        "fetchPrimaryMailbox" in zfn,
+        "the transport can read the account's primary mailbox",
+    )
+    r.check(
+        "primaryEmailAddress" in zfn,
+        "the fallback From address comes from the account itself",
+    )
+    r.check(
+        "no From address" in zfn,
+        "the transport says so plainly when no From address can be found",
+    )
     r.check(
         ".replace(/%/g" not in fn,
         "the body builder never encodes the percent sign",

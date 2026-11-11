@@ -237,6 +237,32 @@ async function fetchAccountId(config, accessToken) {
  * @param {string}   [message.fromName] the display name
  * @returns {Promise<{id: string|null}>}
  */
+/**
+ * Read the account's primary mailbox address.
+ *
+ * Used as the From address when nothing is configured. The token is
+ * scoped to this mailbox anyway, and Zoho only accepts a From address
+ * the mailbox actually owns.
+ */
+async function fetchPrimaryMailbox(config, accessToken) {
+  try {
+    const response = await fetch(
+      `${config.scheme}://${config.mailUrl}/api/accounts`,
+      {
+        headers: {
+          Authorization: `Zoho-oauthtoken ${accessToken}`,
+          Accept: "application/json",
+        },
+      }
+    );
+    const result = await response.json().catch(() => ({}));
+    const accounts = Array.isArray(result.data) ? result.data : [];
+    return accounts.length ? String(accounts[0].primaryEmailAddress || "") : "";
+  } catch {
+    return "";
+  }
+}
+
 export async function sendZohoMail(config, message) {
   const accessToken = await fetchAccessToken(config);
 
@@ -251,7 +277,20 @@ export async function sendZohoMail(config, message) {
 
   // Zoho wants the From as a bare address. The display name goes in
   // `fromDisplayName` instead of being folded into the address.
-  const fromAddress = message.from || config.fromEmail || "";
+  //
+  // If nothing is configured, the account's own primary mailbox is used -
+  // the token is already scoped to that mailbox, and Zoho rejects a send
+  // with an empty From with a bare 404.
+  let fromAddress = message.from || config.fromEmail || "";
+  if (!fromAddress) {
+    fromAddress = await fetchPrimaryMailbox(config, accessToken);
+  }
+  if (!fromAddress) {
+    throw new Error(
+      "Zoho send: no From address. Set ZOHO_FROM_EMAIL to an address the " +
+      "mailbox owns, or make sure the token can read the account list."
+    );
+  }
 
   const payload = {
     fromAddress,
