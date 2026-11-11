@@ -25,10 +25,10 @@ export const handler = async () => {
   try {
     const sock = tls.connect({ host: 'smtp.zoho.com', port: 465, servername: 'smtp.zoho.com', timeout: 8000 });
     await new Promise((res, rej) => { sock.once('secureConnect', res); sock.once('error', rej); sock.once('timeout', () => rej(new Error('tls timeout'))); });
-    say('TLS: ' + (readReply(sock)).split(/\r?\n/)[0]);
+    const b1 = await readReply(sock); say('TLS: ' + String(b1).split(/\r?\n/)[0]);
 
     sock.write('EHLO probe.netlify.app\r\n');
-    say('EHLO: ' + (await readReply(sock)).split(/\r?\n/)[0]);
+    const b2 = await readReply(sock); say('EHLO: ' + String(b2).split(/\r?\n/)[0]);
 
     sock.write('QUIT\r\n');
     sock.end();
