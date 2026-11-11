@@ -148,10 +148,50 @@ async function fetchAccessToken(config) {
   const response = await fetch(`${config.scheme}://${config.accountsUrl}/oauth/v2/token`, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: body.toString(),
+    body: body,
   });
 
   const result = await response.json().catch(() => ({}));
+
+  // Zoho's WAF answers some requests with an HTTP 400 "Access Denied"
+  // HTML page instead of a JSON error. That is not an OAuth answer, so
+  // the request is retried once with the standard percent-encoding - the
+  // wall is sometimes a false positive on an unusual but legal body.
+  if (response.status === 400 && !result.error) {
+    console.warn(
+      "[zoho] the token endpoint answered 400 with a wall page; retrying " +
+        "with the standard encoding"
+    );
+    const retryBody = new URLSearchParams({
+      grant_type: "refresh_token",
+      client_id: config.clientId,
+      client_secret: config.clientSecret,
+      refresh_token: config.refreshToken,
+    }).toString();
+    const retry = await fetch(
+      `${config.scheme}://${config.accountsUrl}/oauth/v2/token`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: retryBody,
+      }
+    );
+    const retryResult = await retry.json().catch(() => ({}));
+    if (retry.ok && retryResult.access_token) {
+      return retryResult.access_token;
+    }
+    // Still a wall. Report the wall clearly, because it is a different
+    // kind of failure from an OAuth error.
+    throw new Error(
+      `Zoho's server refused the token request (HTTP ${response.status}, ` +
+        `an "Access Denied" page rather than an OAuth error). The account, ` +
+        `client id or secret may have been blocked. Check the Zoho API ` +
+        `console, and try again from a different network. ` +
+        `[client_id=${config.clientId} region=${config.region} ` +
+        `secret:${describeSecret(config.clientSecret)} ` +
+        `token:${describeSecret(config.refreshToken)}]`
+    );
+  }
 
   if (!response.ok || !result.access_token) {
     // The most common cause by far: the token was minted in a different

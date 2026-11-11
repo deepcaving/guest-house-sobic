@@ -918,9 +918,21 @@ def test_zoho_helper_safety(r):
     # of a normal OAuth error. That wall is what blocked the very first
     # real send attempt.
     zfn = (ROOT / "netlify" / "functions" / "zoho.mjs").read_text(encoding="utf-8")
+    # The percent sign must reach Zoho raw, so the FIRST attempt uses
+    # formBody and not URLSearchParams. URLSearchParams is kept only as a
+    # retry, because Zoho's WAF wall (HTTP 400 with an HTML page) is
+    # sometimes a false positive on a legal body.
     r.check(
-        "URLSearchParams" not in zfn,
-        "the OAuth request does not use URLSearchParams, which would encode %",
+        "const body = formBody({" in zfn,
+        "the first OAuth attempt uses the percent-safe body builder",
+    )
+    r.check(
+        "retrying" in zfn and "new URLSearchParams" in zfn,
+        "the OAuth request retries with the standard encoding if the wall appears",
+    )
+    r.check(
+        "an \"Access Denied\" page rather than an OAuth error" in zfn,
+        "the transport explains the wall, which is not an OAuth error",
     )
     r.check(
         "function formBody" in zfn,
