@@ -359,8 +359,26 @@ async function fetchPrimaryMailbox(config, accessToken) {
     );
     const result = await response.json().catch(() => ({}));
     const accounts = Array.isArray(result.data) ? result.data : [];
-    return accounts.length ? String(accounts[0].primaryEmailAddress || "") : "";
-  } catch {
+    if (!accounts.length) return "";
+    const account = accounts[0];
+    // Zoho returns the address under different names depending on the
+    // account type and the scope, so try each of them.
+    const address =
+      account.primaryEmailAddress ||
+      account.emailAddress ||
+      account.mailUrl ||
+      "";
+    // When nothing is found, say so in the log - an empty From is the
+    // reason a send fails with a bare 404.
+    if (!address) {
+      console.warn(
+        "[zoho] the account list has no primary address; keys:",
+        Object.keys(account).join(",")
+      );
+    }
+    return String(address);
+  } catch (err) {
+    console.warn("[zoho] could not read the account list:", err && err.message);
     return "";
   }
 }
@@ -484,7 +502,8 @@ export async function sendZohoMail(config, message) {
     }
     throw new Error(
       `Zoho rejected the message (${response.status}): ${messageText}${hint}` +
-        ` [account_id=${accountId} from=${fromAddress}]`
+        ` [account_id=${accountId} from=${fromAddress} ` +
+        `mailbox=${accountMailbox || "(not found)"}]`
     );
   }
 
