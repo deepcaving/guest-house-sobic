@@ -118,7 +118,15 @@
       });
   }
 
-  /** Store the enquiry in Netlify Forms. Best effort - never fatal. */
+  /**
+   * Store a copy of the enquiry in Netlify Forms. Best effort - never fatal.
+   *
+   * This is a second safety net on top of the server-side copy that the
+   * enquiry function writes itself. That server-side copy does not depend
+   * on Netlify's "form detection" switch being on in the dashboard, so it
+   * is the one that matters; this browser-side POST is kept because it
+   * costs nothing and covers the case where the function is unreachable.
+   */
   function saveToNetlifyForms() {
     try {
       return fetch('/', {

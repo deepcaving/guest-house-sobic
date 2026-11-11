@@ -858,6 +858,24 @@ def test_zoho_helper_safety(r):
         "the docs explain what invalid_code means",
     )
 
+    # The function must store its own copy in Netlify Forms. The browser
+    # POST to "/" only works if "form detection" is enabled in the Netlify
+    # dashboard, and it was off on this site - so every enquiry's backup
+    # copy was being lost. The server-side copy does not depend on it.
+    fn = (ROOT / "netlify" / "functions" / "enquiry.mjs").read_text(encoding="utf-8")
+    r.check(
+        "saveToNetlifyForms" in fn,
+        "the function stores a copy of the enquiry itself",
+    )
+    r.check(
+        "api.netlify.com/api/v1/forms/lodge-enquiry" in fn,
+        "the function posts to the Netlify Forms endpoint",
+    )
+    r.check(
+        fn.count("await saveToNetlifyForms(body);") >= 2,
+        "the copy is stored on both successful send paths",
+    )
+
 
 def test_rates_toggle(r):
     """The rates toggle: licence-inclusive vs licence-separate totals.

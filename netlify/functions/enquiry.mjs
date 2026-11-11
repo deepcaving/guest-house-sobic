@@ -147,6 +147,41 @@ function buildBody(body) {
   return lines.join("\n");
 }
 
+
+/**
+ * Store a copy of the enquiry in Netlify Forms, from the server.
+ *
+ * The browser also POSTs to the form endpoint, but that only works if
+ * "form detection" is switched on in the Netlify UI (Forms > Enable form
+ * detection). When it is off, the browser POST returns 404 and the copy
+ * is lost. This function-side submission does not depend on that toggle
+ * being on, so the enquiry is never lost.
+ *
+ * Best effort: a failure here is logged and does not affect the email.
+ */
+async function saveToNetlifyForms(fields) {
+  try {
+    const response = await fetch("https://api.netlify.com/api/v1/forms/lodge-enquiry", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(fields),
+    });
+    if (!response.ok) {
+      console.error(
+        "[enquiry] Netlify Forms copy failed:",
+        response.status,
+        await response.text().catch(() => "")
+      );
+      return false;
+    }
+    console.log("[enquiry] Netlify Forms copy stored");
+    return true;
+  } catch (err) {
+    console.error("[enquiry] Netlify Forms copy failed:", err && err.message);
+    return false;
+  }
+}
+
 export default async (request, context) => {
   const config = readConfig();
 
@@ -214,6 +249,9 @@ export default async (request, context) => {
         fromName: config.zoho.fromName || undefined,
       });
       console.log("[enquiry] sent over the Zoho Mail API:", result.id || "no id");
+      // Keep a copy in the Netlify dashboard as well, so an enquiry is never
+      // only in one mailbox.
+      await saveToNetlifyForms(body);
       return json(200, {
         ok: true,
         id: result.id || null,
@@ -355,6 +393,9 @@ export default async (request, context) => {
     }
 
     console.log("[enquiry] sent:", result.id || "no id returned");
+    // Keep a copy in the Netlify dashboard as well, so an enquiry is never
+    // only in one mailbox.
+    await saveToNetlifyForms(body);
     return json(200, { ok: true, id: result.id || null });
   } catch (err) {
     console.error("[enquiry] request failed:", err);
