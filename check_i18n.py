@@ -81,7 +81,8 @@ def main():
     # attribute. The rates toggle picks its text out of the dictionary at
     # runtime, so those keys are referenced in the script, not in the markup.
     js_keys = set()
-    for js_name in ("i18n.js", "rates-toggle.js", "form.js"):
+    for js_name in ("i18n.js", "rates-toggle.js", "form.js",
+                    "dates.js", "occupancy.js"):
         js_path = ROOT / js_name
         if js_path.exists():
             js_src = js_path.read_text(encoding="utf-8")

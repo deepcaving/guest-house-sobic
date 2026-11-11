@@ -343,6 +343,47 @@ section{padding:72px 0}
 }
 .form input:focus,.form select:focus,.form textarea:focus{outline:2px solid var(--river);outline-offset:1px;border-color:var(--river)}
 .form textarea{min-height:88px;resize:vertical}
+
+/* ---- the fly-fishing switch ---- */
+.form .switch{display:flex;align-items:center;gap:12px;cursor:pointer;margin:0;
+  text-transform:none;letter-spacing:0;font-weight:400;font-size:.92rem;color:var(--ink)}
+.form .switch input{position:absolute;opacity:0;width:0;height:0}
+.switch-track{
+  flex:0 0 auto;width:46px;height:26px;border-radius:13px;background:#cfd8d6;
+  position:relative;transition:background .18s ease;order:-1}
+.switch-thumb{
+  position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;
+  background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.28);transition:transform .18s ease}
+.form .switch input:checked + .switch-track{background:var(--river)}
+.form .switch input:checked + .switch-track .switch-thumb{transform:translateX(20px)}
+.form .switch input:focus-visible + .switch-track{outline:2px solid var(--river);outline-offset:2px}
+.switch-text{line-height:1.35}
+
+/* ---- the Booking.com-style occupancy panel ---- */
+.people-panel[hidden]{display:none}
+.occ-title{display:block;font-size:.78rem;font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--navy);margin-bottom:6px}
+.occ-panel{background:#fff;border:1px solid var(--line);border-radius:4px;padding:6px 16px}
+.occ-row{display:flex;align-items:center;justify-content:space-between;
+  gap:14px;padding:11px 0;border-bottom:1px solid var(--line)}
+.occ-row:last-child{border-bottom:none}
+.occ-label{font-size:.92rem;color:var(--ink)}
+.occ-stepper{display:inline-flex;align-items:center;gap:8px}
+.occ-btn{
+  width:30px;height:30px;line-height:1;border-radius:50%;border:1px solid var(--line);
+  background:#fff;color:var(--river);font-size:1.05rem;font-weight:700;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;padding:0;
+  transition:background .15s ease,border-color .15s ease}
+.occ-btn:hover{background:var(--river-l);border-color:var(--river)}
+.occ-btn:disabled{opacity:.35;cursor:not-allowed}
+.occ-btn:disabled:hover{background:#fff;border-color:var(--line)}
+.occ-stepper input{
+  width:42px;text-align:center;font-size:.95rem;font-weight:600;color:var(--ink);
+  border:1px solid var(--line);border-radius:4px;padding:6px 4px;background:#fff;
+  -moz-appearance:textfield}
+.occ-stepper input::-webkit-outer-spin-button,
+.occ-stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.occ-summary{margin:10px 0 0;font-size:.82rem;color:var(--muted);font-style:italic}
 .form .note{font-size:.75rem;color:var(--muted);margin-top:12px;line-height:1.5}
 .form .note .wa-link{color:var(--river);font-weight:700;text-decoration:none;border-bottom:1px solid var(--river)}
 .form .note .wa-link:hover{color:var(--navy);border-bottom-color:var(--navy)}
@@ -436,6 +477,7 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
 .small{font-size:.82rem}
 .nowrap{white-space:nowrap}
 </style>
+
 
 
 

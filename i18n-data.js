@@ -1187,5 +1187,83 @@ window.I18N = {
     "de": "Drei Mahlzeiten am Tag. Das Mittagessen wird im Gästehaus serviert, oder als Picknick eingepackt, wenn das Angelplatz des Tages weit genug weg ist, um es zu rechtfertigen.",
     "bs": "Tri obroka dnevno. Ručak se poslužuje u pansionu, ili se pakira za piknik kada je ribolovno mjesto tog dana dovoljno daleko da to opravda.",
     "it": "Tre pasti al giorno. Il pranzo viene servito in casa, oppure preparato come picnic quando il luogo di pesca del giorno è abbastanza lontano da giustificarlo."
+  },
+  "form_fly_label": {
+    "en": "Fly fishing",
+    "de": "Fliegenfischen",
+    "bs": "Lovački ribolov",
+    "it": "Pesca a mosca"
+  },
+  "form_fly_hint": {
+    "en": "This is a fly-fishing trip",
+    "de": "Dies ist eine Fliegenfischerei-Reise",
+    "bs": "Ovo je putovanje sa lovčkim ribolovom",
+    "it": "È un viaggio di pesca a mosca"
+  },
+  "form_occ_title": {
+    "en": "Select occupancy",
+    "de": "Belegung wählen",
+    "bs": "Odaberite smještaj",
+    "it": "Seleziona occupazione"
+  },
+  "occ_adults": {
+    "en": "Adults",
+    "de": "Erwachsene",
+    "bs": "Odrasli",
+    "it": "Adulti"
+  },
+  "occ_children": {
+    "en": "Children",
+    "de": "Kinder",
+    "bs": "Djeca",
+    "it": "Bambini"
+  },
+  "occ_rooms": {
+    "en": "Rooms",
+    "de": "Zimmer",
+    "bs": "Sobe",
+    "it": "Camere"
+  },
+  "occ_adults_n": {
+    "en": "{n} adults",
+    "de": "{n} Erwachsene",
+    "bs": "{n} odraslih",
+    "it": "{n} adulti"
+  },
+  "occ_adults_1": {
+    "en": "{n} adult",
+    "de": "{n} Erwachsener",
+    "bs": "{n} odrasla osoba",
+    "it": "{n} adulto"
+  },
+  "occ_children_n": {
+    "en": "{n} children",
+    "de": "{n} Kinder",
+    "bs": "{n} djece",
+    "it": "{n} bambini"
+  },
+  "occ_children_1": {
+    "en": "{n} child",
+    "de": "{n} Kind",
+    "bs": "{n} dijete",
+    "it": "{n} bambino"
+  },
+  "occ_rooms_n": {
+    "en": "{n} rooms",
+    "de": "{n} Zimmer",
+    "bs": "{n} soba",
+    "it": "{n} camere"
+  },
+  "occ_rooms_1": {
+    "en": "{n} room",
+    "de": "{n} Zimmer",
+    "bs": "{n} soba",
+    "it": "{n} camera"
+  },
+  "occ_summary_join": {
+    "en": ", ",
+    "de": ", ",
+    "bs": ", ",
+    "it": ", "
   }
 };

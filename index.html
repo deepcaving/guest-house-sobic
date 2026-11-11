@@ -353,6 +353,47 @@ section{padding:72px 0}
 }
 .form input:focus,.form select:focus,.form textarea:focus{outline:2px solid var(--river);outline-offset:1px;border-color:var(--river)}
 .form textarea{min-height:88px;resize:vertical}
+
+/* ---- the fly-fishing switch ---- */
+.form .switch{display:flex;align-items:center;gap:12px;cursor:pointer;margin:0;
+  text-transform:none;letter-spacing:0;font-weight:400;font-size:.92rem;color:var(--ink)}
+.form .switch input{position:absolute;opacity:0;width:0;height:0}
+.switch-track{
+  flex:0 0 auto;width:46px;height:26px;border-radius:13px;background:#cfd8d6;
+  position:relative;transition:background .18s ease;order:-1}
+.switch-thumb{
+  position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;
+  background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.28);transition:transform .18s ease}
+.form .switch input:checked + .switch-track{background:var(--river)}
+.form .switch input:checked + .switch-track .switch-thumb{transform:translateX(20px)}
+.form .switch input:focus-visible + .switch-track{outline:2px solid var(--river);outline-offset:2px}
+.switch-text{line-height:1.35}
+
+/* ---- the Booking.com-style occupancy panel ---- */
+.people-panel[hidden]{display:none}
+.occ-title{display:block;font-size:.78rem;font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--navy);margin-bottom:6px}
+.occ-panel{background:#fff;border:1px solid var(--line);border-radius:4px;padding:6px 16px}
+.occ-row{display:flex;align-items:center;justify-content:space-between;
+  gap:14px;padding:11px 0;border-bottom:1px solid var(--line)}
+.occ-row:last-child{border-bottom:none}
+.occ-label{font-size:.92rem;color:var(--ink)}
+.occ-stepper{display:inline-flex;align-items:center;gap:8px}
+.occ-btn{
+  width:30px;height:30px;line-height:1;border-radius:50%;border:1px solid var(--line);
+  background:#fff;color:var(--river);font-size:1.05rem;font-weight:700;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;padding:0;
+  transition:background .15s ease,border-color .15s ease}
+.occ-btn:hover{background:var(--river-l);border-color:var(--river)}
+.occ-btn:disabled{opacity:.35;cursor:not-allowed}
+.occ-btn:disabled:hover{background:#fff;border-color:var(--line)}
+.occ-stepper input{
+  width:42px;text-align:center;font-size:.95rem;font-weight:600;color:var(--ink);
+  border:1px solid var(--line);border-radius:4px;padding:6px 4px;background:#fff;
+  -moz-appearance:textfield}
+.occ-stepper input::-webkit-outer-spin-button,
+.occ-stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.occ-summary{margin:10px 0 0;font-size:.82rem;color:var(--muted);font-style:italic}
 .form .note{font-size:.75rem;color:var(--muted);margin-top:12px;line-height:1.5}
 .form .note .wa-link{color:var(--river);font-weight:700;text-decoration:none;border-bottom:1px solid var(--river)}
 .form .note .wa-link:hover{color:var(--navy);border-bottom-color:var(--navy)}
@@ -451,6 +492,7 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
 <script src="i18n.js" defer></script>
 <script src="rates-toggle.js" defer></script>
 <script src="dates.js" defer></script>
+<script src="occupancy.js" defer></script>
 <script src="form.js" defer></script>
 </head>
 <body class="no-js">
@@ -974,8 +1016,17 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
             <input id="f-dates" name="dates" type="text" data-ph="ph_dates" placeholder="e.g. 10–17 December 2026">
           </div>
           <div class="field">
+            <label for="f-flyfishing" data-i18n="form_fly_label" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="form_fly_label">Fly fishing</label>
+            <label class="switch" for="f-flyfishing">
+              <input type="checkbox" id="f-flyfishing" name="flyfishing" value="yes">
+              <span class="switch-track" aria-hidden="true"><span class="switch-thumb"></span></span>
+              <span class="switch-text" data-i18n="form_fly_hint" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="form_fly_hint">This is a fly-fishing trip</span>
+            </label>
+          </div>
+
+          <div class="field people-panel" id="people-angler" hidden>
             <label for="f-people" data-i18n="form_people" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="form_people">How many people</label>
-            <select id="f-people" name="people">
+            <select id="f-people">
               <option data-i18n="opt_1" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="opt_1">1 angler</option>
               <option data-i18n="opt_2" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="opt_2">2 anglers</option>
               <option data-i18n="opt_3" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="opt_3">3 anglers</option>
@@ -984,6 +1035,44 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
               <option data-i18n="opt_comp" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="opt_comp">Companion / non-angling</option>
             </select>
           </div>
+
+          <div class="field people-panel" id="people-booking">
+            <span class="occ-title" data-i18n="form_occ_title" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="form_occ_title">Select occupancy</span>
+            <div class="occ-panel">
+              <div class="occ-row">
+                <span class="occ-label" data-i18n="occ_adults" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="occ_adults">Adults</span>
+                <span class="occ-stepper">
+                  <button type="button" class="occ-btn" data-step="adults-" aria-label="one adult fewer">&minus;</button>
+                  <input type="number" id="occ-adults" value="2" min="0" max="20" inputmode="numeric" data-i18n-aria="occ_adults_minus" aria-label="Adults">
+                  <button type="button" class="occ-btn" data-step="adults+" aria-label="one adult more">+</button>
+                </span>
+              </div>
+              <div class="occ-row">
+                <span class="occ-label" data-i18n="occ_children" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="occ_children">Children</span>
+                <span class="occ-stepper">
+                  <button type="button" class="occ-btn" data-step="children-" aria-label="one child fewer">&minus;</button>
+                  <input type="number" id="occ-children" value="0" min="0" max="20" inputmode="numeric" aria-label="Children">
+                  <button type="button" class="occ-btn" data-step="children+" aria-label="one child more">+</button>
+                </span>
+              </div>
+              <div class="occ-row">
+                <span class="occ-label" data-i18n="occ_rooms" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="occ_rooms">Rooms</span>
+                <span class="occ-stepper">
+                  <button type="button" class="occ-btn" data-step="rooms-" aria-label="one room fewer">&minus;</button>
+                  <input type="number" id="occ-rooms" value="1" min="0" max="20" inputmode="numeric" aria-label="Rooms">
+                  <button type="button" class="occ-btn" data-step="rooms+" aria-label="one room more">+</button>
+                </span>
+              </div>
+            </div>
+            <p class="occ-summary" id="occ-summary" aria-live="polite">2 adults, 0 children, 1 room</p>
+          </div>
+
+          <input type="hidden" id="f-people-mode" name="people_mode" value="booking">
+          <input type="hidden" id="f-people-value" name="people" value="">
+          <input type="hidden" id="f-people-label" name="people_label" value="">
+          <input type="hidden" id="f-adults" name="adults" value="">
+          <input type="hidden" id="f-children" name="children" value="">
+          <input type="hidden" id="f-rooms" name="rooms" value="">
           <div class="field">
             <label for="f-airport" data-i18n="form_air" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="form_air">Arriving via</label>
             <select id="f-airport" name="airport">
