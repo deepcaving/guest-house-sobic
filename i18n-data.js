@@ -798,6 +798,12 @@ window.I18N = {
     "bs": "Pljeva, Šipovo<br>Bosna i Hercegovina<br>Mušičarenje na Plivi · Otvoreno cijele godine",
     "it": "Pljeva, Šipovo<br>Bosnia ed Erzegovina<br>Pesca a mosca sul Pliva · Aperto tutto l'anno"
   },
+  "foot_track": {
+    "en": "We note the page and the approximate location of visitors who open WhatsApp.",
+    "de": "Wir notieren die Seite und den ungefähren Standort von Besuchern, die WhatsApp öffnen.",
+    "bs": "Bilježimo stranicu i približnu lokaciju posjetilaca koji otvore WhatsApp.",
+    "it": "Annotiamo la pagina e la posizione approssimativa dei visitatori che aprono WhatsApp."
+  },
   "foot_safe": {
     "en": "Catch and release. Travel insurance recommended.",
     "de": "Catch &amp; Release. Reiseversicherung empfohlen.",

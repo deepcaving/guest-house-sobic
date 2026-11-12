@@ -159,6 +159,7 @@ IT = {
     "ph_msg": "Esperienza di pesca, esigenze alimentari, preferenze per la camera…",
     "foot_sip": "Pljeva, Šipovo<br>Bosnia ed Erzegovina<br>Pesca a mosca sul Pliva · Aperto tutto l'anno",
     "foot_safe": "Catch &amp; release. Assicurazione di viaggio consigliata.",
+    "foot_track": "Annotiamo la pagina e la posizione approssimativa dei visitatori che aprono WhatsApp.",
     "foot_contact": "Contatti",
     "foot_copy": "Tutti i diritti riservati.",
     "hero_f1": "<b>2 km</b> dalla sorgente del Pliva",

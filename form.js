@@ -287,6 +287,51 @@
   }
   refreshWhatsAppLinks();
 
+  /* Record a WhatsApp click.
+   *
+   * Opening WhatsApp is the moment of interest: the guest has not sent an
+   * enquiry, but they are here and they want to talk. The record lands in
+   * Netlify Forms, so it shows up in the dashboard beside the enquiries,
+   * with the visitor's IP address and their approximate location.
+   *
+   * It must never delay or break the chat. The link opens normally whether
+   * this request succeeds or not, so the result is ignored on purpose.
+   */
+  function recordWhatsAppClick(link) {
+    try {
+      var url = form.getAttribute('data-function-click') ||
+        '/.netlify/functions/whatsapp-click';
+      var fields = collectFields();
+      var payload = {
+        page: location.href,
+        link: link.getAttribute('data-wa-label') ||
+          (link.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 60),
+        trip: fields.people_mode === 'fishing' ? 'Fly fishing' : 'General stay',
+        dates: fields.dates || '',
+        people: fields.people_label || fields.people || '',
+        language: currentLang()
+      };
+      fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        // The guest is on their way to WhatsApp; the request has to
+        // survive the page going quiet.
+        keepalive: true
+      })['catch'](function () {});
+    } catch (err) {
+      /* Never break the link. */
+    }
+  }
+
+  /* Every WhatsApp link on the page, wherever it is. A delegated listener
+   * catches the header, the contact block, the button under the form and
+   * the footer, including any that are added later. */
+  document.addEventListener('click', function (e) {
+    var link = e.target && e.target.closest ? e.target.closest('a[href*="wa.me"]') : null;
+    if (link) recordWhatsAppClick(link);
+  });
+
   /* The message disappears as soon as the guest starts correcting it. */
   var datesInput = document.getElementById('f-dates');
   if (datesInput) {

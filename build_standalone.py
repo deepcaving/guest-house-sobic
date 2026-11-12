@@ -127,6 +127,21 @@ def strip_i18n(html):
     return html
 
 
+def strip_click_notice(html):
+    """Remove the notice about the WhatsApp click log.
+
+    The standalone page has no JavaScript, so no click is recorded and no
+    IP address is collected there. A notice that says otherwise would be a
+    lie: the notice belongs exactly where the recording happens.
+    """
+    html, ok = replace_balanced(
+        html, r'<span data-i18n="foot_track"', "", tag="span"
+    )
+    if not ok:
+        print("  ! could not find the click notice", file=sys.stderr)
+    return html
+
+
 def strip_scripts(html):
     """Remove executable scripts, keep the JSON-LD block."""
     def drop(match):
@@ -335,6 +350,9 @@ def build(args, cfg):
 
     print("Refreshing the static date placeholder (one month ahead)...")
     out = refresh_date_placeholder(out)
+
+    print("Removing the WhatsApp click notice (nothing is recorded here)...")
+    out = strip_click_notice(out)
 
     print("Removing the language switcher and translation attributes...")
     out = strip_i18n(out)

@@ -1773,6 +1773,72 @@ def test_preferred_dates_are_required_and_validated(r):
                 "the server refuses the enquiry before trying to send it")
 
 
+def test_whatsapp_clicks_are_recorded(r):
+    """A WhatsApp click must leave a record, with the visitor's IP address
+    and their approximate location, in the Netlify Forms list.
+
+    What must hold:
+      - there is a Netlify form for the clicks, so Netlify registers it
+      - a function writes the record, using the IP and the location from
+        the Netlify request context
+      - the browser sends the click without ever blocking the chat
+      - the visitor is told, in the footer, that this happens
+    """
+    wpath = ROOT / "netlify/functions" / "whatsapp-click.mjs"
+    r.check(wpath.exists(), "the WhatsApp click function exists")
+    if wpath.exists():
+        w = wpath.read_text(encoding="utf-8")
+        r.check("ctx.ip" in w or "context.ip" in w,
+                "the function reads the client IP from the Netlify context")
+        r.check("ctx.geo" in w or "context.geo" in w,
+                "the function reads the location from the Netlify context")
+        for field in ("ip", "city", "region", "country", "lat", "lon", "timezone", "device"):
+            r.check(field in w, f"the record carries {field}")
+        r.check('"form-name": "whatsapp-click"' in w,
+                "the record is written as a whatsapp-click form submission")
+        r.check("keepalive" not in w,
+                "the function does not need keepalive - the browser sends it")
+        # The function must never break the chat, so it answers 200 even
+        # when the record cannot be written.
+        r.check("catch" in w, "a failed record does not throw")
+
+    r.check('name="whatsapp-click"' in HTML,
+            "the page carries a whatsapp-click form for Netlify to register")
+    r.check('data-netlify="true"' in HTML,
+            "the click form is a Netlify form")
+
+    fpath = ROOT / "form.js"
+    if fpath.exists():
+        f = fpath.read_text(encoding="utf-8")
+        r.check("recordWhatsAppClick" in f,
+                "the browser records a WhatsApp click")
+        r.check("keepalive: true" in f,
+                "the click record survives the page going quiet")
+        r.check('a[href*="wa.me"]' in f,
+                "every WhatsApp link is caught")
+        # The click must never stop the chat from opening.
+        r.check("preventDefault" not in f.split("recordWhatsAppClick")[1][:1500],
+                "the click recorder never prevents the WhatsApp link")
+
+    r.check("foot_track" in DICT, "the dictionary has foot_track")
+    if "foot_track" in DICT:
+        for lang in LANGS:
+            r.check(isinstance(DICT["foot_track"].get(lang), str) and DICT["foot_track"][lang].strip(),
+                    f"the visitor is told about the click log ({lang})")
+    r.check('data-i18n-key="foot_track"' in HTML,
+            "the footer says that clicks are noted")
+
+    # The standalone page has no JavaScript, so nothing is recorded there -
+    # and the notice must not be on it either.
+    spath = ROOT / "PlivaRiverLodge-standalone.html"
+    if spath.exists():
+        standalone = spath.read_text(encoding="utf-8")
+        r.check("We note the page and the approximate location" not in standalone,
+                "the standalone page does not claim to record clicks it never records")
+        r.check('name="whatsapp-click"' not in standalone,
+                "the standalone page has no click form")
+
+
 def test_location_map(r):
     """The location map.
 
@@ -2009,6 +2075,7 @@ def main():
     test_smtp_transport_and_zoho_host_fallback(r)
     test_preferred_dates_are_required_and_validated(r)
     test_location_map(r)
+    test_whatsapp_clicks_are_recorded(r)
     test_send_from_an_alias_address(r)
     test_forms_backup_carries_the_same_fields_as_the_email(r)
 
