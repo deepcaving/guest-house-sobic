@@ -1826,12 +1826,18 @@ def test_booking_email_is_milka_s(r):
         "the booking address is printed on the page",
     )
 
-    # No other address may act as the booking inbox.
-    for other in ("guesthousesobic@blink2ask.com", "guesthousesobic@netyou.me"):
-        r.check(
-            other not in fn.split("MAIL_TO")[0],
-            f"{other} is not used as the booking recipient",
-        )
+    # No other address may act as the booking inbox. The check is generic:
+    # the MAIL_TO line may name Milka's address and nothing else.
+    mail_to_line = next(
+        (l for l in fn.split("\n") if "MAIL_TO" in l and "process.env" in l),
+        "",
+    )
+    addresses_on_the_line = re.findall(r"[\w.+-]+@[\w.-]+\.\w+", mail_to_line)
+    r.check(
+        addresses_on_the_line == ["milkasobic25@gmail.com"],
+        "the booking recipient is Milka's address and only hers",
+        f"MAIL_TO line = {mail_to_line.strip()!r}",
+    )
 
 
 def test_send_from_an_alias_address(r):
