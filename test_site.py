@@ -418,6 +418,27 @@ def test_i18n_structure(r):
         len(LANGS) == 6,
         "six languages are configured",
     )
+
+    # Every language must be offered in the switcher, and the switcher must
+    # not offer a language the dictionary does not have.
+    for lg in LANGS:
+        r.check(
+            f'data-setlang="{lg}"' in HTML,
+            f"the switcher offers {lg}",
+        )
+    offered = re.findall(r'data-setlang="([a-z]{2})"', HTML)
+    r.check(
+        sorted(offered) == sorted(LANGS),
+        "the switcher offers exactly the configured languages",
+        f"offered: {sorted(offered)}",
+    )
+    # The names on the buttons are the language names, not the codes.
+    for lg, name in (("en", "English"), ("de", "Deutsch"), ("bs", "Bosanski"),
+                     ("it", "Italiano"), ("fr", "Fran\u00e7ais"), ("nl", "Nederlands")):
+        r.check(
+            f">{name}</span>" in HTML,
+            f"the switcher names {lg} as {name}",
+        )
     for key, entry in sorted(DICT.items()):
         missing = [lg for lg in LANGS if lg not in entry]
         r.check(
