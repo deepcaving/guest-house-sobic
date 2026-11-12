@@ -13,7 +13,7 @@
  * Usage:
  *   SMTP_USER=francesco.capuzzo@zoho.com \
  *   SMTP_PASSWORD=your-app-password \
- *   node tools/smtp-from-check.mjs guesthouse@blink2ask.com bookings@x.com
+ *   node tools/smtp-from-check.mjs guesthousesobic@netyou.me
  *
  * The password is read from the environment, never from the command line,
  * so it stays out of the shell history. The test mail goes to the mailbox
@@ -60,10 +60,11 @@ const candidates = process.argv.slice(2);
 const addresses = candidates.length
   ? candidates
   : [
+      // The addresses that matter for this lodge: the alias that works, and
+      // the one on the other domain that Zoho refuses.
       user,
-      "guesthouse@blink2ask.com",
-      "bookings@plivariverlodge.com",
-      "info@plivariverlodge.com",
+      "guesthousesobic@netyou.me",
+      "guesthousesobic@blink2ask.com",
     ];
 
 console.log(`Logging in as ${user} via ${host}:${port}`);

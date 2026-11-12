@@ -1698,6 +1698,142 @@ def test_forms_backup_carries_the_same_fields_as_the_email(r):
                 "occupancy.js keeps the flyfishing value at yes/no")
 
 
+def test_prices_say_what_they_are_per(r):
+    """The room price is for the ROOM, and the meal price is for the PERSON
+    per DAY. Milka confirmed both on 12 Nov 2026, and a guest must not have
+    to guess: "€85 per night" reads like a price per person until you know.
+
+    What must hold:
+      - every room row names the unit: per room, per night
+      - the whole-house row says it is the whole house
+      - the rates heading says per room, per night and per person, per day
+      - the meals note says the day is counted from the arrival day
+    """
+    # The room rows say it one way, the prose another - a room row reads
+    # "€85 a camera, a notte", a sentence reads "sono per camera". Both
+    # name the room, so both are accepted here.
+    per_room = {
+        "en": ["per room", "for the room"],
+        "de": ["pro zimmer", "für das zimmer"],
+        "bs": ["po sobi", "na sobu"],
+        "it": ["a camera", "per camera", "per la camera"],
+        "fr": ["par chambre", "pour la chambre"],
+        "nl": ["per kamer", "voor de kamer"],
+    }
+    per_person_per_day = {
+        "en": ["per person, per day"],
+        "de": ["pro person und pro tag"],
+        "bs": ["po osobi, po danu"],
+        "it": ["a persona, a giorno"],
+        "fr": ["par personne, par jour"],
+        "nl": ["per persoon, per dag"],
+    }
+    whole_house = {
+        "en": ["for the whole house"],
+        "de": ["für das ganze haus"],
+        "bs": ["za cijelu kuću"],
+        "it": ["per l'intera casa"],
+        "fr": ["pour toute la maison"],
+        "nl": ["voor het hele huis"],
+    }
+    arrival_day = {
+        "en": ["arrival day"],
+        "de": ["tag ihrer ankunft"],
+        "bs": ["dana vašeg dolaska"],
+        "it": ["giorno del tuo arrivo"],
+        "fr": ["jour de votre arrivée"],
+        "nl": ["uw aankomstdag"],
+    }
+
+    # The three room rows.
+    for key in ("r1_s", "r2_s", "r3_s"):
+        for lang in LANGS:
+            text = plain(DICT.get(key, {}).get(lang, "")).lower()
+            r.check(
+                any(p in text for p in per_room[lang]),
+                f"RATE {key} ({lang}) says the price is per room",
+                f"{key}[{lang}] = {text!r}",
+            )
+
+    # The whole-house row is priced for the house, not a room.
+    for lang in LANGS:
+        text = plain(DICT.get("r4_s", {}).get(lang, "")).lower()
+        r.check(
+            any(p in text for p in whole_house[lang]),
+            f"RATE r4_s ({lang}) says the price is for the whole house",
+            f"r4_s[{lang}] = {text!r}",
+        )
+
+    # The heading states both units.
+    for lang in LANGS:
+        text = plain(DICT.get("rates_head", {}).get(lang, "")).lower()
+        r.check(
+            any(p in text for p in per_room[lang]),
+            f"RATE rates_head ({lang}) says the room price is per room",
+            f"rates_head[{lang}] = {text!r}",
+        )
+        r.check(
+            any(p in text for p in per_person_per_day[lang]),
+            f"RATE rates_head ({lang}) says the meal price is per person, per day",
+            f"rates_head[{lang}] = {text!r}",
+        )
+
+    # The notes repeat the unit.
+    for lang in LANGS:
+        text = plain(DICT.get("rates_note", {}).get(lang, "")).lower()
+        r.check(
+            any(p in text for p in per_room[lang]),
+            f"RATE rates_note ({lang}) says the room price is per room",
+            f"rates_note[{lang}] = {text!r}",
+        )
+
+    # The meals: the day is counted from the day the guest arrives.
+    for lang in LANGS:
+        text = plain(DICT.get("pkg_meals", {}).get(lang, "")).lower()
+        r.check(
+            any(p in text for p in arrival_day[lang]),
+            f"MEAL pkg_meals ({lang}) counts the day from the arrival day",
+            f"pkg_meals[{lang}] = {text!r}",
+        )
+
+
+def test_booking_email_is_milka_s(r):
+    """The address that receives a booking enquiry.
+
+    Milka's real inbox is milkasobic25@gmail.com. It must be the address in
+    site-config.json, the default in the function, and the one printed on
+    the page - one source of truth, no second address hiding anywhere.
+    """
+    r.check(
+        CONFIG.get("email") == "milkasobic25@gmail.com",
+        "site-config.json holds Milka's real booking address",
+        f"email = {CONFIG.get('email')!r}",
+    )
+    r.check(
+        CONFIG.get("email_live") is True,
+        "the booking address is marked live",
+    )
+
+    fn = (ROOT / "netlify/functions" / "enquiry.mjs").read_text(encoding="utf-8")
+    r.check(
+        'process.env.MAIL_TO || "milkasobic25@gmail.com"' in fn,
+        "the function defaults to Milka's booking address",
+    )
+
+    # The address on the page comes from the config, so it cannot drift.
+    r.check(
+        "milkasobic25@gmail.com" in HTML,
+        "the booking address is printed on the page",
+    )
+
+    # No other address may act as the booking inbox.
+    for other in ("guesthousesobic@blink2ask.com", "guesthousesobic@netyou.me"):
+        r.check(
+            other not in fn.split("MAIL_TO")[0],
+            f"{other} is not used as the booking recipient",
+        )
+
+
 def test_send_from_an_alias_address(r):
     """The guest-visible From address may be a Zoho email alias.
 
@@ -2125,6 +2261,8 @@ def main():
     test_location_map(r)
     test_whatsapp_clicks_are_recorded(r)
     test_send_from_an_alias_address(r)
+    test_prices_say_what_they_are_per(r)
+    test_booking_email_is_milka_s(r)
     test_forms_backup_carries_the_same_fields_as_the_email(r)
 
     print(f"\n{r.passes} passed, {len(r.failures)} failed")
