@@ -1,0 +1,13 @@
+{
+  "name": "pliva-river-lodge",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static site for Guest House Sobic, Pliva River Lodge. No runtime dependencies.",
+  "scripts": {
+    "build": "echo \"Static site - nothing to compile.\"",
+    "test": "python3 test_site.py"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
