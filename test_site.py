@@ -903,12 +903,24 @@ def test_zoho_helper_safety(r):
         "saveToNetlifyForms" in fn,
         "the function stores a copy of the enquiry itself",
     )
+    # The submission must go to the SITE's own address with `form-name` -
+    # the path Netlify's form handler watches. The api.netlify.com endpoint
+    # is for LISTING submissions and needs a token, so posting there without
+    # one always failed with a 404 and the copy was never stored.
     r.check(
-        "api.netlify.com/api/v1/forms/lodge-enquiry" in fn,
-        "the function posts to the Netlify Forms endpoint",
+        "api.netlify.com/api/v1/forms/lodge-enquiry" not in fn,
+        "the function does not post to the listing API, which needs a token",
     )
     r.check(
-        fn.count("await saveToNetlifyForms(body);") >= 2,
+        "process.env.URL" in fn,
+        "the function posts to the site's own address",
+    )
+    r.check(
+        "form-name" in fn and "lodge-enquiry" in fn,
+        "the copy carries the lodge-enquiry form name",
+    )
+    r.check(
+        fn.count("await saveToNetlifyForms(body, request);") >= 2,
         "the copy is stored on both successful send paths",
     )
 

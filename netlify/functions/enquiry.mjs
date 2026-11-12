@@ -188,14 +188,26 @@ function buildBody(body) {
  * is lost. This function-side submission does not depend on that toggle
  * being on, so the enquiry is never lost.
  *
+ * The submission goes to the SITE's own address with `form-name`, which is
+ * the path Netlify's form handler watches - the same one the browser uses.
+ * The api.netlify.com endpoint is for LISTING submissions and needs a
+ * token, so posting there without one always failed with a 404.
+ *
  * Best effort: a failure here is logged and does not affect the email.
  */
-async function saveToNetlifyForms(fields) {
+async function saveToNetlifyForms(fields, request) {
   try {
-    const response = await fetch("https://api.netlify.com/api/v1/forms/lodge-enquiry", {
+    const siteUrl = (
+      process.env.URL ||
+      (request ? new URL(request.url).origin : "")
+    ).replace(/\/+$/, "");
+    if (!siteUrl) throw new Error("no site URL");
+
+    const payload = Object.assign({}, fields, { "form-name": "lodge-enquiry" });
+    const response = await fetch(`${siteUrl}/`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(fields),
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(payload).toString(),
     });
     if (!response.ok) {
       console.error(
@@ -299,7 +311,7 @@ export default async (request, context) => {
       console.log("[enquiry] sent over the Zoho Mail API:", result.id || "no id");
       // Keep a copy in the Netlify dashboard as well, so an enquiry is never
       // only in one mailbox.
-      const stored = await saveToNetlifyForms(body);
+      const stored = await saveToNetlifyForms(body, request);
       return json(200, {
         ok: true,
         id: result.id || null,
@@ -341,7 +353,7 @@ export default async (request, context) => {
       console.log("[enquiry] sent over SMTP:", result.messageId || "no id");
       // Keep a copy in the Netlify dashboard too, so an enquiry is never only
       // in one mailbox.
-      const stored = await saveToNetlifyForms(body);
+      const stored = await saveToNetlifyForms(body, request);
       return json(200, {
         ok: true,
         id: result.messageId || null,
@@ -457,7 +469,7 @@ export default async (request, context) => {
     console.log("[enquiry] sent:", result.id || "no id returned");
     // Keep a copy in the Netlify dashboard as well, so an enquiry is never
     // only in one mailbox.
-    const stored = await saveToNetlifyForms(body);
+    const stored = await saveToNetlifyForms(body, request);
     return json(200, {
       ok: true,
       id: result.id || null,
