@@ -965,8 +965,22 @@ def test_zoho_helper_safety(r):
         "sameMailbox" in zfn,
         "the transport checks the From address against the account",
     )
+    # The account's own aliases are valid senders, so the check is against
+    # the primary mailbox PLUS the confirmed aliases.
     r.check(
-        "is not this account's mailbox" in zfn,
+        "fetchAccountAddresses" in zfn,
+        "the transport reads the account's alias list",
+    )
+    r.check(
+        "isAlias" in zfn and "isConfirmed" in zfn,
+        "the transport reads which addresses are aliases and confirmed",
+    )
+    r.check(
+        "ownedAddresses" in zfn,
+        "the From address is checked against the primary mailbox and the aliases",
+    )
+    r.check(
+        "is not an address this account owns" in zfn,
         "a From address the account does not own is rejected, not sent",
     )
     r.check(
@@ -1636,6 +1650,63 @@ def test_forms_backup_carries_the_same_fields_as_the_email(r):
                 "occupancy.js keeps the flyfishing value at yes/no")
 
 
+def test_send_from_an_alias_address(r):
+    """The guest-visible From address may be a Zoho email alias.
+
+    Two variables, two rules:
+      - SMTP_USER is the mailbox that LOGS IN, so it must stay the account
+        that owns the app password. An alias cannot authenticate.
+      - SMTP_FROM_EMAIL is the address the guest SEES, and Zoho accepts an
+        email alias created on that same account as a From address.
+
+    What must hold:
+      - the probe tool exists and checks addresses against the account
+      - the API transport accepts a confirmed alias as the From
+      - the docs and the example config say which variable may change
+"""
+    probe = ROOT / "tools" / "smtp-from-check.mjs"
+    r.check(probe.exists(), "the From-address probe tool exists")
+    if probe.exists():
+        s = probe.read_text(encoding="utf-8")
+        r.check("not allowed to relay" in s,
+                "the probe explains Zoho's relay refusal")
+        r.check("ALLOWED" in s and "REFUSED" in s,
+                "the probe says which addresses are allowed")
+        # The probe must never LOG the password. Mentioning the variable
+        # name in the usage text is fine; printing its value is not.
+        logged = re.findall(r"console\.(?:log|error|warn)\([^\n]*", s)
+        leaks = [line for line in logged
+                 if "password" in line.lower() and "SMTP_PASSWORD" not in line]
+        r.check(not leaks,
+                "the probe never logs the password value")
+
+    zpath = ROOT / "netlify/functions" / "zoho.mjs"
+    if zpath.exists():
+        z = zpath.read_text(encoding="utf-8")
+        r.check("fetchAccountAddresses" in z,
+                "the API transport reads the account's confirmed aliases")
+        r.check("aliases" in z,
+                "the API transport accepts an alias as the From address")
+
+    ex = ROOT / ".env.example"
+    if ex.exists():
+        text = ex.read_text(encoding="utf-8")
+        r.check("alias" in text.lower(),
+                ".env.example explains the alias option")
+        r.check("SMTP_USER" in text,
+                ".env.example names the login variable")
+
+    doc = ROOT / "docs" / "enquiry-email.md"
+    if doc.exists():
+        text = doc.read_text(encoding="utf-8")
+        r.check("email alias" in text.lower(),
+                "the docs explain the alias route")
+        r.check("smtp-from-check" in text,
+                "the docs point at the probe tool")
+        r.check("DKIM" in text,
+                "the docs record the DNS requirement for an alias domain")
+
+
 def test_smtp_transport_and_zoho_host_fallback(r):
     """The SMTP transport, and the Zoho host trap that broke it for days.
 
@@ -1835,6 +1906,7 @@ def main():
     test_zoho_helper_safety(r)
     test_zoho_mail_api_transport(r)
     test_smtp_transport_and_zoho_host_fallback(r)
+    test_send_from_an_alias_address(r)
     test_forms_backup_carries_the_same_fields_as_the_email(r)
 
     print(f"\n{r.passes} passed, {len(r.failures)} failed")

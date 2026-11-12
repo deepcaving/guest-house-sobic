@@ -395,6 +395,60 @@ async function fetchPrimaryMailbox(config, accessToken) {
   }
 }
 
+/**
+ * Read the addresses the account owns: its primary mailbox plus every
+ * confirmed alias.
+ *
+ * Zoho only accepts a From address the account actually owns, and an EMAIL
+ * ALIAS of the account qualifies. The account list returns only the primary
+ * address, so the detailed account record is fetched as well - it carries
+ * the `emailAddress` array, where each entry says whether it is an alias
+ * and whether it is confirmed.
+ */
+async function fetchAccountAddresses(config, accessToken, accountId) {
+  const empty = { primary: "", aliases: [] };
+  try {
+    const response = await fetch(
+      `${config.scheme}://${config.mailUrl}/api/accounts/${accountId}`,
+      {
+        headers: {
+          Authorization: `Zoho-oauthtoken ${accessToken}`,
+          Accept: "application/json",
+        },
+      }
+    );
+    const result = await response.json().catch(() => ({}));
+    const account = (result && result.data) || {};
+    if (!account || typeof account !== "object" || !Object.keys(account).length) {
+      return empty;
+    }
+
+    const list = Array.isArray(account.emailAddress) ? account.emailAddress : [];
+    const addresses = list
+      .map((entry) => ({
+        address: String(entry.mailId || entry.emailAddress || entry.address || ""),
+        isAlias: entry.isAlias === true,
+        isPrimary: entry.isPrimary === true,
+        isConfirmed: entry.isConfirmed !== false,
+      }))
+      .filter((entry) => entry.address);
+
+    const primary =
+      account.primaryEmailAddress ||
+      (addresses.find((e) => e.isPrimary) || addresses.find((e) => !e.isAlias) || {}).address ||
+      "";
+
+    const aliases = addresses
+      .filter((entry) => entry.address && entry.isConfirmed && !entry.isPrimary)
+      .map((entry) => entry.address);
+
+    return { primary: String(primary), aliases };
+  } catch (err) {
+    console.warn("[zoho] could not read the account details:", err && err.message);
+    return empty;
+  }
+}
+
 export async function sendZohoMail(config, message) {
   const accessToken = await fetchAccessToken(config);
 
@@ -455,18 +509,27 @@ async function sendWithAccount(config, message, accountId, accessToken) {
   // Zoho with a bare 404, so it is checked against the account and
   // ignored when it does not belong.
   const accountMailbox = await fetchPrimaryMailbox(config, accessToken);
+  // The account's own aliases are valid senders too - a Zoho email alias
+  // is an address the account owns, so a lodge-style From address can be
+  // used as long as the alias really exists on this account.
+  const { aliases } = await fetchAccountAddresses(config, accessToken, accountId);
+  const ownedAddresses = [accountMailbox, ...aliases].filter(Boolean);
+
   const configured = message.from || config.fromEmail || "";
   let fromAddress = "";
   if (configured) {
-    if (!accountMailbox || sameMailbox(configured, accountMailbox)) {
+    const isOwned = ownedAddresses.some((address) => sameMailbox(configured, address));
+    if (!accountMailbox || isOwned) {
       fromAddress = configured;
     } else {
       console.warn(
-        "[zoho] the configured From address is not this account's mailbox -",
+        "[zoho] the configured From address is not an address this account owns -",
         "using",
         accountMailbox,
         "instead of",
-        configured
+        configured,
+        "| owned:",
+        JSON.stringify(ownedAddresses)
       );
     }
   }

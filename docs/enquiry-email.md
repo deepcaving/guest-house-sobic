@@ -288,6 +288,61 @@ SMTP_FROM_NAME=Pliva River Lodge
 > `transport: "smtp"`. The same password on `smtp.zoho.com` was refused
 > with `535`; on `smtppro.zoho.com` it was accepted.
 
+### Sending from a lodge-style alias address
+
+The guest sees the From address, so it is worth making it look like the
+lodge rather than a personal mailbox.
+
+**Two variables, two different rules.**
+
+| Variable | What it is | Rule |
+|---|---|---|
+| `SMTP_USER` | the mailbox that **logs in** | must be the **account** that owns the app password — `francesco.capuzzo@zoho.com`. An alias is not a login and cannot authenticate; using one gives `535`. |
+| `SMTP_FROM_EMAIL` | the address the guest **sees** | may be an **email alias created on that same Zoho account**. Zoho's own documentation: *"The user will now be able to send/receive emails using the new email alias"*, and the recipient *"will receive email from the chosen alias email address as the from-address"*. |
+
+**`MAIL_TO` does not change.** Milka still receives the enquiry at
+`milkasobic25@gmail.com` — only the visible sender changes. The BCC stays
+where it is.
+
+**Creating the alias:** Zoho Mail Admin Console → **Users** → the account →
+**Mailbox Settings** → **Email Alias** → **Add** → choose the domain and the
+alias name. The alias must live on a domain hosted in the same Zoho
+organisation.
+
+**Check it before you configure the site.** Zoho refuses to relay for an
+address the mailbox does not own, with the same reply whether the address is
+wrong or the alias is missing:
+
+```
+550 5.7.1 Sender is not allowed to relay emails
+```
+
+So run the probe first — it sends a test mail to the mailbox itself, so
+nothing reaches a guest:
+
+```bash
+node tools/smtp-from-check.mjs guesthouse@blink2ask.com
+```
+
+**The domain's DNS decides whether the mail lands in the inbox or the spam
+folder.** An alias is a separate authentication perimeter: it needs its own
+SPF, and its own DKIM key, published in its own zone. Without them the mail
+goes out unauthenticated and a receiving server such as Gmail treats it as
+spoofed.
+
+| Domain | State today |
+|---|---|
+| `plivariverlodge.com` | **nothing at all** — NXDOMAIN for NS, MX, SPF and DMARC. The domain is not even registered. It must be registered and delegated before it can host an alias. |
+| `blink2ask.com` | live at Spaceship (NS `launch1/2.spaceship.net`), MX → `mx.zoho.com`, SPF `include:zohomail.com`, DMARC `p=quarantine` — but **no DKIM**: `zmail._domainkey.blink2ask.com` does not exist. Publish the DKIM TXT from the Zoho console **and** enable the signature in the console; publishing the record alone leaves it inert. |
+
+**Caveat:** with Zoho SMTP, a From address that is not the account's own can
+be displayed as *On Behalf Of* by some clients. For a native alias on the
+account the recipient should simply see the alias.
+
+The Zoho Mail API transport accepts the alias as well: it reads the account's
+confirmed alias list and uses the configured From when it belongs to the
+account. Set `ZOHO_FROM_EMAIL` to the same alias.
+
 **Why a hand-written client?** Netlify Functions cannot use a normal SMTP
 library: most of them open a long-lived plain socket, which is blocked. The
 client in `netlify/functions/smtp.mjs` speaks SMTP directly over a TLS
