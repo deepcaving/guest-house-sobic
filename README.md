@@ -10,7 +10,7 @@ Fly fishing, home cooking, wood-fire dining hall, private terrace over the bank.
 | Path | What it is |
 |---|---|
 | `index.html` | **The live site.** Full version - references `img/`, plays the video, has the language switcher and the enquiry form. |
-| `i18n-data.js` | Translation dictionary (EN / DE / BS / IT) - 186 keys. |
+| `i18n-data.js` | Translation dictionary (EN / DE / BS / IT / FR / NL) - 217 keys. |
 | `i18n.js` | The language switcher. Reads `data-i18n-key` attributes, persists the choice in `localStorage`. |
 | `form.js` | The enquiry form. Posts to Netlify Forms and opens WhatsApp with the details filled in. |
 | `site-config.json` | Phone, email, WhatsApp link and site URL in one place. `build_standalone.py --check` verifies the site still agrees with it. |
@@ -47,7 +47,7 @@ banners disappear from the generated files.
 
 Four languages ship with the site: **English (default), Deutsch, Bosanski, Italiano.**
 
-- The header has a globe dropdown: EN / DE / BS / IT.
+- The header has a globe dropdown: EN / DE / BS / IT / FR / NL.
 - The choice is stored in `localStorage` (`prl_lang`) and survives a reload.
 - On a first visit the browser language decides: German browsers get German,
   Bosnian/Croatian/Serbian get Bosnian, Italian browsers get Italian,
@@ -194,7 +194,7 @@ The two things you might actually want:
 | A permanent second URL for one branch | Create a **second Netlify site** from the same GitHub repo and set *that* site's branch to the branch in question. Now the two sites are independent. |
 
 For this project the cleanest end state is: **merge the branch into `main`**.
-One site, one URL, all four languages behind the switcher. A permanent
+One site, one URL, all six languages behind the switcher. A permanent
 separate site for one language splits the content, splits the SEO, and gives
 guests two different URLs for the same lodge.
 

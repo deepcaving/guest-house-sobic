@@ -465,7 +465,7 @@ hint about the format, not a date anybody chose — so:
 - the field carries the `required` attribute, and the browser's own
   validation stops an empty field before anything is sent;
 - the browser checks the value again before the POST: an empty value, our
-  own example (the placeholder copied over, in any of the four languages),
+  own example (the placeholder copied over, in any of the six languages),
   or something that is not a date at all is refused with a message **under
   the field**, in the language of the page;
 - the server checks it a third time and answers **400** with
@@ -483,7 +483,7 @@ The server's rules, in `netlify/functions/enquiry.mjs`:
 |---|---|
 | `missing` | the value is empty |
 | `example` | the value starts with an example marker — `e.g.`, `z. B.`, `npr.`, `es.` — followed by a number |
-| `not-a-date` | the value has no day number and no month name in any of the four languages |
+| `not-a-date` | the value has no day number and no month name in any of the six languages |
 
 ## What the function rejects
 

@@ -26,7 +26,11 @@
     bs: ['januar', 'februar', 'mart', 'april', 'maj', 'juni', 'juli',
          'august', 'septembar', 'oktobar', 'novembar', 'decembar'],
     it: ['gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno', 'luglio',
-         'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre']
+         'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre'],
+    fr: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet',
+         'août', 'septembre', 'octobre', 'novembre', 'décembre'],
+    nl: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli',
+         'augustus', 'september', 'oktober', 'november', 'december']
   };
 
   /* The example range: the 10th to the 17th of the month one month from

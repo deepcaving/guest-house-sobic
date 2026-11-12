@@ -25,7 +25,7 @@ ROOT = Path(__file__).resolve().parent
 HTML = ROOT / "index.html"
 DICT = ROOT / "i18n-data.js"
 
-LANGS = ["en", "de", "bs"]
+LANGS = ["en", "de", "bs", "it", "fr", "nl"]
 # Languages that must exist in the dictionary, read from i18n.js so the two
 # files cannot drift apart.
 LANGS_RE = re.compile(r"var\s+LANGS\s*=\s*\[([^\]]*)\]")

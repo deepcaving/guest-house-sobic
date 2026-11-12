@@ -10,15 +10,15 @@ dictionary. Edit IT below, re-run the script, and the site is updated.
 The script refuses to run if a key in the dictionary has no Italian, or if
 Italian exists for a key the dictionary does not have. It also rewrites the
 whole dictionary in the original key order, so a run never changes the
-English, German or Bosnian values.
+English, German or Bosnian values - and never removes the French or Dutch
+columns, which live in their own scripts.
 """
 
-import json
-import re
 import sys
 from pathlib import Path
 
-DICT = Path(__file__).resolve().parent.parent / "i18n-data.js"
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from _dict_writer import write_column
 
 IT = {
     "brand_sub": "Pljeva · Šipovo · Bosnia ed Erzegovina",
@@ -243,36 +243,7 @@ IT = {
 
 
 def main():
-    raw = DICT.read_text(encoding="utf-8")
-    head = raw[: raw.index("{")]
-    body = raw[raw.index("{") : raw.rindex("}") + 1]
-    data = json.loads(body)
-
-    missing = sorted(set(data) - set(IT))
-    extra = sorted(set(IT) - set(data))
-    if missing:
-        print(f"ERROR: no Italian for: {', '.join(missing)}", file=sys.stderr)
-        return 1
-    if extra:
-        print(f"ERROR: Italian for unknown keys: {', '.join(extra)}", file=sys.stderr)
-        return 1
-
-    # Build the new file, keeping the original key order and formatting style.
-    out = [head, "{\n"]
-    keys = list(data.keys())
-    for i, k in enumerate(keys):
-        e = data[k]
-        out.append(f'  "{k}": {{\n')
-        out.append(f'    "en": {json.dumps(e["en"], ensure_ascii=False)},\n')
-        out.append(f'    "de": {json.dumps(e["de"], ensure_ascii=False)},\n')
-        out.append(f'    "bs": {json.dumps(e["bs"], ensure_ascii=False)},\n')
-        out.append(f'    "it": {json.dumps(IT[k], ensure_ascii=False)}\n')
-        out.append("  }" + ("," if i < len(keys) - 1 else "") + "\n")
-    out.append("};\n")
-
-    DICT.write_text("".join(out), encoding="utf-8")
-    print(f"Wrote {len(keys)} keys with an Italian column.")
-    return 0
+    return write_column("it", IT, "Italian")
 
 
 if __name__ == "__main__":

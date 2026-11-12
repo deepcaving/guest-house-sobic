@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Tests for the facts Milka confirmed, and for the things that have to
-stay true across all four languages.
+stay true across all six languages.
 
     python3 test_site.py          # report
     python3 test_site.py --strict # exit 1 on any failure
@@ -35,7 +35,7 @@ DICT_RAW = (ROOT / "i18n-data.js").read_text(encoding="utf-8")
 DICT = json.loads(DICT_RAW[DICT_RAW.index("{") : DICT_RAW.rindex("}") + 1])
 MARKETING = ROOT / "marketing"
 
-LANGS = ["en", "de", "bs", "it"]
+LANGS = ["en", "de", "bs", "it", "fr", "nl"]
 
 
 def html_text(key):
@@ -251,8 +251,10 @@ def test_milka_facts(r):
     # totals onto rates_total_sep / rates_total_inc.
     # Read the DICTIONARY per language - html_text() returns the English
     # value for every language, so it cannot check the DE/BS/IT figures.
-    half_board_figure = {"en": "€42", "de": "42 €", "bs": "42 €", "it": "42 €"}
-    full_board_figure = {"en": "€50", "de": "50 €", "bs": "50 €", "it": "50 €"}
+    half_board_figure = {"en": "€42", "de": "42 €", "bs": "42 €", "it": "42 €",
+                         "fr": "42 €", "nl": "€ 42"}
+    full_board_figure = {"en": "€50", "de": "50 €", "bs": "50 €", "it": "50 €",
+                         "fr": "50 €", "nl": "€ 50"}
     for lang in LANGS:
         text = plain(DICT.get("rates_note", {}).get(lang, ""))
         for label, needle in (("half board", half_board_figure[lang]),
@@ -281,6 +283,8 @@ def test_milka_facts(r):
             "de": ("zwei der drei", "mahlzeiten"),
             "bs": ("dva od tri", "obroka"),
             "it": ("due dei tre", "pasti"),
+            "fr": ("deux des trois", "repas de la journée"),
+            "nl": ("twee van de drie", "maaltijden van die dag"),
         }
         low = text.lower()
         for phrase in two_of_three[lang]:
@@ -404,21 +408,21 @@ def test_established_facts(r):
 
 
 # ---------------------------------------------------------------------------
-# 3. Structural checks across all four languages
+# 3. Structural checks across all six languages
 # ---------------------------------------------------------------------------
 
 def test_i18n_structure(r):
     print("\nLanguage structure")
 
     r.check(
-        len(LANGS) == 4,
-        "four languages are configured",
+        len(LANGS) == 6,
+        "six languages are configured",
     )
     for key, entry in sorted(DICT.items()):
         missing = [lg for lg in LANGS if lg not in entry]
         r.check(
             not missing,
-            f"key {key} has all four languages",
+            f"key {key} has all six languages",
             f"missing: {missing}",
         )
         for lg in LANGS:
@@ -1085,9 +1089,11 @@ def test_rates_toggle(r):
     for key in ("r5_s", "r6_s"):
         for lang in LANGS:
             text = plain(DICT.get(key, {}).get(lang, ""))
+            low = text.lower()
             r.check(
-                "per person" in text.lower() or "pro person" in text.lower()
-                or "po osobi" in text.lower() or "a persona" in text.lower(),
+                "per person" in low or "pro person" in low
+                or "po osobi" in low or "a persona" in low
+                or "par personne" in low or "per persoon" in low,
                 f"MEALS {key} ({lang}) says the figure is per person",
                 f"{key}[{lang}] = {text!r}",
             )
@@ -1161,6 +1167,8 @@ def test_milka_meal_pricing(r):
         "de": ("alle drei mahlzeiten", "frühstück, mittagessen und abendessen"),
         "bs": ("sva tri obroka", "doručak, ručak i večera"),
         "it": ("tutti e tre i pasti", "colazione, pranzo e cena"),
+        "fr": ("les trois repas", "petit-déjeuner, déjeuner et dîner"),
+        "nl": ("alle drie de maaltijden", "ontbijt, lunch en diner"),
     }
     for key in ("pkg1_l2", "pkg2_l2", "pkg3_l2"):
         for lang in LANGS:
@@ -1178,6 +1186,8 @@ def test_milka_meal_pricing(r):
         "de": ("drei mahlzeiten am tag", "picknick", "gästehaus"),
         "bs": ("tri obroka dnevno", "piknik", "pansionu"),
         "it": ("tre pasti al giorno", "picnic", "in casa"),
+        "fr": ("trois repas par jour", "pique-nique", "à la maison"),
+        "nl": ("drie maaltijden per dag", "picknick", "in het huis"),
     }
     for lang in LANGS:
         low = plain(DICT.get("pkg_meals", {}).get(lang, "")).lower()
@@ -1233,6 +1243,8 @@ def test_meal_model_two_of_three(r):
         "de": "zwei von drei",
         "bs": "dva od tri",
         "it": "due dei tre",
+        "fr": "deux des trois",
+        "nl": "twee van de drie",
     }
     for lang in LANGS:
         text = plain(DICT.get("r6_s", {}).get(lang, ""))
@@ -1252,7 +1264,8 @@ def test_meal_model_two_of_three(r):
     for lang in LANGS:
         low = plain(DICT.get("r6_s", {}).get(lang, "")).lower()
         both = ("lunch and dinner" in low or "mittagessen und abendessen" in low
-                or "ručak i večera" in low or "pranzo e cena" in low)
+                or "ručak i večera" in low or "pranzo e cena" in low
+                or "déjeuner et dîner" in low or "lunch en diner" in low)
         r.check(
             not both,
             f"MODEL r6_s ({lang}) does not promise lunch AND dinner",
@@ -1265,6 +1278,8 @@ def test_meal_model_two_of_three(r):
         "de": ("zwei der drei mahlzeiten",),
         "bs": ("dva od tri obroka",),
         "it": ("due dei tre pasti",),
+        "fr": ("deux des trois repas de la journée",),
+        "nl": ("twee van de drie maaltijden van die dag",),
     }
     for lang in LANGS:
         low = plain(DICT.get("rates_note", {}).get(lang, "")).lower()
@@ -1406,7 +1421,7 @@ def test_live_date_placeholder(r):
 
     # 4. The month name is the right one for that month, in every language.
     from dates import MONTHS
-    for lang in ("en", "de", "bs", "it"):
+    for lang in LANGS:
         got = example_range(lang, today)["month"]
         want = MONTHS[lang][month - 1]
         r.check(
@@ -1730,7 +1745,7 @@ def test_preferred_dates_are_required_and_validated(r):
 
     What must hold:
       - the input is required and has no value attribute
-      - the error message exists under the field, in all four languages
+      - the error message exists under the field, in all six languages
       - the browser checks the value before sending
       - the server refuses it too, and names the field
       - the placeholder is still only a placeholder
