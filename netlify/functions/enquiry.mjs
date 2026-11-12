@@ -97,6 +97,37 @@ function readField(body, name) {
 }
 
 /**
+ * The preferred dates.
+ *
+ * The guest must give dates: an enquiry without them cannot be answered.
+ * The field also shows an EXAMPLE range as its placeholder, and that example
+ * must never reach Milka's inbox as if the guest had chosen it.
+ *
+ * Returns null when the value is acceptable, or a short reason when it is
+ * not: "missing", "example" or "not-a-date".
+ */
+function validateDates(value) {
+  const text = String(value || "").trim();
+  if (!text) return "missing";
+
+  // Our example with its marker still on it: "e.g. 10-17 December 2026".
+  // Nobody types that as their dates, so it is our words, not theirs.
+  if (
+    /^(e\.?\s?g\.?|z\.?\s?b\.?|npr\.?|es\.|example|beispiel|primjer|esempio|per esempio)\s*\d/i.test(text)
+  ) {
+    return "example";
+  }
+
+  // A date answer carries a day number or a month name, in any of the four
+  // languages the site is written in.
+  const monthWords =
+    /january|february|march|april|may|june|july|august|september|october|november|december|januar|februar|maerz|märz|mai|juni|juli|septembar|oktobar|novembar|decembar|gennaio|febbraio|marzo|aprile|maggio|giugno|luglio|agosto|settembre|ottobre|dicembre/i;
+  if (!/\d/.test(text) && !monthWords.test(text)) return "not-a-date";
+
+  return null;
+}
+
+/**
  * The occupancy block.
  *
  * The form has two ways of saying how many people are coming:
@@ -211,6 +242,23 @@ export default async (request, context) => {
   // A real enquiry needs at least a name and a way to reply.
   if (!name || !email) {
     return json(400, { ok: false, error: "Name and email are required" });
+  }
+
+  // The preferred dates are required too, and the placeholder example must
+  // never be passed off as the guest's own choice.
+  const datesProblem = validateDates(readField(body, "dates"));
+  if (datesProblem) {
+    return json(400, {
+      ok: false,
+      error:
+        datesProblem === "missing"
+          ? "Preferred dates are required"
+          : "Please give the dates you would like to come",
+      // The field name lets the browser put the message where the guest is
+      // looking, instead of showing the generic "could not be sent" text.
+      field: "dates",
+      reason: datesProblem,
+    });
   }
 
   const message = buildBody(body);

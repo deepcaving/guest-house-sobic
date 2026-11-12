@@ -1707,6 +1707,107 @@ def test_send_from_an_alias_address(r):
                 "the docs record the DNS requirement for an alias domain")
 
 
+def test_preferred_dates_are_required_and_validated(r):
+    """The preferred dates must be a real choice by the guest.
+
+    The field shows an EXAMPLE range as its placeholder, so a guest who
+    does not touch it would leave the example in front of them - and the
+    example must never reach Milka's inbox as if it were their date.
+    Therefore the field is required, and both the browser and the server
+    refuse a value that is our own example or is not a date at all.
+
+    What must hold:
+      - the input is required and has no value attribute
+      - the error message exists under the field, in all four languages
+      - the browser checks the value before sending
+      - the server refuses it too, and names the field
+      - the placeholder is still only a placeholder
+    """
+    r.check(
+        re.search(r'<input[^>]*id="f-dates"[^>]*\brequired\b', HTML) is not None
+        or re.search(r'<input[^>]*\brequired\b[^>]*id="f-dates"', HTML) is not None,
+        "the preferred dates field is required",
+    )
+    m = re.search(r"<input[^>]*id=\"f-dates\"[^>]*>", HTML)
+    r.check(m is not None and "value=" not in m.group(0),
+            "the preferred dates field carries no value - only a placeholder")
+    r.check('id="f-dates-error"' in HTML,
+            "the preferred dates field has its own error message")
+    r.check('aria-describedby="f-dates-error"' in HTML,
+            "the error message is tied to the field for screen readers")
+
+    for key in ("form_dates_error", "form_dates_example"):
+        r.check(key in DICT, f"the dictionary has {key}")
+        if key in DICT:
+            for lang in LANGS:
+                r.check(isinstance(DICT[key].get(lang), str) and DICT[key][lang].strip(),
+                        f"{key} is translated ({lang})")
+
+    fpath = ROOT / "form.js"
+    if fpath.exists():
+        f = fpath.read_text(encoding="utf-8")
+        r.check("function validateDates" in f,
+                "the browser validates the preferred dates")
+        r.check("'form_dates_error'" in f,
+                "the browser shows the message when the dates are missing")
+        r.check("'form_dates_example'" in f,
+                "the browser refuses our own example")
+        r.check("addEventListener('invalid'" in f,
+                "the browser shows the message when the field is empty")
+        r.check("aria-invalid" in f,
+                "the field is marked as invalid for assistive technology")
+        r.check(re.search(r"if\s*\(\s*datesProblem\s*\)", f) is not None,
+                "the browser checks the dates BEFORE sending anything")
+
+    epath = ROOT / "netlify/functions" / "enquiry.mjs"
+    if epath.exists():
+        e = epath.read_text(encoding="utf-8")
+        r.check("function validateDates" in e,
+                "the server validates the preferred dates")
+        r.check('field: "dates"' in e,
+                "the server names the field it refused")
+        r.check("Preferred dates are required" in e,
+                "the server says the dates are required")
+        # The refusal must come before any transport is tried.
+        r.check(e.index("validateDates(readField") < e.index("sendZohoMail(config.zoho"),
+                "the server refuses the enquiry before trying to send it")
+
+
+def test_location_map(r):
+    """The location map.
+
+    What must hold:
+      - the map is in the contact section, as an embedded map
+      - it points at the lodge, not at some other place
+      - there is a link that opens the location in Google Maps
+      - the words around it are translated
+    """
+    r.check('class="map-block"' in HTML, "the page has a map block")
+    r.check("<iframe" in HTML, "the map block embeds a map")
+    m = re.search(r"<iframe[^>]*src=\"([^\"]+)\"", HTML)
+    r.check(m is not None, "the map iframe has a source")
+    if m is not None:
+        src = m.group(1)
+        r.check("44.2510538" in src and "17.0366883" in src,
+                "the map is centred on the lodge")
+        r.check("output=embed" in src,
+                "the map is embedded without an API key")
+        r.check("loading=\"lazy\"" in HTML,
+                "the map is loaded lazily")
+    r.check("maps.app.goo.gl/mXWRpUdJdBKcrmNCA" in HTML,
+            "the page links to the location in Google Maps")
+
+    for key in ("con_map_h", "con_map_link", "con_map_note"):
+        r.check(key in DICT, f"the dictionary has {key}")
+        if key in DICT:
+            for lang in LANGS:
+                r.check(isinstance(DICT[key].get(lang), str) and DICT[key][lang].strip(),
+                        f"{key} is translated ({lang})")
+
+    r.check(".map-frame iframe" in HTML, "the map iframe is styled to fill its frame")
+    r.check(".field-error" in HTML, "the field error message is styled")
+
+
 def test_smtp_transport_and_zoho_host_fallback(r):
     """The SMTP transport, and the Zoho host trap that broke it for days.
 
@@ -1906,6 +2007,8 @@ def main():
     test_zoho_helper_safety(r)
     test_zoho_mail_api_transport(r)
     test_smtp_transport_and_zoho_host_fallback(r)
+    test_preferred_dates_are_required_and_validated(r)
+    test_location_map(r)
     test_send_from_an_alias_address(r)
     test_forms_backup_carries_the_same_fields_as_the_email(r)
 

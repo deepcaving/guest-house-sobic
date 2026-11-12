@@ -47,6 +47,91 @@
     rooms: 'Rooms'
   };
 
+  /* The month names, in the four languages, so a date written as a word
+   * ("in December") is recognised as a date and not as nonsense. */
+  var MONTH_NAMES = (
+    'january february march april may june july august september october november december ' +
+    'januar februar maerz märz mai juni juli august september oktober november dezember ' +
+    'januar februar mart april maj juni juli august septembar oktobar novembar decembar ' +
+    'gennaio febbraio marzo aprile maggio giugno luglio agosto settembre ottobre novembre dicembre'
+  ).split(' ');
+  var MONTH_WORDS = new RegExp(MONTH_NAMES.map(function (w) {
+    return w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }).join('|'), 'i');
+
+  /* The example markers the four languages use in the placeholder:
+   * "e.g.", "z. B.", "npr.", "es.". A value that starts with one of them
+   * and then a number is our example, copied over, not a choice. */
+  var EXAMPLE_MARKER = /^(e\.?\s?g\.?|z\.?\s?b\.?|npr\.?|es\.|example|beispiel|primjer|esempio|per esempio)\s*\d/i;
+
+  var datesErrorKey = null;
+
+  /* The language the page is showing right now. */
+  function currentLang() {
+    try {
+      var stored = localStorage.getItem('prl_lang');
+      if (stored) return stored;
+    } catch (err) { /* private mode */ }
+    var el = document.documentElement;
+    return (el && el.getAttribute('lang')) || 'en';
+  }
+
+  /**
+   * Check the preferred dates.
+   *
+   * The field shows an EXAMPLE range as its placeholder, and the guest must
+   * replace it with their own dates. The dates are required: an enquiry
+   * without them cannot be answered, and the example must never reach
+   * Milka's inbox as if the guest had chosen it.
+   *
+   * Returns null when the value is good, or the i18n key of the message to
+   * show when it is not.
+   */
+  function validateDates() {
+    var field = document.getElementById('f-dates');
+    if (!field) return null;
+    var value = String(field.value || '').trim();
+
+    if (!value) return 'form_dates_error';
+
+    // Our own placeholder, copied over character for character.
+    var placeholder = String(field.getAttribute('placeholder') || '').trim();
+    if (placeholder && value.toLowerCase() === placeholder.toLowerCase()) {
+      return 'form_dates_example';
+    }
+
+    // Our example with the marker still on it.
+    if (EXAMPLE_MARKER.test(value)) return 'form_dates_example';
+
+    // A date answer carries a day number or a month name.
+    if (!/\d/.test(value) && !MONTH_WORDS.test(value)) return 'form_dates_error';
+
+    return null;
+  }
+
+  /* Show or clear the message under the dates field. */
+  function showDatesError(key) {
+    var error = document.getElementById('f-dates-error');
+    var field = document.getElementById('f-dates');
+    datesErrorKey = key || null;
+    if (error) {
+      if (!key) {
+        error.hidden = true;
+      } else {
+        var dict = (typeof window !== 'undefined' && window.I18N) ? window.I18N : null;
+        var entry = dict && dict[key];
+        var lang = currentLang();
+        var text = entry && (entry[lang] || entry.en);
+        if (text) error.textContent = text;
+        error.hidden = false;
+      }
+    }
+    if (field) {
+      if (key) field.setAttribute('aria-invalid', 'true');
+      else field.removeAttribute('aria-invalid');
+    }
+  }
+
   function composeMessage() {
     var lines = ['Enquiry from the website', ''];
     var fields = form.querySelectorAll('input[name], select[name], textarea[name]');
@@ -109,7 +194,10 @@
             if (r.ok && j && j.ok) return { sent: true };
             return {
               sent: false,
-              reason: (j && (j.error || j.detail && j.detail.message)) || ('HTTP ' + r.status)
+              reason: (j && (j.error || j.detail && j.detail.message)) || ('HTTP ' + r.status),
+              // The server can name the field it refused, so the message
+              // goes next to the field instead of the generic message.
+              field: (j && j.field) || null
             };
           });
       })
@@ -199,6 +287,30 @@
   }
   refreshWhatsAppLinks();
 
+  /* The message disappears as soon as the guest starts correcting it. */
+  var datesInput = document.getElementById('f-dates');
+  if (datesInput) {
+    datesInput.addEventListener('input', function () {
+      if (datesErrorKey) showDatesError(null);
+    });
+
+    /* The browser's OWN validation runs before the submit event, so an
+     * empty field never reaches validateDates(). The invalid event is
+     * how the browser says so - and it does not bubble, so it has to be
+     * caught on the field itself. Showing our message here means the
+     * guest reads it in the language of the PAGE, not the language of
+     * their browser. */
+    datesInput.addEventListener('invalid', function () {
+      showDatesError('form_dates_error');
+    });
+  }
+
+  /* i18n.js rewrites the message from the dictionary when the language
+   * changes, so the message we chose is put back afterwards. */
+  document.addEventListener('prl:langchange', function () {
+    if (datesErrorKey) showDatesError(datesErrorKey);
+  });
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
 
@@ -222,11 +334,34 @@
     // If the server cannot send the email, the enquiry is still saved to
     // Netlify Forms, the guest is told plainly that the email did not go
     // out, and the WhatsApp and phone links on the page remain available.
+    // The preferred dates are required, and the placeholder is only an
+    // example. Nothing leaves the browser until the guest has given dates
+    // of their own.
+    var datesProblem = validateDates();
+    if (datesProblem) {
+      showDatesError(datesProblem);
+      var datesField = document.getElementById('f-dates');
+      if (datesField) datesField.focus();
+      if (btn) { btn.disabled = false; btn.removeAttribute('aria-busy'); }
+      return;
+    }
+    showDatesError(null);
+
     sendByEmail().then(function (result) {
       if (result.sent) {
         saveToNetlifyForms();
         show(statusOk);
         if (status) status.hidden = true;
+        if (btn) { btn.disabled = false; btn.removeAttribute('aria-busy'); }
+        return;
+      }
+
+      // The server refused the dates. Say so where the guest is looking,
+      // not with the "email could not be sent" message.
+      if (result.field === 'dates') {
+        showDatesError('form_dates_error');
+        var field = document.getElementById('f-dates');
+        if (field) field.focus();
         if (btn) { btn.disabled = false; btn.removeAttribute('aria-busy'); }
         return;
       }

@@ -341,6 +341,13 @@ section{padding:72px 0}
 .contact-list svg{width:19px;height:19px;flex-shrink:0;margin-top:3px;stroke:var(--river);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .contact-list b{display:block;color:var(--navy);font-size:.9rem}
 .contact-list span{font-size:.86rem;color:var(--muted)}
+.map-block{margin-top:34px}
+.map-title{font-family:var(--serif);font-size:1.12rem;color:var(--navy);margin:0 0 12px}
+.map-frame{position:relative;width:100%;aspect-ratio:16/10;min-height:260px;background:var(--stone);border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.map-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+.map-note{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:baseline;margin:12px 0 0;font-size:.86rem;color:var(--muted)}
+.map-link{color:var(--river);font-weight:700;text-decoration:none;border-bottom:1px solid currentColor}
+.map-link:hover{color:var(--navy)}
 .contact-links a{color:var(--river);text-decoration:none;border-bottom:1px solid transparent}
 .contact-links a:hover{color:var(--navy);border-bottom-color:var(--river)}
 .contact-links a+a{margin-left:10px}
@@ -398,6 +405,9 @@ section{padding:72px 0}
 .form .note .wa-link{color:var(--river);font-weight:700;text-decoration:none;border-bottom:1px solid var(--river)}
 .form .note .wa-link:hover{color:var(--navy);border-bottom-color:var(--navy)}
 .form .form-status{color:var(--river);font-weight:700}
+.form .field-error{color:#a33a2a;font-size:.84rem;font-weight:600;margin:8px 0 0}
+.form .field-error[hidden]{display:none}
+.form input[aria-invalid="true"]{border-color:#a33a2a}
 .form .form-actions{margin-top:20px}
 .form .form-actions .btn{flex:0 1 auto}
 #wa-button{white-space:nowrap}
@@ -999,6 +1009,17 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
         </ul>
       </div>
 
+      <div class="map-block">
+        <h3 class="map-title" data-i18n="con_map_h" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="con_map_h">Find us</h3>
+        <div class="map-frame">
+          <iframe title="Pliva River Lodge on Google Maps" src="https://maps.google.com/maps?q=44.2510538,17.0366883&amp;z=15&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        </div>
+        <p class="map-note">
+          <span data-i18n="con_map_note" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="con_map_note">Pljeva, Šipovo — 2 km below the Pliva springs</span>
+          <a class="map-link" href="https://maps.app.goo.gl/mXWRpUdJdBKcrmNCA" target="_blank" rel="noopener" data-i18n="con_map_link" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="con_map_link">Open in Google Maps</a>
+        </p>
+      </div>
+
       <div class="form">
         <form name="lodge-enquiry" id="enquiry-form" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" data-wa="https://wa.me/38765622760" data-email="milkasobic25@gmail.com" data-function="/.netlify/functions/enquiry">
           <input type="hidden" name="form-name" value="lodge-enquiry">
@@ -1013,7 +1034,8 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
           </div>
           <div class="field">
             <label for="f-dates" data-i18n="form_dates" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="form_dates">Preferred dates</label>
-            <input id="f-dates" name="dates" type="text" data-ph="ph_dates" placeholder="e.g. 10–17 December 2026">
+            <input id="f-dates" name="dates" type="text" data-ph="ph_dates" placeholder="e.g. 10–17 December 2026" required aria-describedby="f-dates-error">
+            <p class="field-error" id="f-dates-error" hidden data-i18n="form_dates_error" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="form_dates_error">Please tell us the dates you would like to come.</p>
           </div>
           <div class="field">
             <label for="f-flyfishing" data-i18n="form_fly_label" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="form_fly_label">Fly fishing</label>

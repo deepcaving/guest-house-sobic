@@ -456,6 +456,35 @@ saved when it was not.
 | `MAIL_FROM` | The verified sender shown to Milka (Resend only) | `Pliva River Lodge <bookings@plivariverlodge.com>` |
 | `MAIL_FROM_FALLBACK` | Plain sender address, used if `MAIL_FROM` is unset | none |
 
+### The preferred dates are required, and validated
+
+The "Preferred dates" field shows an **example** range as its placeholder
+("e.g. 10–17 December 2026"), one month ahead of today. That example is a
+hint about the format, not a date anybody chose — so:
+
+- the field carries the `required` attribute, and the browser's own
+  validation stops an empty field before anything is sent;
+- the browser checks the value again before the POST: an empty value, our
+  own example (the placeholder copied over, in any of the four languages),
+  or something that is not a date at all is refused with a message **under
+  the field**, in the language of the page;
+- the server checks it a third time and answers **400** with
+  `field: "dates"`, so a blank or example-only enquiry never reaches
+  Milka's inbox as if it were a booking.
+
+A guest who genuinely wants our example week may type it — the bare range
+("10–17 December 2026") is accepted, because that IS a choice. Only the
+value with our example marker still on it ("e.g. 10–17 December 2026") is
+refused.
+
+The server's rules, in `netlify/functions/enquiry.mjs`:
+
+| Reason | When |
+|---|---|
+| `missing` | the value is empty |
+| `example` | the value starts with an example marker — `e.g.`, `z. B.`, `npr.`, `es.` — followed by a number |
+| `not-a-date` | the value has no day number and no month name in any of the four languages |
+
 ## What the function rejects
 
 | Situation | Result |

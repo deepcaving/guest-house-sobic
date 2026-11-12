@@ -618,6 +618,24 @@ window.I18N = {
     "bs": "Pliva River Lodge",
     "it": "Pliva River Lodge"
   },
+  "con_map_h": {
+    "en": "Find us",
+    "de": "So finden Sie uns",
+    "bs": "Kako nas naći",
+    "it": "Come trovarci"
+  },
+  "con_map_link": {
+    "en": "Open in Google Maps",
+    "de": "In Google Maps öffnen",
+    "bs": "Otvorite u Google Maps",
+    "it": "Apri in Google Maps"
+  },
+  "con_map_note": {
+    "en": "Pljeva, Šipovo — 2 km below the Pliva springs",
+    "de": "Pljeva, Šipovo — 2 km unterhalb der Pliva-Quellen",
+    "bs": "Pljeva, Šipovo — 2 km nizvodno od izvora Plive",
+    "it": "Pljeva, Šipovo — 2 km a valle delle sorgenti del Pliva"
+  },
   "con_wa": {
     "en": "WhatsApp &amp; phone",
     "de": "WhatsApp &amp; Telefon",
@@ -665,6 +683,18 @@ window.I18N = {
     "de": "Wunschtermine",
     "bs": "Željeni termini",
     "it": "Date preferite"
+  },
+  "form_dates_error": {
+    "en": "Please tell us the dates you would like to come.",
+    "de": "Bitte nennen Sie uns die Termine, an denen Sie kommen möchten.",
+    "bs": "Molimo vas navedite termine kada biste došli.",
+    "it": "Ci indichi le date in cui desidera venire."
+  },
+  "form_dates_example": {
+    "en": "That is our example — please give us the dates you have in mind.",
+    "de": "Das ist unser Beispiel — bitte nennen Sie uns Ihre Termine.",
+    "bs": "To je naš primjer — molimo vas navedite svoje termine.",
+    "it": "Questo è il nostro esempio — ci indichi le date che preferisce."
   },
   "form_people": {
     "en": "How many people",
