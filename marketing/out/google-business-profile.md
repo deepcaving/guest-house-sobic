@@ -71,10 +71,11 @@ The number one free channel. It is what puts you in Google Maps for
 | 14 | The Pliva in autumn colours | `autumn-river.jpg` | the shoulder-season story |
 | 15 | The meadow pavilion and gear field | `meadow-pavilion.jpg` | where the anglers rig up |
 | 16 | The Ribnik, a clear chalk stream | `ribnik-river.jpg` | the second river |
-| 17 | The Pliva spring and waterfall | `spring-waterfall.jpg` | "2 km from the source" |
+| 17 | The Pliva spring, mossy cascades and flowers | `spring-waterfall.jpg` | "2 km from the source", answered |
 | 18 | The terrace lounge by evening | `terrace-lounge.jpg` | evening light |
+| 19 | The entrance side of the house, balcony flowers | `house-entrance.jpg` | the warmest shot of the place |
 
-Upload all 18. Google rewards completeness, and the first photo is the one
+Upload all 19. Google rewards completeness, and the first photo is the one
 that decides whether someone presses "Save".
 
 ## 6. Q&A — pre-seed these (you can ask and answer as the owner)
