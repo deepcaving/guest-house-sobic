@@ -239,6 +239,8 @@ section{padding:72px 0}
   transition:transform .5s cubic-bezier(.2,.7,.3,1)}
 .gallery .g-item:hover img{transform:scale(1.06)}
 .gallery .g-item:focus-visible{outline:2px solid var(--river);outline-offset:2px}
+/* The pictures after the first four rows wait until the visitor scrolls. */
+.gallery .g-later{display:none}
 
 /* ---------- the photo viewer (the way booking.com does it) ---------- */
 body.lb-open{overflow:hidden}
@@ -515,7 +517,7 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
   .hero-inner{padding-bottom:44px}
   .btn{width:100%;text-align:center}
   .btn-row{gap:10px}
-  .gallery{grid-template-columns:repeat(2,1fr)}
+  .gallery{grid-template-columns:repeat(2,1fr);margin-left:18px;margin-right:18px}
   .gallery .g-item img{height:150px}
   .lb-stage{top:58px;bottom:86px;left:8px;right:8px}
   .lb-nav{width:40px;height:40px;font-size:1.5rem;background:rgba(255,255,255,.2)}

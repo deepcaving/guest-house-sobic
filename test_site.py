@@ -2316,8 +2316,24 @@ def test_photo_gallery(r):
     r.check(not missing, "the viewer is labelled in all six languages",
             ", ".join(missing[:4]))
 
-    # The viewer itself.
+    # The gallery shows four rows and grows as the visitor scrolls, so the
+    # page is not a wall of eighty-four pictures.
     js = (ROOT / "gallery.js").read_text(encoding="utf-8")
+    r.check("var ROWS = 4;" in js, "the gallery shows four rows at a time")
+    r.check("reveal(cols * ROWS)" in js, "the pictures beyond those rows are held back")
+    r.check("'g-later'" in js and ".g-later{display:none}" in HTML,
+            "the pictures after the first rows are hidden until they are wanted")
+    r.check("window.addEventListener('scroll'" in js,
+            "the gallery grows when the visitor scrolls")
+    r.check("shown + cols * ROWS" in js, "it grows four rows at a time")
+
+    # On a phone the gallery keeps some room at the sides.
+    m = re.search(r"@media \(max-width:560px\)\s*\{(.*?)\n\}", HTML, re.S)
+    phone = m.group(1) if m else ""
+    r.check(re.search(r"\.gallery\{[^}]*margin-left:\d+px", phone) is not None,
+            "the gallery keeps room at the sides on a phone")
+
+    # The viewer itself.
     for what, needle in [("the next arrow", "go(index + 1)"),
                          ("the previous arrow", "go(index - 1)"),
                          ("the escape key", "'Escape'"),
