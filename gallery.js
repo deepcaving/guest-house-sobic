@@ -16,11 +16,6 @@
   'use strict';
 
   var items = [];
-  var nodes = [];
-  var grid = null;
-  var ROWS = 4;          // the gallery shows this many rows at a time
-  var shown = 0;         // how many pictures are on the page right now
-  var cols = 1;
   var index = 0;
   var box = null, imgEl = null, countEl = null, stripEl = null, closeBtn = null;
   var lastFocus = null;
@@ -193,59 +188,15 @@
     }
   }
 
-  /* The gallery shows four rows at a time. The rest of the pictures are
-     there in the markup, but they are hidden until the visitor scrolls -
-     so the page stays short and the pictures arrive when they are wanted.
-     Without javascript every picture simply shows, which is what the
-     standalone file needs. */
-  function columnCount() {
-    if (!grid) return 1;
-    var t = getComputedStyle(grid).gridTemplateColumns;
-    if (!t) return 1;
-    var n = t.split(' ').filter(function (x) { return x && x !== 'none'; }).length;
-    return n > 0 ? n : 1;
-  }
-
-  function reveal(limit) {
-    shown = Math.max(shown, limit);
-    for (var i = 0; i < nodes.length; i++) {
-      nodes[i].classList.toggle('g-later', i >= shown);
-    }
-  }
-
-  var lastGrowY = 0;
-  function grow() {
-    if (!nodes.length || shown >= nodes.length) return;
-    var r = grid.getBoundingClientRect();
-    var vh = window.innerHeight || document.documentElement.clientHeight;
-    var y = window.scrollY || window.pageYOffset || 0;
-    // The visitor is inside the gallery and has reached its end: give it
-    // another four rows, so there is always something to scroll into. One
-    // step per scroll, so the gallery never races away from the visitor.
-    if (r.top < 0 && r.bottom <= vh + 80 && y > lastGrowY + 80) {
-      lastGrowY = y;
-      reveal(Math.min(shown + cols * ROWS, nodes.length));
-    }
-  }
-
-  var queued = false;
-  function onScroll() {
-    if (queued) return;
-    queued = true;
-    window.requestAnimationFrame(function () { queued = false; grow(); });
-  }
-
+  /* The gallery itself is a window four rows high (the CSS does that) and
+     the pictures scroll inside it - one row leaving at the top and one
+     arriving at the bottom. Nothing here has to hide or reveal anything:
+     the browser loads each picture as it comes into view, and the window
+     never gets taller, so the page stays short. */
   function init() {
-    grid = document.querySelector('.gallery');
+    var grid = document.querySelector('.gallery');
     if (!grid) return;
-    nodes = Array.prototype.slice.call(grid.querySelectorAll('.g-item'));
-    cols = columnCount();
-    reveal(cols * ROWS);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', function () {
-      var c = columnCount();
-      if (c !== cols) { cols = c; reveal(cols * ROWS); }
-    });
+    var nodes = grid.querySelectorAll('.g-item');
     for (var i = 0; i < nodes.length; i++) {
       (function (n, el) {
         var img = el.querySelector('img');

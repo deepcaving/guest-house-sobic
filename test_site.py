@@ -2316,24 +2316,26 @@ def test_photo_gallery(r):
     r.check(not missing, "the viewer is labelled in all six languages",
             ", ".join(missing[:4]))
 
-    # The gallery shows four rows and grows as the visitor scrolls, so the
-    # page is not a wall of eighty-four pictures.
-    js = (ROOT / "gallery.js").read_text(encoding="utf-8")
-    r.check("var ROWS = 4;" in js, "the gallery shows four rows at a time")
-    r.check("reveal(cols * ROWS)" in js, "the pictures beyond those rows are held back")
-    r.check("'g-later'" in js and ".g-later{display:none}" in HTML,
-            "the pictures after the first rows are hidden until they are wanted")
-    r.check("window.addEventListener('scroll'" in js,
-            "the gallery grows when the visitor scrolls")
-    r.check("shown + cols * ROWS" in js, "it grows four rows at a time")
+    # The gallery is a window four rows high, and the pictures scroll
+    # inside it - so the page is not a wall of eighty-four pictures.
+    r.check(".gallery-scroll{" in HTML, "the gallery has its own window")
+    r.check(re.search(r"\.gallery-scroll\{[^}]*max-height:calc\(4 \* var\(--gal-tile\)", HTML) is not None,
+            "the window is four rows high")
+    r.check(re.search(r"\.gallery-scroll\{[^}]*overflow-y:auto", HTML) is not None,
+            "the pictures scroll inside the window")
+    r.check(".g-later" not in HTML and "g-later" not in (ROOT / "gallery.js").read_text(encoding="utf-8"),
+            "nothing is hidden by script - it is a plain scroll")
+    r.check('<div class="gallery-scroll' in HTML and "<div class=\"gallery\">" in HTML,
+            "the window wraps the gallery")
 
     # On a phone the gallery keeps some room at the sides.
     m = re.search(r"@media \(max-width:560px\)\s*\{(.*?)\n\}", HTML, re.S)
     phone = m.group(1) if m else ""
-    r.check(re.search(r"\.gallery\{[^}]*margin-left:\d+px", phone) is not None,
+    r.check(re.search(r"\.gallery-scroll\{[^}]*margin-left:\d+px", phone) is not None,
             "the gallery keeps room at the sides on a phone")
 
     # The viewer itself.
+    js = (ROOT / "gallery.js").read_text(encoding="utf-8")
     for what, needle in [("the next arrow", "go(index + 1)"),
                          ("the previous arrow", "go(index - 1)"),
                          ("the escape key", "'Escape'"),
