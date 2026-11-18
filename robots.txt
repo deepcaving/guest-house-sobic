@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://guesthousesobic.netlify.app/sitemap.xml
+Sitemap: https://plivariverlodge.com/sitemap.xml
