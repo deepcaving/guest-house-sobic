@@ -103,6 +103,9 @@ and the og:url once the domain is live - one place in `index.html`
 | `drop-site.sh` | takes a site off the machine for good: moves its nginx files away, revokes the certificate, deletes the renewal |
 | `server.mjs` | the small service that answers the two form paths |
 | `set-domain.sh` | writes the real domain into the page, the sitemap and the robots file |
+| `set-env.sh` | adds, changes or removes a variable in `/etc/pliva-site/env` |
+| `env-keys.sh` | shows what the server has, with the secrets masked |
+| **`mail-flow.md`** | **the four hops of the enquiry mail, the exact server settings for Gmail, Zoho and the VPS, and what each failure means** |
 
 Read **NGINX.md** before changing anything in nginx: two faults in one
 configuration file stopped every certificate on this machine from
