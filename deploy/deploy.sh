@@ -123,12 +123,19 @@ chown root:www-data /etc/pliva-site/env
 chmod 640 /etc/pliva-site/env
 
 systemctl daemon-reload
-systemctl enable --now pliva-site
-systemctl restart pliva-site
+# enable first, then start: if the unit is broken, "enable --now" would
+# abort the script before anything could explain why.
+systemctl enable pliva-site >/dev/null 2>&1 || true
+systemctl restart pliva-site || true
 sleep 1
 if ! systemctl is-active --quiet pliva-site; then
   echo "ERROR: the service did not start. Here is what it said:" >&2
-  journalctl -u pliva-site -n 20 --no-pager >&2 || true
+  journalctl -u pliva-site -n 25 --no-pager >&2 || true
+  echo >&2
+  echo "The most common cause is a value with a space in it in" >&2
+  echo "/etc/pliva-site/env - systemd stops on those. Put the value in" >&2
+  echo "quotes, or remove the spaces:" >&2
+  echo "  SMTP_PASSWORD=\"the zoho app password\"" >&2
   exit 1
 fi
 
