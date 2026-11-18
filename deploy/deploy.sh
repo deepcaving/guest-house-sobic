@@ -74,7 +74,11 @@ echo "--- 2. the service behind the enquiry form ---"
 install -d -o www-data -g www-data -m 750 "$STORE_DIR"
 install -d -m 755 "$APP_DIR"
 install -d -m 755 "$APP_DIR/netlify/functions"
-install -m 644 "$REPO_DIR/deploy/server.mjs" "$APP_DIR/server.mjs"
+install -d -m 755 "$APP_DIR/deploy"
+# The layout under /opt mirrors the repository, so the import inside
+# server.mjs ("../netlify/functions/...") finds the functions exactly where
+# it finds them in the clone.
+install -m 644 "$REPO_DIR/deploy/server.mjs" "$APP_DIR/deploy/server.mjs"
 cp "$REPO_DIR"/netlify/functions/*.mjs "$APP_DIR/netlify/functions/"
 
 cat > /etc/systemd/system/pliva-site.service <<UNIT
@@ -88,7 +92,7 @@ WorkingDirectory=$APP_DIR
 Environment=PORT=8080
 Environment=ENQUIRY_STORE=$STORE_DIR/enquiries.ndjson
 EnvironmentFile=-/etc/pliva-site/env
-ExecStart=$NODE_BIN $APP_DIR/server.mjs
+ExecStart=$NODE_BIN $APP_DIR/deploy/server.mjs
 Restart=always
 RestartSec=3
 User=www-data
@@ -120,11 +124,11 @@ chmod 640 /etc/pliva-site/env
 
 systemctl daemon-reload
 systemctl enable --now pliva-site
-systemctl reload pliva-site || systemctl restart pliva-site
+systemctl restart pliva-site
 sleep 1
 if ! systemctl is-active --quiet pliva-site; then
-  echo "ERROR: the service did not start. Look at the log:" >&2
-  echo "       journalctl -u pliva-site -n 30 --no-pager" >&2
+  echo "ERROR: the service did not start. Here is what it said:" >&2
+  journalctl -u pliva-site -n 20 --no-pager >&2 || true
   exit 1
 fi
 

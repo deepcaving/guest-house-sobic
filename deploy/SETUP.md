@@ -279,8 +279,13 @@ repository and are not changed by a pull:
 
   ```bash
   sudo cp /var/www/plivariverlodge/netlify/functions/*.mjs /opt/pliva-site/netlify/functions/
+  sudo cp /var/www/plivariverlodge/deploy/server.mjs /opt/pliva-site/deploy/server.mjs
   sudo systemctl restart pliva-site
   ```
+
+  (The service lives at `/opt/pliva-site/deploy/server.mjs` so the layout
+  under `/opt` mirrors the repository — that is what lets the import
+  inside it find the functions ✓.)
 
   (re-running `./deploy/deploy.sh` does both).
 
