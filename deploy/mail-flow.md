@@ -144,6 +144,60 @@ itself when the login is refused.
 
 ---
 
+## The Zoho Admin Console: "Given emailId already exists"
+
+That is Zoho's own wording for **the address is already taken inside your
+organisation** — as a user account or as an email alias. Zoho's help says it
+plainly: search the address in Admin Console → Users; if it appears, it cannot
+be reused until that user or alias is deleted.
+
+**The order matters.** An alias and a mailbox cannot hold the same address, so:
+
+1. Delete the alias (`Users → francesco.capuzzo@zoho.com → Mailbox Settings →
+   Email Alias → contact@plivariverlodge.com → delete`).
+2. **Then** create the mailbox (`Users → Add User → the domain
+   plivariverlodge.com → the address contact@plivariverlodge.com`).
+
+Once the mailbox exists, everything carries on: a mailbox may send as itself,
+so the server's `SMTP_FROM_EMAIL` does not change, and the alias is no longer
+needed.
+
+**If the address still cannot be reused after the alias is gone**, Zoho's help
+gives three more reasons:
+
+| The error | What it is | What to do |
+|---|---|---|
+| *Email address already exists or associated in another Organisation* | the address belongs to a **standalone Zoho account** signed up separately | create a **Catch-All** user for that address in the organisation, log out, use *Forgot password* on Zoho Mail — the reset link arrives in the catch-all account — then reset the password and either close the standalone account or accept the invitation into the organisation |
+| *This operation has been restricted* | Zoho blocked the creation | email **support-as@zohocorp.com** with the address you are trying to create; they answer in 24–48 hours |
+| *You are not allowed to add users* | the organisation's plan has no licence for another mailbox | buy one Zoho Mail user, or use path B below |
+
+---
+
+## Two paths, and you can start without waiting for Zoho
+
+**Path A — everything stays in Gmail.** Needs the mailbox above. Then Gmail
+adds `contact@plivariverlodge.com` as a third-party address with the Zoho
+servers (imap.zoho.com:993 SSL and smtppro.zoho.com:465 SSL), the DKIM
+signature is switched on, and Milka reads and answers without ever touching
+Zoho.
+
+**Path B — no new mailbox, no licence, no waiting.** Keep `contact@` as an
+alias:
+
+- the site keeps sending as it does now ✓;
+- the alias can be given a **forwarding address** — Admin Console → the alias →
+  Edit → Forwarding → `milkasobic25@gmail.com` → verify the code Zoho sends
+  to that address (forwarding is available on paid plans) — so a client's mail
+  reaches Milka in Gmail too;
+- for the reply, Milka writes it in **Zoho webmail** (mail.zoho.com) with the
+  *From* dropdown set to **contact@plivariverlodge.com**. The guest then sees
+  the lodge's address, because Zoho signs the message as the alias.
+
+Path B needs no licence and no support ticket. Path A is nicer for Milka, and
+its only obstacle is that one mailbox.
+
+---
+
 ## The tests
 
 The form, end to end, from anywhere:
