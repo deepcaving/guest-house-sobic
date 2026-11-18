@@ -184,7 +184,14 @@ server {
 }
 BOOT
 ln -sf /etc/nginx/sites-available/pliva-riverside /etc/nginx/sites-enabled/pliva-riverside
-nginx -t && systemctl reload nginx
+if nginx -t; then
+  systemctl reload nginx
+else
+  echo "WARNING: nginx did not accept the configuration, so the site is still" >&2
+  echo "         serving whatever it served before (possibly another site's" >&2
+  echo "         certificate). The error is above." >&2
+  echo "         Fix it and then:  sudo nginx -t && sudo systemctl reload nginx" >&2
+fi
 
 certbot certonly --webroot -w "$REPO_DIR" \
   -d "$DOMAIN" -d "www.$DOMAIN" \
