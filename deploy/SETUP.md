@@ -70,11 +70,15 @@ made the mail from `netyou.me` arrive unsigned. Do both:
 **Yes, clone it there.** The repository is public, so it needs no token:
 
 ```bash
-sudo git clone https://github.com/deepcaving/guest-house-sobic.git /var/www/plivariverlodge
+sudo git clone -b feat/own-server-deploy \
+  https://github.com/deepcaving/guest-house-sobic.git /var/www/plivariverlodge
 cd /var/www/plivariverlodge
-git checkout main          # or whichever branch carries the site you want
 sudo ./deploy/deploy.sh plivariverlodge.com
 ```
+
+(The branch is named because that is where this deployment kit lives
+today. Once the three branches are merged into `main`, clone `main` —
+or on the server: `git checkout main && git pull`.)
 
 **The clone IS the web root.** nginx serves the repository straight from
 `/var/www/plivariverlodge`, so from now on the whole deploy is:
@@ -86,10 +90,12 @@ cd /var/www/plivariverlodge && git pull
 No copying, no rsync, nothing to drift. The nginx configuration denies
 `/.git` so the repository is never readable from the web.
 
-**Which branch?** `main` is what the site is today. The gallery (84
-photographs), the licence correction and this deployment kit live on three
-separate branches — say the word and I merge them into `main`, and the
-server pulls one branch and gets everything.
+**Which branch?** `main` is what the site is today, and the branch you
+clone above carries the same site content plus this kit — so the first
+thing the server serves is exactly what is live now. The gallery (84
+photographs) and the licence correction live on two more branches. Say
+the word and I merge all three into `main`; then the server checks out
+`main` and carries everything.
 
 **Two things to know about that script:**
 
