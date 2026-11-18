@@ -201,8 +201,19 @@ address in front of Google.
 
 ## Step 5 — the enquiry form, end to end
 
+```bash
+curl -s -X POST -H "Content-Type: application/json" \
+  -d '{"name":"Test","email":"test@example.com","dates":"12-19 December"}' \
+  http://127.0.0.1:8080/.netlify/functions/enquiry
+```
+
+It should answer `{"ok":true,...,"transport":"smtp"}` ✓ (use 8090 if the
+script moved it there).
+
 The form posts to `/.netlify/functions/enquiry`; the nginx configuration
-keeps that path and sends it to the service on port 8080 ✓. So the page
+keeps that path and sends it to the service on port 8080 ✓ (or 8090, if
+8080 was already busy on the box — the script says which it used ✓).
+So the page
 does not change — only the server behind it does.
 
 Test it with a real message:
