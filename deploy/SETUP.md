@@ -34,10 +34,18 @@ again afterwards if you want it — or use the DNS challenge instead
 |---|---|---|---|
 | MX | `@` | `mx.zoho.com` — priority 10 | Zoho's mail server |
 | MX | `@` | `mx2.zoho.com` — priority 20 | the second one |
-| MX | `@` | `mx3.zoho.com` — priority 30 | the third one |
+| MX | `@` | `mx3.zoho.com` — priority 50 | the third one |
 | TXT | `@` | `v=spf1 include:zohomail.com ~all` | SPF: only Zoho may send as this domain |
-| TXT | `zmail._domainkey` | the value Zoho gives you | DKIM — copy it exactly, it is long |
+| TXT or CNAME | **the exact DKIM host Zoho gives you** | the long `v=DKIM1; …` value | DKIM — copy both parts exactly from the Zoho console |
 | TXT | `_dmarc` | `v=DMARC1; p=none; rua=mailto:contact@plivariverlodge.com` | start permissive; tighten later |
+
+**Take the MX and DKIM values from the Zoho console, not from here.**
+Zoho's own documentation says the MX priorities and the DKIM selector
+name differ between data centres and setups, and the authoritative list
+is under **Admin > Mail Settings > Tools and Configurations > MX** and on
+the domain's setup page. The values above are the usual ones for a
+zoho.com (global) account — the same ones your netyou.me domain already
+uses — but copy what your console shows.
 
 **The DKIM record must be published AND switched on in Zoho.** Publishing
 the TXT record alone leaves the signature inert — this is the trap that
@@ -50,9 +58,10 @@ made the mail from `netyou.me` arrive unsigned. Do both:
    the alias **`contact@plivariverlodge.com`**, and point it at Milka's
    Gmail (`milkasobic25@gmail.com`) — that is the address the enquiries
    will arrive in.
-4. Zoho sends you the DKIM record for the domain (selector `zmail`) →
-   publish it in DNS → then **enable the signature for that alias** in
-   Zoho. Both halves, in that order.
+4. Zoho shows you the DKIM record for the domain (the host and the long
+   value) → publish it in DNS → then **enable the signature for that
+   alias** in Zoho. Both halves, in that order, or the mail goes out
+   unsigned and Gmail will not let you send as the address.
 
 ---
 
