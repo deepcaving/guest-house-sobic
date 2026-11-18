@@ -173,6 +173,25 @@ gives three more reasons:
 
 ---
 
+## Why the licence is unavoidable for the reply
+
+A reply written in Gmail carries **Gmail's** From address unless that address
+is registered with Gmail as a *send mail as* identity. There is no third way:
+
+- **A forwarding rule cannot do it.** A forwarder always rewrites the sender
+  to the forwarding account. That is what stops a forwarded enquiry from
+  looking like it came from the lodge.
+- **A filter cannot do it either** - it only decides where a copy goes.
+- **Gmail's "send mail as" can do it** - and it is the only mechanism that
+  changes the From line of a message written in Gmail.
+
+To register the address, Gmail asks for an **incoming IMAP server** and logs
+in **as the address being added**. An alias has no password of its own and
+cannot log in, so `contact@` has to be a **mailbox** - and Mail Lite is the
+cheapest plan that includes IMAP (the free plan does not).
+
+Hence: one Mail Lite licence, and the guest's reply comes from the lodge.
+
 ## The licence
 
 The Admin Console answers **"License limit reached — You do not have enough
