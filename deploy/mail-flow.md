@@ -173,6 +173,15 @@ gives three more reasons:
 
 ---
 
+## The licence
+
+The Admin Console answers **"License limit reached — You do not have enough
+licenses"** when the plan has no room for another mailbox. One Mail Lite
+licence is **US$1 per user per month, billed yearly** (the US data centre);
+the whole organisation moves onto the paid rate, so two users is roughly
+US$2 a month. Mail Lite includes IMAP — **the free plan does not**, so a
+free mailbox can never be added to Gmail as a third-party address.
+
 ## Two paths, and you can start without waiting for Zoho
 
 **Path A — everything stays in Gmail.** Needs the mailbox above. Then Gmail
@@ -182,19 +191,44 @@ signature is switched on, and Milka reads and answers without ever touching
 Zoho.
 
 **Path B — no new mailbox, no licence, no waiting.** Keep `contact@` as an
-alias:
+alias — the site sends as it right now, and a working alias may send as
+itself.
 
-- the site keeps sending as it does now ✓;
-- the alias can be given a **forwarding address** — Admin Console → the alias →
-  Edit → Forwarding → `milkasobic25@gmail.com` → verify the code Zoho sends
-  to that address (forwarding is available on paid plans) — so a client's mail
-  reaches Milka in Gmail too;
-- for the reply, Milka writes it in **Zoho webmail** (mail.zoho.com) with the
-  *From* dropdown set to **contact@plivariverlodge.com**. The guest then sees
-  the lodge's address, because Zoho signs the message as the alias.
+1. **Keep the alias.** Do not delete it while there is no mailbox to replace
+   it: the server would be refused with *550 Sender is not allowed to relay*.
+2. **Give the alias a forwarding address.** Admin Console → Users →
+   francesco.capuzzo@zoho.com → Mailbox Settings → **Email Alias** →
+   contact@plivariverlodge.com → Edit → **Forwarding** → add
+   `milkasobic25@gmail.com` → Zoho sends a verification code **to that
+   address** → enter it.
+   **Leave "Delete Zoho Mail's copy" unticked** — the copy that stays in Zoho
+   is the one she replies from.
+3. **Milka answers in Zoho webmail** (mail.zoho.com): the message is in her
+   Zoho inbox → Reply → in the *From* dropdown pick
+   **contact@plivariverlodge.com**. The guest sees the lodge's address,
+   because Zoho signs the message as the alias. Check the *To* line: if it
+   says contact@plivariverlodge.com, replace it with the client's address —
+   it is in the From line of the message she is answering.
+4. **DKIM on** (Zoho Admin → Domains → plivariverlodge.com → DKIM → Verify /
+   Enable), so the reply carries a signature for the domain.
 
-Path B needs no licence and no support ticket. Path A is nicer for Milka, and
-its only obstacle is that one mailbox.
+Path B needs no licence and no support ticket, and the site does not change
+at all. Path A is nicer for Milka — one licence, and she never opens Zoho.
+
+**Path A — after the licence is bought.**
+1. Buy one Mail Lite licence (Admin → the organisation → Subscription).
+2. Admin → **Users → Add User** → the domain plivariverlodge.com → the address
+   `contact@plivariverlodge.com` → a password that satisfies Zoho's rules
+   (upper case, lower case, a digit and a symbol).
+3. Mailbox Settings → **App Passwords** → Generate → twelve characters.
+4. Gmail → ⚙️ Settings → Accounts → *Add another email address* → **Add a
+   third-party email address** → username `contact@plivariverlodge.com`,
+   password = that app password, **incoming `imap.zoho.com` port 993 SSL**,
+   **outgoing `smtppro.zoho.com` port 465 SSL**, outgoing username
+   `francesco.capuzzo@zoho.com`, same app password → verify the code.
+5. Now everything happens in Gmail: Milka reads the enquiries and answers
+   them there, and the guest sees the lodge's address. The alias forwarding
+   from path B can be removed.
 
 ---
 
