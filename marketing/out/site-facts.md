@@ -62,7 +62,9 @@ re-run `./render.sh`.
 - Runs 5.5 km before meeting the Sana. ~20 m wide, knee-deep, stony bottom.
 - **~80% grayling**, many over 50 cm — the highest ratio in the region. Brown
   trout in the same water, to double figures.
-- The Pliva permit covers the Ribnik and the Sana too.
+- The Ribnik has its own permit, so a Ribnik day carries the same charge as a
+  fishing day on the Pliva: the licence, €50 per angler per day (€35 a day on the
+  Ribnik in November and December). A day on both rivers means two permits.
 
 ## Safety (this wording is deliberate — use it as written)
 

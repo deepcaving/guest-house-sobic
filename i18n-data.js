@@ -1338,9 +1338,9 @@ window.I18N = {
     "nl": "<b>Ondiep en makkelijk</b> — 20 m breed, knie diep, bijna overal te voet te steken"
   },
   "rib_l4": {
-    "en": "<b>Same licence</b> — your Pliva permit covers the Ribnik and the Sana as well",
-    "de": "<b>Gleiche Lizenz</b> – Ihre Pliva-Erlaubnis gilt auch für Ribnik und Sana",
-    "bs": "<b>Ista dozvola</b> – vaša dozvola za Plivu vrijedi i za Ribnik i Sanu",
+    "en": "<b>Its own licence</b> — a Ribnik day carries the same charge as a fishing day on the Pliva: the licence, €50 per angler per day (€35 in November and December)",
+    "de": "<b>Eigene Lizenz</b> – ein Ribnik-Tag trägt dieselbe Gebühr wie ein Fischtag auf der Pliva: die Lizenz, 50 € pro Angler und Tag (im November und Dezember 35 €)",
+    "bs": "<b>Zasebna dozvola</b> – ribolovni dan na Ribniku nosi istu naknadu kao ribolovni dan na Plivi: dozvolu, 50 € po ribolovcu po danu (u novembru i decembru 35 €)",
     "it": "<b>Stesso permesso</b> — il tuo permesso per il Pliva vale anche per il Ribnik e la Sana",
     "fr": "<b>Le même permis</b> — votre permis Pliva couvre aussi la Ribnik et la Sana",
     "nl": "<b>Dezelfde vergunning</b> — je Pliva-vergunning dekt ook de Ribnik en de Sana"
@@ -1490,17 +1490,17 @@ window.I18N = {
     "nl": "Visgids"
   },
   "r8_s": {
-    "en": "English-speaking · €150–200 per day for the group",
-    "de": "Englischsprachig · €150–200 pro Tag für die ganze Gruppe",
-    "bs": "Govori engleski · 150–200 € po danu za cijelu grupu",
+    "en": "English-speaking · €150–200 per day for the group · the licence is charged per angler, €40 a day on the Pliva",
+    "de": "Englischsprachig · 150–200 € pro Tag für die Gruppe · die Lizenz wird pro Angler berechnet, 40 € pro Tag auf der Pliva",
+    "bs": "Govori engleski · 150–200 € po danu za grupu · dozvola se naplaćuje po ribolovcu, 40 € po danu na Plivi",
     "it": "Parla inglese · 150–200 € al giorno per l'intero gruppo",
     "fr": "Anglophone · 150–200 € par jour pour le groupe",
     "nl": "Engelstalig · € 150–200 per dag voor de groep"
   },
   "rib_price_sub": {
-    "en": "Up to 7 people · one car · about an hour each way",
-    "de": "Bis zu 7 Personen · ein Auto · etwa eine Stunde pro Strecke",
-    "bs": "Do 7 osoba · jedan automobil · otprilike sat vremena u jednom pravcu",
+    "en": "Up to 7 people · one car · about an hour each way · the licence is charged per angler, €50 a day on the Ribnik",
+    "de": "Bis zu 7 Personen · ein Auto · etwa eine Stunde je Strecke · die Lizenz wird pro Angler berechnet, 50 € pro Tag am Ribnik",
+    "bs": "Do 7 osoba · jedan auto · oko sat vremena u jednom pravcu · dozvola se naplaćuje po ribolovcu, 50 € po danu na Ribniku",
     "it": "Fino a 7 persone · un'auto · circa un'ora per tratta",
     "fr": "Jusqu'à 7 personnes · une voiture · environ une heure par trajet",
     "nl": "Tot 7 personen · één auto · ongeveer een uur per kant"
