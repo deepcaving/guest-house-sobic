@@ -196,13 +196,25 @@ itself.
 
 1. **Keep the alias.** Do not delete it while there is no mailbox to replace
    it: the server would be refused with *550 Sender is not allowed to relay*.
-2. **Give the alias a forwarding address.** Admin Console → Users →
-   francesco.capuzzo@zoho.com → Mailbox Settings → **Email Alias** →
-   contact@plivariverlodge.com → Edit → **Forwarding** → add
-   `milkasobic25@gmail.com` → Zoho sends a verification code **to that
-   address** → enter it.
-   **Leave "Delete Zoho Mail's copy" unticked** — the copy that stays in Zoho
-   is the one she replies from.
+2. **Forward only the lodge's mail — with a FILTER, not with forwarding.**
+   *Mailbox Settings → Email Forwarding* forwards **every mail the account
+   receives**, which is not what anyone wants here. Zoho calls the right
+   tool **filter-based forwarding**: it acts on the condition you give it,
+   and the original stays in the mailbox.
+
+   Either place works:
+   - **Zoho webmail** (mail.zoho.com) → Settings → **Filters** → New Filter
+   - **Admin Console** → Users → francesco.capuzzo@zoho.com → Mailbox
+     Settings → **Incoming Email Settings** → **Filters**
+
+   The filter:
+   - name: *Pliva River Lodge — enquiries*
+   - condition: **To contains contact@plivariverlodge.com**
+   - action: **Forward to** → `milkasobic25@gmail.com`
+   - Zoho sends a verification code **to that address** → enter it → save.
+
+   Only mail addressed to the lodge is forwarded; everything else stays in
+   your own inbox, and the copy in Zoho is the one Milka replies from.
 3. **Milka answers in Zoho webmail** (mail.zoho.com): the message is in her
    Zoho inbox → Reply → in the *From* dropdown pick
    **contact@plivariverlodge.com**. The guest sees the lodge's address,
@@ -214,6 +226,9 @@ itself.
 
 Path B needs no licence and no support ticket, and the site does not change
 at all. Path A is nicer for Milka — one licence, and she never opens Zoho.
+
+**Never use Mailbox Settings → Email Forwarding for this.** It forwards
+everything the account receives, personal mail included. Use the filter.
 
 **Path A — after the licence is bought.**
 1. Buy one Mail Lite licence (Admin → the organisation → Subscription).
