@@ -1659,6 +1659,64 @@ def test_contact_form_occupancy(r):
             r.check(host in s, f"ZOHO the region tool asks {host}")
 
 
+def test_confirmation_modal(r):
+    """The guest must be told the truth, and the truth must be checked.
+
+    What must hold:
+      - the modal exists, is a dialog, and stays hidden until it is opened
+      - it is opened ONLY on a path where the server answered ok:true
+      - the fields are cleared on that same path, and NOT when the send failed
+      - the credit in the footer links to https://aicoder.click
+      - the four new keys are translated in all six languages
+    """
+    import json
+
+    html = (ROOT / "index.html").read_text(encoding="utf-8")
+    f = (ROOT / "form.js").read_text(encoding="utf-8")
+
+    for ident in ("enquiry-modal", "enquiry-modal-close", "enquiry-modal-backdrop"):
+        r.check(f'id="{ident}"' in html, f"the modal has #{ident}")
+    r.check('role="dialog"' in html and 'aria-modal="true"' in html,
+            "the modal is a dialog for a screen reader")
+    r.check(".modal[hidden]{display:none}" in html,
+            "the modal is hidden until it is opened")
+    r.check("function openModal()" in f and "function closeModal()" in f,
+            "form.js can open and close the modal")
+
+    # the gate: the server has to confirm
+    r.check("if (r.ok && j && j.ok)" in f,
+            "the modal waits for the server's ok:true, not a promise")
+
+    sent_at = f.find("if (result.sent)")
+    open_at = f.find("openModal();")
+    clear_at = f.find("clearForm();")
+    r.check(sent_at >= 0 and open_at > sent_at,
+            "the modal is opened only after the server confirmed the enquiry")
+    r.check(clear_at > sent_at,
+            "the fields are cleared only after the server confirmed the enquiry")
+
+    fail_at = f.find("show(statusFallback)")
+    r.check(fail_at > 0, "the failure path still shows the honest message")
+    if fail_at > 0:
+        tail = f[fail_at:]
+        r.check("openModal()" not in tail,
+                "the modal does NOT open when the email could not be sent")
+        r.check("clearForm()" not in tail,
+                "the fields are NOT cleared when the email could not be sent")
+
+    r.check('href="https://aicoder.click"' in html,
+            "the footer credit links to https://aicoder.click")
+    r.check(">aicoder.click</a>" in html,
+            "the visible link text is aicoder.click")
+    r.check("foot_credit" in html, "the words before the link are translated")
+
+    raw = (ROOT / "i18n-data.js").read_text(encoding="utf-8")
+    data = json.loads(raw[raw.index("{") : raw.rindex("}") + 1])
+    for key in ("modal_title", "modal_text", "modal_close", "foot_credit"):
+        entry = data.get(key, {})
+        for lang in ("en", "de", "bs", "it", "fr", "nl"):
+            r.check(bool(entry.get(lang)), f"{key} is translated into {lang}")
+
 def test_forms_backup_carries_the_same_fields_as_the_email(r):
     """The Netlify Forms backup must be the SAME enquiry as the email.
 
@@ -2276,6 +2334,7 @@ def main():
     test_prices_say_what_they_are_per(r)
     test_booking_email_is_milka_s(r)
     test_forms_backup_carries_the_same_fields_as_the_email(r)
+    test_confirmation_modal(r)
 
     print(f"\n{r.passes} passed, {len(r.failures)} failed")
     if r.failures:

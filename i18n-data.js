@@ -1736,5 +1736,37 @@ window.I18N = {
     "it": ", ",
     "fr": ", ",
     "nl": ", "
+  },
+  "modal_title": {
+    "en": "Your enquiry has been sent",
+    "de": "Ihre Anfrage wurde gesendet",
+    "bs": "Vaša upit je poslat",
+    "it": "La tua richiesta è stata inviata",
+    "fr": "Votre demande a été envoyée",
+    "nl": "Uw aanvraag is verzonden"
+  },
+  "modal_text": {
+    "en": "We have your message and we will reply to you by email, usually the same day.",
+    "de": "Wir haben Ihre Nachricht erhalten und antworten Ihnen per E-Mail, meist noch am selben Tag.",
+    "bs": "Primili smo vašu poruku i odgovorit ćemo vam e-mailom, obično istog dana.",
+    "it": "Abbiamo ricevuto il tuo messaggio e ti risponderemo via e-mail, di solito entro lo stesso giorno.",
+    "fr": "Nous avons bien reçu votre message et nous vous répondrons par e-mail, généralement le jour même.",
+    "nl": "We hebben uw bericht ontvangen en nemen per e-mail contact op, meestal nog dezelfde dag."
+  },
+  "modal_close": {
+    "en": "Close",
+    "de": "Schließen",
+    "bs": "Zatvori",
+    "it": "Chiudi",
+    "fr": "Fermer",
+    "nl": "Sluiten"
+  },
+  "foot_credit": {
+    "en": "Created by",
+    "de": "Erstellt von",
+    "bs": "Izradio",
+    "it": "Creato da",
+    "fr": "Créé par",
+    "nl": "Gemaakt door"
   }
 };

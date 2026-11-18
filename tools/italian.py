@@ -21,6 +21,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _dict_writer import write_column
 
 IT = {
+    "modal_title": "La tua richiesta è stata inviata",
+    "modal_text": "Abbiamo ricevuto il tuo messaggio e ti risponderemo via e-mail, di solito entro lo stesso giorno.",
+    "modal_close": "Chiudi",
+    "foot_credit": "Creato da",
     "brand_sub": "Pljeva · Šipovo · Bosnia ed Erzegovina",
     "host_line": "Ospita: Milka Smjestaj Šobić",
     "nav_lodge": "La locanda",

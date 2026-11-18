@@ -326,6 +326,12 @@ section{padding:72px 0}
 
 /* ---------- contact ---------- */
 .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+/* A grid item is never smaller than its content, and the map's iframe
+   has an intrinsic width of about 414px. On a phone that made the whole
+   page 51px wider than the screen - a sideways scroll for every guest -
+   and it squeezed the confirmation modal off the edge. */
+.contact-grid>*,.split>*,.pkg-grid>*,.air-grid>*,.season-grid>*,.stats>*,.inc-grid>*{min-width:0}
+.map-frame iframe{min-width:0}
 .contact-list{list-style:none;margin-top:22px}
 .contact-list li{display:flex;gap:14px;padding:13px 0;border-bottom:1px solid var(--line);align-items:flex-start}
 .contact-list svg{width:19px;height:19px;flex-shrink:0;margin-top:3px;stroke:var(--river);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
@@ -486,6 +492,20 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
 .muted{color:var(--muted)}
 .small{font-size:.82rem}
 .nowrap{white-space:nowrap}
+
+/* --- the confirmation modal ---------------------------------------
+   It is opened by form.js only after the server has answered ok:true,
+   so what it says is a fact and not a promise. */
+.modal{position:fixed;inset:0;z-index:9000;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal[hidden]{display:none}
+.modal-backdrop{position:absolute;inset:0;background:rgba(8,22,32,.76);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
+.modal-card{position:relative;background:#fff;border-radius:14px;padding:30px 28px 26px;max-width:470px;width:100%;box-shadow:0 26px 70px rgba(0,0,0,.38);text-align:center;animation:modal-in .22s ease-out}
+@keyframes modal-in{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+.modal-tick{width:54px;height:54px;border-radius:50%;background:#e8f1f4;color:var(--navy);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:26px;line-height:1}
+.modal-card h3{font-size:1.32rem;margin:0 0 10px}
+.modal-card p{margin:0 0 22px;color:var(--ink);line-height:1.55}
+.modal-card .btn{width:100%}
+@media (prefers-reduced-motion:reduce){.modal-card{animation:none}}
 </style>
 
 
@@ -997,6 +1017,14 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
           <a class="btn btn-ghost" href="tel:+38765622760" style="display:block;text-align:center">Call +387 65 622 760</a>
         </div>
     
+
+        <!-- The WhatsApp click log. It is never filled in by hand: the
+             browser posts to the whatsapp-click function, which writes the
+             record here with the visitor's IP address and their approximate
+             location. The form only has to exist in the page so that Netlify
+             registers it and accepts the submissions. -->
+        
+      </div>
     </div>
   </div>
 </section>
@@ -1024,9 +1052,24 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
       <span>© 2026 Pliva River Lodge. <span>All rights reserved.</span></span>
       <span>Catch and release. Travel insurance recommended.</span>
       
+      <span class="foot-credit"><span>Created by</span> <a href="https://aicoder.click" target="_blank" rel="noopener nofollow">aicoder.click</a></span>
     </div>
   </div>
 </footer>
+
+        <!-- The confirmation modal. form.js opens it only after the server
+             has answered ok:true - that is, after the email really went
+             out. Nothing is promised before the server says so. The form
+             is cleared at the same moment, so a second enquiry cannot be
+             sent by accident. -->
+        <div class="modal" id="enquiry-modal" hidden>
+          <div class="modal-backdrop" id="enquiry-modal-backdrop"></div>
+          <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="enquiry-modal-title" aria-describedby="enquiry-modal-text">
+            <div class="modal-tick" aria-hidden="true">&#10003;</div>
+            <h3 id="enquiry-modal-title">Your enquiry has been sent</h3>
+            <p id="enquiry-modal-text">We have your message and we will reply to you by email, usually the same day.</p>
+            <button type="button" class="btn btn-primary" id="enquiry-modal-close">Close</button>
+          </div>
 
 </body>
 </html>

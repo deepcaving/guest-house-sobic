@@ -28,6 +28,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _dict_writer import write_column
 
 NL = {
+    "modal_title": "Uw aanvraag is verzonden",
+    "modal_text": "We hebben uw bericht ontvangen en nemen per e-mail contact op, meestal nog dezelfde dag.",
+    "modal_close": "Sluiten",
+    "foot_credit": "Gemaakt door",
     "brand_sub": "Pljeva · Šipovo · Bosnië-Herzegovina",
     "host_line": "Gastvrouw: Milka Smjestaj Šobić",
     "nav_lodge": "Het huis",
