@@ -162,6 +162,30 @@ fi
 # --- 3. the certificate ----------------------------------------------------
 echo "--- 3. the certificate ---"
 apt-get install -y certbot >/dev/null 2>&1 || true
+
+# The full nginx configuration cannot be installed before the certificate
+# exists - nginx would not start - and the certificate cannot be issued
+# before nginx serves the challenge file. So the HTTP block goes in first,
+# on its own, certbot issues the certificate, and the full configuration
+# follows.
+cat > /etc/nginx/sites-available/pliva-riverside <<BOOT
+server {
+    listen 80;
+    listen [::]:80;
+    server_name $DOMAIN www.$DOMAIN;
+
+    # The certificate renewal writes here.
+    location ^~ /.well-known/acme-challenge/ {
+        root $REPO_DIR;
+        default_type "text/plain";
+    }
+
+    location / { return 404; }
+}
+BOOT
+ln -sf /etc/nginx/sites-available/pliva-riverside /etc/nginx/sites-enabled/pliva-riverside
+nginx -t && systemctl reload nginx
+
 certbot certonly --webroot -w "$REPO_DIR" \
   -d "$DOMAIN" -d "www.$DOMAIN" \
   --non-interactive --agree-tos -m "postmaster@$DOMAIN" \
