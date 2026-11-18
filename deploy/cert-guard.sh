@@ -81,6 +81,12 @@ for conf in /etc/letsencrypt/renewal/*.conf; do
     else
       echo "    $name: webroot $webroot  ✗ THE FOLDER IS MISSING - this renewal will fail"
     fi
+  elif [ "$auth" = "standalone" ]; then
+    echo "    $name: standalone  ✗ it wants to bind port 80 for itself, and nginx"
+    echo "           holds that port, so it can NEVER renew while nginx runs."
+    echo "           Switch it to the nginx plugin:"
+    echo "             certbot certonly --nginx -d $name --cert-name $name --expand \"
+    echo "               --non-interactive --agree-tos -m you@example.com"
   else
     echo "    $name: $auth  (nothing to check on disk)"
   fi

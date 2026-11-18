@@ -91,3 +91,19 @@ and to `/.netlify/functions/whatsapp-click`, and the nginx config keeps
 those paths. The only edit the site itself needs is the canonical address
 and the og:url once the domain is live - one place in `index.html`
 (step 6 above).
+
+## The tools in this folder
+
+| File | What it is for |
+|---|---|
+| `nginx.conf` | the configuration in `sites-available` - **explained line by line in [NGINX.md](NGINX.md)** |
+| `deploy.sh` | the whole install: the service, the secrets file, nginx, the certificate |
+| `mail-setup.sh` | fills in the mail secrets (the password is asked for, never stored in the script), restarts the service and sends one test enquiry |
+| `cert-guard.sh` | lists every certificate on the machine, says how each one renews, and proves it with a dry run |
+| `drop-site.sh` | takes a site off the machine for good: moves its nginx files away, revokes the certificate, deletes the renewal |
+| `server.mjs` | the small service that answers the two form paths |
+| `set-domain.sh` | writes the real domain into the page, the sitemap and the robots file |
+
+Read **NGINX.md** before changing anything in nginx: two faults in one
+configuration file stopped every certificate on this machine from
+renewing, and it took months to notice.
