@@ -128,14 +128,19 @@ systemctl daemon-reload
 systemctl enable pliva-site >/dev/null 2>&1 || true
 systemctl restart pliva-site || true
 sleep 1
+if ! systemctl is-active --quiet pliva-service 2>/dev/null; then :; fi
 if ! systemctl is-active --quiet pliva-site; then
   echo "ERROR: the service did not start. Here is what it said:" >&2
   journalctl -u pliva-site -n 25 --no-pager >&2 || true
   echo >&2
-  echo "The most common cause is a value with a space in it in" >&2
-  echo "/etc/pliva-site/env - systemd stops on those. Put the value in" >&2
-  echo "quotes, or remove the spaces:" >&2
-  echo "  SMTP_PASSWORD=\"the zoho app password\"" >&2
+  echo "--- and now the same thing by hand, where the error is plain ---" >&2
+  timeout 10 runuser -u www-data -- "$NODE_BIN" "$APP_DIR/deploy/server.mjs" >&2 || true
+  echo >&2
+  echo "Two things to check:" >&2
+  echo "  1. the service file is at $APP_DIR/deploy/server.mjs and the" >&2
+  echo "     functions are at $APP_DIR/netlify/functions/ - if the first is" >&2
+  echo "     missing, this clone is on an older commit (git log --oneline -1)" >&2
+  echo "  2. a value with a space in it in /etc/pliva-site/env - put it in quotes" >&2
   exit 1
 fi
 
