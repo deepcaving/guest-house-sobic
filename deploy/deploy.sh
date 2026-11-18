@@ -199,6 +199,10 @@ sed -e "s/pliva\.example/$DOMAIN/g" -e "s#/var/www/plivariverlodge#$REPO_DIR#g" 
 ln -sf /etc/nginx/sites-available/pliva-riverside /etc/nginx/sites-enabled/pliva-riverside
 nginx -t && systemctl reload nginx
 
+# --- 5. the certificates renew themselves from now on ----------------------
+echo "--- 5. the auto-renewal ---"
+"$REPO_DIR/deploy/cert-guard.sh" || echo "WARNING: the auto-renewal is not fully in place - check the output above" >&2
+
 echo
 echo "Done. Check:"
 echo "  https://$DOMAIN/"
