@@ -16,13 +16,28 @@
 set -euo pipefail
 
 DOMAIN="${1:-}"
+# The port the service listens on. 8080 is the first choice, but something
+# else on the box may already hold it, so it can be given here:
+#   ./deploy/deploy.sh plivariverlodge.com 8090
+PORT="${2:-8080}"
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 STORE_DIR=/var/lib/pliva-site
 APP_DIR=/opt/pliva-site
 
 if [ -z "$DOMAIN" ]; then
-  echo "usage: $0 <your.domain>" >&2
+  echo "usage: $0 <your.domain> [port]" >&2
   exit 64
+fi
+
+# Is the port free? If it is not, say so and point at the way out.
+if command -v ss >/dev/null 2>&1 && ss -ltn 2>/dev/null | grep -q ":$PORT "; then
+  echo "WARNING: port $PORT is already in use on this machine." >&2
+  echo "         Find out what holds it with:" >&2
+  echo "           sudo ss -ltnp | grep $PORT" >&2
+  echo "         or run the script with another port:" >&2
+  echo "           sudo $0 $DOMAIN 8090" >&2
+  PORT="${2:-8090}"
+  echo "         Using port $PORT for now." >&2
 fi
 
 # --- 0. the things that must be true before anything else ------------------
@@ -89,7 +104,7 @@ After=network.target
 [Service]
 Type=simple
 WorkingDirectory=$APP_DIR
-Environment=PORT=8080
+Environment=PORT=$PORT
 Environment=ENQUIRY_STORE=$STORE_DIR/enquiries.ndjson
 EnvironmentFile=-/etc/pliva-site/env
 ExecStart=$NODE_BIN $APP_DIR/deploy/server.mjs
@@ -155,6 +170,7 @@ certbot certonly --webroot -w "$REPO_DIR" \
 # --- 4. nginx --------------------------------------------------------------
 echo "--- 4. nginx ---"
 sed -e "s/pliva\.example/$DOMAIN/g" -e "s#/var/www/plivariverlodge#$REPO_DIR#g" \
+  -e "s/127\.0\.0\.1:8080/127.0.0.1:$PORT/g" \
   "$REPO_DIR/deploy/nginx.conf" > /etc/nginx/sites-available/pliva-riverside
 ln -sf /etc/nginx/sites-available/pliva-riverside /etc/nginx/sites-enabled/pliva-riverside
 nginx -t && systemctl reload nginx
@@ -162,6 +178,7 @@ nginx -t && systemctl reload nginx
 echo
 echo "Done. Check:"
 echo "  https://$DOMAIN/"
+echo "  the service listens on 127.0.0.1:$PORT"
 echo "  systemctl status pliva-site"
 echo "  tail -f /var/log/nginx/access.log"
 echo
