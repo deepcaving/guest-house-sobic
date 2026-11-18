@@ -68,9 +68,17 @@ UNIT
 # The mail secrets live here, in one file, root-only.
 if [ ! -f /etc/pliva-site/env ]; then
   echo "# Copy the Netlify environment variables here, one NAME=value per line." > /etc/pliva-site/env
-  echo "# SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD, SMTP_FROM_EMAIL," > /etc/pliva-site/env
-  echo "# SMTP_FROM_NAME, ZOHO_CLIENT_ID, ZOHO_CLIENT_SECRET, ZOHO_REFRESH_TOKEN," > /etc/pliva-site/env
-  echo "# ZOHO_ACCOUNT_ID, ZOHO_REGION, RESEND_API_KEY" >> /etc/pliva-site/env
+  echo "# SMTP_HOST=smtppro.zoho.com" >> /etc/pliva-site/env
+  echo "# SMTP_PORT=465" >> /etc/pliva-site/env
+  echo "# SMTP_SECURE=ssl" >> /etc/pliva-site/env
+  echo "# SMTP_USER=the account that owns the app password" >> /etc/pliva-site/env
+  echo "# SMTP_PASSWORD=the Zoho app password" >> /etc/pliva-site/env
+  echo "# SMTP_FROM_EMAIL=contact@plivariverlodge.com" >> /etc/pliva-site/env
+  echo "# SMTP_FROM_NAME=Pliva River Lodge" >> /etc/pliva-site/env
+  echo "#" >> /etc/pliva-site/env
+  echo "# Leave the ZOHO_* variables OUT. The Zoho Mail API is tried first and" >> /etc/pliva-site/env
+  echo "# this plan cannot send to an outside address at all - it answers with an" >> /etc/pliva-site/env
+  echo "# empty 404. The SMTP transport below is the one that works." >> /etc/pliva-site/env
   chmod 600 /etc/pliva-site/env
 fi
 systemctl daemon-reload
