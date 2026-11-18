@@ -76,6 +76,16 @@ cd /var/www/plivariverlodge
 sudo ./deploy/deploy.sh plivariverlodge.com
 ```
 
+**Every git command on this clone needs `sudo`.** The clone belongs to
+root, so a plain `git pull` answers *"cannot open '.git/FETCH_HEAD':
+Permission denied"* ✓. The deploy is therefore:
+
+```bash
+cd /var/www/plivariverlodge && sudo git pull
+```
+
+and the script also runs with sudo (it writes to /etc and /opt) ✓.
+
 (The branch is named because that is where this deployment kit lives
 today. Once the three branches are merged into `main`, clone `main` —
 or on the server: `git checkout main && git pull`.)
@@ -84,7 +94,7 @@ or on the server: `git checkout main && git pull`.)
 `/var/www/plivariverlodge`, so from now on the whole deploy is:
 
 ```bash
-cd /var/www/plivariverlodge && git pull
+cd /var/www/plivariverlodge && sudo git pull
 ```
 
 No copying, no rsync, nothing to drift. The nginx configuration denies
@@ -257,7 +267,7 @@ the site and Google sees two copies.
 ## Step 8 — every later change
 
 ```bash
-cd /var/www/plivariverlodge && git pull
+cd /var/www/plivariverlodge && sudo git pull
 ```
 
 That is the deploy for the website. Two things live outside the
