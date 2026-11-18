@@ -65,17 +65,31 @@ made the mail from `netyou.me` arrive unsigned. Do both:
 
 ---
 
-## Step 2 — the server (one command)
+## Step 2 — the server: clone, then one command
 
-On your server, from the repository:
+**Yes, clone it there.** The repository is public, so it needs no token:
 
 ```bash
+sudo git clone https://github.com/deepcaving/guest-house-sobic.git /var/www/plivariverlodge
+cd /var/www/plivariverlodge
+git checkout main          # or whichever branch carries the site you want
 sudo ./deploy/deploy.sh plivariverlodge.com
 ```
 
-It copies the site into `/var/www/pliva`, installs the small service that
-answers the enquiry form, asks certbot for the certificate, writes the
-nginx configuration with your domain in it and reloads nginx.
+**The clone IS the web root.** nginx serves the repository straight from
+`/var/www/plivariverlodge`, so from now on the whole deploy is:
+
+```bash
+cd /var/www/plivariverlodge && git pull
+```
+
+No copying, no rsync, nothing to drift. The nginx configuration denies
+`/.git` so the repository is never readable from the web.
+
+**Which branch?** `main` is what the site is today. The gallery (84
+photographs), the licence correction and this deployment kit live on three
+separate branches — say the word and I merge them into `main`, and the
+server pulls one branch and gets everything.
 
 **Two things to know about that script:**
 
@@ -105,6 +119,9 @@ nginx configuration with your domain in it and reloads nginx.
 - **It does not touch the other site on that box.** The nginx file it
   writes is a separate `server_name` block, so the service already
   running there keeps its own configuration.
+- **The secrets do not come with the clone.** The `.env` file is never
+  committed, so the mail secrets live only in `/etc/pliva-site/env`
+  (root-only) and the certificate only in `/etc/letsencrypt`.
 
 After the script, the service must be up:
 
@@ -128,7 +145,7 @@ certbot refused, it was almost always the DNS not pointing here yet:
 
 ```bash
 dig +short plivariverlodge.com
-sudo certbot certonly --webroot -w /var/www/pliva \
+sudo certbot certonly --webroot -w /var/www/plivariverlodge \
   -d plivariverlodge.com -d www.plivariverlodge.com \
   --non-interactive --agree-tos -m postmaster@plivariverlodge.com
 sudo nginx -t && sudo systemctl reload nginx
@@ -228,6 +245,28 @@ Netlify dashboard (or a `_redirects` file in the repository):
 
 **Do this last**, so there is never a moment when both addresses serve
 the site and Google sees two copies.
+
+---
+
+## Step 8 — every later change
+
+```bash
+cd /var/www/plivariverlodge && git pull
+```
+
+That is the deploy for the website. Two things live outside the
+repository and are not changed by a pull:
+
+- **the mail secrets** — `/etc/pliva-site/env`;
+- **the small service** — if `netlify/functions/` changes in a future
+  commit, copy it across and restart:
+
+  ```bash
+  sudo cp /var/www/plivariverlodge/netlify/functions/*.mjs /opt/pliva-site/netlify/functions/
+  sudo systemctl restart pliva-site
+  ```
+
+  (re-running `./deploy/deploy.sh` does both).
 
 ---
 
