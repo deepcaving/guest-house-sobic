@@ -17,7 +17,6 @@ set -euo pipefail
 
 DOMAIN="${1:-}"
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-SITE_DIR=/var/www/pliva
 STORE_DIR=/var/lib/pliva-site
 
 if [ -z "$DOMAIN" ]; then
@@ -32,12 +31,15 @@ if ! dig +short "$DOMAIN" | grep -q .; then
 fi
 
 echo "--- 1. the site files ---"
-install -d -m 755 "$SITE_DIR"
-rsync -a --delete \
-  --exclude '.git' --exclude 'deploy' --exclude 'docs' --exclude 'tools' \
-  --exclude 'test*' --exclude '*.md' \
-  "$REPO_DIR"/ "$SITE_DIR"/
-chown -R www-data:www-data "$SITE_DIR"
+# The clone IS the web root: nginx serves it straight from the repository,
+# so "git pull" is the whole deploy. Nothing is copied and nothing is
+# left behind to drift.
+if [ ! -f "$REPO_DIR/index.html" ]; then
+  echo "ERROR: no index.html in $REPO_DIR - is this the clone?" >&2
+  exit 1
+fi
+echo "  serving $REPO_DIR"
+chmod -R a+rX "$REPO_DIR"
 
 echo "--- 2. the service behind the enquiry form ---"
 install -d -m 755 "$STORE_DIR"
@@ -87,13 +89,14 @@ systemctl reload pliva-site || systemctl restart pliva-site
 
 echo "--- 3. the certificate ---"
 apt-get install -y certbot >/dev/null 2>&1 || true
-certbot certonly --webroot -w "$SITE_DIR" \
+certbot certonly --webroot -w "$REPO_DIR" \
   -d "$DOMAIN" -d "www.$DOMAIN" \
   --non-interactive --agree-tos -m "postmaster@$DOMAIN" \
   || echo "certbot did not issue a certificate - check the DNS and port 80"
 
 echo "--- 4. nginx ---"
-sed "s/pliva\.example/$DOMAIN/g" "$REPO_DIR/deploy/nginx.conf" > /etc/nginx/sites-available/pliva-riverside
+sed -e "s/pliva\.example/$DOMAIN/g" -e "s#/var/www/plivariverlodge#$REPO_DIR#g" \
+  "$REPO_DIR/deploy/nginx.conf" > /etc/nginx/sites-available/pliva-riverside
 ln -sf /etc/nginx/sites-available/pliva-riverside /etc/nginx/sites-enabled/pliva-riverside
 nginx -t && systemctl reload nginx
 
@@ -102,3 +105,6 @@ echo "Done. Check:"
 echo "  https://$DOMAIN/"
 echo "  systemctl status pliva-site"
 echo "  tail -f /var/log/nginx/access.log"
+echo
+echo "From now on the deploy is:"
+echo "  cd $REPO_DIR && git pull"
