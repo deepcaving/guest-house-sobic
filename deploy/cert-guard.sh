@@ -88,9 +88,25 @@ done
 
 echo
 echo "=== 4. the dry run - it proves the renewals work without changing anything ==="
-certbot renew --dry-run 2>&1 | tail -25
+DRY=$(certbot renew --dry-run 2>&1)
+echo "$DRY" | tail -30
+
+OK_COUNT=$(echo "$DRY" | grep -c "fullchain.pem (success)")
+BAD_COUNT=$(echo "$DRY" | grep -c "fullchain.pem (failure)")
+echo
+echo "--- the result ---"
+echo "  renewals that work: $OK_COUNT"
+echo "  renewals that fail:  $BAD_COUNT"
+if [ "$BAD_COUNT" -gt 0 ]; then
+  echo
+  echo "  A certificate whose renewal fails will EXPIRE and stay expired." >&2
+  echo "  Each failure above names its reason. The commonest one is:" >&2
+  echo "    'The nginx plugin is not working' - a broken nginx configuration" >&2
+  echo "    stops certbot before it can renew anything. Fix nginx first:" >&2
+  echo "      sudo nginx -t" >&2
+  echo "    then run this script again." >&2
+fi
 
 echo
-echo "Done. The certificates renew themselves from now on."
-echo "Check it any time with:  certbot certificates"
+echo "Check it any time with:  sudo certbot certificates"
 echo "                     and:  systemctl list-timers certbot.timer"
