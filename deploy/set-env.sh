@@ -2,7 +2,7 @@
 # Add, change or remove a variable in the server's secrets file.
 #
 #   sudo ./deploy/set-env.sh MAIL_BCC
-#   sudo ./deploy/set-env.sh MAIL_BCC=guesthousesobic@netyou.me
+#   sudo ./deploy/set-env.sh MAIL_BCC=your.collaborator.address@example.com
 #   sudo ./deploy/set-env.sh --delete ZOHO_CLIENT_SECRET
 #
 # A value typed at the prompt never appears in the shell history, and a

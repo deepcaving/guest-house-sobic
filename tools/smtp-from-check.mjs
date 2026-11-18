@@ -11,7 +11,7 @@
  * changing the site configuration.
  *
  * Usage:
- *   SMTP_USER=francesco.capuzzo@zoho.com \
+ *   SMTP_USER=your.zoho.mailbox@example.com \
  *   SMTP_PASSWORD=your-app-password \
  *   node tools/smtp-from-check.mjs your-alias@your-domain
  *

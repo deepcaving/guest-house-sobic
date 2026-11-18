@@ -582,10 +582,15 @@ def test_enquiry_function(r):
         "milkasobic25@gmail.com" in s,
         "the function defaults to Milka's inbox",
     )
-    # The collaborator is blind-copied by default - the env var overrides it.
+    # The collaborator is blind-copied, but the address comes from the
+    # environment - never from the source.
     r.check(
-        "francesco.capuzzo@zoho.com" in s,
-        "the function defaults to blind-copying the collaborator",
+        "process.env.MAIL_BCC" in s,
+        "the function reads the blind-copy address from the environment",
+    )
+    r.check(
+        "your.zoho.mailbox@example.com" not in s,
+        "the function carries no address of its own",
     )
     r.check(
         "domacinstvosobic@gmail.com" not in s,
@@ -1659,6 +1664,63 @@ def test_contact_form_occupancy(r):
             r.check(host in s, f"ZOHO the region tool asks {host}")
 
 
+def test_no_live_credentials_in_the_repository(r):
+    """Netlify refuses to build a tree that contains a live credential.
+
+    The scanner matches the VALUE of an environment variable, not the name.
+    So the mailbox address that SMTP_USER holds, and the collaborator's
+    alias that MAIL_BCC holds, must not be written in any tracked file -
+    not in a document, not in a comment, not as a default in the code.
+
+    The patterns are assembled from parts, so this test does not contain
+    them either.
+    """
+    import subprocess
+
+    # A full address, not the bare domain: writing "Zoho" or the domain in
+    # prose is harmless - the scanner matches the VALUE of a variable.
+    patterns = [
+        re.compile(r"[A-Za-z0-9._%+-]+@" + r"zoho" + r"\.com"),
+        re.compile(r"[A-Za-z0-9._%+-]+@" + r"netyou" + r"\.me"),
+    ]
+    try:
+        out = subprocess.run(
+            ["git", "-C", str(ROOT), "ls-files"],
+            capture_output=True, text=True, timeout=60, check=True,
+        ).stdout
+        names = [n for n in out.splitlines() if n.strip()]
+    except Exception:
+        names = [
+            str(p.relative_to(ROOT))
+            for p in ROOT.rglob("*")
+            if p.is_file() and p.suffix in {".md", ".js", ".mjs", ".html", ".py", ".sh",
+                                           ".json", ".txt", ".example", ".webmanifest"}
+            and ".git" not in p.parts and "node_modules" not in p.parts
+        ]
+
+    offenders = []
+    for name in names:
+        path = ROOT / name
+        try:
+            text = path.read_text(encoding="utf-8")
+        except (UnicodeDecodeError, OSError, ValueError):
+            continue
+        for pat in patterns:
+            if pat.search(text):
+                offenders.append(f"{name} contains a live address: {pat.pattern}")
+
+    r.check(not offenders,
+            "no live mailbox address is written anywhere in the repository")
+    for o in offenders:
+        r.check(False, o)
+
+    # And the function must take the blind-copy address from the environment.
+    fn = (ROOT / "netlify/functions/enquiry.mjs").read_text(encoding="utf-8")
+    r.check("process.env.MAIL_BCC" in fn,
+            "the function reads the blind-copy address from the environment")
+    r.check(re.search(r'bcc:\s*process\.env\.MAIL_BCC\s*\|\|\s*""', fn) is not None,
+            "the function has no address of its own to fall back on")
+
 def test_confirmation_modal(r):
     """The guest must be told the truth, and the truth must be checked.
 
@@ -2335,6 +2397,7 @@ def main():
     test_booking_email_is_milka_s(r)
     test_forms_backup_carries_the_same_fields_as_the_email(r)
     test_confirmation_modal(r)
+    test_no_live_credentials_in_the_repository(r)
 
     print(f"\n{r.passes} passed, {len(r.failures)} failed")
     if r.failures:

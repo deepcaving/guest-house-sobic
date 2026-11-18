@@ -125,7 +125,7 @@ Plus these, which apply to all of them:
 | Variable | Value |
 |---|---|
 | `MAIL_TO` | `milkasobic25@gmail.com` (the default) |
-| `MAIL_BCC` | `francesco.capuzzo@zoho.com` — you are blind-copied by default |
+| `MAIL_BCC` | `your.zoho.mailbox@example.com` — you are blind-copied by default |
 | `MAIL_FROM` | `Pliva River Lodge <bookings@plivariverlodge.com>` (the default, Resend only) |
 
 **On outbound SMTP and Netlify's plan:** the Free plan is not the obstacle.

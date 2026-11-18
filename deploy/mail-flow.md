@@ -6,8 +6,8 @@
 |---|---|
 | `contact@plivariverlodge.com` | the address of the lodge — the one guests write to and the one guests must see in the `From` line |
 | `milkasobic25@gmail.com` | Milka's own inbox — where enquiries are read and answers are written |
-| `guesthousesobic@netyou.me` | the collaborator's alias — blind-copied on every enquiry, never copied |
-| `francesco.capuzzo@zoho.com` | the Zoho mailbox that owns the app password, and the login name for SMTP |
+| `your.collaborator.address@example.com` | the collaborator's alias — blind-copied on every enquiry, never copied |
+| `your.zoho.mailbox@example.com` | the Zoho mailbox that owns the app password, and the login name for SMTP |
 
 ---
 
@@ -20,7 +20,7 @@
 2. the server sends ONE email
         from   contact@plivariverlodge.com
         to     milkasobic25@gmail.com          (Milka reads it)
-        bcc    guesthousesobic@netyou.me       (the collaborator, blind)
+        bcc    your.collaborator.address@example.com       (the collaborator, blind)
         reply-to  the guest's own address
         │
         ▼
@@ -53,7 +53,7 @@ address* → **Add a third-party email address**.
 | **Outgoing** server | `smtppro.zoho.com` |
 | Outgoing port | `465` |
 | Outgoing encryption | `SSL` |
-| Outgoing username | `francesco.capuzzo@zoho.com` |
+| Outgoing username | `your.zoho.mailbox@example.com` |
 | Outgoing password | the same Zoho app password |
 
 **The incoming server is Zoho's, not Gmail's.** The address belongs to the
@@ -70,12 +70,12 @@ arrives in the inbox Gmail has just connected, and the code confirms it.
 SMTP_HOST=smtppro.zoho.com
 SMTP_PORT=465
 SMTP_SECURE=ssl
-SMTP_USER=francesco.capuzzo@zoho.com
+SMTP_USER=your.zoho.mailbox@example.com
 SMTP_PASSWORD=<the app password>
 SMTP_FROM_EMAIL=contact@plivariverlodge.com
 SMTP_FROM_NAME=Pliva River Lodge
 MAIL_TO=milkasobic25@gmail.com
-MAIL_BCC=guesthousesobic@netyou.me
+MAIL_BCC=your.collaborator.address@example.com
 ```
 
 Change a value with:
@@ -153,7 +153,7 @@ be reused until that user or alias is deleted.
 
 **The order matters.** An alias and a mailbox cannot hold the same address, so:
 
-1. Delete the alias (`Users → francesco.capuzzo@zoho.com → Mailbox Settings →
+1. Delete the alias (`Users → your.zoho.mailbox@example.com → Mailbox Settings →
    Email Alias → contact@plivariverlodge.com → delete`).
 2. **Then** create the mailbox (`Users → Add User → the domain
    plivariverlodge.com → the address contact@plivariverlodge.com`).
@@ -223,7 +223,7 @@ itself.
 
    Either place works:
    - **Zoho webmail** (mail.zoho.com) → Settings → **Filters** → New Filter
-   - **Admin Console** → Users → francesco.capuzzo@zoho.com → Mailbox
+   - **Admin Console** → Users → your.zoho.mailbox@example.com → Mailbox
      Settings → **Incoming Email Settings** → **Filters**
 
    The filter:
@@ -259,10 +259,50 @@ everything the account receives, personal mail included. Use the filter.
    third-party email address** → username `contact@plivariverlodge.com`,
    password = that app password, **incoming `imap.zoho.com` port 993 SSL**,
    **outgoing `smtppro.zoho.com` port 465 SSL**, outgoing username
-   `francesco.capuzzo@zoho.com`, same app password → verify the code.
+   `your.zoho.mailbox@example.com`, same app password → verify the code.
 5. Now everything happens in Gmail: Milka reads the enquiries and answers
    them there, and the guest sees the lodge's address. The alias forwarding
    from path B can be removed.
+
+---
+
+## The Admin Console: making contact@ a mailbox
+
+Gmail's "add a third-party address" form asks for an **incoming** server as
+well as an outgoing one, and it logs into the incoming server **as the address
+being added**. So `contact@plivariverlodge.com` must be able to log into
+Zoho's IMAP — and an email alias cannot: an alias has no password of its
+own, so it cannot log in and it cannot receive through IMAP. That is why the
+address has to become a **mailbox** of its own.
+
+### "Given emailId already exists"
+
+Zoho's wording for *this address is already taken inside your organisation* —
+as a user account **or as an email alias**. The order is therefore fixed:
+
+1. **Delete the alias** — Users → francesco.capuzzo → Mailbox Settings →
+   Email Alias → contact@plivariverlodge.com → delete.
+2. **Then add the user** — Users → **Add User** → the domain
+   plivariverlodge.com → the address contact@plivariverlodge.com → a
+   password with an upper case letter, a lower case letter, a digit and a
+   symbol.
+
+**If the address is still refused after the alias is gone**, Zoho's help gives
+three further reasons:
+
+| What you see | What it is | What to do |
+|---|---|---|
+| *Email address already exists or associated in another Organisation* | the address belongs to a **standalone Zoho account** signed up separately | create a **Catch-All** user for that address in your organisation, log out, then use *Forgot password* on Zoho Mail — the reset link arrives in the catch-all account — reset the password, then close the standalone account or accept the invitation into your organisation |
+| *This operation has been restricted* | Zoho blocked the creation | email **support-as@zohocorp.com** with the address you are trying to create; they answer within 24–48 hours |
+| *License limit reached* | the plan has no room for another mailbox | buy one Mail Lite licence (**US$1 per user per month**, billed yearly) — or take path B |
+
+### The 535
+
+`535 5.7.8 Authentication Failed` is what Zoho answers when the **regular
+account password** is used for SMTP. SMTP wants an **app password**: twelve
+characters, generated at *Zoho Mail → Settings → Mailboxes → the mailbox →
+Edit → App Passwords → Generate*, shown only once. It is the same password
+the server uses, and the same one that must go into Gmail's outgoing field.
 
 ---
 

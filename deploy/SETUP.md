@@ -116,7 +116,7 @@ the word and I merge all three into `main`; then the server checks out
   SMTP_HOST=smtppro.zoho.com
   SMTP_PORT=465
   SMTP_SECURE=ssl
-  SMTP_USER=francesco.capuzzo@zoho.com
+  SMTP_USER=your.zoho.mailbox@example.com
   SMTP_PASSWORD=your Zoho app password
   SMTP_FROM_EMAIL=contact@plivariverlodge.com
   SMTP_FROM_NAME=Pliva River Lodge
@@ -246,7 +246,7 @@ Later, when Milka's Gmail is set up to send as the alias:
 1. In Gmail: **Settings > Accounts > Add another email address** →
    add `contact@plivariverlodge.com` → "Send mail as" → **Send through
    your SMTP server (smtppro.zoho.com)** → port **465**, TLS → username
-   `francesco.capuzzo@zoho.com`, password = the Zoho **app password**
+   `your.zoho.mailbox@example.com`, password = the Zoho **app password**
    (not her Gmail password).
 2. Gmail sends a confirmation to `contact@plivariverlodge.com` — it goes
    to Milka's Gmail through the alias, she clicks the link ✓.
