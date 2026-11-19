@@ -11,7 +11,7 @@ terrace, the fire, the water, the food.
 | Handle | **@plivariverlodge** |
 | Display name | Pliva River Lodge |
 | Category | Hotel · Travel & Tourism · Fishing |
-| Link in bio | https://guesthousesobic.netlify.app (or a linktr.ee that also points at the Instagram feed) |
+| Link in bio | https://plivariverlodge.com (or a linktr.ee that also points at the Instagram feed) |
 
 ### Bio (paste verbatim)
 
@@ -21,7 +21,7 @@ Boutique fly-fishing base on the Pliva, Bosnia
 2 km from the spring · 7 rooms · Fireplace · Home cooking
 Pljeva, Šipovo 📍
 WhatsApp → +387 65 622 760
-https://guesthousesobic.netlify.app
+https://plivariverlodge.com
 ```
 
 ### Profile photo
@@ -74,7 +74,7 @@ comments.
 > White walls, new roof, and a mountain behind the field. Šipovo,
 > Bosnia & Herzegovina.
 >
-> Open year-round. https://guesthousesobic.netlify.app
+> Open year-round. https://plivariverlodge.com
 
 **3 — dining hall, fire lit**
 > A brick fireplace, a grill, a long oak table for fourteen, and floor-to-

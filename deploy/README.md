@@ -1,6 +1,7 @@
 # Pliva River Lodge on our own server
 
-The site is now on Netlify (`guesthousesobic.netlify.app`). This folder is
+The site is now on our own server at `plivariverlodge.com`, with Netlify
+(`guesthousesobic.netlify.app`) kept as the fallback. This folder is
 everything needed to put it on a domain of our own, on the server we
 already have.
 

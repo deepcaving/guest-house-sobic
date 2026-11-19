@@ -52,7 +52,7 @@ everyone at once.
 >
 > Best,
 > Milka Smjestaj Šobić
-> Pliva River Lodge · https://guesthousesobic.netlify.app
+> Pliva River Lodge · https://plivariverlodge.com
 
 ## 2. To a hosted-trip organiser (Paradise, Fly Odyssey, Aardvark McLeod, Mankov, Outside Travels)
 
@@ -77,7 +77,7 @@ everyone at once.
 > if it fits your calendar. Free accommodation for the host, and we would
 > happily work on a fair accommodation rate.
 >
-> WhatsApp +387 65 622 760 · https://guesthousesobic.netlify.app
+> WhatsApp +387 65 622 760 · https://plivariverlodge.com
 >
 > Best,
 > Milka Smjestaj Šobić
@@ -109,7 +109,7 @@ everyone at once.
 >
 > Best,
 > Milka Smjestaj Šobić
-> Pliva River Lodge · +387 65 622 760 · https://guesthousesobic.netlify.app
+> Pliva River Lodge · +387 65 622 760 · https://plivariverlodge.com
 
 ## 4. To the Tourist Organization of Šipovo / RS / Eco Pliva
 
@@ -131,7 +131,7 @@ everyone at once.
 >   Sarajevo, Banja Luka and Split
 > • Open year-round
 > • Pliva River Lodge, Pljeva, Šipovo
-> • +387 65 622 760 · milkasobic25@gmail.com · https://guesthousesobic.netlify.app
+> • +387 65 622 760 · milkasobic25@gmail.com · https://plivariverlodge.com
 >
 > I can send photos and any documents you need.
 >
@@ -167,7 +167,7 @@ everyone at once.
 >
 > Best,
 > Milka Smjestaj Šobić
-> Pliva River Lodge · https://guesthousesobic.netlify.app
+> Pliva River Lodge · https://plivariverlodge.com
 
 ---
 
@@ -200,7 +200,7 @@ everyone at once.
 >
 > Viele Grüße
 > Milka Smjestaj Šobić
-> Pliva River Lodge · https://guesthousesobic.netlify.app
+> Pliva River Lodge · https://plivariverlodge.com
 
 ## 8. An einen Reiseveranstalter mit geführten Wochen
 
@@ -226,7 +226,7 @@ everyone at once.
 > den Gastgeber ist selbstverständlich frei, und über einen fairen
 > Unterkunftstarif sprechen wir gerne.
 >
-> WhatsApp +387 65 622 760 · https://guesthousesobic.netlify.app
+> WhatsApp +387 65 622 760 · https://plivariverlodge.com
 >
 > Herzliche Grüße
 > Milka Smjestaj Šobić
@@ -272,7 +272,7 @@ everyone at once.
 >
 > A presto,
 > Milka Smjestaj Šobić
-> Pliva River Lodge · https://guesthousesobic.netlify.app
+> Pliva River Lodge · https://plivariverlodge.com
 
 ## 11. A un organizzatore di settimane guidate
 
@@ -297,7 +297,7 @@ everyone at once.
 > settimana per il 2027 se entra nel tuo calendario. Alloggio gratuito per
 > l'ospite, e volentieri troviamo un tariffario equo per l'alloggio.
 >
-> WhatsApp +387 65 622 760 · https://guesthousesobic.netlify.app
+> WhatsApp +387 65 622 760 · https://plivariverlodge.com
 >
 > A presto,
 > Milka Smjestaj Šobić

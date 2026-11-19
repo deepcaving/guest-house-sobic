@@ -627,6 +627,12 @@ def test_enquiry_function(r):
         "bookings@guesthousesobic.netlify.app" not in s,
         "the function does not use an unverifiable netlify.app sender",
     )
+    # The address the guest reads in the body of the enquiry must be the
+    # domain we own - the netlify.app copy is the fallback, not the address.
+    r.check(
+        "Website enquiry from plivariverlodge.com" in s,
+        "the enquiry email names the domain we own",
+    )
     # An unverified-domain rejection must be reported precisely, not as a
     # generic failure, or it is impossible to diagnose.
     r.check(

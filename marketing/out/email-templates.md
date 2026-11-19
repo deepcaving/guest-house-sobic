@@ -32,7 +32,7 @@ than a month of posting.
 > Thank you so much.
 >
 > Milka Smjestaj Šobić
-> Pliva River Lodge · +387 65 622 760 · https://guesthousesobic.netlify.app
+> Pliva River Lodge · +387 65 622 760 · https://plivariverlodge.com
 
 **The one rule:** ask once. If they don't reply, don't ask again. One polite
 follow-up at most, a week later.
@@ -91,7 +91,7 @@ Send the moment the deposit clears, not when the guest asks.
 >
 > Milka Smjestaj Šobić
 > Pliva River Lodge, Pljeva, Šipovo, Bosnia & Herzegovina
-> +387 65 622 760 · https://guesthousesobic.netlify.app
+> +387 65 622 760 · https://plivariverlodge.com
 
 ---
 
@@ -141,7 +141,7 @@ almost nothing and it is the email people remember.
 >
 > See you on Sunday.
 >
-> Milka Smjestaj Šobić · +387 65 622 760 · https://guesthousesobic.netlify.app
+> Milka Smjestaj Šobić · +387 65 622 760 · https://plivariverlodge.com
 
 ---
 
@@ -175,7 +175,7 @@ almost nothing and it is the email people remember.
 > Room-only is €85 a night for a double with breakfast. We do not hire out
 > fishing tackle — bring your own, or hire it in Šipovo.
 >
-> The full details are here: https://guesthousesobic.netlify.app
+> The full details are here: https://plivariverlodge.com
 >
 > If it is easier, message me on WhatsApp +387 65 622 760 — that is usually the
 > fastest way to get an answer and I do not mind photos of the house in

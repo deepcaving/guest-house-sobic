@@ -101,7 +101,7 @@ One-time setup, in the [Zoho API console](https://api-console.zoho.com):
 
 1. **Add Client** → **Server-based Application**. Fill in:
    - **Client Name**: `Pliva River Lodge` (anything readable)
-   - **Homepage URL**: `https://guesthousesobic.netlify.app`
+   - **Homepage URL**: `https://plivariverlodge.com`
    - **Authorized Redirect URIs**: `http://localhost` — then press the **+**
      to add it
 

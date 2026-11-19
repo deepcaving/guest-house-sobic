@@ -19,7 +19,7 @@ setup.
 > 3. Are you fly fishing, or just visiting?
 > 4. Where you'll fly into (Sarajevo / Banja Luka / Split / driving)
 >
-> In the meantime, our packages and rates are here: https://guesthousesobic.netlify.app
+> In the meantime, our packages and rates are here: https://plivariverlodge.com
 >
 > Pliva River Lodge, Pljeva, Šipovo 🇧🇦
 
@@ -98,7 +98,7 @@ it looks professional.
 | Description | 7-room riverside lodge on the Pliva, 2 km below the spring. Fly fishing, home cooking, wood-fire dining hall. Open year-round. |
 | Address | Pljeva, Šipovo, Bosnia & Herzegovina |
 | Hours | Open year-round |
-| Website | https://guesthousesobic.netlify.app |
+| Website | https://plivariverlodge.com |
 | Email | milkasobic25@gmail.com |
 | Profile photo | the exterior, same as Instagram |
 

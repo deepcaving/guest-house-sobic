@@ -262,7 +262,8 @@ the guest sees `contact@plivariverlodge.com` and nothing else ✓.
 
 ## Step 7 — let the old address point at the new one
 
-Keep `guesthousesobic.netlify.app` alive for now — it is the fallback if
+The live site is `plivariverlodge.com`. Keep `guesthousesobic.netlify.app`
+alive for now — it is the fallback if
 the server ever goes down. When you are happy, add a redirect in the
 Netlify dashboard (or a `_redirects` file in the repository):
 

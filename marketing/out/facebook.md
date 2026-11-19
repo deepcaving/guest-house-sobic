@@ -15,7 +15,7 @@ Create it at facebook.com/pages/create.
 | Category | Hotel · Travel & Tourism · Fishing |
 | Cover photo | `terrace-golden.jpg`, cropped to 16:9 (851 × 315 px) — the riverside terrace |
 | Profile photo | same as Instagram: the exterior |
-| Website | https://guesthousesobic.netlify.app |
+| Website | https://plivariverlodge.com |
 | Phone | +387 65 622 760 |
 | WhatsApp | +387 65 622 760 |
 | Email | milkasobic25@gmail.com |
@@ -34,7 +34,7 @@ Create it at facebook.com/pages/create.
 > Fly-fishing weeks from €1,390 per person — 7 nights, 6 guided fishing days,
 > full board, licence, guide and the airport transfer from Sarajevo.
 >
-> WhatsApp +387 65 622 760 · https://guesthousesobic.netlify.app
+> WhatsApp +387 65 622 760 · https://plivariverlodge.com
 
 ## The pin post
 

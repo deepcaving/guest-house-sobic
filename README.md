@@ -3,7 +3,7 @@
 Boutique 7-room riverside lodge on the Pliva River, 2 km below the famous Pliva spring.
 Fly fishing, home cooking, wood-fire dining hall, private terrace over the bank.
 
-**Live site:** https://guesthousesobic.netlify.app/
+**Live site:** https://plivariverlodge.com/  (Netlify keeps a copy at `guesthousesobic.netlify.app` as the fallback)
 
 ## Structure
 
@@ -173,7 +173,7 @@ GitHub is already connected. Build settings:
 Netlify serves `index.html` from the repo root automatically. Submissions to
 the enquiry form show up under **Forms** in the Netlify dashboard.
 
-**Live URL:** https://guesthousesobic.netlify.app/
+**Live URL:** https://plivariverlodge.com/
 
 ### Branches and deploys
 
@@ -220,7 +220,7 @@ buttons. Use the Netlify/GitHub version for the working video and the real form.
       Change `"email"` in `site-config.json` and in the two places in
       `index.html` (the contact block and the JSON-LD), then set
       `"email_live": true` and run `python3 marketing/render.py`.
-- [x] **The site URL is `https://guesthousesobic.netlify.app/`.** It is set in
+- [x] **The site URL is `https://plivariverlodge.com/`.** It is set in
       `site-config.json` and mirrored in `og:url`, `og:image`, `twitter:image`,
       the JSON-LD `url`/`image` and the `<link rel="canonical">`.
       `build_standalone.py --check` fails if the two drift apart.

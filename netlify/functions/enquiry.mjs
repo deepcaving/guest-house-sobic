@@ -169,7 +169,7 @@ function occupancyLines(body) {
 
 /** Build the plain-text body of the email from the posted fields. */
 function buildBody(body) {
-  const lines = ["Website enquiry from guesthousesobic.netlify.app", ""];
+  const lines = ["Website enquiry from plivariverlodge.com", ""];
   for (const [name, label] of FIELDS) {
     const value = readField(body, name);
     if (value) lines.push(`${label}: ${value}`);

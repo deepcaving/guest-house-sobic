@@ -70,7 +70,7 @@ reason for that.
 
 **Pliva River Lodge** is a 7-room boutique guesthouse on the bank of the
 Pliva, two kilometres below the source, in Pljeva near Šipovo, Bosnia &
-Herzegovina. Open year-round. Packages and dates at https://guesthousesobic.netlify.app — or message
+Herzegovina. Open year-round. Packages and dates at https://plivariverlodge.com — or message
 us on WhatsApp +387 65 622 760.
 
 ---
