@@ -524,6 +524,10 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
 <script src="dates.js" defer></script>
 <script src="occupancy.js" defer></script>
 <script src="form.js" defer></script>
+<!-- The visitor counter. The file it loads is written onto the server by
+     deploy/analytics-install.sh; if it is not there the browser gets a 404
+     and nothing else on the page is affected. -->
+<script src="analytics.js" defer></script>
 </head>
 <body class="no-js">
 

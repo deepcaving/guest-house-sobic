@@ -1785,6 +1785,51 @@ def test_confirmation_modal(r):
         for lang in ("en", "de", "bs", "it", "fr", "nl"):
             r.check(bool(entry.get(lang)), f"{key} is translated into {lang}")
 
+def test_visitor_counter(r):
+    """The visitor counter must be there, and it must not leak.
+
+    What must hold:
+      - the page loads /analytics.js, the file the installer writes
+      - nginx serves the tracker and the collector from THIS domain
+      - the website id is NOT committed - it is written onto the server
+      - the dashboard is not on the internet: Umami binds to 127.0.0.1
+      - the standalone build does not carry the tracker
+    """
+    html = (ROOT / "index.html").read_text(encoding="utf-8")
+    nginx = (ROOT / "deploy" / "nginx.conf").read_text(encoding="utf-8")
+    installer = (ROOT / "deploy" / "analytics-install.sh").read_text(encoding="utf-8")
+
+    r.check('src="analytics.js"' in html,
+            "the page loads the tracker file")
+
+    r.check("location = /stats.js" in nginx,
+            "nginx serves the tracker from this domain")
+    r.check("location = /api/send" in nginx,
+            "nginx serves the collector from this domain")
+    r.check("127.0.0.1:3000" in nginx,
+            "the tracker is proxied to the local Umami, not to a third party")
+
+    r.check('"127.0.0.1:3000:3000"' in installer,
+            "Umami is bound to localhost, so the dashboard is not public")
+    r.check("data-website-id" in installer,
+            "the tracker file carries the website id")
+    r.check("analytics.js" in installer and "SITE_DIR" in installer,
+            "the installer writes the tracker file next to the site")
+
+    # a committed website id would be a site that counts only for us
+    import re
+    uuid = re.findall(r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+                      (ROOT / "index.html").read_text(encoding="utf-8"))
+    r.check(not uuid, "no website id is committed to the repository")
+
+    standalone = (ROOT / "PlivaRiverLodge-standalone.html").read_text(encoding="utf-8")
+    r.check('<script src="analytics.js"' not in standalone,
+            "the standalone build does not carry the tracker")
+
+    r.check((ROOT / "deploy" / "ANALYTICS.md").exists(),
+            "the analytics setup is documented")
+
+
 def test_forms_backup_carries_the_same_fields_as_the_email(r):
     """The Netlify Forms backup must be the SAME enquiry as the email.
 
@@ -2403,6 +2448,7 @@ def main():
     test_booking_email_is_milka_s(r)
     test_forms_backup_carries_the_same_fields_as_the_email(r)
     test_confirmation_modal(r)
+    test_visitor_counter(r)
     test_no_live_credentials_in_the_repository(r)
 
     print(f"\n{r.passes} passed, {len(r.failures)} failed")
