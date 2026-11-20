@@ -68,19 +68,54 @@ def write_column(lang, values, label):
             elif other in entry:
                 columns[key][other] = entry[other]
 
+    dump(data)
+    print(f"Wrote {len(data)} keys with the {label} column.")
+    return 0
+
+
+def dump(data):
+    """Write the dictionary back, in the same order and the same shape."""
     out = [HEAD, "window.I18N = {\n"]
-    keys = list(columns.keys())
+    keys = list(data.keys())
     for i, key in enumerate(keys):
         out.append(f'  "{key}": {{\n')
-        entries = columns[key]
+        entries = data[key]
         names = BASE + [x for x in EXTRA if x in entries]
         for j, name in enumerate(names):
             comma = "," if j < len(names) - 1 else ""
-            value = json.dumps(entries[name], ensure_ascii=False)
+            value = json.dumps(entries.get(name, ""), ensure_ascii=False)
             out.append(f'    "{name}": {value}{comma}\n')
         out.append("  }" + ("," if i < len(keys) - 1 else "") + "\n")
     out.append("};\n")
 
     DICT.write_text("".join(out), encoding="utf-8")
-    print(f"Wrote {len(keys)} keys with the {label} column.")
+
+
+def insert_keys(entries, after_key):
+    """Put new keys into the dictionary, right after `after_key`.
+
+    `entries` is {key: {lang: text}}. Every language has to be there -
+    a key with a hole in it would come out as an empty string on the page.
+    """
+    data = load()
+    for key, langs in entries.items():
+        missing = [x for x in BASE + EXTRA if x not in langs]
+        if missing:
+            print(f"ERROR: no text for {key} in: {', '.join(missing)}")
+            return 1
+        if key in data:
+            print(f"ERROR: {key} is already in the dictionary.")
+            return 1
+    if after_key not in data:
+        print(f"ERROR: {after_key} is not in the dictionary.")
+        return 1
+
+    out = {}
+    for key, value in data.items():
+        out[key] = value
+        if key == after_key:
+            for new_key, langs in entries.items():
+                out[new_key] = dict(langs)
+    dump(out)
+    print(f"Added {len(entries)} keys after {after_key}.")
     return 0

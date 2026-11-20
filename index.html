@@ -8,7 +8,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
-<link rel="canonical" href="https://guesthousesobic.netlify.app/">
+<link rel="canonical" href="https://plivariverlodge.com/">
 
 <!-- Social sharing. og:url / og:image / the JSON-LD url all point at the
      production host. If you publish on a different host, change them here
@@ -17,8 +17,8 @@
 <meta property="og:site_name" content="Pliva River Lodge">
 <meta property="og:title" content="Pliva River Lodge — Fly Fishing on the Pliva">
 <meta property="og:description" content="Seven rooms on the Pliva, 2 km below the spring. Fly fishing, wood-fire cooking and a private terrace over the bank. Open year-round.">
-<meta property="og:url" content="https://guesthousesobic.netlify.app/">
-<meta property="og:image" content="https://guesthousesobic.netlify.app/img/og-image.jpg">
+<meta property="og:url" content="https://plivariverlodge.com/">
+<meta property="og:image" content="https://plivariverlodge.com/img/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Sofa seating on the private terrace above the Pliva River">
@@ -28,7 +28,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Pliva River Lodge — Fly Fishing on the Pliva">
 <meta name="twitter:description" content="Seven rooms on the Pliva, 2 km below the spring. Fly fishing, wood-fire cooking and a private terrace over the bank.">
-<meta name="twitter:image" content="https://guesthousesobic.netlify.app/img/og-image.jpg">
+<meta name="twitter:image" content="https://plivariverlodge.com/img/og-image.jpg">
 <meta name="theme-color" content="#122f45">
 
 <script type="application/ld+json">
@@ -37,8 +37,8 @@
   "@type": "LodgingBusiness",
   "name": "Pliva River Lodge",
   "description": "Boutique 7-room riverside lodge on the Pliva River, 2 km below the famous Pliva spring, Sipovo, Bosnia and Herzegovina. Fly fishing, home cooking, wood-fire dining hall, open year-round.",
-  "url": "https://guesthousesobic.netlify.app/",
-  "image": "https://guesthousesobic.netlify.app/img/og-image.jpg",
+  "url": "https://plivariverlodge.com/",
+  "image": "https://plivariverlodge.com/img/og-image.jpg",
   "telephone": "+38765622760",
   "email": "milkasobic25@gmail.com",
   "priceRange": "EUR 70 - EUR 1390 per person",
@@ -232,13 +232,52 @@ section{padding:72px 0}
 .angler .split-body{display:flex;flex-direction:column;justify-content:center;padding-left:0}
 
 /* ---------- gallery ---------- */
-.gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.gallery a{display:block;overflow:hidden;border-radius:2px;background:var(--stone)}
-.gallery img{width:100%;height:190px;object-fit:cover;transition:transform .5s cubic-bezier(.2,.7,.3,1)}
-.gallery a:hover img{transform:scale(1.06)}
-.gallery .g-tall{grid-row:span 2}
-.gallery .g-tall img{height:390px}
-.gallery figcaption{font-size:.76rem;color:var(--muted);padding-top:8px}
+/* The gallery is a window four rows high. The pictures scroll inside it,
+   one row leaving at the top and one arriving at the bottom, and the
+   window never gets taller - so the page itself stays short. */
+.gallery-scroll{--gal-tile:170px;--gal-gap:8px;
+  max-height:calc(4 * var(--gal-tile) + 3 * var(--gal-gap));
+  overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;
+  scrollbar-width:thin}
+.gallery-scroll::-webkit-scrollbar{width:8px}
+.gallery-scroll::-webkit-scrollbar-thumb{background:#c9cfcd;border-radius:4px}
+.gallery-scroll::-webkit-scrollbar-track{background:transparent}
+.gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.gallery .g-item{display:block;padding:0;margin:0;border:0;line-height:0;cursor:zoom-in;
+  overflow:hidden;border-radius:2px;background:var(--stone)}
+.gallery .g-item img{width:100%;height:170px;object-fit:cover;display:block;
+  transition:transform .5s cubic-bezier(.2,.7,.3,1)}
+.gallery .g-item:hover img{transform:scale(1.06)}
+.gallery .g-item:focus-visible{outline:2px solid var(--river);outline-offset:2px}
+
+/* ---------- the photo viewer (the way booking.com does it) ---------- */
+body.lb-open{overflow:hidden}
+.lightbox{position:fixed;inset:0;z-index:200;background:#0f1315;
+  display:flex;align-items:center;justify-content:center}
+.lightbox[hidden]{display:none}
+.lb-top{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;
+  justify-content:space-between;padding:16px 20px;z-index:3}
+.lb-count{color:#fff;font-size:.9rem;letter-spacing:.08em;opacity:.8}
+.lb-close{background:rgba(255,255,255,.14);border:0;color:#fff;font-size:1rem;
+  width:42px;height:42px;border-radius:50%;cursor:pointer;line-height:1}
+.lb-close:hover{background:rgba(255,255,255,.28)}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:3;
+  background:rgba(255,255,255,.14);border:0;color:#fff;font-size:2.2rem;line-height:1;
+  width:56px;height:56px;border-radius:50%;cursor:pointer;padding:0}
+.lb-nav:hover{background:rgba(255,255,255,.28)}
+.lb-prev{left:18px}
+.lb-next{right:18px}
+.lb-stage{position:absolute;top:70px;bottom:96px;left:84px;right:84px;
+  display:flex;align-items:center;justify-content:center}
+.lb-img{max-width:100%;max-height:100%;object-fit:contain;
+  box-shadow:0 18px 50px rgba(0,0,0,.45)}
+.lb-strip{position:absolute;left:0;right:0;bottom:0;height:88px;display:flex;gap:6px;
+  align-items:center;overflow-x:auto;overflow-y:hidden;padding:8px 16px;
+  background:rgba(0,0,0,.4)}
+.lb-thumb{flex:0 0 auto;width:86px;height:62px;padding:0;border:2px solid transparent;
+  background:#111;cursor:pointer;opacity:.5;transition:opacity .2s,border-color .2s}
+.lb-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.lb-thumb.on{opacity:1;border-color:#fff}
 
 /* ---------- season band ---------- */
 .season-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:36px;text-align:left}
@@ -336,6 +375,12 @@ section{padding:72px 0}
 
 /* ---------- contact ---------- */
 .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+/* A grid item is never smaller than its content, and the map's iframe
+   has an intrinsic width of about 414px. On a phone that made the whole
+   page 51px wider than the screen - a sideways scroll for every guest -
+   and it squeezed the confirmation modal off the edge. */
+.contact-grid>*,.split>*,.pkg-grid>*,.air-grid>*,.season-grid>*,.stats>*,.inc-grid>*{min-width:0}
+.map-frame iframe{min-width:0}
 .contact-list{list-style:none;margin-top:22px}
 .contact-list li{display:flex;gap:14px;padding:13px 0;border-bottom:1px solid var(--line);align-items:flex-start}
 .contact-list svg{width:19px;height:19px;flex-shrink:0;margin-top:3px;stroke:var(--river);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
@@ -467,9 +512,11 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
   .split{grid-template-columns:1fr;gap:32px}
   .split.rev .split-media{order:0}
   .pkg-grid{grid-template-columns:1fr;max-width:460px;margin-left:auto;margin-right:auto}
-  .gallery{grid-template-columns:repeat(2,1fr)}
-  .gallery .g-tall{grid-row:span 1}
-  .gallery .g-tall img{height:190px}
+  .gallery{grid-template-columns:repeat(3,1fr)}
+  .lb-stage{left:20px;right:20px}
+  .lb-nav{width:46px;height:46px;font-size:1.8rem}
+  .lb-prev{left:8px}
+  .lb-next{right:8px}
   .air-grid{grid-template-columns:1fr}
   .season-grid{grid-template-columns:1fr;max-width:460px;margin-left:auto;margin-right:auto}
   .stats{grid-template-columns:repeat(2,1fr);gap:30px 20px}
@@ -484,8 +531,15 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
   .hero-inner{padding-bottom:44px}
   .btn{width:100%;text-align:center}
   .btn-row{gap:10px}
-  .gallery{grid-template-columns:1fr}
-  .gallery img{height:210px}
+  .gallery-scroll{--gal-tile:150px;margin-left:18px;margin-right:18px}
+  .gallery{grid-template-columns:repeat(2,1fr)}
+  .gallery .g-item img{height:150px}
+  .lb-stage{top:58px;bottom:86px;left:8px;right:8px}
+  .lb-nav{width:40px;height:40px;font-size:1.5rem;background:rgba(255,255,255,.2)}
+  .lb-prev{left:4px}
+  .lb-next{right:4px}
+  .lb-strip{height:78px;padding:6px 10px}
+  .lb-thumb{width:64px;height:48px}
   .hero-facts{gap:8px 20px}
   .brand-txt span{display:none}
 }
@@ -497,6 +551,20 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
 .muted{color:var(--muted)}
 .small{font-size:.82rem}
 .nowrap{white-space:nowrap}
+
+/* --- the confirmation modal ---------------------------------------
+   It is opened by form.js only after the server has answered ok:true,
+   so what it says is a fact and not a promise. */
+.modal{position:fixed;inset:0;z-index:9000;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal[hidden]{display:none}
+.modal-backdrop{position:absolute;inset:0;background:rgba(8,22,32,.76);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
+.modal-card{position:relative;background:#fff;border-radius:14px;padding:30px 28px 26px;max-width:470px;width:100%;box-shadow:0 26px 70px rgba(0,0,0,.38);text-align:center;animation:modal-in .22s ease-out}
+@keyframes modal-in{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+.modal-tick{width:54px;height:54px;border-radius:50%;background:#e8f1f4;color:var(--navy);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:26px;line-height:1}
+.modal-card h3{font-size:1.32rem;margin:0 0 10px}
+.modal-card p{margin:0 0 22px;color:var(--ink);line-height:1.55}
+.modal-card .btn{width:100%}
+@media (prefers-reduced-motion:reduce){.modal-card{animation:none}}
 </style>
 <script src="i18n-data.js" defer></script>
 <script src="i18n.js" defer></script>
@@ -504,6 +572,10 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
 <script src="dates.js" defer></script>
 <script src="occupancy.js" defer></script>
 <script src="form.js" defer></script>
+<!-- Umami Cloud: the visitor counter. No cookie, no banner, no personal
+     data - see deploy/ANALYTICS.md. -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="e0da6e27-85e2-4260-9922-2b9dd8c77da5"></script>
+<script src="gallery.js" defer></script>
 </head>
 <body class="no-js">
 
@@ -640,22 +712,95 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
       <div class="eyebrow" data-i18n="gal_eyebrow" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="gal_eyebrow">The lodge in pictures</div>
       <h2 data-i18n="gal_h2" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="gal_h2">Rooms, water, and the space in between</h2>
     </div>
-    <div class="gallery space-top">
-      <a href="img/exterior.jpg"><img src="img/exterior.jpg" width="1080" height="727" loading="lazy" decoding="async" alt="Guest House Sobic exterior with the new roof and riverside garden"></a>
-      <a href="img/house-entrance.jpg"><img src="img/house-entrance.jpg" width="1016" height="542" loading="lazy" decoding="async" alt="The entrance side of Guest House Sobic, with the timber porch, the balcony full of flowers and the wooded hills behind"></a>
-      <a href="img/room-twin.jpg"><img src="img/room-twin.jpg" width="1080" height="1438" loading="lazy" decoding="async" alt="Double room in white furniture with a view of the river"></a>
-      <a href="img/dining-hall.jpg"><img src="img/dining-hall.jpg" width="1200" height="1600" loading="lazy" decoding="async" alt="The riverside dining hall with fireplace and oak table"></a>
-      <a href="img/bathroom.jpg"><img src="img/bathroom.jpg" width="1080" height="1644" loading="lazy" decoding="async" alt="Modern bathroom with walk-in shower"></a>
-      <a href="img/lounge-river.jpg"><img src="img/lounge-river.jpg" width="1080" height="817" loading="lazy" decoding="async" alt="Lounge with designer chairs and a river view"></a>
-      <a href="img/kitchen.jpg"><img src="img/kitchen.jpg" width="912" height="1238" loading="lazy" decoding="async" alt="Shared kitchenette"></a>
-      <a href="img/riverbank-flowers.jpg"><img src="img/riverbank-flowers.jpg" width="1500" height="2000" loading="lazy" decoding="async" alt="Terrace and seating above the river"></a>
-      <a href="img/house-by-river.jpg"><img src="img/house-by-river.jpg" width="1080" height="1612" loading="lazy" decoding="async" alt="The lodge below the mountain, on the river"></a>
-      <a href="img/dining-table-set.jpg" class="g-tall"><img src="img/dining-table-set.jpg" width="1080" height="1465" loading="lazy" decoding="async" alt="Dining table set with candles and roses for a formal dinner"></a>
-      <a href="img/autumn-river.jpg"><img src="img/autumn-river.jpg" width="1075" height="686" loading="lazy" decoding="async" alt="The Pliva in autumn colours"></a>
-      <a href="img/meadow-pavilion.jpg"><img src="img/meadow-pavilion.jpg" width="1080" height="652" loading="lazy" decoding="async" alt="Meadow and pavilion on the river flat"></a>
-      <a href="img/angler-pliva.jpg"><img src="img/angler-pliva.jpg" width="2000" height="1004" loading="lazy" decoding="async" alt="A fly fisherman wading in the Pliva casting to a rising trout"></a>
-      <a href="img/ribnik-river.jpg"><img src="img/ribnik-river.jpg" width="2000" height="1010" loading="lazy" decoding="async" alt="The Ribnik river - a shallow clear spring creek over white gravel with grayling holding in the current"></a>
-      <a href="img/spring-waterfall.jpg"><img src="img/spring-waterfall.jpg" width="1080" height="796" loading="lazy" decoding="async" alt="The Pliva spring at Sipovo, the clear cold source two kilometres upstream from the lodge"></a>
+    <div class="gallery-scroll space-top">
+    <div class="gallery">
+    <!-- GALLERY:START -->
+      <button class="g-item" type="button" data-full="img/photos/01-l.jpg" data-index="1" data-alt="The house from the garden: the peach-coloured facade, the balcony overlooking the valley and the flowers along the rail"><img src="img/photos/01-s.jpg" width="500" height="375" loading="lazy" decoding="async" alt="The house from the garden: the peach-coloured facade, the balcony overlooking the valley and the flowers along the rail"></button>
+      <button class="g-item" type="button" data-full="img/photos/02-l.jpg" data-index="2" data-alt="The terrace on the lawn above the water, with the seats facing the river"><img src="img/photos/02-s.jpg" width="500" height="375" loading="lazy" decoding="async" alt="The terrace on the lawn above the water, with the seats facing the river"></button>
+      <button class="g-item" type="button" data-full="img/photos/03-l.jpg" data-index="3" data-alt="The seating on the terrace by the water, with the flower bed along the rail"><img src="img/photos/03-s.jpg" width="300" height="225" loading="lazy" decoding="async" alt="The seating on the terrace by the water, with the flower bed along the rail"></button>
+      <button class="g-item" type="button" data-full="img/photos/04-l.jpg" data-index="4" data-alt="The living room, with the glass doors that open onto the terrace"><img src="img/photos/04-s.jpg" width="500" height="373" loading="lazy" decoding="async" alt="The living room, with the glass doors that open onto the terrace"></button>
+      <button class="g-item" type="button" data-full="img/photos/05-l.jpg" data-index="5" data-alt="A corner of the sitting room: the black chair, the sofa and the window with the view"><img src="img/photos/05-s.jpg" width="300" height="225" loading="lazy" decoding="async" alt="A corner of the sitting room: the black chair, the sofa and the window with the view"></button>
+      <button class="g-item" type="button" data-full="img/photos/06-l.jpg" data-index="6" data-alt="A twin room with two single beds and purple covers"><img src="img/photos/06-s.jpg" width="500" height="375" loading="lazy" decoding="async" alt="A twin room with two single beds and purple covers"></button>
+      <button class="g-item" type="button" data-full="img/photos/07-l.jpg" data-index="7" data-alt="A double room with two beds and a wooden floor"><img src="img/photos/07-s.jpg" width="375" height="500" loading="lazy" decoding="async" alt="A double room with two beds and a wooden floor"></button>
+      <button class="g-item" type="button" data-full="img/photos/08-l.jpg" data-index="8" data-alt="A room with a sofa, a chair and a table by the window"><img src="img/photos/08-s.jpg" width="500" height="333" loading="lazy" decoding="async" alt="A room with a sofa, a chair and a table by the window"></button>
+      <button class="g-item" type="button" data-full="img/photos/09-l.jpg" data-index="9" data-alt="A single room with a bed, a bench and a picture on the wall"><img src="img/photos/09-s.jpg" width="225" height="300" loading="lazy" decoding="async" alt="A single room with a bed, a bench and a picture on the wall"></button>
+      <button class="g-item" type="button" data-full="img/photos/10-l.jpg" data-index="10" data-alt="The shared kitchen, with the stove, the microwave and the fridge"><img src="img/photos/10-s.jpg" width="300" height="225" loading="lazy" decoding="async" alt="The shared kitchen, with the stove, the microwave and the fridge"></button>
+      <button class="g-item" type="button" data-full="img/photos/11-l.jpg" data-index="11" data-alt="The bathroom, with the shower and the white tiles"><img src="img/photos/11-s.jpg" width="333" height="500" loading="lazy" decoding="async" alt="The bathroom, with the shower and the white tiles"></button>
+      <button class="g-item" type="button" data-full="img/photos/12-l.jpg" data-index="12" data-alt="The house from the road, behind the stone wall and the trees"><img src="img/photos/12-s.jpg" width="500" height="333" loading="lazy" decoding="async" alt="The house from the road, behind the stone wall and the trees"></button>
+      <button class="g-item" type="button" data-full="img/photos/13-l.jpg" data-index="13" data-alt="The garden path that leads to the house"><img src="img/photos/13-s.jpg" width="375" height="500" loading="lazy" decoding="async" alt="The garden path that leads to the house"></button>
+      <button class="g-item" type="button" data-full="img/photos/14-l.jpg" data-index="14" data-alt="The house seen from the garden, with the balcony above the lawn"><img src="img/photos/14-s.jpg" width="500" height="333" loading="lazy" decoding="async" alt="The house seen from the garden, with the balcony above the lawn"></button>
+      <button class="g-item" type="button" data-full="img/photos/15-l.jpg" data-index="15" data-alt="The side of the house with the covered terrace and the old tree"><img src="img/photos/15-s.jpg" width="500" height="375" loading="lazy" decoding="async" alt="The side of the house with the covered terrace and the old tree"></button>
+      <button class="g-item" type="button" data-full="img/photos/16-l.jpg" data-index="16" data-alt="The house across the meadow, with the hills behind"><img src="img/photos/16-s.jpg" width="500" height="448" loading="lazy" decoding="async" alt="The house across the meadow, with the hills behind"></button>
+      <button class="g-item" type="button" data-full="img/photos/17-l.jpg" data-index="17" data-alt="The house at the edge of the field, with the mountains beyond"><img src="img/photos/17-s.jpg" width="327" height="500" loading="lazy" decoding="async" alt="The house at the edge of the field, with the mountains beyond"></button>
+      <button class="g-item" type="button" data-full="img/photos/18-l.jpg" data-index="18" data-alt="The house and the meadow that runs down to the water"><img src="img/photos/18-s.jpg" width="325" height="500" loading="lazy" decoding="async" alt="The house and the meadow that runs down to the water"></button>
+      <button class="g-item" type="button" data-full="img/photos/19-l.jpg" data-index="19" data-alt="The lawn at the back of the house, with the flower beds"><img src="img/photos/19-s.jpg" width="500" height="281" loading="lazy" decoding="async" alt="The lawn at the back of the house, with the flower beds"></button>
+      <button class="g-item" type="button" data-full="img/photos/20-l.jpg" data-index="20" data-alt="The balcony with the pink flowers, above the road"><img src="img/photos/20-s.jpg" width="500" height="375" loading="lazy" decoding="async" alt="The balcony with the pink flowers, above the road"></button>
+      <button class="g-item" type="button" data-full="img/photos/21-l.jpg" data-index="21" data-alt="The porch, with the flowers along the rail"><img src="img/photos/21-s.jpg" width="500" height="281" loading="lazy" decoding="async" alt="The porch, with the flowers along the rail"></button>
+      <button class="g-item" type="button" data-full="img/photos/22-l.jpg" data-index="22" data-alt="The window box of the house, full of flowers"><img src="img/photos/22-s.jpg" width="281" height="500" loading="lazy" decoding="async" alt="The window box of the house, full of flowers"></button>
+      <button class="g-item" type="button" data-full="img/photos/23-l.jpg" data-index="23" data-alt="The balcony of the house and the flowers on it"><img src="img/photos/23-s.jpg" width="281" height="500" loading="lazy" decoding="async" alt="The balcony of the house and the flowers on it"></button>
+      <button class="g-item" type="button" data-full="img/photos/24-l.jpg" data-index="24" data-alt="The baskets of flowers on the terrace rail, above the water"><img src="img/photos/24-s.jpg" width="500" height="375" loading="lazy" decoding="async" alt="The baskets of flowers on the terrace rail, above the water"></button>
+      <button class="g-item" type="button" data-full="img/photos/25-l.jpg" data-index="25" data-alt="A pot of flowers on the edge of the water"><img src="img/photos/25-s.jpg" width="500" height="500" loading="lazy" decoding="async" alt="A pot of flowers on the edge of the water"></button>
+      <button class="g-item" type="button" data-full="img/photos/26-l.jpg" data-index="26" data-alt="The balcony flowers over the calm green water"><img src="img/photos/26-s.jpg" width="375" height="500" loading="lazy" decoding="async" alt="The balcony flowers over the calm green water"></button>
+      <button class="g-item" type="button" data-full="img/photos/27-l.jpg" data-index="27" data-alt="The terrace with the flower beds along the edge"><img src="img/photos/27-s.jpg" width="375" height="500" loading="lazy" decoding="async" alt="The terrace with the flower beds along the edge"></button>
+      <button class="g-item" type="button" data-full="img/photos/28-l.jpg" data-index="28" data-alt="The garden and the flowers down by the water"><img src="img/photos/28-s.jpg" width="404" height="500" loading="lazy" decoding="async" alt="The garden and the flowers down by the water"></button>
+      <button class="g-item" type="button" data-full="img/photos/29-l.jpg" data-index="29" data-alt="The timber pergola with the flowers hanging from it"><img src="img/photos/29-s.jpg" width="500" height="333" loading="lazy" decoding="async" alt="The timber pergola with the flowers hanging from it"></button>
+      <button class="g-item" type="button" data-full="img/photos/30-l.jpg" data-index="30" data-alt="The table under the vine, in the shade"><img src="img/photos/30-s.jpg" width="500" height="333" loading="lazy" decoding="async" alt="The table under the vine, in the shade"></button>
+      <button class="g-item" type="button" data-full="img/photos/31-l.jpg" data-index="31" data-alt="The house with the vine grown over the pergola"><img src="img/photos/31-s.jpg" width="500" height="333" loading="lazy" decoding="async" alt="The house with the vine grown over the pergola"></button>
+      <button class="g-item" type="button" data-full="img/photos/32-l.jpg" data-index="32" data-alt="Petunias by the river, with the water behind them"><img src="img/photos/32-s.jpg" width="500" height="333" loading="lazy" decoding="async" alt="Petunias by the river, with the water behind them"></button>
+      <button class="g-item" type="button" data-full="img/photos/33-l.jpg" data-index="33" data-alt="The lawn with the flowers and the wooded hills beyond"><img src="img/photos/33-s.jpg" width="500" height="375" loading="lazy" decoding="async" alt="The lawn with the flowers and the wooded hills beyond"></button>
+      <button class="g-item" type="button" data-full="img/photos/34-l.jpg" data-index="34" data-alt="The angler with the brown trout he has just caught in the Pliva"><img src="img/photos/34-s.jpg" width="375" height="500" loading="lazy" decoding="async" alt="The angler with the brown trout he has just caught in the Pliva"></button>
+      <button class="g-item" type="button" data-full="img/photos/35-l.jpg" data-index="35" data-alt="The river flat below the house, with the pavilion in the meadow"><img src="img/photos/35-s.jpg" width="500" height="300" loading="lazy" decoding="async" alt="The river flat below the house, with the pavilion in the meadow"></button>
+      <button class="g-item" type="button" data-full="img/photos/36-l.jpg" data-index="36" data-alt="The Pliva below the house, with the hills behind"><img src="img/photos/36-s.jpg" width="500" height="284" loading="lazy" decoding="async" alt="The Pliva below the house, with the hills behind"></button>
+      <button class="g-item" type="button" data-full="img/photos/37-l.jpg" data-index="37" data-alt="The water with the mountains on the far side"><img src="img/photos/37-s.jpg" width="500" height="333" loading="lazy" decoding="async" alt="The water with the mountains on the far side"></button>
+      <button class="g-item" type="button" data-full="img/photos/38-l.jpg" data-index="38" data-alt="The bend in the Pliva in summer, with the trees on the bank"><img src="img/photos/38-s.jpg" width="500" height="333" loading="lazy" decoding="async" alt="The bend in the Pliva in summer, with the trees on the bank"></button>
+      <button class="g-item" type="button" data-full="img/photos/39-l.jpg" data-index="39" data-alt="The river bend and the gravel bar"><img src="img/photos/39-s.jpg" width="500" height="332" loading="lazy" decoding="async" alt="The river bend and the gravel bar"></button>
+      <button class="g-item" type="button" data-full="img/photos/40-l.jpg" data-index="40" data-alt="The bend of the river in autumn"><img src="img/photos/40-s.jpg" width="500" height="332" loading="lazy" decoding="async" alt="The bend of the river in autumn"></button>
+      <button class="g-item" type="button" data-full="img/photos/41-l.jpg" data-index="41" data-alt="The bank of the river in autumn"><img src="img/photos/41-s.jpg" width="500" height="333" loading="lazy" decoding="async" alt="The bank of the river in autumn"></button>
+      <button class="g-item" type="button" data-full="img/photos/42-l.jpg" data-index="42" data-alt="The river below the house in autumn colours"><img src="img/photos/42-s.jpg" width="500" height="332" loading="lazy" decoding="async" alt="The river below the house in autumn colours"></button>
+      <button class="g-item" type="button" data-full="img/photos/43-l.jpg" data-index="43" data-alt="The river with the trees in autumn colour"><img src="img/photos/43-s.jpg" width="500" height="332" loading="lazy" decoding="async" alt="The river with the trees in autumn colour"></button>
+      <button class="g-item" type="button" data-full="img/photos/44-l.jpg" data-index="44" data-alt="The Pliva in autumn, the water still and clear"><img src="img/photos/44-s.jpg" width="500" height="324" loading="lazy" decoding="async" alt="The Pliva in autumn, the water still and clear"></button>
+      <button class="g-item" type="button" data-full="img/photos/45-l.jpg" data-index="45" data-alt="The meadow by the river under a wide sky"><img src="img/photos/45-s.jpg" width="500" height="333" loading="lazy" decoding="async" alt="The meadow by the river under a wide sky"></button>
+      <button class="g-item" type="button" data-full="img/photos/46-l.jpg" data-index="46" data-alt="The house on the bank of the river"><img src="img/photos/46-s.jpg" width="500" height="350" loading="lazy" decoding="async" alt="The house on the bank of the river"></button>
+      <button class="g-item" type="button" data-full="img/photos/47-l.jpg" data-index="47" data-alt="The wooded bank of the river"><img src="img/photos/47-s.jpg" width="500" height="375" loading="lazy" decoding="async" alt="The wooded bank of the river"></button>
+      <button class="g-item" type="button" data-full="img/photos/48-l.jpg" data-index="48" data-alt="The path through the forest down to the water"><img src="img/photos/48-s.jpg" width="500" height="323" loading="lazy" decoding="async" alt="The path through the forest down to the water"></button>
+      <button class="g-item" type="button" data-full="img/photos/49-l.jpg" data-index="49" data-alt="The meadow and the hills above the valley"><img src="img/photos/49-s.jpg" width="500" height="333" loading="lazy" decoding="async" alt="The meadow and the hills above the valley"></button>
+      <button class="g-item" type="button" data-full="img/photos/50-l.jpg" data-index="50" data-alt="The meadow of the valley with the hills behind"><img src="img/photos/50-s.jpg" width="500" height="375" loading="lazy" decoding="async" alt="The meadow of the valley with the hills behind"></button>
+      <button class="g-item" type="button" data-full="img/photos/51-l.jpg" data-index="51" data-alt="The flower bed with the hills of the valley behind"><img src="img/photos/51-s.jpg" width="500" height="375" loading="lazy" decoding="async" alt="The flower bed with the hills of the valley behind"></button>
+      <button class="g-item" type="button" data-full="img/photos/52-l.jpg" data-index="52" data-alt="The roses in the field with the valley beyond"><img src="img/photos/52-s.jpg" width="500" height="375" loading="lazy" decoding="async" alt="The roses in the field with the valley beyond"></button>
+      <button class="g-item" type="button" data-full="img/photos/53-l.jpg" data-index="53" data-alt="The lawn of the house with the hills of the valley"><img src="img/photos/53-s.jpg" width="500" height="375" loading="lazy" decoding="async" alt="The lawn of the house with the hills of the valley"></button>
+      <button class="g-item" type="button" data-full="img/photos/54-l.jpg" data-index="54" data-alt="The Pliva spring: mossy cascades with the flowers on the stones"><img src="img/photos/54-s.jpg" width="500" height="375" loading="lazy" decoding="async" alt="The Pliva spring: mossy cascades with the flowers on the stones"></button>
+      <button class="g-item" type="button" data-full="img/photos/55-l.jpg" data-index="55" data-alt="The cascade of the spring between the mossy stones"><img src="img/photos/55-s.jpg" width="500" height="375" loading="lazy" decoding="async" alt="The cascade of the spring between the mossy stones"></button>
+      <button class="g-item" type="button" data-full="img/photos/56-l.jpg" data-index="56" data-alt="The cascades of the spring under the trees"><img src="img/photos/56-s.jpg" width="375" height="500" loading="lazy" decoding="async" alt="The cascades of the spring under the trees"></button>
+      <button class="g-item" type="button" data-full="img/photos/57-l.jpg" data-index="57" data-alt="The spring running over the stones in the forest"><img src="img/photos/57-s.jpg" width="500" height="375" loading="lazy" decoding="async" alt="The spring running over the stones in the forest"></button>
+      <button class="g-item" type="button" data-full="img/photos/58-l.jpg" data-index="58" data-alt="The waterfall of the Pliva in the forest"><img src="img/photos/58-s.jpg" width="500" height="333" loading="lazy" decoding="async" alt="The waterfall of the Pliva in the forest"></button>
+      <button class="g-item" type="button" data-full="img/photos/59-l.jpg" data-index="59" data-alt="The rapids of the Pliva"><img src="img/photos/59-s.jpg" width="500" height="333" loading="lazy" decoding="async" alt="The rapids of the Pliva"></button>
+      <button class="g-item" type="button" data-full="img/photos/60-l.jpg" data-index="60" data-alt="The river running fast over the stones"><img src="img/photos/60-s.jpg" width="500" height="333" loading="lazy" decoding="async" alt="The river running fast over the stones"></button>
+      <button class="g-item" type="button" data-full="img/photos/61-l.jpg" data-index="61" data-alt="The green meadow and the river in spring, below the hills"><img src="img/photos/61-s.jpg" width="500" height="333" loading="lazy" decoding="async" alt="The green meadow and the river in spring, below the hills"></button>
+      <button class="g-item" type="button" data-full="img/photos/62-l.jpg" data-index="62" data-alt="A wide sky over the river and the trees"><img src="img/photos/62-s.jpg" width="500" height="324" loading="lazy" decoding="async" alt="A wide sky over the river and the trees"></button>
+      <button class="g-item" type="button" data-full="img/photos/63-l.jpg" data-index="63" data-alt="The sun over the water"><img src="img/photos/63-s.jpg" width="375" height="500" loading="lazy" decoding="async" alt="The sun over the water"></button>
+      <button class="g-item" type="button" data-full="img/photos/64-l.jpg" data-index="64" data-alt="The water in the morning mist"><img src="img/photos/64-s.jpg" width="375" height="500" loading="lazy" decoding="async" alt="The water in the morning mist"></button>
+      <button class="g-item" type="button" data-full="img/photos/65-l.jpg" data-index="65" data-alt="The green water with the trees along the bank"><img src="img/photos/65-s.jpg" width="500" height="375" loading="lazy" decoding="async" alt="The green water with the trees along the bank"></button>
+      <button class="g-item" type="button" data-full="img/photos/66-l.jpg" data-index="66" data-alt="The green river with the hut on the bank"><img src="img/photos/66-s.jpg" width="500" height="375" loading="lazy" decoding="async" alt="The green river with the hut on the bank"></button>
+      <button class="g-item" type="button" data-full="img/photos/67-l.jpg" data-index="67" data-alt="The sun low over the water"><img src="img/photos/67-s.jpg" width="257" height="500" loading="lazy" decoding="async" alt="The sun low over the water"></button>
+      <button class="g-item" type="button" data-full="img/photos/68-l.jpg" data-index="68" data-alt="The snow on the peak above the valley"><img src="img/photos/68-s.jpg" width="272" height="500" loading="lazy" decoding="async" alt="The snow on the peak above the valley"></button>
+      <button class="g-item" type="button" data-full="img/photos/69-l.jpg" data-index="69" data-alt="The frozen lake and the snow-covered slopes"><img src="img/photos/69-s.jpg" width="500" height="225" loading="lazy" decoding="async" alt="The frozen lake and the snow-covered slopes"></button>
+      <button class="g-item" type="button" data-full="img/photos/70-l.jpg" data-index="70" data-alt="The river in winter, with snow on the banks"><img src="img/photos/70-s.jpg" width="500" height="310" loading="lazy" decoding="async" alt="The river in winter, with snow on the banks"></button>
+      <button class="g-item" type="button" data-full="img/photos/71-l.jpg" data-index="71" data-alt="The valley in autumn, with the mist coming down"><img src="img/photos/71-s.jpg" width="500" height="333" loading="lazy" decoding="async" alt="The valley in autumn, with the mist coming down"></button>
+      <button class="g-item" type="button" data-full="img/photos/72-l.jpg" data-index="72" data-alt="The lake in the autumn colours"><img src="img/photos/72-s.jpg" width="500" height="333" loading="lazy" decoding="async" alt="The lake in the autumn colours"></button>
+      <button class="g-item" type="button" data-full="img/photos/73-l.jpg" data-index="73" data-alt="The hills in autumn colour"><img src="img/photos/73-s.jpg" width="500" height="333" loading="lazy" decoding="async" alt="The hills in autumn colour"></button>
+      <button class="g-item" type="button" data-full="img/photos/74-l.jpg" data-index="74" data-alt="The river in the autumn forest"><img src="img/photos/74-s.jpg" width="500" height="375" loading="lazy" decoding="async" alt="The river in the autumn forest"></button>
+      <button class="g-item" type="button" data-full="img/photos/75-l.jpg" data-index="75" data-alt="The lake with the mountains behind it"><img src="img/photos/75-s.jpg" width="500" height="332" loading="lazy" decoding="async" alt="The lake with the mountains behind it"></button>
+      <button class="g-item" type="button" data-full="img/photos/76-l.jpg" data-index="76" data-alt="The table laid for dinner, with roses and hearts"><img src="img/photos/76-s.jpg" width="225" height="300" loading="lazy" decoding="async" alt="The table laid for dinner, with roses and hearts"></button>
+      <button class="g-item" type="button" data-full="img/photos/77-l.jpg" data-index="77" data-alt="A table of local food, set for the meal"><img src="img/photos/77-s.jpg" width="379" height="500" loading="lazy" decoding="async" alt="A table of local food, set for the meal"></button>
+      <button class="g-item" type="button" data-full="img/photos/78-l.jpg" data-index="78" data-alt="The vase of roses and the hearts on the dining table"><img src="img/photos/78-s.jpg" width="306" height="500" loading="lazy" decoding="async" alt="The vase of roses and the hearts on the dining table"></button>
+      <button class="g-item" type="button" data-full="img/photos/79-l.jpg" data-index="79" data-alt="The guests at the long table, with the meal and the wine"><img src="img/photos/79-s.jpg" width="500" height="375" loading="lazy" decoding="async" alt="The guests at the long table, with the meal and the wine"></button>
+      <button class="g-item" type="button" data-full="img/photos/80-l.jpg" data-index="80" data-alt="A glass of the local white wine, with the flowers behind"><img src="img/photos/80-s.jpg" width="500" height="333" loading="lazy" decoding="async" alt="A glass of the local white wine, with the flowers behind"></button>
+      <button class="g-item" type="button" data-full="img/photos/81-l.jpg" data-index="81" data-alt="A guest at the table on the terrace"><img src="img/photos/81-s.jpg" width="485" height="500" loading="lazy" decoding="async" alt="A guest at the table on the terrace"></button>
+      <button class="g-item" type="button" data-full="img/photos/82-l.jpg" data-index="82" data-alt="A guest on the riverbank below the house"><img src="img/photos/82-s.jpg" width="500" height="447" loading="lazy" decoding="async" alt="A guest on the riverbank below the house"></button>
+      <button class="g-item" type="button" data-full="img/photos/83-l.jpg" data-index="83" data-alt="Four pictures of the valley in one frame: the forest path, the angler casting, the autumn valley and the dandelions"><img src="img/photos/83-s.jpg" width="500" height="500" loading="lazy" decoding="async" alt="Four pictures of the valley in one frame: the forest path, the angler casting, the autumn valley and the dandelions"></button>
+      <button class="g-item" type="button" data-full="img/photos/84-l.jpg" data-index="84" data-alt="Four pictures of the Pliva in one frame: the cascade, the wildflowers, the autumn bank and the spring"><img src="img/photos/84-s.jpg" width="500" height="500" loading="lazy" decoding="async" alt="Four pictures of the Pliva in one frame: the cascade, the wildflowers, the autumn bank and the spring"></button>
+    <!-- GALLERY:END -->
+    </div>
     </div>
     <p class="center small muted space-top" data-i18n="gal_p" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="gal_p">The large grass field beside the lodge is where anglers rig their gear, and where light boats can be assembled for the calm upper reaches.</p>
   </div>
@@ -1125,6 +1270,8 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
           <p class="note form-status form-status-error" id="enquiry-status-fallback" hidden data-i18n="form_sent_fb" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="form_sent_fb">Sorry — the email could not be sent just now. Please use WhatsApp or the phone number below, or try again in a moment, and we will reply within 24 hours.</p>
         </form>
 
+        </div>
+
         <!-- The WhatsApp click log. It is never filled in by hand: the
              browser posts to the whatsapp-click function, which writes the
              record here with the visitor's IP address and their approximate
@@ -1167,10 +1314,25 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
     <div class="foot-bot">
       <span>© 2026 Pliva River Lodge. <span data-i18n="foot_copy" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="foot_copy">All rights reserved.</span></span>
       <span data-i18n="foot_safe" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="foot_safe">Catch and release. Travel insurance recommended.</span>
-      <span data-i18n="foot_track" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="foot_track">We note the page and the approximate location of visitors who open WhatsApp.</span>
+      <span data-i18n="foot_track" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="foot_track">We count the visits to this page (no cookies) and we note the page and the approximate location of visitors who open WhatsApp.</span>
+      <span class="foot-credit"><span data-i18n="foot_credit" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="foot_credit">Created by</span> <a href="https://aicoder.click" target="_blank" rel="noopener nofollow">aicoder.click</a></span>
     </div>
   </div>
 </footer>
+
+        <!-- The confirmation modal. form.js opens it only after the server
+             has answered ok:true - that is, after the email really went
+             out. Nothing is promised before the server says so. The form
+             is cleared at the same moment, so a second enquiry cannot be
+             sent by accident. -->
+        <div class="modal" id="enquiry-modal" hidden>
+          <div class="modal-backdrop" id="enquiry-modal-backdrop"></div>
+          <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="enquiry-modal-title" aria-describedby="enquiry-modal-text">
+            <div class="modal-tick" aria-hidden="true">&#10003;</div>
+            <h3 id="enquiry-modal-title" data-i18n="modal_title" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="modal_title">Your enquiry has been sent</h3>
+            <p id="enquiry-modal-text" data-i18n="modal_text" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="modal_text">We have your message and we will reply to you by email, usually the same day.</p>
+            <button type="button" class="btn btn-primary" id="enquiry-modal-close" data-i18n="modal_close" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-key="modal_close">Close</button>
+          </div>
 
 </body>
 </html>

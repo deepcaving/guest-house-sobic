@@ -17,3 +17,7 @@ Thumbs.db
 *.bundle
 __pycache__/
 *.pyc
+
+# test screenshots produced by test_modal_browser.py
+modal-*.png
+credit-*.png

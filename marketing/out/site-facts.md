@@ -12,7 +12,7 @@ re-run `./render.sh`.
 | Local / formal name | Guest House Šobić |
 | Handle everywhere | @plivariverlodge |
 | Tagline | "The Pliva at your door. Fly fishing, home cooking, and a fireplace." |
-| Site | https://guesthousesobic.netlify.app |
+| Site | https://plivariverlodge.com |
 | Email | milkasobic25@gmail.com |
 | Phone / WhatsApp | +387 65 622 760 |
 | Host | Milka Smjestaj Šobić |

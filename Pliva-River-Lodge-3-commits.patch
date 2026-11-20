@@ -1,0 +1,1389 @@
+From 46fe9930e834b793ee5f5d071634e944a54997d9 Mon Sep 17 00:00:00 2001
+From: Mavis Agent <agent@mavis.local>
+Date: Thu, 19 Nov 2026 17:38:44 +0000
+Subject: [PATCH 1/3] The address we advertise is the domain we own
+
+plivariverlodge.com is bought and live on our own server with a valid
+certificate, so it is the only address to hand out. The netlify.app copy
+stays as the fallback and nothing else changes for it.
+
+  * the body of every enquiry email named the netlify.app copy
+    (netlify/functions/enquiry.mjs) - the guest read it;
+  * marketing/out/ was stale: the masters use {{SITE_URL}} and
+    site-config.json has carried the domain for a while, but the rendered
+    copy files still had the old address. Re-rendered, 11 files;
+  * README, deploy/README, deploy/SETUP, docs/enquiry-email and
+    marketing/README pointed at the netlify copy as the site.
+
+The references that stay are the ones about the Netlify platform itself:
+the branch preview domains, the fallback, the redirect source in
+deploy/set-domain.sh and the "via ... " example in SETUP.md.
+
+test_site.py: 2718 passed, 0 failed
+---
+ README.md                                |  6 +++---
+ deploy/README.md                         |  3 ++-
+ deploy/SETUP.md                          |  3 ++-
+ docs/enquiry-email.md                    |  2 +-
+ marketing/README.md                      |  4 ++--
+ marketing/out/blog-november.md           |  2 +-
+ marketing/out/cold-dm-templates.md       | 18 +++++++++---------
+ marketing/out/email-templates.md         |  8 ++++----
+ marketing/out/facebook.md                |  4 ++--
+ marketing/out/google-business-profile.md |  4 ++--
+ marketing/out/instagram.md               |  6 +++---
+ marketing/out/site-facts.md              |  2 +-
+ marketing/out/tripadvisor-setup.md       |  2 +-
+ marketing/out/whatsapp-auto-reply.md     |  4 ++--
+ netlify/functions/enquiry.mjs            |  2 +-
+ test_site.py                             |  6 ++++++
+ 16 files changed, 42 insertions(+), 34 deletions(-)
+
+diff --git a/README.md b/README.md
+index ba287c4..2be004d 100644
+--- a/README.md
++++ b/README.md
+@@ -3,7 +3,7 @@
+ Boutique 7-room riverside lodge on the Pliva River, 2 km below the famous Pliva spring.
+ Fly fishing, home cooking, wood-fire dining hall, private terrace over the bank.
+ 
+-**Live site:** https://guesthousesobic.netlify.app/
++**Live site:** https://plivariverlodge.com/  (Netlify keeps a copy at `guesthousesobic.netlify.app` as the fallback)
+ 
+ ## Structure
+ 
+@@ -173,7 +173,7 @@ GitHub is already connected. Build settings:
+ Netlify serves `index.html` from the repo root automatically. Submissions to
+ the enquiry form show up under **Forms** in the Netlify dashboard.
+ 
+-**Live URL:** https://guesthousesobic.netlify.app/
++**Live URL:** https://plivariverlodge.com/
+ 
+ ### Branches and deploys
+ 
+@@ -220,7 +220,7 @@ buttons. Use the Netlify/GitHub version for the working video and the real form.
+       Change `"email"` in `site-config.json` and in the two places in
+       `index.html` (the contact block and the JSON-LD), then set
+       `"email_live": true` and run `python3 marketing/render.py`.
+-- [x] **The site URL is `https://guesthousesobic.netlify.app/`.** It is set in
++- [x] **The site URL is `https://plivariverlodge.com/`.** It is set in
+       `site-config.json` and mirrored in `og:url`, `og:image`, `twitter:image`,
+       the JSON-LD `url`/`image` and the `<link rel="canonical">`.
+       `build_standalone.py --check` fails if the two drift apart.
+diff --git a/deploy/README.md b/deploy/README.md
+index 4597b3b..378eabb 100644
+--- a/deploy/README.md
++++ b/deploy/README.md
+@@ -1,6 +1,7 @@
+ # Pliva River Lodge on our own server
+ 
+-The site is now on Netlify (`guesthousesobic.netlify.app`). This folder is
++The site is now on our own server at `plivariverlodge.com`, with Netlify
++(`guesthousesobic.netlify.app`) kept as the fallback. This folder is
+ everything needed to put it on a domain of our own, on the server we
+ already have.
+ 
+diff --git a/deploy/SETUP.md b/deploy/SETUP.md
+index eeb96ff..4f25f53 100644
+--- a/deploy/SETUP.md
++++ b/deploy/SETUP.md
+@@ -262,7 +262,8 @@ the guest sees `contact@plivariverlodge.com` and nothing else ✓.
+ 
+ ## Step 7 — let the old address point at the new one
+ 
+-Keep `guesthousesobic.netlify.app` alive for now — it is the fallback if
++The live site is `plivariverlodge.com`. Keep `guesthousesobic.netlify.app`
++alive for now — it is the fallback if
+ the server ever goes down. When you are happy, add a redirect in the
+ Netlify dashboard (or a `_redirects` file in the repository):
+ 
+diff --git a/docs/enquiry-email.md b/docs/enquiry-email.md
+index 339c323..9213855 100644
+--- a/docs/enquiry-email.md
++++ b/docs/enquiry-email.md
+@@ -101,7 +101,7 @@ One-time setup, in the [Zoho API console](https://api-console.zoho.com):
+ 
+ 1. **Add Client** → **Server-based Application**. Fill in:
+    - **Client Name**: `Pliva River Lodge` (anything readable)
+-   - **Homepage URL**: `https://guesthousesobic.netlify.app`
++   - **Homepage URL**: `https://plivariverlodge.com`
+    - **Authorized Redirect URIs**: `http://localhost` — then press the **+**
+      to add it
+ 
+diff --git a/marketing/README.md b/marketing/README.md
+index e8be292..df1d0ab 100644
+--- a/marketing/README.md
++++ b/marketing/README.md
+@@ -28,7 +28,7 @@ Every file in this folder uses these tokens:
+ 
+ | Token | What it is | Current value |
+ |---|---|---|
+-| `{{SITE_URL}}` | the live site | `https://guesthousesobic.netlify.app/` |
++| `{{SITE_URL}}` | the live site | `https://plivariverlodge.com/` |
+ | `{{EMAIL}}` | the booking inbox | `milkasobic25@gmail.com` — **live**, Milka answers it herself |
+ | `{{PHONE}}` | phone / WhatsApp, display form | `+387 65 622 760` |
+ | `{{PHONE_E164}}` | phone, machine form | `+38765622760` |
+@@ -113,7 +113,7 @@ Balkans — `forlifly.it` has covered the Pliva.
+ 
+ The site now speaks Italian, so this market is not just a DM list any more:
+ 
+-- `https://guesthousesobic.netlify.app/?lang=it` is a shareable Italian URL.
++- `https://plivariverlodge.com/?lang=it` is a shareable Italian URL.
+   Put that link — not the base URL — in any Italian post, DM or group comment.
+ - The Italian DM templates are in
+   [`cold-dm-templates.md`](cold-dm-templates.md) (templates 10, 11 and 12).
+diff --git a/marketing/out/blog-november.md b/marketing/out/blog-november.md
+index d7c1110..f1c6265 100644
+--- a/marketing/out/blog-november.md
++++ b/marketing/out/blog-november.md
+@@ -70,7 +70,7 @@ reason for that.
+ 
+ **Pliva River Lodge** is a 7-room boutique guesthouse on the bank of the
+ Pliva, two kilometres below the source, in Pljeva near Šipovo, Bosnia &
+-Herzegovina. Open year-round. Packages and dates at https://guesthousesobic.netlify.app — or message
++Herzegovina. Open year-round. Packages and dates at https://plivariverlodge.com — or message
+ us on WhatsApp +387 65 622 760.
+ 
+ ---
+diff --git a/marketing/out/cold-dm-templates.md b/marketing/out/cold-dm-templates.md
+index 686da2c..756d970 100644
+--- a/marketing/out/cold-dm-templates.md
++++ b/marketing/out/cold-dm-templates.md
+@@ -52,7 +52,7 @@ everyone at once.
+ >
+ > Best,
+ > Milka Smjestaj Šobić
+-> Pliva River Lodge · https://guesthousesobic.netlify.app
++> Pliva River Lodge · https://plivariverlodge.com
+ 
+ ## 2. To a hosted-trip organiser (Paradise, Fly Odyssey, Aardvark McLeod, Mankov, Outside Travels)
+ 
+@@ -77,7 +77,7 @@ everyone at once.
+ > if it fits your calendar. Free accommodation for the host, and we would
+ > happily work on a fair accommodation rate.
+ >
+-> WhatsApp +387 65 622 760 · https://guesthousesobic.netlify.app
++> WhatsApp +387 65 622 760 · https://plivariverlodge.com
+ >
+ > Best,
+ > Milka Smjestaj Šobić
+@@ -109,7 +109,7 @@ everyone at once.
+ >
+ > Best,
+ > Milka Smjestaj Šobić
+-> Pliva River Lodge · +387 65 622 760 · https://guesthousesobic.netlify.app
++> Pliva River Lodge · +387 65 622 760 · https://plivariverlodge.com
+ 
+ ## 4. To the Tourist Organization of Šipovo / RS / Eco Pliva
+ 
+@@ -131,7 +131,7 @@ everyone at once.
+ >   Sarajevo, Banja Luka and Split
+ > • Open year-round
+ > • Pliva River Lodge, Pljeva, Šipovo
+-> • +387 65 622 760 · milkasobic25@gmail.com · https://guesthousesobic.netlify.app
++> • +387 65 622 760 · milkasobic25@gmail.com · https://plivariverlodge.com
+ >
+ > I can send photos and any documents you need.
+ >
+@@ -167,7 +167,7 @@ everyone at once.
+ >
+ > Best,
+ > Milka Smjestaj Šobić
+-> Pliva River Lodge · https://guesthousesobic.netlify.app
++> Pliva River Lodge · https://plivariverlodge.com
+ 
+ ---
+ 
+@@ -200,7 +200,7 @@ everyone at once.
+ >
+ > Viele Grüße
+ > Milka Smjestaj Šobić
+-> Pliva River Lodge · https://guesthousesobic.netlify.app
++> Pliva River Lodge · https://plivariverlodge.com
+ 
+ ## 8. An einen Reiseveranstalter mit geführten Wochen
+ 
+@@ -226,7 +226,7 @@ everyone at once.
+ > den Gastgeber ist selbstverständlich frei, und über einen fairen
+ > Unterkunftstarif sprechen wir gerne.
+ >
+-> WhatsApp +387 65 622 760 · https://guesthousesobic.netlify.app
++> WhatsApp +387 65 622 760 · https://plivariverlodge.com
+ >
+ > Herzliche Grüße
+ > Milka Smjestaj Šobić
+@@ -272,7 +272,7 @@ everyone at once.
+ >
+ > A presto,
+ > Milka Smjestaj Šobić
+-> Pliva River Lodge · https://guesthousesobic.netlify.app
++> Pliva River Lodge · https://plivariverlodge.com
+ 
+ ## 11. A un organizzatore di settimane guidate
+ 
+@@ -297,7 +297,7 @@ everyone at once.
+ > settimana per il 2027 se entra nel tuo calendario. Alloggio gratuito per
+ > l'ospite, e volentieri troviamo un tariffario equo per l'alloggio.
+ >
+-> WhatsApp +387 65 622 760 · https://guesthousesobic.netlify.app
++> WhatsApp +387 65 622 760 · https://plivariverlodge.com
+ >
+ > A presto,
+ > Milka Smjestaj Šobić
+diff --git a/marketing/out/email-templates.md b/marketing/out/email-templates.md
+index b0c3f5c..938a2a1 100644
+--- a/marketing/out/email-templates.md
++++ b/marketing/out/email-templates.md
+@@ -32,7 +32,7 @@ than a month of posting.
+ > Thank you so much.
+ >
+ > Milka Smjestaj Šobić
+-> Pliva River Lodge · +387 65 622 760 · https://guesthousesobic.netlify.app
++> Pliva River Lodge · +387 65 622 760 · https://plivariverlodge.com
+ 
+ **The one rule:** ask once. If they don't reply, don't ask again. One polite
+ follow-up at most, a week later.
+@@ -91,7 +91,7 @@ Send the moment the deposit clears, not when the guest asks.
+ >
+ > Milka Smjestaj Šobić
+ > Pliva River Lodge, Pljeva, Šipovo, Bosnia & Herzegovina
+-> +387 65 622 760 · https://guesthousesobic.netlify.app
++> +387 65 622 760 · https://plivariverlodge.com
+ 
+ ---
+ 
+@@ -141,7 +141,7 @@ almost nothing and it is the email people remember.
+ >
+ > See you on Sunday.
+ >
+-> Milka Smjestaj Šobić · +387 65 622 760 · https://guesthousesobic.netlify.app
++> Milka Smjestaj Šobić · +387 65 622 760 · https://plivariverlodge.com
+ 
+ ---
+ 
+@@ -175,7 +175,7 @@ almost nothing and it is the email people remember.
+ > Room-only is €85 a night for a double with breakfast. We do not hire out
+ > fishing tackle — bring your own, or hire it in Šipovo.
+ >
+-> The full details are here: https://guesthousesobic.netlify.app
++> The full details are here: https://plivariverlodge.com
+ >
+ > If it is easier, message me on WhatsApp +387 65 622 760 — that is usually the
+ > fastest way to get an answer and I do not mind photos of the house in
+diff --git a/marketing/out/facebook.md b/marketing/out/facebook.md
+index 7eeaaf1..bf3734f 100644
+--- a/marketing/out/facebook.md
++++ b/marketing/out/facebook.md
+@@ -15,7 +15,7 @@ Create it at facebook.com/pages/create.
+ | Category | Hotel · Travel & Tourism · Fishing |
+ | Cover photo | `terrace-golden.jpg`, cropped to 16:9 (851 × 315 px) — the riverside terrace |
+ | Profile photo | same as Instagram: the exterior |
+-| Website | https://guesthousesobic.netlify.app |
++| Website | https://plivariverlodge.com |
+ | Phone | +387 65 622 760 |
+ | WhatsApp | +387 65 622 760 |
+ | Email | milkasobic25@gmail.com |
+@@ -34,7 +34,7 @@ Create it at facebook.com/pages/create.
+ > Fly-fishing weeks from €1,390 per person — 7 nights, 6 guided fishing days,
+ > full board, licence, guide and the airport transfer from Sarajevo.
+ >
+-> WhatsApp +387 65 622 760 · https://guesthousesobic.netlify.app
++> WhatsApp +387 65 622 760 · https://plivariverlodge.com
+ 
+ ## The pin post
+ 
+diff --git a/marketing/out/google-business-profile.md b/marketing/out/google-business-profile.md
+index 4dfaa95..1c81b9d 100644
+--- a/marketing/out/google-business-profile.md
++++ b/marketing/out/google-business-profile.md
+@@ -17,7 +17,7 @@ The number one free channel. It is what puts you in Google Maps for
+ | Address | Pljeva, 70270 Šipovo, Bosnia & Herzegovina |
+ | GPS pin | approx. 44.286° N, 17.097° E — **confirm the real pin before publishing**, a wrong pin costs you the Maps placement |
+ | Phone | +387 65 622 760 (must be able to take calls — Google sometimes calls to verify) |
+-| Website | https://guesthousesobic.netlify.app |
++| Website | https://plivariverlodge.com |
+ | Primary category | **Lodge** |
+ | Secondary categories | Bed & Breakfast · Fishing camp · Vacation rental · Guest house |
+ | Hours | Open year-round. Reception is arranged per booking — set "24 hours" and confirm arrivals in the message thread |
+@@ -186,7 +186,7 @@ number. A phone number converts; a URL just gets scrolled past.
+ ## 9. Once you are set up
+ 
+ - Put the site URL in every post and in the website field.
+-- Set the Instagram bio link and the Facebook Page link to https://guesthousesobic.netlify.app.
++- Set the Instagram bio link and the Facebook Page link to https://plivariverlodge.com.
+ - Ask every past guest for a review — see `email-templates.md`.
+ - Reply to every review, even the two-star ones, for the first year.
+   Reviews are the ranking signal; replies are what the next guest reads.
+diff --git a/marketing/out/instagram.md b/marketing/out/instagram.md
+index 2005bcd..39cc1e3 100644
+--- a/marketing/out/instagram.md
++++ b/marketing/out/instagram.md
+@@ -11,7 +11,7 @@ terrace, the fire, the water, the food.
+ | Handle | **@plivariverlodge** |
+ | Display name | Pliva River Lodge |
+ | Category | Hotel · Travel & Tourism · Fishing |
+-| Link in bio | https://guesthousesobic.netlify.app (or a linktr.ee that also points at the Instagram feed) |
++| Link in bio | https://plivariverlodge.com (or a linktr.ee that also points at the Instagram feed) |
+ 
+ ### Bio (paste verbatim)
+ 
+@@ -21,7 +21,7 @@ Boutique fly-fishing base on the Pliva, Bosnia
+ 2 km from the spring · 7 rooms · Fireplace · Home cooking
+ Pljeva, Šipovo 📍
+ WhatsApp → +387 65 622 760
+-https://guesthousesobic.netlify.app
++https://plivariverlodge.com
+ ```
+ 
+ ### Profile photo
+@@ -74,7 +74,7 @@ comments.
+ > White walls, new roof, and a mountain behind the field. Šipovo,
+ > Bosnia & Herzegovina.
+ >
+-> Open year-round. https://guesthousesobic.netlify.app
++> Open year-round. https://plivariverlodge.com
+ 
+ **3 — dining hall, fire lit**
+ > A brick fireplace, a grill, a long oak table for fourteen, and floor-to-
+diff --git a/marketing/out/site-facts.md b/marketing/out/site-facts.md
+index 212a939..ca22c52 100644
+--- a/marketing/out/site-facts.md
++++ b/marketing/out/site-facts.md
+@@ -12,7 +12,7 @@ re-run `./render.sh`.
+ | Local / formal name | Guest House Šobić |
+ | Handle everywhere | @plivariverlodge |
+ | Tagline | "The Pliva at your door. Fly fishing, home cooking, and a fireplace." |
+-| Site | https://guesthousesobic.netlify.app |
++| Site | https://plivariverlodge.com |
+ | Email | milkasobic25@gmail.com |
+ | Phone / WhatsApp | +387 65 622 760 |
+ | Host | Milka Smjestaj Šobić |
+diff --git a/marketing/out/tripadvisor-setup.md b/marketing/out/tripadvisor-setup.md
+index 1fbf480..0329353 100644
+--- a/marketing/out/tripadvisor-setup.md
++++ b/marketing/out/tripadvisor-setup.md
+@@ -37,7 +37,7 @@ than no listing, because it is the one a careful guest will open.
+ | Address | Pljeva, Šipovo, Bosnia & Herzegovina |
+ | Phone | +387 65 622 760 |
+ | Email | milkasobic25@gmail.com |
+-| Website | https://guesthousesobic.netlify.app |
++| Website | https://plivariverlodge.com |
+ | Star rating | keep the official class if one is assigned |
+ | Price per night | €70 – €110 |
+ | Number of rooms | 7 |
+diff --git a/marketing/out/whatsapp-auto-reply.md b/marketing/out/whatsapp-auto-reply.md
+index b92fb1d..2a4cdb9 100644
+--- a/marketing/out/whatsapp-auto-reply.md
++++ b/marketing/out/whatsapp-auto-reply.md
+@@ -19,7 +19,7 @@ setup.
+ > 3. Are you fly fishing, or just visiting?
+ > 4. Where you'll fly into (Sarajevo / Banja Luka / Split / driving)
+ >
+-> In the meantime, our packages and rates are here: https://guesthousesobic.netlify.app
++> In the meantime, our packages and rates are here: https://plivariverlodge.com
+ >
+ > Pliva River Lodge, Pljeva, Šipovo 🇧🇦
+ 
+@@ -98,7 +98,7 @@ it looks professional.
+ | Description | 7-room riverside lodge on the Pliva, 2 km below the spring. Fly fishing, home cooking, wood-fire dining hall. Open year-round. |
+ | Address | Pljeva, Šipovo, Bosnia & Herzegovina |
+ | Hours | Open year-round |
+-| Website | https://guesthousesobic.netlify.app |
++| Website | https://plivariverlodge.com |
+ | Email | milkasobic25@gmail.com |
+ | Profile photo | the exterior, same as Instagram |
+ 
+diff --git a/netlify/functions/enquiry.mjs b/netlify/functions/enquiry.mjs
+index 0dd2069..d6d3f7b 100644
+--- a/netlify/functions/enquiry.mjs
++++ b/netlify/functions/enquiry.mjs
+@@ -169,7 +169,7 @@ function occupancyLines(body) {
+ 
+ /** Build the plain-text body of the email from the posted fields. */
+ function buildBody(body) {
+-  const lines = ["Website enquiry from guesthousesobic.netlify.app", ""];
++  const lines = ["Website enquiry from plivariverlodge.com", ""];
+   for (const [name, label] of FIELDS) {
+     const value = readField(body, name);
+     if (value) lines.push(`${label}: ${value}`);
+diff --git a/test_site.py b/test_site.py
+index 6ce55fc..6e2e866 100644
+--- a/test_site.py
++++ b/test_site.py
+@@ -627,6 +627,12 @@ def test_enquiry_function(r):
+         "bookings@guesthousesobic.netlify.app" not in s,
+         "the function does not use an unverifiable netlify.app sender",
+     )
++    # The address the guest reads in the body of the enquiry must be the
++    # domain we own - the netlify.app copy is the fallback, not the address.
++    r.check(
++        "Website enquiry from plivariverlodge.com" in s,
++        "the enquiry email names the domain we own",
++    )
+     # An unverified-domain rejection must be reported precisely, not as a
+     # generic failure, or it is impossible to diagnose.
+     r.check(
+-- 
+2.39.5
+
+
+From 944d358b7613250cbbfe903ba79ae6dcd4991bdd Mon Sep 17 00:00:00 2001
+From: Mavis Agent <agent@mavis.local>
+Date: Fri, 20 Nov 2026 04:23:19 +0000
+Subject: [PATCH 2/3] The visitor counter: Umami on this box, same-origin, no
+ cookie
+
+How many people the site brings and where they came from, counted on our
+own server and nowhere else.
+
+  * deploy/analytics-install.sh installs Umami + PostgreSQL in Docker,
+    both bound to 127.0.0.1 - the dashboard is not on the internet and is
+    reached through an SSH tunnel;
+  * it creates the website and writes /var/www/plivariverlodge/analytics.js
+    with the website id. The id is NOT committed;
+  * nginx serves /stats.js and /api/send from THIS domain, so the
+    visitor's browser never talks to a third party and no cookie is set;
+  * index.html loads the tracker with one line. If the file is not there
+    the browser gets a 404 and nothing else on the page is affected;
+  * deploy/ANALYTICS.md compares Umami with Google Analytics,
+    Cloudflare and Statcounter, and says why GA is the wrong one here
+    (cookie banner, the data leaves the country, and it cannot say which
+    Facebook group sent the visitor).
+
+The tracker workbook builds the posting link with a utm_campaign tag, so
+the answer to "which group sent this visitor" is in the data.
+
+test_site.py: 2728 passed, 0 failed
+---
+ PlivaRiverLodge-standalone.html |   4 +
+ deploy/ANALYTICS.md             | 175 +++++++++++++++++++++++++
+ deploy/analytics-install.sh     | 226 ++++++++++++++++++++++++++++++++
+ deploy/nginx.conf               |  25 ++++
+ index.html                      |   4 +
+ test_site.py                    |  46 +++++++
+ 6 files changed, 480 insertions(+)
+ create mode 100644 deploy/ANALYTICS.md
+ create mode 100755 deploy/analytics-install.sh
+
+diff --git a/PlivaRiverLodge-standalone.html b/PlivaRiverLodge-standalone.html
+index 68366e5..6efceab 100644
+--- a/PlivaRiverLodge-standalone.html
++++ b/PlivaRiverLodge-standalone.html
+@@ -513,6 +513,10 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
+ 
+ 
+ 
++<!-- The visitor counter. The file it loads is written onto the server by
++     deploy/analytics-install.sh; if it is not there the browser gets a 404
++     and nothing else on the page is affected. -->
++
+ </head>
+ <body class="no-js">
+ 
+diff --git a/deploy/ANALYTICS.md b/deploy/ANALYTICS.md
+new file mode 100644
+index 0000000..ff1440a
+--- /dev/null
++++ b/deploy/ANALYTICS.md
+@@ -0,0 +1,175 @@
++# Visitor counting — how many people, and where they came from
++
++**The short answer:** put **Umami** on this box. It is free forever, it sets
++no cookie, it needs no banner, and the numbers never leave this machine.
++Then put the address from the tracker workbook in every post, with a tag
++that names the place, and the answer to "which Facebook group sent that
++visitor" is in the data instead of in somebody's memory.
++
++---
++
++## The four options, honestly
++
++| | Cost | Cookie / banner | Where the data goes | Tells you which group sent the visitor |
++|---|---|---|---|---|
++| **Umami on this box** (recommended) | free forever | none | this server | yes, with the tags in the tracker |
++| Google Analytics | free | cookie + consent banner | Google | only if you tag every link, and GA groups Facebook into one bucket |
++| Cloudflare Web Analytics | free | none | Cloudflare | no — and it needs the DNS moved to Cloudflare |
++| Statcounter | free | cookie | Statcounter | no |
++
++**Google Analytics** is free and it works on any host — it is a line of
++script and a login. But three things make it the wrong choice for this
++site:
++
++1. **It needs a cookie banner.** Google sends the visitor's IP, a
++   device fingerprint and their browsing to Google. Under the EU rules you
++   then need a consent dialog and a "reject all" that really works, on a
++   page that is trying to sell a fishing trip. Most visitors will refuse,
++   and then you count almost nothing.
++2. **The data leaves the country.** The people you are advertising to are
++   in Germany, France, Italy, the Netherlands and the UK.
++3. **It answers the wrong question.** GA will tell you "42 visits from
++   Facebook". It will not tell you that 31 of them came from *The Fly
++   Fishing Group* and 9 from *Pesca a mosca a Ribnik* — unless every
++   post carries its own tagged link, and even then GA buckets the social
++   networks together unless you build the campaign report yourself.
++
++**Cloudflare Web Analytics** is the tidiest of the free ones (no cookie,
++no banner) but it only works if the domain runs through Cloudflare's
++proxy. The DNS for this domain is at Spaceship, and moving it means moving
++the MX, SPF, DKIM and DMARC records too — while the mail is the one
++channel that has to work. Not worth it for a counter.
++
++**Statcounter** is one line of script and no work at all, but the visitor's
++IP goes to a company in Dublin and it sets a cookie.
++
++**Umami on this box** has none of those problems:
++
++* free, open source, no limits that matter for a lodge;
++* no cookie, no banner, no consent — it counts a visit, not a person;
++* the visitor's IP is hashed and dropped, and nothing is written to the
++  visitor's own computer;
++* the dashboard is on this machine only — it is not on the internet and
++  there is no password for a stranger to try;
++* the tracker is served from **this** domain, so an ad blocker that
++  matches analytics hostnames cannot see it.
++
++---
++
++## What you get on the dashboard
++
++* **Visitors and page views**, by day and by hour — is anybody looking at
++  all, and at what time?
++* **Referrers** — the sites that sent the visitor. This is the "from
++  where" question, answered.
++* **URL parameters** — the `utm_campaign` tag out of the posting link.
++  This is the precise answer: *this* group, *this* post.
++* **Countries, browsers, devices, operating systems.**
++* **The live map** — where the visitors are right now.
++* **A list of the pages** that are read.
++
++---
++
++## Installing it
++
++On the server, from the clone:
++
++```bash
++cd /var/www/plivariverlodge
++sudo ./deploy/deploy.sh plivariverlodge.com      # installs the two nginx lines
++sudo ./deploy/analytics-install.sh plivariverlodge.com
++```
++
++The installer:
++
++1. installs Docker if it is not there, then Umami and PostgreSQL in it;
++2. binds both to `127.0.0.1` — **the dashboard is not on the internet**;
++3. creates the website and takes its id;
++4. writes `/var/www/plivariverlodge/analytics.js` — the file the page
++   loads, with that id in it.
++
++Nothing is secret in the repository: the file with the id is written onto
++the server, not committed.
++
++### Opening the dashboard
++
++The dashboard is only on this machine, so you open it through a tunnel:
++
++```bash
++ssh -L 3000:127.0.0.1:3000 root@185.241.151.86
++```
++
++then open **http://localhost:3000** in the browser. The first time:
++`admin` / `umami` — **change that password at once**, from the account
++menu in the top right.
++
++If you want the dashboard on a real address instead, add an A record
++`stats` → `185.241.151.86` at Spaceship and ask for a certificate; the
++installer does not do it on purpose, because a dashboard with a password
++on it is a thing that gets found.
++
++---
++
++## The part that makes it useful: the tagged link
++
++The tracker workbook has a **POSTING LINK** column that builds the address
++for each place:
++
++```
++https://plivariverlodge.com/?utm_source=facebook&utm_medium=social&utm_campaign=the-fly-fishing-group&utm_content=en
++```
++
++* `utm_campaign` — **which place**. It is the target's name, lower case
++  and dashed, made by a formula, so the same place always gets the same
++  tag.
++* `utm_content` — **which language** of the post.
++* `utm_source` — the channel: `facebook`, `instagram`, or the name of the
++  channel for everything else.
++
++Copy that link into the post. Then the dashboard tells you that *The Fly
++Fishing Group* brought 31 visitors and *Pesca a mosca a Ribnik* brought 9,
++instead of "42 from Facebook".
++
++The same link goes into the DM, the email and the advertisement, so every
++reply can be traced back to the place that produced it.
++
++---
++
++## What it does not do, and does not need to do
++
++* It does not count people. It counts visits. A person who opens five
++  pages is one visitor, five page views.
++* It does not identify anybody, and it cannot: there is no cookie and no
++  identifier, so the same visitor from the same address is "the same
++  visit" only in the loosest sense.
++* It does not tell you who wrote in. That is what the enquiry form and
++  the WhatsApp record already do — the tracker tells you **where they
++  came from**, the form tells you **what they wanted**.
++* It does not replace the WhatsApp click record. Use both: the click
++  record says who pressed the button, the tracker says how many people
++  got as far as the page.
++
++---
++
++## The files
++
++| | |
++|---|---|
++| `deploy/analytics-install.sh` | the installer — run it with sudo on the server |
++| `deploy/nginx.conf` | the two `location` blocks that serve `/stats.js` and `/api/send` |
++| `index.html` | one line that loads `/analytics.js` |
++| `/var/www/plivariverlodge/analytics.js` | written by the installer, not committed |
++| `/opt/umami/` | the container, its database and its `.env` (mode 600) |
++
++## If it does not count anything
++
++1. `curl -sI https://plivariverlodge.com/stats.js` — if this is not 200,
++   the nginx part is not installed (run `deploy.sh`).
++2. `curl -s https://plivariverlodge.com/analytics.js` — if this is a 404,
++   the installer has not been run.
++3. `cd /opt/umami && docker compose ps` — the app and the database must
++   both be up.
++4. `curl -s http://127.0.0.1:3000/api/heartbeat` — the answer must be
++   `ok`.
++5. Umami counts a visit only after the page has been open for a moment.
++   Visit the site yourself and wait ten seconds before you look.
+diff --git a/deploy/analytics-install.sh b/deploy/analytics-install.sh
+new file mode 100755
+index 0000000..80b35da
+--- /dev/null
++++ b/deploy/analytics-install.sh
+@@ -0,0 +1,226 @@
++#!/usr/bin/env bash
++#
++# Install Umami analytics on this box.
++#
++#   sudo ./deploy/analytics-install.sh [domain]
++#
++# What it does:
++#
++#   1. installs Umami (free, open source) and its PostgreSQL database in
++#      Docker, both bound to 127.0.0.1 - the dashboard is NOT on the
++#      internet;
++#   2. creates the website "Pliva River Lodge" and takes its id;
++#   3. writes /var/www/plivariverlodge/analytics.js, the file the site
++#      loads, with that id in it;
++#   4. prints the one command that opens the dashboard.
++#
++# The dashboard is reached through an SSH tunnel, so there is no second
++# domain, no second certificate and nothing for a stranger to log into.
++# The numbers never leave this machine.
++#
++# The tracker itself is served from the same domain as the site (nginx
++# proxies /stats.js and /api/send), so the visitor's browser talks to
++# plivariverlodge.com only - no third party, no cookie, no banner.
++
++set -euo pipefail
++
++DOMAIN="${1:-plivariverlodge.com}"
++SITE_DIR="${SITE_DIR:-/var/www/plivariverlodge}"
++UMAMI_DIR="${UMAMI_DIR:-/opt/umami}"
++UMAMI_PORT="${UMAMI_PORT:-3000}"
++COMPOSE="$UMAMI_DIR/docker-compose.yml"
++TRACKER="$SITE_DIR/analytics.js"
++
++say() { printf '\n== %s\n' "$*"; }
++die() { printf '\nERROR: %s\n' "$*" >&2; exit 1; }
++
++[ "$(id -u)" = "0" ] || die "run it with sudo"
++[ -d "$SITE_DIR" ] || die "the site is not at $SITE_DIR - pass SITE_DIR=..."
++command -v node >/dev/null 2>&1 || die "node is not installed (the site service needs it, so this is odd)"
++
++# --- 1. docker -------------------------------------------------------------
++say "1. docker"
++if ! command -v docker >/dev/null 2>&1; then
++  echo "docker is not installed - installing it"
++  if command -v apt-get >/dev/null 2>&1; then
++    export DEBIAN_FRONTEND=noninteractive
++    apt-get update -qq
++    apt-get install -y -qq docker.io docker-compose-v2 || apt-get install -y -qq docker.io
++  else
++    die "no apt-get - install docker by hand and run this again"
++  fi
++fi
++command -v docker >/dev/null 2>&1 || die "docker is still not there"
++systemctl enable --now docker >/dev/null 2>&1 || true
++docker info >/dev/null 2>&1 || die "docker is installed but not running (systemctl start docker)"
++
++# --- 2. the container ------------------------------------------------------
++say "2. umami"
++mkdir -p "$UMAMI_DIR"
++if [ ! -f "$UMAMI_DIR/.env" ]; then
++  echo "writing a fresh .env with new secrets"
++  umask 077
++  PW="$(openssl rand -hex 24)"
++  cat > "$UMAMI_DIR/.env" <<EOF
++POSTGRES_DB=umami
++POSTGRES_USER=umami
++POSTGRES_PASSWORD=${PW}
++DATABASE_URL=postgresql://umami:${PW}@db:5432/umami
++DATABASE_TYPE=postgresql
++APP_SECRET=$(openssl rand -hex 32)
++TWO_FACTOR_ENCRYPTION_KEY=$(openssl rand -hex 32)
++EOF
++  chmod 600 "$UMAMI_DIR/.env"
++else
++  echo "the .env is already there - keeping it (the passwords must not change)"
++fi
++
++if [ ! -f "$COMPOSE" ]; then
++  cat > "$COMPOSE" <<'EOF'
++services:
++  umami:
++    image: ghcr.io/umami-software/umami:3
++    container_name: umami
++    restart: unless-stopped
++    init: true
++    env_file: .env
++    environment:
++      DATABASE_URL: ${DATABASE_URL}
++      DATABASE_TYPE: ${DATABASE_TYPE}
++      APP_SECRET: ${APP_SECRET}
++      TWO_FACTOR_ENCRYPTION_KEY: ${TWO_FACTOR_ENCRYPTION_KEY}
++    ports:
++      - "127.0.0.1:3000:3000"
++    depends_on:
++      db:
++        condition: service_healthy
++    healthcheck:
++      test: ["CMD-SHELL", "curl -fsS http://localhost:3000/api/heartbeat"]
++      interval: 10s
++      retries: 30
++  db:
++    image: postgres:16-alpine
++    container_name: umami-db
++    restart: unless-stopped
++    env_file: .env
++    environment:
++      POSTGRES_DB: ${POSTGRES_DB}
++      POSTGRES_USER: ${POSTGRES_USER}
++      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
++    volumes:
++      - umami-db-data:/var/lib/postgresql/data
++    healthcheck:
++      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
++      interval: 5s
++      retries: 20
++volumes:
++  umami-db-data:
++EOF
++fi
++
++cd "$UMAMI_DIR"
++docker compose up -d 2>/dev/null || docker-compose up -d
++echo "waiting for the database and the app to come up"
++for i in $(seq 1 60); do
++  if curl -fsS "http://127.0.0.1:${UMAMI_PORT}/api/heartbeat" >/dev/null 2>&1; then
++    echo "umami is up after ${i} seconds"
++    break
++  fi
++  sleep 2
++  if [ "$i" = "60" ]; then
++    docker compose logs --tail 30 umami || true
++    die "umami did not come up - read the log above"
++  fi
++done
++
++# --- 3. the website and its id --------------------------------------------
++say "3. the website"
++WEBSITE_ID="$(node -e '
++const base = "http://127.0.0.1:" + process.argv[1] + "/api/websites";
++const domain = process.argv[2];
++const auth = "Basic " + Buffer.from("admin:umami").toString("base64");
++(async () => {
++  const list = await fetch(base, { headers: { Authorization: auth } }).then(r => r.json());
++  const found = (Array.isArray(list) ? list : list.websites || []).find(w => w.domain === domain);
++  if (found) { console.log(found.id); return; }
++  const res = await fetch(base, {
++    method: "POST",
++    headers: { Authorization: auth, "Content-Type": "application/json" },
++    body: JSON.stringify({ name: "Pliva River Lodge", domain }),
++  });
++  if (!res.ok) { console.error("the API answered " + res.status); process.exit(1); }
++  const body = await res.json();
++  console.log(body.id || body.websiteId);
++})();
++' "$UMAMI_PORT" "$DOMAIN")"
++
++[ -n "$WEBSITE_ID" ] || die "the website id could not be read from the API"
++echo "website id: $WEBSITE_ID"
++
++# --- 4. the tracker file the site loads -----------------------------------
++say "4. the tracker"
++cat > "$TRACKER" <<EOF
++/* Written by deploy/analytics-install.sh - not part of the repository.
++   The website id below is the only thing that is specific to this site. */
++(function () {
++  var s = document.createElement('script');
++  s.defer = true;
++  s.src = '/stats.js';
++  s.setAttribute('data-website-id', '$WEBSITE_ID');
++  s.setAttribute('data-host-url', 'https://$DOMAIN');
++  document.head.appendChild(s);
++})();
++EOF
++chown --reference="$SITE_DIR/index.html" "$TRACKER" 2>/dev/null || true
++chmod 644 "$TRACKER"
++echo "wrote $TRACKER"
++
++cat > "$UMAMI_DIR/README.txt" <<EOF
++Umami analytics for $DOMAIN
++============================
++The dashboard is on this machine only:
++
++    ssh -L 3000:127.0.0.1:$UMAMI_PORT root@<this server>
++    then open http://localhost:3000 in the browser
++    the first time: admin / umami - change that password at once
++
++The data is in the umami-db container (volume umami-db-data).
++To start it again after a reboot:  cd $UMAMI_DIR && docker compose up -d
++EOF
++echo "wrote $UMAMI_DIR/README.txt"
++
++# --- 5. what is left to do -------------------------------------------------
++say "5. the nginx part"
++if grep -qs "stats.js" /etc/nginx/sites-available/pliva-riverside 2>/dev/null; then
++  echo "the site configuration already knows about /stats.js - nothing to do"
++else
++  cat <<'EOF'
++The nginx configuration on this box does not have the two lines that
++serve the tracker yet. They come with the repository:
++
++    sudo ./deploy/deploy.sh plivariverlodge.com
++
++and then reload nginx. Until that is done the site still works, it only
++does not count anything yet.
++EOF
++fi
++
++cat <<EOF
++
++Done.
++
++  * the tracker file is $TRACKER
++  * the website id is $WEBSITE_ID
++  * the dashboard is not on the internet - open it with:
++
++        ssh -L 3000:127.0.0.1:$UMAMI_PORT root@<this server>
++        (then http://localhost:3000 - admin / umami, change the password)
++
++  * CHANGE THE ADMIN PASSWORD the first time you log in.
++
++  * What you will see there: visitors and page views over time, the
++    referring sites (which Facebook group sent somebody), the countries,
++    the browsers, and the URL parameters - the utm_campaign tag in every
++    posting link says which group it was.
++
++EOF
+diff --git a/deploy/nginx.conf b/deploy/nginx.conf
+index eb72e9b..13ca3ac 100644
+--- a/deploy/nginx.conf
++++ b/deploy/nginx.conf
+@@ -109,6 +109,31 @@ server {
+         proxy_read_timeout 60s;
+     }
+ 
++    # --- the visitor counter (Umami, on 127.0.0.1:3000).
++    # The tracker and the collector are served from THIS domain, so the
++    # visitor's browser never talks to a third party and an ad blocker
++    # that matches analytics hostnames cannot touch it. Both answers 502
++    # until deploy/analytics-install.sh has been run - that is harmless,
++    # nothing on the page uses them.
++    location = /stats.js {
++        proxy_pass http://127.0.0.1:3000/script.js;
++        proxy_http_version 1.1;
++        proxy_set_header Host $host;
++        proxy_set_header X-Real-IP $remote_addr;
++        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
++        proxy_set_header X-Forwarded-Proto $scheme;
++    }
++
++    location = /api/send {
++        proxy_pass http://127.0.0.1:3000/api/send;
++        proxy_http_version 1.1;
++        proxy_set_header Host $host;
++        proxy_set_header X-Real-IP $remote_addr;
++        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
++        proxy_set_header X-Forwarded-Proto $scheme;
++        proxy_read_timeout 30s;
++    }
++
+     location / {
+         try_files $uri $uri/ =404;
+     }
+diff --git a/index.html b/index.html
+index 912a633..2052692 100644
+--- a/index.html
++++ b/index.html
+@@ -524,6 +524,10 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
+ <script src="dates.js" defer></script>
+ <script src="occupancy.js" defer></script>
+ <script src="form.js" defer></script>
++<!-- The visitor counter. The file it loads is written onto the server by
++     deploy/analytics-install.sh; if it is not there the browser gets a 404
++     and nothing else on the page is affected. -->
++<script src="analytics.js" defer></script>
+ </head>
+ <body class="no-js">
+ 
+diff --git a/test_site.py b/test_site.py
+index 6e2e866..9848dbc 100644
+--- a/test_site.py
++++ b/test_site.py
+@@ -1785,6 +1785,51 @@ def test_confirmation_modal(r):
+         for lang in ("en", "de", "bs", "it", "fr", "nl"):
+             r.check(bool(entry.get(lang)), f"{key} is translated into {lang}")
+ 
++def test_visitor_counter(r):
++    """The visitor counter must be there, and it must not leak.
++
++    What must hold:
++      - the page loads /analytics.js, the file the installer writes
++      - nginx serves the tracker and the collector from THIS domain
++      - the website id is NOT committed - it is written onto the server
++      - the dashboard is not on the internet: Umami binds to 127.0.0.1
++      - the standalone build does not carry the tracker
++    """
++    html = (ROOT / "index.html").read_text(encoding="utf-8")
++    nginx = (ROOT / "deploy" / "nginx.conf").read_text(encoding="utf-8")
++    installer = (ROOT / "deploy" / "analytics-install.sh").read_text(encoding="utf-8")
++
++    r.check('src="analytics.js"' in html,
++            "the page loads the tracker file")
++
++    r.check("location = /stats.js" in nginx,
++            "nginx serves the tracker from this domain")
++    r.check("location = /api/send" in nginx,
++            "nginx serves the collector from this domain")
++    r.check("127.0.0.1:3000" in nginx,
++            "the tracker is proxied to the local Umami, not to a third party")
++
++    r.check('"127.0.0.1:3000:3000"' in installer,
++            "Umami is bound to localhost, so the dashboard is not public")
++    r.check("data-website-id" in installer,
++            "the tracker file carries the website id")
++    r.check("analytics.js" in installer and "SITE_DIR" in installer,
++            "the installer writes the tracker file next to the site")
++
++    # a committed website id would be a site that counts only for us
++    import re
++    uuid = re.findall(r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
++                      (ROOT / "index.html").read_text(encoding="utf-8"))
++    r.check(not uuid, "no website id is committed to the repository")
++
++    standalone = (ROOT / "PlivaRiverLodge-standalone.html").read_text(encoding="utf-8")
++    r.check('<script src="analytics.js"' not in standalone,
++            "the standalone build does not carry the tracker")
++
++    r.check((ROOT / "deploy" / "ANALYTICS.md").exists(),
++            "the analytics setup is documented")
++
++
+ def test_forms_backup_carries_the_same_fields_as_the_email(r):
+     """The Netlify Forms backup must be the SAME enquiry as the email.
+ 
+@@ -2403,6 +2448,7 @@ def main():
+     test_booking_email_is_milka_s(r)
+     test_forms_backup_carries_the_same_fields_as_the_email(r)
+     test_confirmation_modal(r)
++    test_visitor_counter(r)
+     test_no_live_credentials_in_the_repository(r)
+ 
+     print(f"\n{r.passes} passed, {len(r.failures)} failed")
+-- 
+2.39.5
+
+
+From 7d3a529b4a9c9fde20ca511c36f7098123495522 Mon Sep 17 00:00:00 2001
+From: Mavis Agent <agent@mavis.local>
+Date: Fri, 20 Nov 2026 04:45:49 +0000
+Subject: [PATCH 3/3] The visitor counter: Umami Cloud, and the footer says so
+
+The tracker is now the Umami Cloud snippet with the website id of the
+account that was created for the lodge. It sets no cookie, collects no
+personal data and needs no banner, so nothing on the site had to change
+to make it legal.
+
+  * index.html carries the snippet (defer, so it never blocks the page);
+  * the footer's transparency line now says the visits are counted, in
+    all six languages - it would have been wrong to keep saying only the
+    WhatsApp clicks were noted;
+  * the self-hosted option stays in the repository for anyone who wants
+    the data to stay on this box, but it is NOT switched on: the two
+    nginx proxy lines are out of the live configuration again;
+  * deploy/ANALYTICS.md leads with Umami Cloud and keeps the self-hosted
+    route as the second option.
+
+test_site.py: 2737 passed, 0 failed
+---
+ PlivaRiverLodge-standalone.html |  5 ++-
+ deploy/ANALYTICS.md             | 33 +++++++++++++----
+ deploy/nginx.conf               | 25 -------------
+ i18n-data.js                    | 12 +++----
+ index.html                      |  9 +++--
+ test_site.py                    | 63 +++++++++++++++++----------------
+ tools/add_foot_track.py         | 52 +++++++++++++++++++++++++++
+ tools/dutch.py                  |  2 +-
+ tools/french.py                 |  2 +-
+ tools/italian.py                |  2 +-
+ 10 files changed, 127 insertions(+), 78 deletions(-)
+ create mode 100644 tools/add_foot_track.py
+
+diff --git a/PlivaRiverLodge-standalone.html b/PlivaRiverLodge-standalone.html
+index 6efceab..9a42942 100644
+--- a/PlivaRiverLodge-standalone.html
++++ b/PlivaRiverLodge-standalone.html
+@@ -513,9 +513,8 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
+ 
+ 
+ 
+-<!-- The visitor counter. The file it loads is written onto the server by
+-     deploy/analytics-install.sh; if it is not there the browser gets a 404
+-     and nothing else on the page is affected. -->
++<!-- Umami Cloud: the visitor counter. No cookie, no banner, no personal
++     data - see deploy/ANALYTICS.md. -->
+ 
+ </head>
+ <body class="no-js">
+diff --git a/deploy/ANALYTICS.md b/deploy/ANALYTICS.md
+index ff1440a..16675ac 100644
+--- a/deploy/ANALYTICS.md
++++ b/deploy/ANALYTICS.md
+@@ -1,10 +1,25 @@
+ # Visitor counting — how many people, and where they came from
+ 
+-**The short answer:** put **Umami** on this box. It is free forever, it sets
+-no cookie, it needs no banner, and the numbers never leave this machine.
+-Then put the address from the tracker workbook in every post, with a tag
+-that names the place, and the answer to "which Facebook group sent that
+-visitor" is in the data instead of in somebody's memory.
++**What is on the site now:** the **Umami Cloud** tracker, on the free Hobby
++plan — 100,000 events a month, one website, six months of history. It sets
++**no cookie**, it collects **no personal data**, and it needs **no cookie
++banner**. The snippet sits in `index.html`:
++
++```html
++<script defer src="https://cloud.umami.is/script.js" data-website-id="e0da6e27-85e2-4260-9922-2b9dd8c77da5"></script>
++```
++
++**Where to look:** <https://cloud.umami.is> — log in with the account you
++created, open the website **Pliva River Lodge**, and the dashboard is
++there. The live map, the visitors over time, the referring sites, the
++countries, the browsers, and the URL parameters.
++
++**The one honest difference:** with Umami Cloud the visit data goes to
++Umami's servers, not to this box. It is still anonymous and still
++cookie-free, but it is not the same as keeping it at home. If that
++matters to you, the **self-hosted** option is at the bottom of this page
++and `deploy/analytics-install.sh` puts Umami on this machine, bound to
++`127.0.0.1`, where the dashboard is not on the internet at all.
+ 
+ ---
+ 
+@@ -70,7 +85,7 @@ IP goes to a company in Dublin and it sets a cookie.
+ 
+ ---
+ 
+-## Installing it
++## The self-hosted option (if you want the data to stay here)
+ 
+ On the server, from the clone:
+ 
+@@ -91,6 +106,12 @@ The installer:
+ Nothing is secret in the repository: the file with the id is written onto
+ the server, not committed.
+ 
++**To switch from Cloud to your own box**, three things change: the snippet
++in `index.html` becomes `<script src="/analytics.js" defer></script>`, the
++nginx template gets the two `location` blocks back (they are in the
++history of this file), and the installer writes the id. Say the word and
++it is done in one commit.
++
+ ### Opening the dashboard
+ 
+ The dashboard is only on this machine, so you open it through a tunnel:
+diff --git a/deploy/nginx.conf b/deploy/nginx.conf
+index 13ca3ac..eb72e9b 100644
+--- a/deploy/nginx.conf
++++ b/deploy/nginx.conf
+@@ -109,31 +109,6 @@ server {
+         proxy_read_timeout 60s;
+     }
+ 
+-    # --- the visitor counter (Umami, on 127.0.0.1:3000).
+-    # The tracker and the collector are served from THIS domain, so the
+-    # visitor's browser never talks to a third party and an ad blocker
+-    # that matches analytics hostnames cannot touch it. Both answers 502
+-    # until deploy/analytics-install.sh has been run - that is harmless,
+-    # nothing on the page uses them.
+-    location = /stats.js {
+-        proxy_pass http://127.0.0.1:3000/script.js;
+-        proxy_http_version 1.1;
+-        proxy_set_header Host $host;
+-        proxy_set_header X-Real-IP $remote_addr;
+-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+-        proxy_set_header X-Forwarded-Proto $scheme;
+-    }
+-
+-    location = /api/send {
+-        proxy_pass http://127.0.0.1:3000/api/send;
+-        proxy_http_version 1.1;
+-        proxy_set_header Host $host;
+-        proxy_set_header X-Real-IP $remote_addr;
+-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+-        proxy_set_header X-Forwarded-Proto $scheme;
+-        proxy_read_timeout 30s;
+-    }
+-
+     location / {
+         try_files $uri $uri/ =404;
+     }
+diff --git a/i18n-data.js b/i18n-data.js
+index f9342d1..fd4eeab 100644
+--- a/i18n-data.js
++++ b/i18n-data.js
+@@ -1066,12 +1066,12 @@ window.I18N = {
+     "nl": "Pljeva, Šipovo<br>Bosnië-Herzegovina<br>Vliegenvissen op de Pliva · Hele jaar open"
+   },
+   "foot_track": {
+-    "en": "We note the page and the approximate location of visitors who open WhatsApp.",
+-    "de": "Wir notieren die Seite und den ungefähren Standort von Besuchern, die WhatsApp öffnen.",
+-    "bs": "Bilježimo stranicu i približnu lokaciju posjetilaca koji otvore WhatsApp.",
+-    "it": "Annotiamo la pagina e la posizione approssimativa dei visitatori che aprono WhatsApp.",
+-    "fr": "Nous notons la page et la position approximative des visiteurs qui ouvrent WhatsApp.",
+-    "nl": "We noteren de pagina en de globale locatie van bezoekers die WhatsApp openen."
++    "en": "We count the visits to this page (no cookies) and we note the page and the approximate location of visitors who open WhatsApp.",
++    "de": "Wir zählen die Besuche auf dieser Seite (ohne Cookies) und notieren die Seite und den ungefähren Standort von Besuchern, die WhatsApp öffnen.",
++    "bs": "Brojimo posjete na ovoj stranici (bez kolačića) i bilježimo stranicu i približnu lokaciju posjetilaca koji otvore WhatsApp.",
++    "it": "Contiamo le visite a questa pagina (senza cookie) e annotiamo la pagina e la posizione approssimativa dei visitatori che aprono WhatsApp.",
++    "fr": "Nous comptons les visites sur cette page (sans cookies) et nous notons la page et la position approximative des visiteurs qui ouvrent WhatsApp.",
++    "nl": "We tellen de bezoeken op deze pagina (zonder cookies) en we noteren de pagina en de globale locatie van bezoekers die WhatsApp openen."
+   },
+   "foot_safe": {
+     "en": "Catch and release. Travel insurance recommended.",
+diff --git a/index.html b/index.html
+index 2052692..6c1bcc3 100644
+--- a/index.html
++++ b/index.html
+@@ -524,10 +524,9 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
+ <script src="dates.js" defer></script>
+ <script src="occupancy.js" defer></script>
+ <script src="form.js" defer></script>
+-<!-- The visitor counter. The file it loads is written onto the server by
+-     deploy/analytics-install.sh; if it is not there the browser gets a 404
+-     and nothing else on the page is affected. -->
+-<script src="analytics.js" defer></script>
++<!-- Umami Cloud: the visitor counter. No cookie, no banner, no personal
++     data - see deploy/ANALYTICS.md. -->
++<script defer src="https://cloud.umami.is/script.js" data-website-id="e0da6e27-85e2-4260-9922-2b9dd8c77da5"></script>
+ </head>
+ <body class="no-js">
+ 
+@@ -1193,7 +1192,7 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
+     <div class="foot-bot">
+       <span>© 2026 Pliva River Lodge. <span data-i18n="foot_copy" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="foot_copy">All rights reserved.</span></span>
+       <span data-i18n="foot_safe" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="foot_safe">Catch and release. Travel insurance recommended.</span>
+-      <span data-i18n="foot_track" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="foot_track">We note the page and the approximate location of visitors who open WhatsApp.</span>
++      <span data-i18n="foot_track" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="foot_track">We count the visits to this page (no cookies) and we note the page and the approximate location of visitors who open WhatsApp.</span>
+       <span class="foot-credit"><span data-i18n="foot_credit" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="foot_credit">Created by</span> <a href="https://aicoder.click" target="_blank" rel="noopener nofollow">aicoder.click</a></span>
+     </div>
+   </div>
+diff --git a/test_site.py b/test_site.py
+index 9848dbc..44a16d9 100644
+--- a/test_site.py
++++ b/test_site.py
+@@ -1786,44 +1786,47 @@ def test_confirmation_modal(r):
+             r.check(bool(entry.get(lang)), f"{key} is translated into {lang}")
+ 
+ def test_visitor_counter(r):
+-    """The visitor counter must be there, and it must not leak.
++    """The visitor counter must be there, and it must not cost a banner.
+ 
+     What must hold:
+-      - the page loads /analytics.js, the file the installer writes
+-      - nginx serves the tracker and the collector from THIS domain
+-      - the website id is NOT committed - it is written onto the server
+-      - the dashboard is not on the internet: Umami binds to 127.0.0.1
++      - the page loads the Umami Cloud tracker with OUR website id
++      - the id is the one from the Cloud account, not a copy of somebody
++        else's
++      - the footer tells the visitor that the visits are counted
+       - the standalone build does not carry the tracker
++      - the self-hosted option is documented but NOT switched on
+     """
+     html = (ROOT / "index.html").read_text(encoding="utf-8")
+     nginx = (ROOT / "deploy" / "nginx.conf").read_text(encoding="utf-8")
+-    installer = (ROOT / "deploy" / "analytics-install.sh").read_text(encoding="utf-8")
+-
+-    r.check('src="analytics.js"' in html,
+-            "the page loads the tracker file")
+-
+-    r.check("location = /stats.js" in nginx,
+-            "nginx serves the tracker from this domain")
+-    r.check("location = /api/send" in nginx,
+-            "nginx serves the collector from this domain")
+-    r.check("127.0.0.1:3000" in nginx,
+-            "the tracker is proxied to the local Umami, not to a third party")
+-
+-    r.check('"127.0.0.1:3000:3000"' in installer,
+-            "Umami is bound to localhost, so the dashboard is not public")
+-    r.check("data-website-id" in installer,
+-            "the tracker file carries the website id")
+-    r.check("analytics.js" in installer and "SITE_DIR" in installer,
+-            "the installer writes the tracker file next to the site")
+-
+-    # a committed website id would be a site that counts only for us
+-    import re
+-    uuid = re.findall(r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+-                      (ROOT / "index.html").read_text(encoding="utf-8"))
+-    r.check(not uuid, "no website id is committed to the repository")
++
++    r.check("cloud.umami.is/script.js" in html,
++            "the page loads the Umami tracker")
++    r.check('data-website-id="e0da6e27-85e2-4260-9922-2b9dd8c77da5"' in html,
++            "the tracker carries our website id")
++    r.check("<script defer" in html.split("cloud.umami.is/script.js")[0][-200:],
++            "the tracker does not block the page while it loads")
++
++    # the self-hosted option must not be half switched on
++    r.check("location = /stats.js" not in nginx,
++            "the self-hosted proxy is not in the live nginx configuration")
++    r.check((ROOT / "deploy" / "analytics-install.sh").exists(),
++            "the self-hosted option is still there for anyone who wants it")
++
++    # the footer says so, in every language
++    import json
++    raw = (ROOT / "i18n-data.js").read_text(encoding="utf-8")
++    data = json.loads(raw[raw.index("{") : raw.rindex("}") + 1])
++    entry = data.get("foot_track", {})
++    for lang in ("en", "de", "bs", "it", "fr", "nl"):
++        text = entry.get(lang, "")
++        r.check(bool(text), f"foot_track is translated into {lang}")
++        r.check(("count" in text.lower()) or ("zähl" in text.lower())
++                or ("brojim" in text.lower()) or ("contiamo" in text.lower())
++                or ("comptons" in text.lower()) or ("tellen" in text.lower()),
++                f"foot_track tells the visitor that the visits are counted ({lang})")
+ 
+     standalone = (ROOT / "PlivaRiverLodge-standalone.html").read_text(encoding="utf-8")
+-    r.check('<script src="analytics.js"' not in standalone,
++    r.check('<script defer src="https://cloud.umami.is/script.js"' not in standalone,
+             "the standalone build does not carry the tracker")
+ 
+     r.check((ROOT / "deploy" / "ANALYTICS.md").exists(),
+diff --git a/tools/add_foot_track.py b/tools/add_foot_track.py
+new file mode 100644
+index 0000000..d817c37
+--- /dev/null
++++ b/tools/add_foot_track.py
+@@ -0,0 +1,52 @@
++#!/usr/bin/env python3
++"""Rewrite the foot_track line: the site counts the visits now.
++
++    python3 tools/add_foot_track.py
++
++The English, German and Bosnian columns live in the dictionary; the
++Italian, French and Dutch live in their own files under tools/ - edit
++those there and run their scripts, never edit i18n-data.js by hand.
++"""
++import json
++import sys
++from pathlib import Path
++
++sys.path.insert(0, str(Path(__file__).resolve().parent))
++from _dict_writer import BASE, EXTRA, HEAD, load
++
++DICT = Path(__file__).resolve().parent.parent / "i18n-data.js"
++
++TRACK = {
++    "en": "We count the visits to this page (no cookies) and we note the page and the approximate location of visitors who open WhatsApp.",
++    "de": "Wir zählen die Besuche auf dieser Seite (ohne Cookies) und notieren die Seite und den ungefähren Standort von Besuchern, die WhatsApp öffnen.",
++    "bs": "Brojimo posjete na ovoj stranici (bez kolačića) i bilježimo stranicu i približnu lokaciju posjetilaca koji otvore WhatsApp.",
++}
++
++
++def main():
++    data = load()
++    entry = data.get("foot_track")
++    if not entry:
++        print("ERROR: foot_track is not in the dictionary")
++        return 1
++    for lang, value in TRACK.items():
++        entry[lang] = value
++
++    out = [HEAD, "window.I18N = {\n"]
++    keys = list(data.keys())
++    for i, key in enumerate(keys):
++        out.append(f'  "{key}": {{\n')
++        e = data[key]
++        names = [b for b in BASE if b in e] + [x for x in EXTRA if x in e]
++        for j, name in enumerate(names):
++            comma = "," if j < len(names) - 1 else ""
++            out.append(f'    "{name}": {json.dumps(e[name], ensure_ascii=False)}{comma}\n')
++        out.append("  }" + ("," if i < len(keys) - 1 else "") + "\n")
++    out.append("};\n")
++    DICT.write_text("".join(out), encoding="utf-8")
++    print("foot_track rewritten. Now run tools/italian.py, tools/french.py and tools/dutch.py.")
++    return 0
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git a/tools/dutch.py b/tools/dutch.py
+index 7e95431..3434f9e 100644
+--- a/tools/dutch.py
++++ b/tools/dutch.py
+@@ -165,7 +165,7 @@ NL = {
+     "ph_email": "jij@voorbeeld.nl",
+     "ph_msg": "Visserervaring, dieetwensen, kamervoorkeuren…",
+     "foot_sip": "Pljeva, Šipovo<br>Bosnië-Herzegovina<br>Vliegenvissen op de Pliva · Hele jaar open",
+-    "foot_track": "We noteren de pagina en de globale locatie van bezoekers die WhatsApp openen.",
++    "foot_track": "We tellen de bezoeken op deze pagina (zonder cookies) en we noteren de pagina en de globale locatie van bezoekers die WhatsApp openen.",
+     "foot_safe": "Vangen en terugzetten. Reisverzekering aanbevolen.",
+     "foot_contact": "Contact",
+     "foot_copy": "Alle rechten voorbehouden.",
+diff --git a/tools/french.py b/tools/french.py
+index 996b613..fac7562 100644
+--- a/tools/french.py
++++ b/tools/french.py
+@@ -165,7 +165,7 @@ FR = {
+     "ph_email": "vous@exemple.fr",
+     "ph_msg": "Expérience de la pêche, exigences alimentaires, préférences de chambre…",
+     "foot_sip": "Pljeva, Šipovo<br>Bosnie-Herzégovine<br>Pêche à la mouche sur la Pliva · Ouvert toute l'année",
+-    "foot_track": "Nous notons la page et la position approximative des visiteurs qui ouvrent WhatsApp.",
++    "foot_track": "Nous comptons les visites sur cette page (sans cookies) et nous notons la page et la position approximative des visiteurs qui ouvrent WhatsApp.",
+     "foot_safe": "Pêche et remise. Assurance voyage conseillée.",
+     "foot_contact": "Contact",
+     "foot_copy": "Tous droits réservés.",
+diff --git a/tools/italian.py b/tools/italian.py
+index d4fba01..aa2ccab 100644
+--- a/tools/italian.py
++++ b/tools/italian.py
+@@ -163,7 +163,7 @@ IT = {
+     "ph_msg": "Esperienza di pesca, esigenze alimentari, preferenze per la camera…",
+     "foot_sip": "Pljeva, Šipovo<br>Bosnia ed Erzegovina<br>Pesca a mosca sul Pliva · Aperto tutto l'anno",
+     "foot_safe": "Catch &amp; release. Assicurazione di viaggio consigliata.",
+-    "foot_track": "Annotiamo la pagina e la posizione approssimativa dei visitatori che aprono WhatsApp.",
++    "foot_track": "Contiamo le visite a questa pagina (senza cookie) e annotiamo la pagina e la posizione approssimativa dei visitatori che aprono WhatsApp.",
+     "foot_contact": "Contatti",
+     "foot_copy": "Tutti i diritti riservati.",
+     "hero_f1": "<b>2 km</b> dalla sorgente del Pliva",
+-- 
+2.39.5

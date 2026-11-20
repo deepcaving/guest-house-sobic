@@ -17,7 +17,7 @@
  * rotating.
  *
  * Because it is the real mailbox sending, the mail arrives from
- * `francesco.capuzzo@zoho.com` exactly as if Milka had sent it from Zoho
+ * `the sending mailbox` exactly as if Milka had sent it from Zoho
  * webmail. No domain verification is needed and no DKIM setup is needed -
  * which is the whole reason this transport exists.
  *

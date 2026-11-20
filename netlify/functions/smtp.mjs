@@ -104,6 +104,22 @@ function siblingZohoHost(host) {
   return found ? found[1] : null;
 }
 
+/**
+ * Zoho refuses the REGULAR account password for SMTP and answers
+ * "535 5.7.8 Authentication Failed" - the same reply a wrong password
+ * gets. Say so, because the fix (an app password) is not obvious.
+ */
+function authError(auth, user) {
+  const detail = (auth && auth.text) || "authentication refused";
+  return new Error(
+    `Authentication failed: ${detail}\n` +
+      `The server refused "${user}". With Zoho this is almost always the` +
+      ` wrong kind of password: SMTP wants an APP password` +
+      ` (Zoho Mail -> Settings -> Mailboxes -> the mailbox -> Edit ->` +
+      ` App Passwords -> Generate), not the account password.`
+  );
+}
+
 function isAuthFailure(err) {
   const message = String((err && err.message) || "");
   return /Authentication failed/i.test(message) || /\b535\b/.test(message);
@@ -192,7 +208,7 @@ async function sendMailOnHost(config, mail, host) {
       const token = Buffer.from(`\0${user}\0${password}`, "utf8").toString("base64");
       send(`AUTH PLAIN ${token}`);
       const auth = await read();
-      if (auth.code !== 235) throw new Error(`Authentication failed: ${auth.text}`);
+      if (auth.code !== 235) throw new Error(authError(auth, user));
     } else {
       send("AUTH LOGIN");
       await read();
@@ -200,7 +216,7 @@ async function sendMailOnHost(config, mail, host) {
       await read();
       send(Buffer.from(password, "utf8").toString("base64"));
       const auth = await read();
-      if (auth.code !== 235) throw new Error(`Authentication failed: ${auth.text}`);
+      if (auth.code !== 235) throw new Error(authError(auth, user));
     }
 
     const from = `<${fromEmail}>`;
