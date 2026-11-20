@@ -334,6 +334,16 @@ def build(args, cfg):
     print("Dropping gallery lightbox links...")
     out = re.sub(r'<a href="img/[^"]+"[^>]*>(<img\b[^>]*>)</a>', r"\1", out)
 
+    # The photo viewer is javascript, and Carrd runs no javascript, so the
+    # buttons would sit there doing nothing. In the standalone each picture
+    # is simply a picture.
+    print("Flattening the photo viewer buttons...")
+    out = re.sub(r'<button class="g-item"([^>]*)>(<img\b[^>]*>)</button>', r"\2", out)
+    out = re.sub(r'\s*data-(full|index|alt)="[^"]*"', "", out)
+    # ... and the rules that sized them have to follow the pictures now.
+    out = out.replace(".gallery .g-item img{", ".gallery img{")
+    out = out.replace(".gallery .g-item:hover img{", ".gallery img:hover{")
+
     # Embed every image, and keep the width/height attributes truthful.
     print("Embedding images...")
     cache = {}

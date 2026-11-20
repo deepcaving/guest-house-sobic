@@ -2419,6 +2419,106 @@ def test_zoho_mail_api_transport(r):
         r.check("ZOHO_CLIENT_ID" in envtext or True,
                 "ENV .env may hold the Zoho settings (placeholder)")
 
+# ---------------------------------------------------------------------------
+# 10. the photo gallery: the pictures, the viewer, the sizes
+# ---------------------------------------------------------------------------
+
+def test_photo_gallery(r):
+    print("\nThe photo gallery")
+
+    items = re.findall(r'<button class="g-item"[^>]*>', HTML)
+    r.check(len(items) == 84, "the gallery holds all 84 photographs",
+            f"found {len(items)}")
+
+    # Every picture is a button, not a link: a link would send the visitor
+    # to another page, which is the whole problem this viewer solves.
+    r.check("<a href=\"img/photos/" not in HTML,
+            "no picture links away to another page")
+    r.check("gallery.js" in HTML, "the viewer script is on the page")
+
+    # Both sizes have to be there, and the small one has to be small.
+    smalls = sorted((ROOT / "img" / "photos").glob("*-s.jpg"))
+    larges = sorted((ROOT / "img" / "photos").glob("*-l.jpg"))
+    r.check(len(smalls) == 84 and len(larges) == 84,
+            "both sizes of every photograph are in the repository",
+            f"{len(smalls)} small, {len(larges)} large")
+
+    try:
+        from PIL import Image
+        bad = []
+        for s in smalls:
+            with Image.open(s) as im:
+                if im.size[0] > 500:
+                    bad.append(f"{s.name} is {im.size[0]} wide")
+        r.check(not bad, "the gallery pictures are the small ones (500 px or less)",
+                "; ".join(bad[:4]))
+        missing = []
+        for s in smalls:
+            l = s.with_name(s.name.replace("-s.jpg", "-l.jpg"))
+            if not l.exists():
+                missing.append(l.name)
+        r.check(not missing, "every small picture has its large twin",
+                ", ".join(missing[:4]))
+    except ImportError:
+        r.check(True, "the gallery picture sizes (skipped: no PIL here)")
+
+    # The markup has to point at files that exist.
+    broken = []
+    for m in re.finditer(r'data-full="([^"]+)"', HTML):
+        if not (ROOT / m.group(1)).exists():
+            broken.append(m.group(1))
+    for m in re.finditer(r'<img src="(img/photos/[^"]+)"', HTML):
+        if not (ROOT / m.group(1)).exists():
+            broken.append(m.group(1))
+    r.check(not broken, "every picture in the markup exists on disk",
+            ", ".join(broken[:4]))
+
+    # Every picture needs words of its own, for a visitor who cannot see it.
+    alts = re.findall(r'<img src="img/photos/[^"]+"[^>]*alt="([^"]*)"', HTML)
+    r.check(len(alts) == 84 and all(a.strip() for a in alts),
+            "every picture has an alt text", f"{len(alts)} alt texts")
+    r.check(len(set(alts)) == len(alts), "the alt texts are not the same twice",
+            f"{len(alts) - len(set(alts))} repeats")
+
+    # The viewer has to work in every language.
+    labels = ["gal_lb_title", "gal_lb_close", "gal_lb_prev", "gal_lb_next", "gal_lb_photo"]
+    missing = []
+    for key in labels:
+        for lang in LANGS:
+            if key not in DICT or lang not in DICT[key] or not DICT[key][lang]:
+                missing.append(f"{key}/{lang}")
+    r.check(not missing, "the viewer is labelled in all six languages",
+            ", ".join(missing[:4]))
+
+    # The gallery is a window four rows high, and the pictures scroll
+    # inside it - so the page is not a wall of eighty-four pictures.
+    r.check(".gallery-scroll{" in HTML, "the gallery has its own window")
+    r.check(re.search(r"\.gallery-scroll\{[^}]*max-height:calc\(4 \* var\(--gal-tile\)", HTML) is not None,
+            "the window is four rows high")
+    r.check(re.search(r"\.gallery-scroll\{[^}]*overflow-y:auto", HTML) is not None,
+            "the pictures scroll inside the window")
+    r.check(".g-later" not in HTML and "g-later" not in (ROOT / "gallery.js").read_text(encoding="utf-8"),
+            "nothing is hidden by script - it is a plain scroll")
+    r.check('<div class="gallery-scroll' in HTML and "<div class=\"gallery\">" in HTML,
+            "the window wraps the gallery")
+
+    # On a phone the gallery keeps some room at the sides.
+    m = re.search(r"@media \(max-width:560px\)\s*\{(.*?)\n\}", HTML, re.S)
+    phone = m.group(1) if m else ""
+    r.check(re.search(r"\.gallery-scroll\{[^}]*margin-left:\d+px", phone) is not None,
+            "the gallery keeps room at the sides on a phone")
+
+    # The viewer itself.
+    js = (ROOT / "gallery.js").read_text(encoding="utf-8")
+    for what, needle in [("the next arrow", "go(index + 1)"),
+                         ("the previous arrow", "go(index - 1)"),
+                         ("the escape key", "'Escape'"),
+                         ("the arrow keys", "'ArrowRight'"),
+                         ("the swipe", "touchstart"),
+                         ("the counter", "lb-count")]:
+        r.check(needle in js, f"the viewer has {what}")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--strict", action="store_true", help="exit 1 on any failure")
@@ -2452,6 +2552,7 @@ def main():
     test_forms_backup_carries_the_same_fields_as_the_email(r)
     test_confirmation_modal(r)
     test_visitor_counter(r)
+    test_photo_gallery(r)
     test_no_live_credentials_in_the_repository(r)
 
     print(f"\n{r.passes} passed, {len(r.failures)} failed")

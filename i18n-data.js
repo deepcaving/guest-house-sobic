@@ -257,6 +257,46 @@ window.I18N = {
     "fr": "La grande pelouse à côté de la maison est l'endroit où les pêcheurs préparent leur matériel, et où de légères barques peuvent être assemblées pour les eaux calmes de l'amont.",
     "nl": "Het grote grasveld naast het huis is waar vissers hun materiaal klaarzetten, en waar lichte boten worden opgebouwd voor de stille wateren bovenstrooms."
   },
+  "gal_lb_title": {
+    "en": "Photo gallery",
+    "de": "Fotogalerie",
+    "bs": "Galerija fotografija",
+    "it": "Galleria fotografie",
+    "fr": "Galerie de photos",
+    "nl": "Fotogalerij"
+  },
+  "gal_lb_close": {
+    "en": "Close",
+    "de": "Schließen",
+    "bs": "Zatvori",
+    "it": "Chiudi",
+    "fr": "Fermer",
+    "nl": "Sluiten"
+  },
+  "gal_lb_prev": {
+    "en": "Previous photo",
+    "de": "Vorheriges Foto",
+    "bs": "Prethodna fotografija",
+    "it": "Foto precedente",
+    "fr": "Photo précédente",
+    "nl": "Vorige foto"
+  },
+  "gal_lb_next": {
+    "en": "Next photo",
+    "de": "Nächstes Foto",
+    "bs": "Sljedeća fotografija",
+    "it": "Foto successiva",
+    "fr": "Photo suivante",
+    "nl": "Volgende foto"
+  },
+  "gal_lb_photo": {
+    "en": "Photo",
+    "de": "Foto",
+    "bs": "Fotografija",
+    "it": "Foto",
+    "fr": "Photo",
+    "nl": "Foto"
+  },
   "stat_eyebrow": {
     "en": "The river in numbers",
     "de": "Der Fluss in Zahlen",

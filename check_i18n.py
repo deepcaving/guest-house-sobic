@@ -82,7 +82,7 @@ def main():
     # runtime, so those keys are referenced in the script, not in the markup.
     js_keys = set()
     for js_name in ("i18n.js", "rates-toggle.js", "form.js",
-                    "dates.js", "occupancy.js"):
+                    "dates.js", "occupancy.js", "gallery.js"):
         js_path = ROOT / js_name
         if js_path.exists():
             js_src = js_path.read_text(encoding="utf-8")
