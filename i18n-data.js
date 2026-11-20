@@ -1066,12 +1066,12 @@ window.I18N = {
     "nl": "Pljeva, Šipovo<br>Bosnië-Herzegovina<br>Vliegenvissen op de Pliva · Hele jaar open"
   },
   "foot_track": {
-    "en": "We note the page and the approximate location of visitors who open WhatsApp.",
-    "de": "Wir notieren die Seite und den ungefähren Standort von Besuchern, die WhatsApp öffnen.",
-    "bs": "Bilježimo stranicu i približnu lokaciju posjetilaca koji otvore WhatsApp.",
-    "it": "Annotiamo la pagina e la posizione approssimativa dei visitatori che aprono WhatsApp.",
-    "fr": "Nous notons la page et la position approximative des visiteurs qui ouvrent WhatsApp.",
-    "nl": "We noteren de pagina en de globale locatie van bezoekers die WhatsApp openen."
+    "en": "We count the visits to this page (no cookies) and we note the page and the approximate location of visitors who open WhatsApp.",
+    "de": "Wir zählen die Besuche auf dieser Seite (ohne Cookies) und notieren die Seite und den ungefähren Standort von Besuchern, die WhatsApp öffnen.",
+    "bs": "Brojimo posjete na ovoj stranici (bez kolačića) i bilježimo stranicu i približnu lokaciju posjetilaca koji otvore WhatsApp.",
+    "it": "Contiamo le visite a questa pagina (senza cookie) e annotiamo la pagina e la posizione approssimativa dei visitatori che aprono WhatsApp.",
+    "fr": "Nous comptons les visites sur cette page (sans cookies) et nous notons la page et la position approximative des visiteurs qui ouvrent WhatsApp.",
+    "nl": "We tellen de bezoeken op deze pagina (zonder cookies) en we noteren de pagina en de globale locatie van bezoekers die WhatsApp openen."
   },
   "foot_safe": {
     "en": "Catch and release. Travel insurance recommended.",

@@ -524,10 +524,9 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
 <script src="dates.js" defer></script>
 <script src="occupancy.js" defer></script>
 <script src="form.js" defer></script>
-<!-- The visitor counter. The file it loads is written onto the server by
-     deploy/analytics-install.sh; if it is not there the browser gets a 404
-     and nothing else on the page is affected. -->
-<script src="analytics.js" defer></script>
+<!-- Umami Cloud: the visitor counter. No cookie, no banner, no personal
+     data - see deploy/ANALYTICS.md. -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="e0da6e27-85e2-4260-9922-2b9dd8c77da5"></script>
 </head>
 <body class="no-js">
 
@@ -1193,7 +1192,7 @@ footer{background:var(--navy-d);color:#9fb8c0;padding:44px 0 30px;font-size:.85r
     <div class="foot-bot">
       <span>© 2026 Pliva River Lodge. <span data-i18n="foot_copy" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="foot_copy">All rights reserved.</span></span>
       <span data-i18n="foot_safe" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="foot_safe">Catch and release. Travel insurance recommended.</span>
-      <span data-i18n="foot_track" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="foot_track">We note the page and the approximate location of visitors who open WhatsApp.</span>
+      <span data-i18n="foot_track" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="foot_track">We count the visits to this page (no cookies) and we note the page and the approximate location of visitors who open WhatsApp.</span>
       <span class="foot-credit"><span data-i18n="foot_credit" data-i18n-de="de" data-i18n-bs="bs" data-i18n-it="it" data-i18n-inline="1" data-i18n-key="foot_credit">Created by</span> <a href="https://aicoder.click" target="_blank" rel="noopener nofollow">aicoder.click</a></span>
     </div>
   </div>

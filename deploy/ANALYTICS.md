@@ -1,10 +1,25 @@
 # Visitor counting — how many people, and where they came from
 
-**The short answer:** put **Umami** on this box. It is free forever, it sets
-no cookie, it needs no banner, and the numbers never leave this machine.
-Then put the address from the tracker workbook in every post, with a tag
-that names the place, and the answer to "which Facebook group sent that
-visitor" is in the data instead of in somebody's memory.
+**What is on the site now:** the **Umami Cloud** tracker, on the free Hobby
+plan — 100,000 events a month, one website, six months of history. It sets
+**no cookie**, it collects **no personal data**, and it needs **no cookie
+banner**. The snippet sits in `index.html`:
+
+```html
+<script defer src="https://cloud.umami.is/script.js" data-website-id="e0da6e27-85e2-4260-9922-2b9dd8c77da5"></script>
+```
+
+**Where to look:** <https://cloud.umami.is> — log in with the account you
+created, open the website **Pliva River Lodge**, and the dashboard is
+there. The live map, the visitors over time, the referring sites, the
+countries, the browsers, and the URL parameters.
+
+**The one honest difference:** with Umami Cloud the visit data goes to
+Umami's servers, not to this box. It is still anonymous and still
+cookie-free, but it is not the same as keeping it at home. If that
+matters to you, the **self-hosted** option is at the bottom of this page
+and `deploy/analytics-install.sh` puts Umami on this machine, bound to
+`127.0.0.1`, where the dashboard is not on the internet at all.
 
 ---
 
@@ -70,7 +85,7 @@ IP goes to a company in Dublin and it sets a cookie.
 
 ---
 
-## Installing it
+## The self-hosted option (if you want the data to stay here)
 
 On the server, from the clone:
 
@@ -90,6 +105,12 @@ The installer:
 
 Nothing is secret in the repository: the file with the id is written onto
 the server, not committed.
+
+**To switch from Cloud to your own box**, three things change: the snippet
+in `index.html` becomes `<script src="/analytics.js" defer></script>`, the
+nginx template gets the two `location` blocks back (they are in the
+history of this file), and the installer writes the id. Say the word and
+it is done in one commit.
 
 ### Opening the dashboard
 

@@ -1786,44 +1786,47 @@ def test_confirmation_modal(r):
             r.check(bool(entry.get(lang)), f"{key} is translated into {lang}")
 
 def test_visitor_counter(r):
-    """The visitor counter must be there, and it must not leak.
+    """The visitor counter must be there, and it must not cost a banner.
 
     What must hold:
-      - the page loads /analytics.js, the file the installer writes
-      - nginx serves the tracker and the collector from THIS domain
-      - the website id is NOT committed - it is written onto the server
-      - the dashboard is not on the internet: Umami binds to 127.0.0.1
+      - the page loads the Umami Cloud tracker with OUR website id
+      - the id is the one from the Cloud account, not a copy of somebody
+        else's
+      - the footer tells the visitor that the visits are counted
       - the standalone build does not carry the tracker
+      - the self-hosted option is documented but NOT switched on
     """
     html = (ROOT / "index.html").read_text(encoding="utf-8")
     nginx = (ROOT / "deploy" / "nginx.conf").read_text(encoding="utf-8")
-    installer = (ROOT / "deploy" / "analytics-install.sh").read_text(encoding="utf-8")
 
-    r.check('src="analytics.js"' in html,
-            "the page loads the tracker file")
+    r.check("cloud.umami.is/script.js" in html,
+            "the page loads the Umami tracker")
+    r.check('data-website-id="e0da6e27-85e2-4260-9922-2b9dd8c77da5"' in html,
+            "the tracker carries our website id")
+    r.check("<script defer" in html.split("cloud.umami.is/script.js")[0][-200:],
+            "the tracker does not block the page while it loads")
 
-    r.check("location = /stats.js" in nginx,
-            "nginx serves the tracker from this domain")
-    r.check("location = /api/send" in nginx,
-            "nginx serves the collector from this domain")
-    r.check("127.0.0.1:3000" in nginx,
-            "the tracker is proxied to the local Umami, not to a third party")
+    # the self-hosted option must not be half switched on
+    r.check("location = /stats.js" not in nginx,
+            "the self-hosted proxy is not in the live nginx configuration")
+    r.check((ROOT / "deploy" / "analytics-install.sh").exists(),
+            "the self-hosted option is still there for anyone who wants it")
 
-    r.check('"127.0.0.1:3000:3000"' in installer,
-            "Umami is bound to localhost, so the dashboard is not public")
-    r.check("data-website-id" in installer,
-            "the tracker file carries the website id")
-    r.check("analytics.js" in installer and "SITE_DIR" in installer,
-            "the installer writes the tracker file next to the site")
-
-    # a committed website id would be a site that counts only for us
-    import re
-    uuid = re.findall(r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
-                      (ROOT / "index.html").read_text(encoding="utf-8"))
-    r.check(not uuid, "no website id is committed to the repository")
+    # the footer says so, in every language
+    import json
+    raw = (ROOT / "i18n-data.js").read_text(encoding="utf-8")
+    data = json.loads(raw[raw.index("{") : raw.rindex("}") + 1])
+    entry = data.get("foot_track", {})
+    for lang in ("en", "de", "bs", "it", "fr", "nl"):
+        text = entry.get(lang, "")
+        r.check(bool(text), f"foot_track is translated into {lang}")
+        r.check(("count" in text.lower()) or ("zähl" in text.lower())
+                or ("brojim" in text.lower()) or ("contiamo" in text.lower())
+                or ("comptons" in text.lower()) or ("tellen" in text.lower()),
+                f"foot_track tells the visitor that the visits are counted ({lang})")
 
     standalone = (ROOT / "PlivaRiverLodge-standalone.html").read_text(encoding="utf-8")
-    r.check('<script src="analytics.js"' not in standalone,
+    r.check('<script defer src="https://cloud.umami.is/script.js"' not in standalone,
             "the standalone build does not carry the tracker")
 
     r.check((ROOT / "deploy" / "ANALYTICS.md").exists(),

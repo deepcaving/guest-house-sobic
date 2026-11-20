@@ -165,7 +165,7 @@ NL = {
     "ph_email": "jij@voorbeeld.nl",
     "ph_msg": "Visserervaring, dieetwensen, kamervoorkeuren…",
     "foot_sip": "Pljeva, Šipovo<br>Bosnië-Herzegovina<br>Vliegenvissen op de Pliva · Hele jaar open",
-    "foot_track": "We noteren de pagina en de globale locatie van bezoekers die WhatsApp openen.",
+    "foot_track": "We tellen de bezoeken op deze pagina (zonder cookies) en we noteren de pagina en de globale locatie van bezoekers die WhatsApp openen.",
     "foot_safe": "Vangen en terugzetten. Reisverzekering aanbevolen.",
     "foot_contact": "Contact",
     "foot_copy": "Alle rechten voorbehouden.",

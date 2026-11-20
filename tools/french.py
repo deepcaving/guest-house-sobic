@@ -165,7 +165,7 @@ FR = {
     "ph_email": "vous@exemple.fr",
     "ph_msg": "Expérience de la pêche, exigences alimentaires, préférences de chambre…",
     "foot_sip": "Pljeva, Šipovo<br>Bosnie-Herzégovine<br>Pêche à la mouche sur la Pliva · Ouvert toute l'année",
-    "foot_track": "Nous notons la page et la position approximative des visiteurs qui ouvrent WhatsApp.",
+    "foot_track": "Nous comptons les visites sur cette page (sans cookies) et nous notons la page et la position approximative des visiteurs qui ouvrent WhatsApp.",
     "foot_safe": "Pêche et remise. Assurance voyage conseillée.",
     "foot_contact": "Contact",
     "foot_copy": "Tous droits réservés.",
