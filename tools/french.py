@@ -28,6 +28,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _dict_writer import write_column
 
 FR = {
+    "modal_title": "Votre demande a été envoyée",
+    "modal_text": "Nous avons bien reçu votre message et nous vous répondrons par e-mail, généralement le jour même.",
+    "modal_close": "Fermer",
+    "foot_credit": "Créé par",
     "brand_sub": "Pljeva · Šipovo · Bosnie-Herzégovine",
     "host_line": "Votre hôte : Milka Smjestaj Šobić",
     "nav_lodge": "La maison",
@@ -59,6 +63,11 @@ FR = {
     "tbl_p": "La salle à manger est le cœur de la maison : une longue table de chêne pour quatorze, une cheminée de briques avec gril, une cuisine complète derrière, et des fenêtres pleine hauteur le long de la rivière. Votre hôtesse cuisine ce que la vallée produit — et ce que la rivière a donné ce matin-là.",
     "gal_eyebrow": "La maison en images",
     "gal_h2": "Les chambres, l'eau, et l'espace entre les deux",
+    "gal_lb_title": "Galerie de photos",
+    "gal_lb_close": "Fermer",
+    "gal_lb_prev": "Photo précédente",
+    "gal_lb_next": "Photo suivante",
+    "gal_lb_photo": "Photo",
     "gal_p": "La grande pelouse à côté de la maison est l'endroit où les pêcheurs préparent leur matériel, et où de légères barques peuvent être assemblées pour les eaux calmes de l'amont.",
     "stat_eyebrow": "La rivière en chiffres",
     "stat_h2": "Pourquoi les pêcheurs reviennent toujours",
@@ -161,7 +170,7 @@ FR = {
     "ph_email": "vous@exemple.fr",
     "ph_msg": "Expérience de la pêche, exigences alimentaires, préférences de chambre…",
     "foot_sip": "Pljeva, Šipovo<br>Bosnie-Herzégovine<br>Pêche à la mouche sur la Pliva · Ouvert toute l'année",
-    "foot_track": "Nous notons la page et la position approximative des visiteurs qui ouvrent WhatsApp.",
+    "foot_track": "Nous comptons les visites sur cette page (sans cookies) et nous notons la page et la position approximative des visiteurs qui ouvrent WhatsApp.",
     "foot_safe": "Pêche et remise. Assurance voyage conseillée.",
     "foot_contact": "Contact",
     "foot_copy": "Tous droits réservés.",

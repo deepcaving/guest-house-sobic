@@ -17,7 +17,7 @@ The number one free channel. It is what puts you in Google Maps for
 | Address | Pljeva, 70270 Šipovo, Bosnia & Herzegovina |
 | GPS pin | approx. 44.286° N, 17.097° E — **confirm the real pin before publishing**, a wrong pin costs you the Maps placement |
 | Phone | +387 65 622 760 (must be able to take calls — Google sometimes calls to verify) |
-| Website | https://guesthousesobic.netlify.app |
+| Website | https://plivariverlodge.com |
 | Primary category | **Lodge** |
 | Secondary categories | Bed & Breakfast · Fishing camp · Vacation rental · Guest house |
 | Hours | Open year-round. Reception is arranged per booking — set "24 hours" and confirm arrivals in the message thread |
@@ -186,7 +186,7 @@ number. A phone number converts; a URL just gets scrolled past.
 ## 9. Once you are set up
 
 - Put the site URL in every post and in the website field.
-- Set the Instagram bio link and the Facebook Page link to https://guesthousesobic.netlify.app.
+- Set the Instagram bio link and the Facebook Page link to https://plivariverlodge.com.
 - Ask every past guest for a review — see `email-templates.md`.
 - Reply to every review, even the two-star ones, for the first year.
   Reviews are the ranking signal; replies are what the next guest reads.

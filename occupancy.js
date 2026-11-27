@@ -240,4 +240,13 @@
     sync();
     updateSummary();
   });
+
+  /* After the form has been reset, the hidden fields have to be written
+   * again from the (now empty) panel, or the server would receive the
+   * numbers of the enquiry that was just sent. */
+  window.prlResetOccupancy = function () {
+    showPanel(isFishing());
+    sync();
+    updateSummary();
+  };
 })();

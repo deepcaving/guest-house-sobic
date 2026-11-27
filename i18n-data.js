@@ -257,6 +257,46 @@ window.I18N = {
     "fr": "La grande pelouse à côté de la maison est l'endroit où les pêcheurs préparent leur matériel, et où de légères barques peuvent être assemblées pour les eaux calmes de l'amont.",
     "nl": "Het grote grasveld naast het huis is waar vissers hun materiaal klaarzetten, en waar lichte boten worden opgebouwd voor de stille wateren bovenstrooms."
   },
+  "gal_lb_title": {
+    "en": "Photo gallery",
+    "de": "Fotogalerie",
+    "bs": "Galerija fotografija",
+    "it": "Galleria fotografie",
+    "fr": "Galerie de photos",
+    "nl": "Fotogalerij"
+  },
+  "gal_lb_close": {
+    "en": "Close",
+    "de": "Schließen",
+    "bs": "Zatvori",
+    "it": "Chiudi",
+    "fr": "Fermer",
+    "nl": "Sluiten"
+  },
+  "gal_lb_prev": {
+    "en": "Previous photo",
+    "de": "Vorheriges Foto",
+    "bs": "Prethodna fotografija",
+    "it": "Foto precedente",
+    "fr": "Photo précédente",
+    "nl": "Vorige foto"
+  },
+  "gal_lb_next": {
+    "en": "Next photo",
+    "de": "Nächstes Foto",
+    "bs": "Sljedeća fotografija",
+    "it": "Foto successiva",
+    "fr": "Photo suivante",
+    "nl": "Volgende foto"
+  },
+  "gal_lb_photo": {
+    "en": "Photo",
+    "de": "Foto",
+    "bs": "Fotografija",
+    "it": "Foto",
+    "fr": "Photo",
+    "nl": "Foto"
+  },
   "stat_eyebrow": {
     "en": "The river in numbers",
     "de": "Der Fluss in Zahlen",
@@ -1066,12 +1106,12 @@ window.I18N = {
     "nl": "Pljeva, Šipovo<br>Bosnië-Herzegovina<br>Vliegenvissen op de Pliva · Hele jaar open"
   },
   "foot_track": {
-    "en": "We note the page and the approximate location of visitors who open WhatsApp.",
-    "de": "Wir notieren die Seite und den ungefähren Standort von Besuchern, die WhatsApp öffnen.",
-    "bs": "Bilježimo stranicu i približnu lokaciju posjetilaca koji otvore WhatsApp.",
-    "it": "Annotiamo la pagina e la posizione approssimativa dei visitatori che aprono WhatsApp.",
-    "fr": "Nous notons la page et la position approximative des visiteurs qui ouvrent WhatsApp.",
-    "nl": "We noteren de pagina en de globale locatie van bezoekers die WhatsApp openen."
+    "en": "We count the visits to this page (no cookies) and we note the page and the approximate location of visitors who open WhatsApp.",
+    "de": "Wir zählen die Besuche auf dieser Seite (ohne Cookies) und notieren die Seite und den ungefähren Standort von Besuchern, die WhatsApp öffnen.",
+    "bs": "Brojimo posjete na ovoj stranici (bez kolačića) i bilježimo stranicu i približnu lokaciju posjetilaca koji otvore WhatsApp.",
+    "it": "Contiamo le visite a questa pagina (senza cookie) e annotiamo la pagina e la posizione approssimativa dei visitatori che aprono WhatsApp.",
+    "fr": "Nous comptons les visites sur cette page (sans cookies) et nous notons la page et la position approximative des visiteurs qui ouvrent WhatsApp.",
+    "nl": "We tellen de bezoeken op deze pagina (zonder cookies) en we noteren de pagina en de globale locatie van bezoekers die WhatsApp openen."
   },
   "foot_safe": {
     "en": "Catch and release. Travel insurance recommended.",
@@ -1736,5 +1776,37 @@ window.I18N = {
     "it": ", ",
     "fr": ", ",
     "nl": ", "
+  },
+  "modal_title": {
+    "en": "Your enquiry has been sent",
+    "de": "Ihre Anfrage wurde gesendet",
+    "bs": "Vaša upit je poslat",
+    "it": "La tua richiesta è stata inviata",
+    "fr": "Votre demande a été envoyée",
+    "nl": "Uw aanvraag is verzonden"
+  },
+  "modal_text": {
+    "en": "We have your message and we will reply to you by email, usually the same day.",
+    "de": "Wir haben Ihre Nachricht erhalten und antworten Ihnen per E-Mail, meist noch am selben Tag.",
+    "bs": "Primili smo vašu poruku i odgovorit ćemo vam e-mailom, obično istog dana.",
+    "it": "Abbiamo ricevuto il tuo messaggio e ti risponderemo via e-mail, di solito entro lo stesso giorno.",
+    "fr": "Nous avons bien reçu votre message et nous vous répondrons par e-mail, généralement le jour même.",
+    "nl": "We hebben uw bericht ontvangen en nemen per e-mail contact op, meestal nog dezelfde dag."
+  },
+  "modal_close": {
+    "en": "Close",
+    "de": "Schließen",
+    "bs": "Zatvori",
+    "it": "Chiudi",
+    "fr": "Fermer",
+    "nl": "Sluiten"
+  },
+  "foot_credit": {
+    "en": "Created by",
+    "de": "Erstellt von",
+    "bs": "Izradio",
+    "it": "Creato da",
+    "fr": "Créé par",
+    "nl": "Gemaakt door"
   }
 };

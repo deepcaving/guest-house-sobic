@@ -21,6 +21,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _dict_writer import write_column
 
 IT = {
+    "modal_title": "La tua richiesta è stata inviata",
+    "modal_text": "Abbiamo ricevuto il tuo messaggio e ti risponderemo via e-mail, di solito entro lo stesso giorno.",
+    "modal_close": "Chiudi",
+    "foot_credit": "Creato da",
     "brand_sub": "Pljeva · Šipovo · Bosnia ed Erzegovina",
     "host_line": "Ospita: Milka Smjestaj Šobić",
     "nav_lodge": "La locanda",
@@ -52,6 +56,11 @@ IT = {
     "tbl_p": "La sala da pranzo è il cuore della locanda: un lungo tavolo di rovere per quattordici, un camino in mattoni con griglia, una cucina completa dietro e finestre a tutta altezza lungo il fiume. La padrona cucina con ciò che dà la valle — e con ciò che il fiume ha regalato quella mattina.",
     "gal_eyebrow": "La locanda in immagini",
     "gal_h2": "Camere, acqua e lo spazio in mezzo",
+    "gal_lb_title": "Galleria fotografie",
+    "gal_lb_close": "Chiudi",
+    "gal_lb_prev": "Foto precedente",
+    "gal_lb_next": "Foto successiva",
+    "gal_lb_photo": "Foto",
     "gal_p": "Il grande prato accanto alla locanda è dove i pescatori preparano la loro attrezzatura, e dove le barche leggere possono essere assemblate per le acque tranquille dell'alto corso.",
     "stat_eyebrow": "Il fiume in numeri",
     "stat_h2": "Perché i pescatori tornano sempre",
@@ -159,7 +168,7 @@ IT = {
     "ph_msg": "Esperienza di pesca, esigenze alimentari, preferenze per la camera…",
     "foot_sip": "Pljeva, Šipovo<br>Bosnia ed Erzegovina<br>Pesca a mosca sul Pliva · Aperto tutto l'anno",
     "foot_safe": "Catch &amp; release. Assicurazione di viaggio consigliata.",
-    "foot_track": "Annotiamo la pagina e la posizione approssimativa dei visitatori che aprono WhatsApp.",
+    "foot_track": "Contiamo le visite a questa pagina (senza cookie) e annotiamo la pagina e la posizione approssimativa dei visitatori che aprono WhatsApp.",
     "foot_contact": "Contatti",
     "foot_copy": "Tutti i diritti riservati.",
     "hero_f1": "<b>2 km</b> dalla sorgente del Pliva",

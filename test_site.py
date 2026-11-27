@@ -582,10 +582,15 @@ def test_enquiry_function(r):
         "milkasobic25@gmail.com" in s,
         "the function defaults to Milka's inbox",
     )
-    # The collaborator is blind-copied by default - the env var overrides it.
+    # The collaborator is blind-copied, but the address comes from the
+    # environment - never from the source.
     r.check(
-        "francesco.capuzzo@zoho.com" in s,
-        "the function defaults to blind-copying the collaborator",
+        "process.env.MAIL_BCC" in s,
+        "the function reads the blind-copy address from the environment",
+    )
+    r.check(
+        "your.zoho.mailbox@example.com" not in s,
+        "the function carries no address of its own",
     )
     r.check(
         "domacinstvosobic@gmail.com" not in s,
@@ -621,6 +626,12 @@ def test_enquiry_function(r):
     r.check(
         "bookings@guesthousesobic.netlify.app" not in s,
         "the function does not use an unverifiable netlify.app sender",
+    )
+    # The address the guest reads in the body of the enquiry must be the
+    # domain we own - the netlify.app copy is the fallback, not the address.
+    r.check(
+        "Website enquiry from plivariverlodge.com" in s,
+        "the enquiry email names the domain we own",
     )
     # An unverified-domain rejection must be reported precisely, not as a
     # generic failure, or it is impossible to diagnose.
@@ -1659,6 +1670,169 @@ def test_contact_form_occupancy(r):
             r.check(host in s, f"ZOHO the region tool asks {host}")
 
 
+def test_no_live_credentials_in_the_repository(r):
+    """Netlify refuses to build a tree that contains a live credential.
+
+    The scanner matches the VALUE of an environment variable, not the name.
+    So the mailbox address that SMTP_USER holds, and the collaborator's
+    alias that MAIL_BCC holds, must not be written in any tracked file -
+    not in a document, not in a comment, not as a default in the code.
+
+    The patterns are assembled from parts, so this test does not contain
+    them either.
+    """
+    import subprocess
+
+    # A full address, not the bare domain: writing "Zoho" or the domain in
+    # prose is harmless - the scanner matches the VALUE of a variable.
+    patterns = [
+        re.compile(r"[A-Za-z0-9._%+-]+@" + r"zoho" + r"\.com"),
+        re.compile(r"[A-Za-z0-9._%+-]+@" + r"netyou" + r"\.me"),
+    ]
+    try:
+        out = subprocess.run(
+            ["git", "-C", str(ROOT), "ls-files"],
+            capture_output=True, text=True, timeout=60, check=True,
+        ).stdout
+        names = [n for n in out.splitlines() if n.strip()]
+    except Exception:
+        names = [
+            str(p.relative_to(ROOT))
+            for p in ROOT.rglob("*")
+            if p.is_file() and p.suffix in {".md", ".js", ".mjs", ".html", ".py", ".sh",
+                                           ".json", ".txt", ".example", ".webmanifest"}
+            and ".git" not in p.parts and "node_modules" not in p.parts
+        ]
+
+    offenders = []
+    for name in names:
+        path = ROOT / name
+        try:
+            text = path.read_text(encoding="utf-8")
+        except (UnicodeDecodeError, OSError, ValueError):
+            continue
+        for pat in patterns:
+            if pat.search(text):
+                offenders.append(f"{name} contains a live address: {pat.pattern}")
+
+    r.check(not offenders,
+            "no live mailbox address is written anywhere in the repository")
+    for o in offenders:
+        r.check(False, o)
+
+    # And the function must take the blind-copy address from the environment.
+    fn = (ROOT / "netlify/functions/enquiry.mjs").read_text(encoding="utf-8")
+    r.check("process.env.MAIL_BCC" in fn,
+            "the function reads the blind-copy address from the environment")
+    r.check(re.search(r'bcc:\s*process\.env\.MAIL_BCC\s*\|\|\s*""', fn) is not None,
+            "the function has no address of its own to fall back on")
+
+def test_confirmation_modal(r):
+    """The guest must be told the truth, and the truth must be checked.
+
+    What must hold:
+      - the modal exists, is a dialog, and stays hidden until it is opened
+      - it is opened ONLY on a path where the server answered ok:true
+      - the fields are cleared on that same path, and NOT when the send failed
+      - the credit in the footer links to https://aicoder.click
+      - the four new keys are translated in all six languages
+    """
+    import json
+
+    html = (ROOT / "index.html").read_text(encoding="utf-8")
+    f = (ROOT / "form.js").read_text(encoding="utf-8")
+
+    for ident in ("enquiry-modal", "enquiry-modal-close", "enquiry-modal-backdrop"):
+        r.check(f'id="{ident}"' in html, f"the modal has #{ident}")
+    r.check('role="dialog"' in html and 'aria-modal="true"' in html,
+            "the modal is a dialog for a screen reader")
+    r.check(".modal[hidden]{display:none}" in html,
+            "the modal is hidden until it is opened")
+    r.check("function openModal()" in f and "function closeModal()" in f,
+            "form.js can open and close the modal")
+
+    # the gate: the server has to confirm
+    r.check("if (r.ok && j && j.ok)" in f,
+            "the modal waits for the server's ok:true, not a promise")
+
+    sent_at = f.find("if (result.sent)")
+    open_at = f.find("openModal();")
+    clear_at = f.find("clearForm();")
+    r.check(sent_at >= 0 and open_at > sent_at,
+            "the modal is opened only after the server confirmed the enquiry")
+    r.check(clear_at > sent_at,
+            "the fields are cleared only after the server confirmed the enquiry")
+
+    fail_at = f.find("show(statusFallback)")
+    r.check(fail_at > 0, "the failure path still shows the honest message")
+    if fail_at > 0:
+        tail = f[fail_at:]
+        r.check("openModal()" not in tail,
+                "the modal does NOT open when the email could not be sent")
+        r.check("clearForm()" not in tail,
+                "the fields are NOT cleared when the email could not be sent")
+
+    r.check('href="https://aicoder.click"' in html,
+            "the footer credit links to https://aicoder.click")
+    r.check(">aicoder.click</a>" in html,
+            "the visible link text is aicoder.click")
+    r.check("foot_credit" in html, "the words before the link are translated")
+
+    raw = (ROOT / "i18n-data.js").read_text(encoding="utf-8")
+    data = json.loads(raw[raw.index("{") : raw.rindex("}") + 1])
+    for key in ("modal_title", "modal_text", "modal_close", "foot_credit"):
+        entry = data.get(key, {})
+        for lang in ("en", "de", "bs", "it", "fr", "nl"):
+            r.check(bool(entry.get(lang)), f"{key} is translated into {lang}")
+
+def test_visitor_counter(r):
+    """The visitor counter must be there, and it must not cost a banner.
+
+    What must hold:
+      - the page loads the Umami Cloud tracker with OUR website id
+      - the id is the one from the Cloud account, not a copy of somebody
+        else's
+      - the footer tells the visitor that the visits are counted
+      - the standalone build does not carry the tracker
+      - the self-hosted option is documented but NOT switched on
+    """
+    html = (ROOT / "index.html").read_text(encoding="utf-8")
+    nginx = (ROOT / "deploy" / "nginx.conf").read_text(encoding="utf-8")
+
+    r.check("cloud.umami.is/script.js" in html,
+            "the page loads the Umami tracker")
+    r.check('data-website-id="e0da6e27-85e2-4260-9922-2b9dd8c77da5"' in html,
+            "the tracker carries our website id")
+    r.check("<script defer" in html.split("cloud.umami.is/script.js")[0][-200:],
+            "the tracker does not block the page while it loads")
+
+    # the self-hosted option must not be half switched on
+    r.check("location = /stats.js" not in nginx,
+            "the self-hosted proxy is not in the live nginx configuration")
+    r.check((ROOT / "deploy" / "analytics-install.sh").exists(),
+            "the self-hosted option is still there for anyone who wants it")
+
+    # the footer says so, in every language
+    import json
+    raw = (ROOT / "i18n-data.js").read_text(encoding="utf-8")
+    data = json.loads(raw[raw.index("{") : raw.rindex("}") + 1])
+    entry = data.get("foot_track", {})
+    for lang in ("en", "de", "bs", "it", "fr", "nl"):
+        text = entry.get(lang, "")
+        r.check(bool(text), f"foot_track is translated into {lang}")
+        r.check(("count" in text.lower()) or ("zähl" in text.lower())
+                or ("brojim" in text.lower()) or ("contiamo" in text.lower())
+                or ("comptons" in text.lower()) or ("tellen" in text.lower()),
+                f"foot_track tells the visitor that the visits are counted ({lang})")
+
+    standalone = (ROOT / "PlivaRiverLodge-standalone.html").read_text(encoding="utf-8")
+    r.check('<script defer src="https://cloud.umami.is/script.js"' not in standalone,
+            "the standalone build does not carry the tracker")
+
+    r.check((ROOT / "deploy" / "ANALYTICS.md").exists(),
+            "the analytics setup is documented")
+
+
 def test_forms_backup_carries_the_same_fields_as_the_email(r):
     """The Netlify Forms backup must be the SAME enquiry as the email.
 
@@ -2245,6 +2419,106 @@ def test_zoho_mail_api_transport(r):
         r.check("ZOHO_CLIENT_ID" in envtext or True,
                 "ENV .env may hold the Zoho settings (placeholder)")
 
+# ---------------------------------------------------------------------------
+# 10. the photo gallery: the pictures, the viewer, the sizes
+# ---------------------------------------------------------------------------
+
+def test_photo_gallery(r):
+    print("\nThe photo gallery")
+
+    items = re.findall(r'<button class="g-item"[^>]*>', HTML)
+    r.check(len(items) == 84, "the gallery holds all 84 photographs",
+            f"found {len(items)}")
+
+    # Every picture is a button, not a link: a link would send the visitor
+    # to another page, which is the whole problem this viewer solves.
+    r.check("<a href=\"img/photos/" not in HTML,
+            "no picture links away to another page")
+    r.check("gallery.js" in HTML, "the viewer script is on the page")
+
+    # Both sizes have to be there, and the small one has to be small.
+    smalls = sorted((ROOT / "img" / "photos").glob("*-s.jpg"))
+    larges = sorted((ROOT / "img" / "photos").glob("*-l.jpg"))
+    r.check(len(smalls) == 84 and len(larges) == 84,
+            "both sizes of every photograph are in the repository",
+            f"{len(smalls)} small, {len(larges)} large")
+
+    try:
+        from PIL import Image
+        bad = []
+        for s in smalls:
+            with Image.open(s) as im:
+                if im.size[0] > 500:
+                    bad.append(f"{s.name} is {im.size[0]} wide")
+        r.check(not bad, "the gallery pictures are the small ones (500 px or less)",
+                "; ".join(bad[:4]))
+        missing = []
+        for s in smalls:
+            l = s.with_name(s.name.replace("-s.jpg", "-l.jpg"))
+            if not l.exists():
+                missing.append(l.name)
+        r.check(not missing, "every small picture has its large twin",
+                ", ".join(missing[:4]))
+    except ImportError:
+        r.check(True, "the gallery picture sizes (skipped: no PIL here)")
+
+    # The markup has to point at files that exist.
+    broken = []
+    for m in re.finditer(r'data-full="([^"]+)"', HTML):
+        if not (ROOT / m.group(1)).exists():
+            broken.append(m.group(1))
+    for m in re.finditer(r'<img src="(img/photos/[^"]+)"', HTML):
+        if not (ROOT / m.group(1)).exists():
+            broken.append(m.group(1))
+    r.check(not broken, "every picture in the markup exists on disk",
+            ", ".join(broken[:4]))
+
+    # Every picture needs words of its own, for a visitor who cannot see it.
+    alts = re.findall(r'<img src="img/photos/[^"]+"[^>]*alt="([^"]*)"', HTML)
+    r.check(len(alts) == 84 and all(a.strip() for a in alts),
+            "every picture has an alt text", f"{len(alts)} alt texts")
+    r.check(len(set(alts)) == len(alts), "the alt texts are not the same twice",
+            f"{len(alts) - len(set(alts))} repeats")
+
+    # The viewer has to work in every language.
+    labels = ["gal_lb_title", "gal_lb_close", "gal_lb_prev", "gal_lb_next", "gal_lb_photo"]
+    missing = []
+    for key in labels:
+        for lang in LANGS:
+            if key not in DICT or lang not in DICT[key] or not DICT[key][lang]:
+                missing.append(f"{key}/{lang}")
+    r.check(not missing, "the viewer is labelled in all six languages",
+            ", ".join(missing[:4]))
+
+    # The gallery is a window four rows high, and the pictures scroll
+    # inside it - so the page is not a wall of eighty-four pictures.
+    r.check(".gallery-scroll{" in HTML, "the gallery has its own window")
+    r.check(re.search(r"\.gallery-scroll\{[^}]*max-height:calc\(4 \* var\(--gal-tile\)", HTML) is not None,
+            "the window is four rows high")
+    r.check(re.search(r"\.gallery-scroll\{[^}]*overflow-y:auto", HTML) is not None,
+            "the pictures scroll inside the window")
+    r.check(".g-later" not in HTML and "g-later" not in (ROOT / "gallery.js").read_text(encoding="utf-8"),
+            "nothing is hidden by script - it is a plain scroll")
+    r.check('<div class="gallery-scroll' in HTML and "<div class=\"gallery\">" in HTML,
+            "the window wraps the gallery")
+
+    # On a phone the gallery keeps some room at the sides.
+    m = re.search(r"@media \(max-width:560px\)\s*\{(.*?)\n\}", HTML, re.S)
+    phone = m.group(1) if m else ""
+    r.check(re.search(r"\.gallery-scroll\{[^}]*margin-left:\d+px", phone) is not None,
+            "the gallery keeps room at the sides on a phone")
+
+    # The viewer itself.
+    js = (ROOT / "gallery.js").read_text(encoding="utf-8")
+    for what, needle in [("the next arrow", "go(index + 1)"),
+                         ("the previous arrow", "go(index - 1)"),
+                         ("the escape key", "'Escape'"),
+                         ("the arrow keys", "'ArrowRight'"),
+                         ("the swipe", "touchstart"),
+                         ("the counter", "lb-count")]:
+        r.check(needle in js, f"the viewer has {what}")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--strict", action="store_true", help="exit 1 on any failure")
@@ -2276,6 +2550,10 @@ def main():
     test_prices_say_what_they_are_per(r)
     test_booking_email_is_milka_s(r)
     test_forms_backup_carries_the_same_fields_as_the_email(r)
+    test_confirmation_modal(r)
+    test_visitor_counter(r)
+    test_photo_gallery(r)
+    test_no_live_credentials_in_the_repository(r)
 
     print(f"\n{r.passes} passed, {len(r.failures)} failed")
     if r.failures:

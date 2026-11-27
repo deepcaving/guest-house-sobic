@@ -28,6 +28,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _dict_writer import write_column
 
 NL = {
+    "modal_title": "Uw aanvraag is verzonden",
+    "modal_text": "We hebben uw bericht ontvangen en nemen per e-mail contact op, meestal nog dezelfde dag.",
+    "modal_close": "Sluiten",
+    "foot_credit": "Gemaakt door",
     "brand_sub": "Pljeva · Šipovo · Bosnië-Herzegovina",
     "host_line": "Gastvrouw: Milka Smjestaj Šobić",
     "nav_lodge": "Het huis",
@@ -59,6 +63,11 @@ NL = {
     "tbl_p": "De eetkamer is het hart van het huis: een lange eikenhouten tafel voor veertien, een bakstenen schouw met grill, een volledige keuken erachter en ramen van vloer tot plafond langs de rivier. Je gastvrouw kookt uit wat het dal voortbrengt — en uit wat de rivier die ochtend gaf.",
     "gal_eyebrow": "Het huis in beeld",
     "gal_h2": "Kamers, water en de ruimte ertussen",
+    "gal_lb_title": "Fotogalerij",
+    "gal_lb_close": "Sluiten",
+    "gal_lb_prev": "Vorige foto",
+    "gal_lb_next": "Volgende foto",
+    "gal_lb_photo": "Foto",
     "gal_p": "Het grote grasveld naast het huis is waar vissers hun materiaal klaarzetten, en waar lichte boten worden opgebouwd voor de stille wateren bovenstrooms.",
     "stat_eyebrow": "De rivier in cijfers",
     "stat_h2": "Waarom vissers steeds terugkomen",
@@ -161,7 +170,7 @@ NL = {
     "ph_email": "jij@voorbeeld.nl",
     "ph_msg": "Visserervaring, dieetwensen, kamervoorkeuren…",
     "foot_sip": "Pljeva, Šipovo<br>Bosnië-Herzegovina<br>Vliegenvissen op de Pliva · Hele jaar open",
-    "foot_track": "We noteren de pagina en de globale locatie van bezoekers die WhatsApp openen.",
+    "foot_track": "We tellen de bezoeken op deze pagina (zonder cookies) en we noteren de pagina en de globale locatie van bezoekers die WhatsApp openen.",
     "foot_safe": "Vangen en terugzetten. Reisverzekering aanbevolen.",
     "foot_contact": "Contact",
     "foot_copy": "Alle rechten voorbehouden.",

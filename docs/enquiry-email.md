@@ -87,7 +87,7 @@ never lost**.
 ### Option A — the Zoho Mail API (recommended)
 
 This sends from the Zoho mailbox the lodge already owns
-(`francesco.capuzzo@zoho.com`), so the mail arrives exactly as if Milka had
+(`your.zoho.mailbox@example.com`), so the mail arrives exactly as if Milka had
 sent it from Zoho webmail. **No domain to register, no DNS records, no
 DKIM, no SMTP password.**
 
@@ -101,7 +101,7 @@ One-time setup, in the [Zoho API console](https://api-console.zoho.com):
 
 1. **Add Client** → **Server-based Application**. Fill in:
    - **Client Name**: `Pliva River Lodge` (anything readable)
-   - **Homepage URL**: `https://guesthousesobic.netlify.app`
+   - **Homepage URL**: `https://plivariverlodge.com`
    - **Authorized Redirect URIs**: `http://localhost` — then press the **+**
      to add it
 
@@ -266,9 +266,9 @@ the mailbox actually owns.
 ```bash
 SMTP_HOST=smtppro.zoho.com
 SMTP_PORT=465
-SMTP_USER=francesco.capuzzo@zoho.com
+SMTP_USER=your.zoho.mailbox@example.com
 SMTP_PASSWORD=your-zoho-app-password
-SMTP_FROM_EMAIL=francesco.capuzzo@zoho.com
+SMTP_FROM_EMAIL=your.zoho.mailbox@example.com
 SMTP_SECURE=ssl
 SMTP_FROM_NAME=Pliva River Lodge
 ```
@@ -297,7 +297,7 @@ lodge rather than a personal mailbox.
 
 | Variable | What it is | Rule |
 |---|---|---|
-| `SMTP_USER` | the mailbox that **logs in** | must be the **account** that owns the app password — `francesco.capuzzo@zoho.com`. An alias is not a login and cannot authenticate; using one gives `535`. |
+| `SMTP_USER` | the mailbox that **logs in** | must be the **account** that owns the app password — `your.zoho.mailbox@example.com`. An alias is not a login and cannot authenticate; using one gives `535`. |
 | `SMTP_FROM_EMAIL` | the address the guest **sees** | may be an **email alias created on that same Zoho account**. Zoho's own documentation: *"The user will now be able to send/receive emails using the new email alias"*, and the recipient *"will receive email from the chosen alias email address as the from-address"*. |
 
 **`MAIL_TO` does not change.** Milka still receives the enquiry at
@@ -403,7 +403,7 @@ netlify env:set ZOHO_CLIENT_SECRET "xxxx"
 netlify env:set ZOHO_REFRESH_TOKEN "1000.xxxxxxxxxxxxxxxxxxxxxxx"
 netlify env:set ZOHO_REGION "eu"
 netlify env:set MAIL_TO "milkasobic25@gmail.com"
-netlify env:set MAIL_BCC "francesco.capuzzo@zoho.com"
+netlify env:set MAIL_BCC "your.zoho.mailbox@example.com"
 ```
 
 **None of these secrets go into the repository.** They live only in Netlify's
@@ -426,7 +426,7 @@ Submit the form on the live site and check:
 - Milka's inbox receives the email, with you in **Bcc** — so your address is
   not visible to her and is not exposed if she forwards the enquiry on.
 - The email's **Reply-To** is the guest, so pressing reply reaches them.
-- The mail arrives **from `francesco.capuzzo@zoho.com`**, not from a
+- The mail arrives **from `your.zoho.mailbox@example.com`**, not from a
   random transactional sender.
 - The enquiry also appears under **Forms** in the Netlify dashboard.
 
@@ -452,7 +452,7 @@ saved when it was not.
 | `SMTP_SECURE` | `ssl` or `starttls` | `ssl` |
 | `RESEND_API_KEY` | Auth token for the Resend API | none — the function returns `503` and the form falls back |
 | `MAIL_TO` | Who receives the enquiry | `milkasobic25@gmail.com` |
-| `MAIL_BCC` | Who is blind-copied on the enquiry | `francesco.capuzzo@zoho.com` |
+| `MAIL_BCC` | Who is blind-copied on the enquiry | `your.zoho.mailbox@example.com` |
 | `MAIL_FROM` | The verified sender shown to Milka (Resend only) | `Pliva River Lodge <bookings@plivariverlodge.com>` |
 | `MAIL_FROM_FALLBACK` | Plain sender address, used if `MAIL_FROM` is unset | none |
 

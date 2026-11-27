@@ -68,9 +68,12 @@ function readConfig() {
     smtp,
     zoho,
     to: process.env.MAIL_TO || "milkasobic25@gmail.com",
-    // The collaborator is blind-copied by default, so Milka can forward the
-    // enquiry on without exposing that address. MAIL_BCC overrides it.
-    bcc: process.env.MAIL_BCC || "francesco.capuzzo@zoho.com",
+    // The collaborator is blind-copied, so Milka can forward the enquiry on
+    // without exposing that address. There is NO default here on purpose: a
+    // live address written in the code would be a secret in the repository,
+    // and Netlify refuses to build a tree that contains one. Set MAIL_BCC in
+    // the environment.
+    bcc: process.env.MAIL_BCC || "",
     from:
       process.env.MAIL_FROM ||
       process.env.MAIL_FROM_FALLBACK ||
@@ -166,7 +169,7 @@ function occupancyLines(body) {
 
 /** Build the plain-text body of the email from the posted fields. */
 function buildBody(body) {
-  const lines = ["Website enquiry from guesthousesobic.netlify.app", ""];
+  const lines = ["Website enquiry from plivariverlodge.com", ""];
   for (const [name, label] of FIELDS) {
     const value = readField(body, name);
     if (value) lines.push(`${label}: ${value}`);

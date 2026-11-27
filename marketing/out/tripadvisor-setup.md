@@ -37,7 +37,7 @@ than no listing, because it is the one a careful guest will open.
 | Address | Pljeva, Šipovo, Bosnia & Herzegovina |
 | Phone | +387 65 622 760 |
 | Email | milkasobic25@gmail.com |
-| Website | https://guesthousesobic.netlify.app |
+| Website | https://plivariverlodge.com |
 | Star rating | keep the official class if one is assigned |
 | Price per night | €70 – €110 |
 | Number of rooms | 7 |

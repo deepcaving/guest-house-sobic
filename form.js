@@ -29,6 +29,10 @@
   var statusOk = document.getElementById('enquiry-status-ok');
   var statusFallback = document.getElementById('enquiry-status-fallback');
   var bot = form.querySelector('[name="bot-field"]');
+  var modal = document.getElementById('enquiry-modal');
+  var modalClose = document.getElementById('enquiry-modal-close');
+  var modalBackdrop = document.getElementById('enquiry-modal-backdrop');
+  var lastFocused = null;
 
   function fieldLabel(el) {
     var lab = form.querySelector('label[for="' + el.id + '"]');
@@ -356,6 +360,46 @@
     if (datesErrorKey) showDatesError(datesErrorKey);
   });
 
+  /* ---------------------------------------------------------------
+     The confirmation modal.
+
+     It opens only after the server has confirmed the enquiry: the
+     only way in is a response that carries ok:true. If the mail did
+     not go out, the guest sees the honest message under the form and
+     their answers stay in the fields, so nothing is lost.
+     --------------------------------------------------------------- */
+  function openModal() {
+    if (!modal) return;
+    lastFocused = document.activeElement;
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    if (modalClose) modalClose.focus();
+  }
+
+  function closeModal() {
+    if (!modal || modal.hidden) return;
+    modal.hidden = true;
+    document.body.style.overflow = '';
+    if (lastFocused && lastFocused.focus) lastFocused.focus();
+  }
+
+  /* Empty the form - but only once the enquiry has really gone out. */
+  function clearForm() {
+    form.reset();
+    showDatesError(null);
+    /* The occupancy panel keeps its own numbers; ask it to write the
+     * reset values back into the hidden fields. */
+    if (typeof window.prlResetOccupancy === 'function') {
+      try { window.prlResetOccupancy(); } catch (e) { /* never fatal */ }
+    }
+  }
+
+  if (modalClose) modalClose.addEventListener('click', closeModal);
+  if (modalBackdrop) modalBackdrop.addEventListener('click', closeModal);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' || e.keyCode === 27) closeModal();
+  });
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
 
@@ -397,6 +441,10 @@
         saveToNetlifyForms();
         show(statusOk);
         if (status) status.hidden = true;
+        /* The server confirmed it, so the answers can go: clear the
+         * fields and tell the guest in a window they cannot miss. */
+        clearForm();
+        openModal();
         if (btn) { btn.disabled = false; btn.removeAttribute('aria-busy'); }
         return;
       }

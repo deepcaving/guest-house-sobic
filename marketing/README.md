@@ -28,7 +28,7 @@ Every file in this folder uses these tokens:
 
 | Token | What it is | Current value |
 |---|---|---|
-| `{{SITE_URL}}` | the live site | `https://guesthousesobic.netlify.app/` |
+| `{{SITE_URL}}` | the live site | `https://plivariverlodge.com/` |
 | `{{EMAIL}}` | the booking inbox | `milkasobic25@gmail.com` — **live**, Milka answers it herself |
 | `{{PHONE}}` | phone / WhatsApp, display form | `+387 65 622 760` |
 | `{{PHONE_E164}}` | phone, machine form | `+38765622760` |
@@ -113,7 +113,7 @@ Balkans — `forlifly.it` has covered the Pliva.
 
 The site now speaks Italian, so this market is not just a DM list any more:
 
-- `https://guesthousesobic.netlify.app/?lang=it` is a shareable Italian URL.
+- `https://plivariverlodge.com/?lang=it` is a shareable Italian URL.
   Put that link — not the base URL — in any Italian post, DM or group comment.
 - The Italian DM templates are in
   [`cold-dm-templates.md`](cold-dm-templates.md) (templates 10, 11 and 12).

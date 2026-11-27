@@ -127,6 +127,21 @@ def strip_i18n(html):
     return html
 
 
+def strip_click_form(html):
+    """Remove the WhatsApp click-log form.
+
+    The standalone page has no JavaScript, so no click is ever recorded and
+    the form is dead weight. It also carried a stray closing tag that the
+    enquiry-form replacement used to swallow - now it is removed on purpose.
+    """
+    html, ok = replace_balanced(
+        html, r'<form name="whatsapp-click"', "", tag="form"
+    )
+    if not ok:
+        print("  ! could not find the click form", file=sys.stderr)
+    return html
+
+
 def strip_click_notice(html):
     """Remove the notice about the WhatsApp click log.
 
@@ -319,6 +334,16 @@ def build(args, cfg):
     print("Dropping gallery lightbox links...")
     out = re.sub(r'<a href="img/[^"]+"[^>]*>(<img\b[^>]*>)</a>', r"\1", out)
 
+    # The photo viewer is javascript, and Carrd runs no javascript, so the
+    # buttons would sit there doing nothing. In the standalone each picture
+    # is simply a picture.
+    print("Flattening the photo viewer buttons...")
+    out = re.sub(r'<button class="g-item"([^>]*)>(<img\b[^>]*>)</button>', r"\2", out)
+    out = re.sub(r'\s*data-(full|index|alt)="[^"]*"', "", out)
+    # ... and the rules that sized them have to follow the pictures now.
+    out = out.replace(".gallery .g-item img{", ".gallery img{")
+    out = out.replace(".gallery .g-item:hover img{", ".gallery img:hover{")
+
     # Embed every image, and keep the width/height attributes truthful.
     print("Embedding images...")
     cache = {}
@@ -350,6 +375,9 @@ def build(args, cfg):
 
     print("Refreshing the static date placeholder (one month ahead)...")
     out = refresh_date_placeholder(out)
+
+    print("Removing the WhatsApp click form (nothing is recorded here)...")
+    out = strip_click_form(out)
 
     print("Removing the WhatsApp click notice (nothing is recorded here)...")
     out = strip_click_notice(out)
